@@ -1,7 +1,9 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { 
   Home, 
   BookOpen, 
@@ -22,7 +24,10 @@ import {
   Sun,
   Moon,
   TrendingUp,
-  Hash
+  Hash,
+  Brain,
+  Settings,
+  Layout
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -33,6 +38,12 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { 
+  Accordion, 
+  AccordionContent, 
+  AccordionItem, 
+  AccordionTrigger 
+} from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function SocialPlatform() {
@@ -86,33 +97,78 @@ export default function SocialPlatform() {
 
         <div className="logo">ULTRANET</div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper overflow-hidden flex flex-col">
           <div className="side-title">MENU</div>
-          <div className="side-menu fuchsia-scroll">
-            <a href="#"><Home /> Home</a>
-            <a href="#"><BookOpen /> Latest News</a>
-            <a href="#"><Compass /> Explore</a>
-            <a href="#"><FileText /> Files</a>
-            <a href="#"><ImageIcon /> Galery</a>
-            <a href="#"><Calendar /> Events</a>
-            <a href="#"><Bookmark /> Archive</a>
-            <a href="#"><MessageCircle /> Forums</a>
-            <a href="#"><Star /> Trending</a>
-            <a href="#"><Heart /> Activity</a>
+          <div className="side-menu fuchsia-scroll flex-1">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="overview" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><Layout className="w-4 h-4" /> Overview</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <a href="#"><Home /> Home</a>
+                  <a href="#"><BookOpen /> Latest News</a>
+                  <a href="#"><Compass /> Explore</a>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="assets" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><HardDrive className="w-4 h-4" /> Assets</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <a href="#"><FileText /> Files</a>
+                  <a href="#"><ImageIcon /> Gallery</a>
+                  <a href="#"><Calendar /> Events</a>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="social" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><MessageCircle className="w-4 h-4" /> Social</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <a href="#"><Bookmark /> Archive</a>
+                  <a href="#"><MessageCircle /> Forums</a>
+                  <a href="#"><Star /> Trending</a>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <Link href="/dashboard" className="flex items-center gap-3 mt-4 text-sm font-bold text-primary py-3 hover:opacity-80 transition-opacity">
+              <Brain className="w-5 h-5" /> Neuro
+            </Link>
           </div>
         </div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper overflow-hidden flex flex-col">
           <div className="side-title">YOUR FAVOURITES</div>
-          <div className="side-menu fuchsia-scroll">
-            <a href="#"><Bookmark /> Favourites</a>
-            <a href="#"><MessageCircle /> Messages</a>
-            <a href="#"><Heart /> Like</a>
-            <a href="#"><Camera /> Photo</a>
-            <a href="#"><Star /> Ratings</a>
-            <a href="#"><HardDrive /> Storage</a>
-            <a href="#"><Bell /> Alerts</a>
-            <a href="#"><Plus /> Custom</a>
+          <div className="side-menu fuchsia-scroll flex-1">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="personal" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><Star className="w-4 h-4" /> Personal</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <a href="#"><Bookmark /> Favourites</a>
+                  <a href="#"><MessageCircle /> Messages</a>
+                  <a href="#"><Heart /> Like</a>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="system" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><Settings className="w-4 h-4" /> System</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <a href="#"><Camera /> Photo</a>
+                  <a href="#"><Star /> Ratings</a>
+                  <a href="#"><HardDrive /> Storage</a>
+                  <a href="#"><Bell /> Alerts</a>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            <a href="#" className="mt-4"><Plus /> Custom</a>
           </div>
         </div>
       </div>
@@ -280,9 +336,9 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper flex flex-col min-h-0">
           <div className="side-title">ONLINE FRIENDS</div>
-          <div className="side-menu orange-scroll">
+          <div className="side-menu orange-scroll flex-1">
             {["Tom Holland", "Selena Gomez", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
               <a href="#" key={name}>
                 <Avatar className="w-6 h-6 mr-3">
@@ -295,9 +351,9 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper flex flex-col min-h-0">
           <div className="side-title">LATEST UPDATES</div>
-          <div className="side-menu orange-scroll">
+          <div className="side-menu orange-scroll flex-1">
             {[
               { text: "Jessica liked your post", time: "1 hour ago" },
               { text: "Tony shared a file", time: "3 hours ago" },
@@ -315,9 +371,9 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper flex flex-col min-h-0">
           <div className="side-title">TRENDING TOPICS</div>
-          <div className="side-menu orange-scroll">
+          <div className="side-menu orange-scroll flex-1">
             {[
               { tag: "#nextjs", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
               { tag: "#firebase", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
