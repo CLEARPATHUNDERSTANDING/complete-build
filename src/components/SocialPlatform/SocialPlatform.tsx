@@ -27,7 +27,10 @@ import {
   Hash,
   Brain,
   Settings,
-  Layout
+  Layout,
+  Zap,
+  Eye,
+  Activity
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -45,6 +48,7 @@ import {
   AccordionTrigger 
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 
 export default function SocialPlatform() {
   const [leftSide, setLeftSide] = useState(false);
@@ -112,6 +116,29 @@ export default function SocialPlatform() {
                 </AccordionContent>
               </AccordionItem>
 
+              <AccordionItem value="neuro" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-primary hover:text-primary/80">
+                  <div className="flex items-center gap-3"><Brain className="w-4 h-4" /> Neuro</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-bold text-muted-foreground hover:text-primary">
+                    <Layout className="w-3 h-3" /> All Profiles
+                  </Link>
+                  {NEURO_PROFILES.slice(0, 5).map((profile) => (
+                    <Link 
+                      key={profile.id} 
+                      href={`/dashboard?profile=${profile.id}`} 
+                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      <Zap className="w-3 h-3" /> {profile.label}
+                    </Link>
+                  ))}
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60 hover:text-primary">
+                    <MoreHorizontal className="w-3 h-3" /> More
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
+
               <AccordionItem value="assets" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
                   <div className="flex items-center gap-3"><HardDrive className="w-4 h-4" /> Assets</div>
@@ -122,22 +149,7 @@ export default function SocialPlatform() {
                   <a href="#"><Calendar /> Events</a>
                 </AccordionContent>
               </AccordionItem>
-
-              <AccordionItem value="social" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><MessageCircle className="w-4 h-4" /> Social</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Bookmark /> Archive</a>
-                  <a href="#"><MessageCircle /> Forums</a>
-                  <a href="#"><Star /> Trending</a>
-                </AccordionContent>
-              </AccordionItem>
             </Accordion>
-
-            <Link href="/dashboard" className="flex items-center gap-3 mt-4 text-sm font-bold text-primary py-3 hover:opacity-80 transition-opacity">
-              <Brain className="w-5 h-5" /> Neuro
-            </Link>
           </div>
         </div>
 
@@ -352,18 +364,21 @@ export default function SocialPlatform() {
         </div>
 
         <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">LATEST UPDATES</div>
+          <div className="side-title">NEURO ACTIVITY</div>
           <div className="side-menu orange-scroll flex-1">
             {[
-              { text: "Jessica liked your post", time: "1 hour ago" },
-              { text: "Tony shared a file", time: "3 hours ago" },
-              { text: "Sarah commented on your story", time: "5 hours ago" },
-              { text: "Mark updated his profile", time: "8 hours ago" }
+              { text: "Optimized profile detected", time: "1 hour ago", icon: <Brain className="w-3 h-3 text-primary" /> },
+              { text: "Latency check passed", time: "3 hours ago", icon: <Activity className="w-3 h-3 text-green-500" /> },
+              { text: "Dual view synchronized", time: "5 hours ago", icon: <Layout className="w-3 h-3 text-blue-500" /> },
+              { text: "Focus mode engaged", time: "8 hours ago", icon: <Zap className="w-3 h-3 text-yellow-500" /> }
             ].map((update, idx) => (
               <a href="#" key={idx}>
                 <div className="activity-dot" />
                 <span>
-                  {update.text}
+                  <div className="flex items-center gap-2">
+                    {update.text}
+                    {update.icon}
+                  </div>
                   <span className="activity-date block">{update.time}</span>
                 </span>
               </a>
@@ -375,9 +390,9 @@ export default function SocialPlatform() {
           <div className="side-title">TRENDING TOPICS</div>
           <div className="side-menu orange-scroll flex-1">
             {[
-              { tag: "#nextjs", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
-              { tag: "#firebase", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
-              { tag: "#reactjs", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> }
+              { tag: "#neurotrading", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
+              { tag: "#accessibility", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
+              { tag: "#marketfocus", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> }
             ].map((topic, idx) => (
               <a href="#" key={idx}>
                 <div className="activity-dot" />

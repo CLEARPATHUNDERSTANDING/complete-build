@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -44,9 +45,18 @@ import {
 export default function DashboardPage() {
   const searchParams = useSearchParams();
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
-  const [mode, setMode] = React.useState<ViewMode>(initialMode);
+  const profileParam = searchParams.get('profile') as NeuroProfileId;
   
-  const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>("calm_focus");
+  const [mode, setMode] = React.useState<ViewMode>(initialMode);
+  const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
+
+  // Update profile if URL param changes
+  React.useEffect(() => {
+    if (profileParam && profileParam !== selectedProfileId) {
+      setSelectedProfileId(profileParam);
+    }
+  }, [profileParam]);
+
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
 
   const [visualProfile, setVisualProfile] = React.useState<VisualProfile>({
