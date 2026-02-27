@@ -56,16 +56,14 @@ export default function SocialPlatform() {
       user: "Jessica Miller",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
       time: "8 hours ago",
-      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day. We are looking at ways to integrate sustainable materials without compromising on the visual appeal.",
-      hint: "modern architecture"
+      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day. We are looking at ways to integrate sustainable materials without compromising on the visual appeal. Functional beauty is our ultimate goal.",
     },
     {
       id: 2,
       user: "Mike Andrew",
-      avatar: getImgUrl('profile-mike') || "",
+      avatar: getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike",
       time: "2 hours ago",
-      text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story. I've been spending my evenings capturing the transition from day to night across the skyline.",
-      hint: "city skyline"
+      text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story. I've been spending my evenings capturing the transition from day to night across the skyline. The perspective changes completely when the lights come on.",
     }
   ];
 
@@ -83,9 +81,6 @@ export default function SocialPlatform() {
             <line x1="3" y1="12" x2="21" y2="12" />
             <line x1="3" y1="6" x2="21" y2="6" />
             <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-          <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
         </button>
 
@@ -142,16 +137,16 @@ export default function SocialPlatform() {
         <div className="main-container">
           <div className="profile">
             <Avatar className="w-[60px] h-[60px] rounded-xl">
-              <AvatarImage src={getImgUrl('profile-mike') || undefined} />
+              <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
             <div className="profile-name">Mike Andrew</div>
           </div>
 
           <div className="timeline">
-            <div className="timeline-left space-y-6 pb-20">
+            <div className="timeline-left pb-20">
               {posts.map((post) => (
-                <Card key={post.id} className="overflow-hidden border-none shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500 bg-card/80 backdrop-blur-sm">
+                <Card key={post.id} className="w-full border shadow-lg bg-card mb-6 overflow-hidden">
                   <CardHeader className="flex flex-row items-center justify-between p-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="w-12 h-12">
@@ -176,12 +171,12 @@ export default function SocialPlatform() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </CardHeader>
-                  <CardContent className="px-6 py-4">
-                    <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-medium">
+                  <CardContent className="px-6 py-6 border-y bg-card/30">
+                    <p className="text-lg md:text-xl leading-relaxed font-medium">
                       {post.text}
                     </p>
                   </CardContent>
-                  <CardFooter className="px-6 pb-6 pt-2 flex gap-8">
+                  <CardFooter className="px-6 py-4 flex gap-8">
                     <Button variant="ghost" size="sm" className="gap-2 hover:text-red-500 transition-colors">
                       <Heart className="w-5 h-5" />
                       <span className="text-xs font-bold">2.4k</span>
@@ -202,9 +197,6 @@ export default function SocialPlatform() {
             <div className="timeline-right">
               <div className="timeline-right-header">
                 <div className="timeline-right-header-title">Stories</div>
-                <Button variant="ghost" size="icon" className="timeline-right-header-settings">
-                  <Compass className="w-[18px] h-[18px]" />
-                </Button>
               </div>
 
               <div className="story">
@@ -216,14 +208,14 @@ export default function SocialPlatform() {
                         src={getImgUrl(`story-${i}`)!}
                         alt={`Story ${i}`}
                         fill
-                        data-ai-hint="lifestyle story"
+                        sizes="65px"
                       />
                     ) : (
                       <div className="w-full h-full bg-muted animate-pulse" />
                     )}
                     <div className="story-card-author">
-                      <Avatar className="w-full h-full border-2 border-accent">
-                        <AvatarImage src={`https://i.pravatar.cc/150?u=${i}`} />
+                      <Avatar className="w-full h-full border-2 border-primary">
+                        <AvatarImage src={`https://i.pravatar.cc/150?u=${i + 10}`} />
                         <AvatarFallback>U</AvatarFallback>
                       </Avatar>
                     </div>
@@ -238,8 +230,8 @@ export default function SocialPlatform() {
               <div className="suggested">
                 {[
                   { name: "Tom Holland", role: "Developer", id: "th" },
-                  { name: "Jason Momoa", role: "UI Designer", id: "jm" },
-                  { name: "Selena Gomez", role: "UX Designer", id: "sg" }
+                  { name: "Selena Gomez", role: "UX Designer", id: "sg" },
+                  { name: "Chris Evans", role: "UI Architect", id: "ce" }
                 ].map((user) => (
                   <div key={user.id} className="suggested-user">
                     <Avatar className="w-10 h-10">
@@ -267,20 +259,19 @@ export default function SocialPlatform() {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="account-button"
             onClick={() => setIsDarkMode(!isDarkMode)}
             title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
           </Button>
-          <Button variant="ghost" size="icon" className="account-button">
+          <Button variant="ghost" size="icon" className="ml-2">
             <MessageCircle className="w-5 h-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="account-button">
+          <Button variant="ghost" size="icon" className="ml-2">
             <Bell className="w-5 h-5" />
           </Button>
 
-          <div className="account-user">
+          <div className="account-user ml-auto">
             <Avatar className="w-[30px] h-[30px]">
               <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
@@ -292,7 +283,7 @@ export default function SocialPlatform() {
         <div className="side-wrapper">
           <div className="side-title">ONLINE FRIENDS</div>
           <div className="side-menu orange-scroll">
-            {["Tom Holland", "Selena Gomez", "Jack Sparrow", "Aaron Paul", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
+            {["Tom Holland", "Selena Gomez", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
               <a href="#" key={name}>
                 <Avatar className="w-6 h-6 mr-3">
                   <AvatarImage src={`https://i.pravatar.cc/150?u=${name}`} />
@@ -308,14 +299,10 @@ export default function SocialPlatform() {
           <div className="side-title">LATEST UPDATES</div>
           <div className="side-menu orange-scroll">
             {[
-              { text: "Tonny posted 1 photo", time: "2 min ago" },
-              { text: "Mike started following you", time: "45 min ago" },
               { text: "Jessica liked your post", time: "1 hour ago" },
-              { text: "Daniel joined to the group", time: "4 hour ago" },
-              { text: "Sarah commented on your story", time: "5 hour ago" },
-              { text: "Mark shared a file", time: "6 hour ago" },
-              { text: "Chris sent you a message", time: "7 hour ago" },
-              { text: "Anna updated her profile", time: "8 hour ago" }
+              { text: "Tony shared a file", time: "3 hours ago" },
+              { text: "Sarah commented on your story", time: "5 hours ago" },
+              { text: "Mark updated his profile", time: "8 hours ago" }
             ].map((update, idx) => (
               <a href="#" key={idx}>
                 <div className="activity-dot" />
@@ -334,11 +321,7 @@ export default function SocialPlatform() {
             {[
               { tag: "#nextjs", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
               { tag: "#firebase", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
-              { tag: "#webdesign", posts: "5.2k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
-              { tag: "#reactjs", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
-              { tag: "#uidesign", posts: "15.1k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
-              { tag: "#codinglife", posts: "4.2k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
-              { tag: "#frontend", posts: "11.8k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> }
+              { tag: "#reactjs", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> }
             ].map((topic, idx) => (
               <a href="#" key={idx}>
                 <div className="activity-dot" />
@@ -354,16 +337,6 @@ export default function SocialPlatform() {
           </div>
         </div>
       </div>
-
-      <button
-        type="button"
-        className={`overlay ${(rightSide || leftSide) ? "active" : ""}`}
-        onClick={() => {
-          setRightSide(false);
-          setLeftSide(false);
-        }}
-        aria-label="Close panels"
-      />
     </div>
   );
 }
