@@ -19,8 +19,7 @@ import {
   MoreHorizontal,
   Bell,
   Search,
-  Plus,
-  UserPlus
+  Plus
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -69,6 +68,8 @@ export default function SocialPlatform() {
             <a href="#"><FileText /> Files</a>
             <a href="#"><ImageIcon /> Galery</a>
             <a href="#"><Calendar /> Events</a>
+            <a href="#"><Bookmark /> Archive</a>
+            <a href="#"><MessageCircle /> Forums</a>
           </div>
         </div>
 
@@ -81,6 +82,8 @@ export default function SocialPlatform() {
             <a href="#"><Camera /> Photo</a>
             <a href="#"><Star /> Ratings</a>
             <a href="#"><HardDrive /> Storage</a>
+            <a href="#"><Bell /> Alerts</a>
+            <a href="#"><Plus /> Custom</a>
           </div>
         </div>
 
@@ -150,14 +153,20 @@ export default function SocialPlatform() {
               </div>
 
               <div className="timeline-left-content">
-                <div className="relative w-full h-[350px]">
-                  <Image
-                    className="timeline-left-content-image object-cover"
-                    src={getImg('post-image-1')?.imageUrl || ''}
-                    alt="Post Image"
-                    fill
-                    data-ai-hint="modern architecture"
-                  />
+                <div className="relative w-full h-[350px] bg-muted overflow-hidden">
+                  {getImg('post-image-1')?.imageUrl ? (
+                    <Image
+                      className="timeline-left-content-image object-cover"
+                      src={getImg('post-image-1')!.imageUrl}
+                      alt="Post Image"
+                      fill
+                      data-ai-hint="modern architecture"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-muted-foreground italic">
+                      Image Loading...
+                    </div>
+                  )}
                 </div>
 
                 <div className="timeline-left-content-text">
@@ -192,13 +201,17 @@ export default function SocialPlatform() {
               <div className="story">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="story-card">
-                    <Image
-                      className="story-card-image object-cover"
-                      src={getImg(`story-${i}`)?.imageUrl || ''}
-                      alt={`Story ${i}`}
-                      fill
-                      data-ai-hint="lifestyle story"
-                    />
+                    {getImg(`story-${i}`)?.imageUrl ? (
+                      <Image
+                        className="story-card-image object-cover"
+                        src={getImg(`story-${i}`)!.imageUrl}
+                        alt={`Story ${i}`}
+                        fill
+                        data-ai-hint="lifestyle story"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted animate-pulse" />
+                    )}
                     <div className="story-card-author">
                       <Avatar className="w-full h-full border-2 border-accent">
                         <AvatarImage src={`https://i.pravatar.cc/150?u=${i}`} />
@@ -261,7 +274,7 @@ export default function SocialPlatform() {
         <div className="side-wrapper">
           <div className="side-title">ONLINE FRIENDS</div>
           <div className="side-menu orange-scroll">
-            {["Tom Holland", "Selena Gomez", "Jack Sparrow", "Aaron Paul", "Chris Evans", "Emma Watson"].map((name) => (
+            {["Tom Holland", "Selena Gomez", "Jack Sparrow", "Aaron Paul", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
               <a href="#" key={name}>
                 <Avatar className="w-6 h-6 mr-3">
                   <AvatarImage src={`https://i.pravatar.cc/150?u=${name}`} />
@@ -282,7 +295,9 @@ export default function SocialPlatform() {
               { text: "Jessica liked your post", time: "1 hour ago" },
               { text: "Daniel joined to the group", time: "4 hour ago" },
               { text: "Sarah commented on your story", time: "5 hour ago" },
-              { text: "Mark shared a file", time: "6 hour ago" }
+              { text: "Mark shared a file", time: "6 hour ago" },
+              { text: "Chris sent you a message", time: "7 hour ago" },
+              { text: "Anna updated her profile", time: "8 hour ago" }
             ].map((update, idx) => (
               <a href="#" key={idx}>
                 <div className="activity-dot" />
