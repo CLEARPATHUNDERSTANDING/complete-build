@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -48,7 +49,7 @@ export default function SocialPlatform() {
     }
   }, [isDarkMode]);
 
-  const getImg = (id: string) => PlaceHolderImages.find(img => img.id === id);
+  const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
 
   return (
     <div className={`container ${isDarkMode ? 'dark' : ''}`}>
@@ -134,7 +135,7 @@ export default function SocialPlatform() {
         <div className="main-container">
           <div className="profile">
             <Avatar className="w-[60px] h-[60px] rounded-xl">
-              <AvatarImage src={getImg('profile-mike')?.imageUrl} />
+              <AvatarImage src={getImgUrl('profile-mike') || undefined} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
             <div className="profile-name">Mike Andrew</div>
@@ -169,10 +170,10 @@ export default function SocialPlatform() {
 
               <div className="timeline-left-content">
                 <div className="relative w-full h-[350px] bg-muted overflow-hidden">
-                  {getImg('post-image-1')?.imageUrl ? (
+                  {getImgUrl('post-image-1') ? (
                     <Image
                       className="timeline-left-content-image object-cover"
-                      src={getImg('post-image-1')!.imageUrl}
+                      src={getImgUrl('post-image-1')!}
                       alt="Post Image"
                       fill
                       data-ai-hint="modern architecture"
@@ -216,10 +217,10 @@ export default function SocialPlatform() {
               <div className="story">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="story-card">
-                    {getImg(`story-${i}`)?.imageUrl ? (
+                    {getImgUrl(`story-${i}`) ? (
                       <Image
                         className="story-card-image object-cover"
-                        src={getImg(`story-${i}`)!.imageUrl}
+                        src={getImgUrl(`story-${i}`)!}
                         alt={`Story ${i}`}
                         fill
                         data-ai-hint="lifestyle story"

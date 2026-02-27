@@ -1,4 +1,7 @@
+
 import "./globals.css";
+import { FirebaseClientProvider } from "@/firebase/client-provider";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Responsive Social Platform UI",
@@ -14,7 +17,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://public.codepenassets.com/css/normalize-5.0.0.min.css"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <FirebaseClientProvider>
+          {children}
+          <Toaster />
+        </FirebaseClientProvider>
+      </body>
     </html>
   );
 }
