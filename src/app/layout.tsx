@@ -1,26 +1,20 @@
-import type {Metadata} from 'next';
-import './globals.css';
+import "./globals.css";
 
-export const metadata: Metadata = {
-  title: 'InsightFlow | Professional Market Intelligence',
-  description: 'Clarity and reliability for data analysis with a calm UX.',
+export const metadata = {
+  title: "Responsive Social Platform UI",
+  description: "Converted to Next.js (App Router) for Firebase Studio",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link
+          rel="stylesheet"
+          href="https://public.codepenassets.com/css/normalize-5.0.0.min.css"
+        />
       </head>
-      <body className="font-body antialiased min-h-screen">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
