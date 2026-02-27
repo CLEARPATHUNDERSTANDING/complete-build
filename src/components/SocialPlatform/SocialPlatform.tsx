@@ -1,7 +1,6 @@
-
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { 
   Home, 
@@ -19,7 +18,9 @@ import {
   MoreHorizontal,
   Bell,
   Search,
-  Plus
+  Plus,
+  Sun,
+  Moon
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -32,13 +33,23 @@ import {
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function SocialPlatform() {
-  const [leftSide, setLeftSide] = React.useState(false);
-  const [rightSide, setRightSide] = React.useState(false);
+  const [leftSide, setLeftSide] = useState(false);
+  const [rightSide, setRightSide] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Apply dark mode class to body for global theme support
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   const getImg = (id: string) => PlaceHolderImages.find(img => img.id === id);
 
   return (
-    <div className="container">
+    <div className={`container ${isDarkMode ? 'dark' : ''}`}>
       {/* Left Sidebar */}
       <div className={`left-side ${leftSide ? "active" : ""}`}>
         <button
@@ -70,6 +81,9 @@ export default function SocialPlatform() {
             <a href="#"><Calendar /> Events</a>
             <a href="#"><Bookmark /> Archive</a>
             <a href="#"><MessageCircle /> Forums</a>
+            {/* Added extra items for scrolling demo */}
+            <a href="#"><Star /> Trending</a>
+            <a href="#"><Heart /> Activity</a>
           </div>
         </div>
 
@@ -255,6 +269,15 @@ export default function SocialPlatform() {
       {/* Right Sidebar */}
       <div className={`right-side ${rightSide ? "active" : ""}`}>
         <div className="account">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="account-button"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
+          </Button>
           <Button variant="ghost" size="icon" className="account-button">
             <MessageCircle className="w-5 h-5" />
           </Button>
