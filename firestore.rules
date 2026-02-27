@@ -1,0 +1,115 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * CORE PHILOSOPHY:
+     * This ruleset implements a strict path-based and field-based ownership model designed for high 
+     * security and rapid prototyping. It prioritizes "Authorization Independence" by leveraging 
+     * hierarchical paths where possible, minimizing the need for expensive cross-document lookups.
+     *
+     * DATA STRUCTURE:
+     * - /users/{userId}: The root document for a user's profile.
+     * - /users/{userId}/[subcollections]: Private, user-owned data (Preferences, Layouts, Events, Assignments).
+     * - /feedback/{feedbackId}: Top-level collection for user-submitted feedback, secured via internal 'userId'.
+     *
+     * KEY SECURITY DECISIONS:
+     * - Ownership via Path: Most user data is nested under /users/{userId}, making ownership checks atomic and performant.
+     * - Admin Access: Administrative privileges are verified by looking up the 'role' field in the user's Profile document.
+     * - QAPs (Rules are not Filters): Listing is strictly restricted to owned paths to prevent unconstrained queries.
+     * - Prototyping Flexibility: Logic enforces who can access data and relational integrity (e.g., matching IDs), 
+     *   but allows flexible data shapes for fast iteration.
+     */
+
+    // --- Helper Functions ---
+
+    /** Checks if the request is from an authenticated user. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** Checks if the current user is the owner of the resource based on a provided UID. */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** Combines ownership check with existence check for updates and deletes. */
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
+    }
+
+    /** 
+     * Verifies if the authenticated user has an 'admin' role.
+     * This uses a cross-document get() which is a known dependency for global permissions.
+     */
+    function isAdmin() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // --- Rules ---
+
+    /**
+     * @description Rules for the UserProfile document. Allows users to manage their own profile and admins to view all.
+     * @path /users/{userId}
+     * @allow Create if auth UID matches path; Get/List if owner or admin.
+     * @deny Create if UID mismatch; Update if not the owner.
+     * @principle Ownership and Self-Creation.
+     */
+    match /users/{userId} {
+      allow get, list: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for user-specific subcollections (Preferences, Layouts, Assignments, Events).
+     * @path /users/{userId}/[collection]/{id}
+     * @allow Full CRUD for the owner of the parent user path.
+     * @deny Any access from other users.
+     * @principle Hierarchical Path Ownership.
+     */
+    match /users/{userId}/preferences/{preferenceId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    match /users/{userId}/layouts/{layoutId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    match /users/{userId}/experimentAssignments/{assignmentId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    match /users/{userId}/userEvents/{eventId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description Rules for user-submitted feedback. Secured via the internal 'userId' field.
+     * @path /feedback/{feedbackId}
+     * @allow Create by any signed-in user for themselves; Get by owner/admin; List by admins only.
+     * @deny List by regular users; Create if userId in data doesn't match auth UID.
+     * @principle Ownership via Denormalized Field.
+     */
+    match /feedback/{feedbackId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn() && resource != null && resource.data.userId == request.auth.uid && request.resource.data.userId == resource.data.userId;
+      allow delete: if isSignedIn() && resource != null && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+  }
+}
