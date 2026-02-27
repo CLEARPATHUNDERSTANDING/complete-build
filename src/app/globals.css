@@ -22,6 +22,7 @@
   --suggested-bg: #fff;
   --neon-fuchsia: #ff00ff;
   --neon-orange: #ff6600;
+  --bright-red: #ff0000;
 }
 
 .dark {
@@ -30,7 +31,7 @@
   --main-color: #f8fafc;
   --main-light-color: #94a3b8;
   --secondary-color: #334155;
-  --logo-color: #f1f5f9;
+  --logo-color: #1f2937;
   --side-menu-color: #94a3b8;
   --side-menu-hover: #f1f5f9;
   --post-bg: #1e293b;
@@ -43,6 +44,30 @@
   --search-bg: #0f172a;
   --main-bg: #0f172a;
   --suggested-bg: #334155;
+}
+
+/* Global Outer Scrollbar - Bright Red & Neon Orange */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-orange) var(--bright-red);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--bright-red), var(--neon-orange));
+  border-radius: 10px;
+  border: 3px solid var(--body-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #ff3333, #ff8833);
 }
 
 * {
