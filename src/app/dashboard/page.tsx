@@ -42,6 +42,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
+import { TimeframeBar } from "@/components/dashboard/TimeframeBar"
+import { BackToDashboard } from "@/components/nav/BackToDashboard"
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
@@ -51,8 +54,8 @@ export default function DashboardPage() {
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
   const [layoutStyle, setLayoutStyle] = React.useState<'grid' | 'stack'>('grid');
+  const [timeframe, setTimeframe] = React.useState<any>("1h");
 
-  // Update profile if URL param changes
   React.useEffect(() => {
     if (profileParam && profileParam !== selectedProfileId) {
       setSelectedProfileId(profileParam);
@@ -68,25 +71,12 @@ export default function DashboardPage() {
     fontScaling: 1,
   });
 
-  const toggleHighContrast = (checked: boolean) => {
-    setVisualProfile(prev => ({ ...prev, contrast: checked ? 'high' : 'standard' }));
-  };
-
-  const toggleReducedMotion = (checked: boolean) => {
-    setVisualProfile(prev => ({ ...prev, motion: checked ? 'reduced' : 'full' }));
-  };
-
   return (
     <div className={`min-h-screen bg-background flex flex-col transition-all duration-500 ${visualProfile.contrast === 'high' ? 'contrast-125 saturate-150' : ''} ${visualProfile.motion === 'reduced' ? 'motion-reduce' : ''}`}>
       {/* Top Navigation */}
       <header className="h-16 border-b bg-card flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="flex items-center gap-6">
-          <Link href="/">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <ChevronLeft className="w-4 h-4" />
-              <span className="font-bold text-primary text-xl">InsightFlow</span>
-            </Button>
-          </Link>
+          <BackToDashboard href="/" label="InsightFlow" />
           <div className="h-6 w-px bg-border" />
           <Tabs value={mode} onValueChange={(v) => setMode(v as ViewMode)}>
             <TabsList className="bg-muted/50 border">
@@ -129,7 +119,7 @@ export default function DashboardPage() {
               <SheetHeader>
                 <SheetTitle>UI Personalization</SheetTitle>
                 <SheetDescription>
-                  Custom structures for neurodivergent focus. Dial down the noise.
+                  Medical consultant approved structures for neurodivergent focus.
                 </SheetDescription>
               </SheetHeader>
               <div className="py-6 space-y-8">
@@ -162,7 +152,7 @@ export default function DashboardPage() {
                   </div>
                   <Switch 
                     checked={visualProfile.contrast === 'high'} 
-                    onCheckedChange={toggleHighContrast}
+                    onCheckedChange={(c) => setVisualProfile(p => ({ ...p, contrast: c ? 'high' : 'standard' }))}
                   />
                 </div>
                 <div className="flex items-center justify-between">
@@ -172,7 +162,7 @@ export default function DashboardPage() {
                   </div>
                   <Switch 
                     checked={visualProfile.motion === 'reduced'} 
-                    onCheckedChange={toggleReducedMotion}
+                    onCheckedChange={(c) => setVisualProfile(p => ({ ...p, motion: c ? 'reduced' : 'full' }))}
                   />
                 </div>
                 <div className="space-y-3">
@@ -207,26 +197,25 @@ export default function DashboardPage() {
                 <p className="text-sm text-muted-foreground">Reduced noise, high-contrast assets, and single-task orientation.</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 gap-6 flex-1 overflow-hidden">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm h-full overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} title="Primary Analysis" />
-              </div>
-            </div>
+            <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
+              <TimeframeBar active={timeframe} onChange={setTimeframe} neuroModeId={selectedProfileId} />
+              <CandlestickChart neuroModeId={selectedProfileId} title="Primary Analysis" height={600} />
+            </NeuroGlowCard>
           </div>
         )}
 
         {mode === 'dual' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
             <div className="flex flex-col gap-6">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} title="Feed Alpha" />
-              </div>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
+                <CandlestickChart neuroModeId={selectedProfileId} title="Feed Alpha" height={450} />
+              </NeuroGlowCard>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><MarketPanel /></div>
             </div>
             <div className="flex flex-col gap-6 border-l-2 border-dashed border-primary/20 pl-6">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} title="Feed Beta" />
-              </div>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
+                <CandlestickChart neuroModeId={selectedProfileId} title="Feed Beta" height={450} />
+              </NeuroGlowCard>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
             </div>
           </div>
@@ -235,26 +224,28 @@ export default function DashboardPage() {
         {mode === 'quad' && (
           <div className={`h-full ${layoutStyle === 'stack' ? 'overflow-y-auto pr-2 custom-scrollbar' : ''}`}>
             <div className={layoutStyle === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-4 h-full" : "flex flex-col gap-4 pb-10"}>
-              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
-                <CandlestickChart personality={neuroProfile.personality} title="Stream 01" />
-              </div>
-              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
-                <CandlestickChart personality={neuroProfile.personality} title="Stream 02" />
-              </div>
-              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
-                <CandlestickChart personality={neuroProfile.personality} title="Stream 03" />
-              </div>
-              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
-                <CandlestickChart personality={neuroProfile.personality} title="Stream 04" />
-              </div>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
+                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 01" height={400} />
+              </NeuroGlowCard>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
+                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 02" height={400} />
+              </NeuroGlowCard>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
+                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 03" height={400} />
+              </NeuroGlowCard>
+              <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
+                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 04" height={400} />
+              </NeuroGlowCard>
             </div>
           </div>
         )}
 
         {mode === 'minimal' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
-            <div className="lg:col-span-8 bg-card rounded-2xl border p-2 shadow-sm overflow-hidden">
-              <CandlestickChart personality={neuroProfile.personality} />
+            <div className="lg:col-span-8">
+              <NeuroGlowCard neuroModeId={selectedProfileId} className="h-full">
+                <CandlestickChart neuroModeId={selectedProfileId} title="Market Overview" height={600} />
+              </NeuroGlowCard>
             </div>
             <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><MarketPanel /></div>
@@ -265,8 +256,10 @@ export default function DashboardPage() {
 
         {mode === 'pro' && (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 h-full">
-            <div className="col-span-2 row-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
-               <CandlestickChart personality={neuroProfile.personality} />
+            <div className="col-span-2 row-span-2">
+              <NeuroGlowCard neuroModeId={selectedProfileId} className="h-full">
+                <CandlestickChart neuroModeId={selectedProfileId} title="Pro Analytics" height={600} />
+              </NeuroGlowCard>
             </div>
             <div className="col-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
               <NewsPanel />
@@ -290,7 +283,7 @@ export default function DashboardPage() {
           <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Feed: Real-time</span>
         </div>
         <div>
-          Structure v1.2.0 • Identical Dual Active • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
+          Structure v1.5.0 • Physics Enabled • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
         </div>
       </footer>
 
