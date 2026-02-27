@@ -56,7 +56,7 @@ export default function SocialPlatform() {
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
       time: "8 hours ago",
       image: "post-image-1",
-      text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
       hint: "modern architecture"
     },
     {
@@ -65,7 +65,7 @@ export default function SocialPlatform() {
       avatar: getImgUrl('profile-mike') || "",
       time: "2 hours ago",
       image: "post-image-2",
-      text: "Exploring the urban landscape today. The synergy between glass and light in modern skyscrapers is simply breathtaking.",
+      text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story.",
       hint: "city skyline"
     }
   ];
@@ -179,7 +179,7 @@ export default function SocialPlatform() {
                   </div>
 
                   <div className="timeline-left-content bg-card border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div className="relative w-full h-[400px] bg-muted">
+                    <div className="relative w-full h-[450px] bg-muted">
                       {getImgUrl(post.image) ? (
                         <Image
                           className="object-cover"

@@ -218,23 +218,6 @@ body {
   flex-shrink: 0;
 }
 
-.developer {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--main-color);
-  text-decoration: none;
-}
-
-.developer img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-}
-
 .main {
   flex-grow: 1;
   display: flex;
