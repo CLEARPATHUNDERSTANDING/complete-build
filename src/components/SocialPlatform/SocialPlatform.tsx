@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -121,17 +120,6 @@ export default function SocialPlatform() {
             <a href="#"><Bell /> Alerts</a>
             <a href="#"><Plus /> Custom</a>
           </div>
-        </div>
-
-        <div className="side-wrapper" style={{ maxHeight: '150px' }}>
-          <div className="side-title">DEVELOPER</div>
-          <a className="developer" href="#">
-            <Avatar className="w-8 h-8 mr-2">
-              <AvatarImage src="https://pbs.twimg.com/profile_images/1253782473953157124/x56UURmt_400x400.jpg" />
-              <AvatarFallback>AT</AvatarFallback>
-            </Avatar>
-            Aysenur Turk — @AysnrTrkk
-          </a>
         </div>
       </div>
 
@@ -313,9 +301,9 @@ export default function SocialPlatform() {
           <div className="account-user">
             <Avatar className="w-[30px] h-[30px]">
               <AvatarImage src="https://pbs.twimg.com/profile_images/1253782473953157124/x56UURmt_400x400.jpg" />
-              <AvatarFallback>AT</AvatarFallback>
+              <AvatarFallback>MA</AvatarFallback>
             </Avatar>
-            <span className="account-username">Aysenur Turk</span>
+            <span className="account-username">Mike Andrew</span>
           </div>
         </div>
 
