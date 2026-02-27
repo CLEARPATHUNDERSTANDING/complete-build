@@ -2,22 +2,58 @@
 
 import * as React from "react"
 import { useSearchParams } from "next/navigation"
-import { ViewMode } from "@/lib/dashboard-types"
+import { ViewMode, VisualProfile } from "@/lib/dashboard-types"
 import { MarketPanel } from "@/components/dashboard/MarketPanel"
 import { NewsPanel } from "@/components/dashboard/NewsPanel"
 import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ChevronLeft, Info, Settings, User } from "lucide-react"
+import { 
+  ChevronLeft, 
+  Info, 
+  Settings, 
+  User, 
+  Eye, 
+  Layout, 
+  Zap, 
+  SlidersHorizontal,
+  Maximize2
+} from "lucide-react"
 import Link from "next/link"
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { Slider } from "@/components/ui/slider"
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
+  
+  const [visualProfile, setVisualProfile] = React.useState<VisualProfile>({
+    density: 'comfortable',
+    motion: 'reduced',
+    contrast: 'standard',
+    fontScaling: 1,
+  });
+
+  const toggleHighContrast = (checked: boolean) => {
+    setVisualProfile(prev => ({ ...prev, contrast: checked ? 'high' : 'standard' }));
+  };
+
+  const toggleReducedMotion = (checked: boolean) => {
+    setVisualProfile(prev => ({ ...prev, motion: checked ? 'reduced' : 'full' }));
+  };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className={`min-h-screen bg-background flex flex-col transition-all duration-500 ${visualProfile.contrast === 'high' ? 'contrast-125 saturate-150' : ''} ${visualProfile.motion === 'reduced' ? 'motion-reduce' : ''}`}>
       {/* Top Navigation */}
       <header className="h-16 border-b bg-card flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="flex items-center gap-6">
@@ -30,16 +66,65 @@ export default function DashboardPage() {
           <div className="h-6 w-px bg-border" />
           <Tabs value={mode} onValueChange={(v) => setMode(v as ViewMode)}>
             <TabsList className="bg-muted/50 border">
-              <TabsTrigger value="focus" className="text-xs">Focus</TabsTrigger>
-              <TabsTrigger value="minimal" className="text-xs">Minimal</TabsTrigger>
-              <TabsTrigger value="pro" className="text-xs">Pro Desk</TabsTrigger>
+              <TabsTrigger value="focus" className="text-xs gap-1.5"><Zap className="w-3 h-3" /> Focus</TabsTrigger>
+              <TabsTrigger value="minimal" className="text-xs gap-1.5"><Layout className="w-3 h-3" /> Minimal</TabsTrigger>
+              <TabsTrigger value="dual" className="text-xs gap-1.5"><Maximize2 className="w-3 h-3" /> Dual</TabsTrigger>
+              <TabsTrigger value="pro" className="text-xs gap-1.5"><Eye className="w-3 h-3" /> Pro Desk</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         <div className="flex items-center gap-3">
           <Button variant="outline" size="icon" className="rounded-full w-8 h-8"><Info className="w-4 h-4" /></Button>
-          <Button variant="outline" size="icon" className="rounded-full w-8 h-8"><Settings className="w-4 h-4" /></Button>
+          
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="rounded-full w-8 h-8">
+                <SlidersHorizontal className="w-4 h-4" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>UI Personalization</SheetTitle>
+                <SheetDescription>
+                  Custom structures for neurodivergent focus. Dial down the noise.
+                </SheetDescription>
+              </SheetHeader>
+              <div className="py-6 space-y-8">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>High Contrast</Label>
+                    <p className="text-xs text-muted-foreground">Enhance readability and focus.</p>
+                  </div>
+                  <Switch 
+                    checked={visualProfile.contrast === 'high'} 
+                    onCheckedChange={toggleHighContrast}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Reduced Motion</Label>
+                    <p className="text-xs text-muted-foreground">Minimize animations to reduce noise.</p>
+                  </div>
+                  <Switch 
+                    checked={visualProfile.motion === 'reduced'} 
+                    onCheckedChange={toggleReducedMotion}
+                  />
+                </div>
+                <div className="space-y-3">
+                  <Label>UI Scaling</Label>
+                  <Slider 
+                    defaultValue={[visualProfile.fontScaling]} 
+                    max={1.5} 
+                    min={0.8} 
+                    step={0.1}
+                    onValueChange={([v]) => setVisualProfile(p => ({ ...p, fontScaling: v }))}
+                  />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+
           <Button variant="primary" size="sm" className="rounded-full gap-2 px-4">
             <User className="w-4 h-4" />
             Profile
@@ -52,15 +137,27 @@ export default function DashboardPage() {
         {mode === 'focus' && (
           <div className="max-w-4xl mx-auto h-full flex flex-col gap-6">
             <div className="bg-primary/5 border border-primary/20 p-4 rounded-xl flex items-start gap-4 animate-in fade-in slide-in-from-top-4 duration-700">
-              <Info className="w-5 h-5 text-primary mt-1" />
+              <Zap className="w-5 h-5 text-primary mt-1" />
               <div>
-                <h4 className="font-bold text-primary mb-1">Guided View Enabled</h4>
-                <p className="text-sm text-muted-foreground">Focus mode reduces noise. We've optimized your primary chart and news stream for clarity.</p>
+                <h4 className="font-bold text-primary mb-1">Ultra-Focus Mode</h4>
+                <p className="text-sm text-muted-foreground">Reduced noise, high-contrast assets, and single-task orientation.</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm"><CandlestickChart /></div>
-              <div className="bg-card rounded-2xl border p-2 shadow-sm"><NewsPanel /></div>
+            <div className="grid grid-cols-1 gap-6 flex-1 overflow-hidden">
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-full"><CandlestickChart /></div>
+            </div>
+          </div>
+        )}
+
+        {mode === 'dual' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
+            <div className="flex flex-col gap-6">
+              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><CandlestickChart /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><MarketPanel /></div>
+            </div>
+            <div className="flex flex-col gap-6 border-l-2 border-dashed border-primary/20 pl-6">
+              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><CandlestickChart /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
             </div>
           </div>
         )}
@@ -104,7 +201,7 @@ export default function DashboardPage() {
           <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Feed: Real-time</span>
         </div>
         <div>
-          Schema V1.0.0 • Session 08:42:12
+          Structure v1.2.0 • Identical Dual Active • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
         </div>
       </footer>
     </div>
