@@ -56,8 +56,7 @@ export default function SocialPlatform() {
       user: "Jessica Miller",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
       time: "8 hours ago",
-      image: "post-image-1",
-      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
+      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day. We are looking at ways to integrate sustainable materials without compromising on the visual appeal.",
       hint: "modern architecture"
     },
     {
@@ -65,8 +64,7 @@ export default function SocialPlatform() {
       user: "Mike Andrew",
       avatar: getImgUrl('profile-mike') || "",
       time: "2 hours ago",
-      image: "post-image-2",
-      text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story.",
+      text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story. I've been spending my evenings capturing the transition from day to night across the skyline.",
       hint: "city skyline"
     }
   ];
@@ -151,9 +149,9 @@ export default function SocialPlatform() {
           </div>
 
           <div className="timeline">
-            <div className="timeline-left space-y-12 pb-20">
+            <div className="timeline-left space-y-6 pb-20">
               {posts.map((post) => (
-                <Card key={post.id} className="overflow-hidden border-none shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <Card key={post.id} className="overflow-hidden border-none shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500 bg-card/80 backdrop-blur-sm">
                   <CardHeader className="flex flex-row items-center justify-between p-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="w-12 h-12">
@@ -178,29 +176,12 @@ export default function SocialPlatform() {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </CardHeader>
-                  <CardContent className="p-0">
-                    <div className="relative w-full h-[400px] bg-muted">
-                      {getImgUrl(post.image) ? (
-                        <Image
-                          className="object-cover"
-                          src={getImgUrl(post.image)!}
-                          alt="Post Content"
-                          fill
-                          data-ai-hint={post.hint}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground italic">
-                          Loading Image...
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-6">
-                      <p className="text-sm md:text-base leading-relaxed text-foreground/90">
-                        {post.text}
-                      </p>
-                    </div>
+                  <CardContent className="px-6 py-4">
+                    <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-medium">
+                      {post.text}
+                    </p>
                   </CardContent>
-                  <CardFooter className="px-6 pb-6 pt-0 flex gap-6">
+                  <CardFooter className="px-6 pb-6 pt-2 flex gap-8">
                     <Button variant="ghost" size="sm" className="gap-2 hover:text-red-500 transition-colors">
                       <Heart className="w-5 h-5" />
                       <span className="text-xs font-bold">2.4k</span>
@@ -301,7 +282,7 @@ export default function SocialPlatform() {
 
           <div className="account-user">
             <Avatar className="w-[30px] h-[30px]">
-              <AvatarImage src="https://pbs.twimg.com/profile_images/1253782473953157124/x56UURmt_400x400.jpg" />
+              <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
             <span className="account-username">Mike Andrew</span>
