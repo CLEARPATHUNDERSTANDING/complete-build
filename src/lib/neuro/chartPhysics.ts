@@ -1,3 +1,4 @@
+
 'use client';
 /**
  * @fileOverview Calculates visual "physics" for the chart based on neuro-divergent profiles.
