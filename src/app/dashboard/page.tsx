@@ -17,7 +17,8 @@ import {
   Layout, 
   Zap, 
   SlidersHorizontal,
-  Maximize2
+  Maximize2,
+  Brain
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -31,12 +32,23 @@ import {
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
+import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   
+  const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>("calm_focus");
+  const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
+
   const [visualProfile, setVisualProfile] = React.useState<VisualProfile>({
     density: 'comfortable',
     motion: 'reduced',
@@ -75,6 +87,11 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <Button variant="outline" size="sm" className="gap-2 rounded-full border-primary/30 bg-primary/5 text-primary">
+            <Brain className="w-4 h-4" />
+            {neuroProfile.label}
+          </Button>
+
           <Button variant="outline" size="icon" className="rounded-full w-8 h-8"><Info className="w-4 h-4" /></Button>
           
           <Sheet>
@@ -91,6 +108,28 @@ export default function DashboardPage() {
                 </SheetDescription>
               </SheetHeader>
               <div className="py-6 space-y-8">
+                <div className="space-y-3">
+                  <Label className="flex items-center gap-2">
+                    <Brain className="w-4 h-4 text-primary" />
+                    Neuro-Divergent Profile
+                  </Label>
+                  <Select value={selectedProfileId} onValueChange={(v) => setSelectedProfileId(v as NeuroProfileId)}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select a profile" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {NEURO_PROFILES.map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          <div className="flex flex-col items-start gap-0.5">
+                            <span className="font-medium">{p.label}</span>
+                            <span className="text-[10px] text-muted-foreground">{p.tagline}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="flex items-center justify-between">
                   <div className="space-y-0.5">
                     <Label>High Contrast</Label>
@@ -144,7 +183,9 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="grid grid-cols-1 gap-6 flex-1 overflow-hidden">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm h-full"><CandlestickChart /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-full overflow-hidden">
+                <CandlestickChart personality={neuroProfile.personality} />
+              </div>
             </div>
           </div>
         )}
@@ -152,11 +193,15 @@ export default function DashboardPage() {
         {mode === 'dual' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
             <div className="flex flex-col gap-6">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><CandlestickChart /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
+                <CandlestickChart personality={neuroProfile.personality} />
+              </div>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><MarketPanel /></div>
             </div>
             <div className="flex flex-col gap-6 border-l-2 border-dashed border-primary/20 pl-6">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><CandlestickChart /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
+                <CandlestickChart personality={neuroProfile.personality} />
+              </div>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
             </div>
           </div>
@@ -164,8 +209,8 @@ export default function DashboardPage() {
 
         {mode === 'minimal' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
-            <div className="lg:col-span-8 bg-card rounded-2xl border p-2 shadow-sm">
-              <CandlestickChart />
+            <div className="lg:col-span-8 bg-card rounded-2xl border p-2 shadow-sm overflow-hidden">
+              <CandlestickChart personality={neuroProfile.personality} />
             </div>
             <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><MarketPanel /></div>
@@ -176,8 +221,8 @@ export default function DashboardPage() {
 
         {mode === 'pro' && (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 h-full">
-            <div className="col-span-2 row-span-2 bg-card rounded-xl border p-2 shadow-sm">
-               <CandlestickChart />
+            <div className="col-span-2 row-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
+               <CandlestickChart personality={neuroProfile.personality} />
             </div>
             <div className="col-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
               <NewsPanel />
@@ -201,7 +246,7 @@ export default function DashboardPage() {
           <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Feed: Real-time</span>
         </div>
         <div>
-          Structure v1.2.0 • Identical Dual Active • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
+          Structure v1.2.0 • Identical Dual Active • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
         </div>
       </footer>
     </div>

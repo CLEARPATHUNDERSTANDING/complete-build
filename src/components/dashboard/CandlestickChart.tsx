@@ -4,11 +4,32 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { CandlePersonality } from '@/lib/neuro/profiles';
 
 // Dynamic import to avoid SSR issues with ApexCharts
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
-export function CandlestickChart() {
+interface CandlestickChartProps {
+  personality?: CandlePersonality;
+}
+
+const DEFAULT_PERSONALITY: CandlePersonality = {
+  upColor: '#22c55e',
+  downColor: '#ef4444',
+  wickColor: 'hsl(var(--muted-foreground))',
+  outlineColor: 'hsl(var(--muted-foreground))',
+  borderA: 'hsl(var(--border))',
+  borderB: 'hsl(var(--primary))',
+  bgTop: 'transparent',
+  bgBottom: 'transparent',
+  grid: 'hsl(var(--border))',
+  text: 'hsl(var(--muted-foreground))',
+  glow: 'Low',
+  spacing: 'Normal',
+  dataDensity: 'Medium',
+};
+
+export function CandlestickChart({ personality = DEFAULT_PERSONALITY }: CandlestickChartProps) {
   const chartData = useMemo(() => {
     const series = [{
       data: [
@@ -34,7 +55,12 @@ export function CandlestickChart() {
         toolbar: {
           show: false
         },
-        background: 'transparent'
+        background: personality.bgTop,
+        animations: {
+          enabled: true,
+          easing: 'linear',
+          speed: 800,
+        },
       },
       title: {
         show: false
@@ -43,7 +69,7 @@ export function CandlestickChart() {
         type: 'datetime',
         labels: {
           style: {
-            colors: 'hsl(var(--muted-foreground))'
+            colors: personality.text
           }
         }
       },
@@ -53,35 +79,64 @@ export function CandlestickChart() {
         },
         labels: {
           style: {
-            colors: 'hsl(var(--muted-foreground))'
+            colors: personality.text
           }
         }
       },
       grid: {
-        borderColor: 'hsl(var(--border))',
-        strokeDashArray: 4
+        borderColor: personality.grid,
+        strokeDashArray: personality.spacing === 'Wide' ? 8 : (personality.spacing === 'Tight' ? 2 : 4)
       },
       theme: {
-        mode: 'light' // Controlled via container context if needed
+        mode: 'dark'
       },
       plotOptions: {
         candlestick: {
           colors: {
-            upward: '#22c55e',
-            downward: '#ef4444'
+            upward: personality.upColor,
+            downward: personality.downColor
+          },
+          wick: {
+            useFillColor: false
           }
         }
+      },
+      stroke: {
+        width: personality.dataDensity === 'High' ? 1 : (personality.dataDensity === 'Low' ? 3 : 2),
+      },
+      tooltip: {
+        theme: 'dark'
       }
     };
 
     return { series, options };
-  }, []);
+  }, [personality]);
+
+  const glowClass = useMemo(() => {
+    if (personality.glow === 'High') return 'shadow-[0_0_30px_rgba(0,245,255,0.2)]';
+    if (personality.glow === 'Medium') return 'shadow-[0_0_15px_rgba(0,245,255,0.1)]';
+    return 'shadow-none';
+  }, [personality.glow]);
 
   return (
-    <Card className="h-full border-none shadow-none bg-transparent">
+    <Card 
+      className={`h-full border-2 transition-all duration-700 ${glowClass}`}
+      style={{ 
+        borderImage: `linear-gradient(to right, ${personality.borderA}, ${personality.borderB}) 1`,
+        background: `linear-gradient(to bottom, ${personality.bgTop}, ${personality.bgBottom})`
+      }}
+    >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-headline">Analytic Feed</CardTitle>
-        <Badge variant="outline" className="text-[10px] uppercase font-bold tracking-widest text-primary">Live Data</Badge>
+        <CardTitle className="text-lg font-headline" style={{ color: personality.text }}>
+          Analytic Feed
+        </CardTitle>
+        <Badge 
+          variant="outline" 
+          className="text-[10px] uppercase font-bold tracking-widest"
+          style={{ borderColor: personality.borderA, color: personality.upColor }}
+        >
+          {personality.dataDensity} Density
+        </Badge>
       </CardHeader>
       <CardContent className="h-[calc(100%-80px)] pt-4">
         <Chart
