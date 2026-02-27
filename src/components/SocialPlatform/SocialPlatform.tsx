@@ -32,6 +32,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 export default function SocialPlatform() {
@@ -150,23 +151,23 @@ export default function SocialPlatform() {
           </div>
 
           <div className="timeline">
-            <div className="timeline-left space-y-8 pb-10">
+            <div className="timeline-left space-y-12 pb-20">
               {posts.map((post) => (
-                <div key={post.id} className="timeline-card-wrapper animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="timeline-left-header mb-4">
-                    <div className="timeline-left-header-user">
-                      <Avatar className="w-11 h-11">
+                <Card key={post.id} className="overflow-hidden border-none shadow-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <CardHeader className="flex flex-row items-center justify-between p-6">
+                    <div className="flex items-center gap-4">
+                      <Avatar className="w-12 h-12">
                         <AvatarImage src={post.avatar} />
                         <AvatarFallback>{post.user[0]}</AvatarFallback>
                       </Avatar>
-                      <div className="user">
-                        <div className="username">{post.user}</div>
-                        <div className="time">{post.time}</div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-base">{post.user}</span>
+                        <span className="text-xs text-muted-foreground">{post.time}</span>
                       </div>
                     </div>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="timeline-left-header-more">
+                        <Button variant="ghost" size="icon">
                           <MoreHorizontal className="w-5 h-5" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -176,10 +177,9 @@ export default function SocialPlatform() {
                         <DropdownMenuItem className="text-destructive">Unfollow</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                  </div>
-
-                  <div className="timeline-left-content bg-card border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                    <div className="relative w-full h-[450px] bg-muted">
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <div className="relative w-full h-[400px] bg-muted">
                       {getImgUrl(post.image) ? (
                         <Image
                           className="object-cover"
@@ -194,26 +194,27 @@ export default function SocialPlatform() {
                         </div>
                       )}
                     </div>
-
-                    <div className="timeline-left-content-text p-6">
-                      <span className="text-sm md:text-base leading-relaxed">
+                    <div className="p-6">
+                      <p className="text-sm md:text-base leading-relaxed text-foreground/90">
                         {post.text}
-                      </span>
+                      </p>
                     </div>
-                    
-                    <div className="timeline-left-footer px-6 pb-6 pt-0 flex gap-4">
-                      <Button variant="ghost" size="icon" className="hover:text-red-500 transition-colors">
-                        <Heart className="w-5 h-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="hover:text-primary transition-colors">
-                        <MessageCircle className="w-5 h-5" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="hover:text-primary transition-colors">
-                        <Compass className="w-5 h-5" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
+                  </CardContent>
+                  <CardFooter className="px-6 pb-6 pt-0 flex gap-6">
+                    <Button variant="ghost" size="sm" className="gap-2 hover:text-red-500 transition-colors">
+                      <Heart className="w-5 h-5" />
+                      <span className="text-xs font-bold">2.4k</span>
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-2 hover:text-primary transition-colors">
+                      <MessageCircle className="w-5 h-5" />
+                      <span className="text-xs font-bold">128</span>
+                    </Button>
+                    <Button variant="ghost" size="sm" className="gap-2 hover:text-primary transition-colors">
+                      <Compass className="w-5 h-5" />
+                      <span className="text-xs font-bold">Share</span>
+                    </Button>
+                  </CardFooter>
+                </Card>
               ))}
             </div>
 
