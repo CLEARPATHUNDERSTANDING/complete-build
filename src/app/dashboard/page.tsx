@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation"
 import { ViewMode } from "@/lib/dashboard-types"
 import { MarketPanel } from "@/components/dashboard/MarketPanel"
 import { NewsPanel } from "@/components/dashboard/NewsPanel"
+import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, Info, Settings, User } from "lucide-react"
@@ -58,7 +59,7 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm"><MarketPanel /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm"><CandlestickChart /></div>
               <div className="bg-card rounded-2xl border p-2 shadow-sm"><NewsPanel /></div>
             </div>
           </div>
@@ -67,9 +68,7 @@ export default function DashboardPage() {
         {mode === 'minimal' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
             <div className="lg:col-span-8 bg-card rounded-2xl border p-2 shadow-sm">
-              <div className="h-full flex items-center justify-center text-muted-foreground italic border-2 border-dashed border-muted rounded-xl bg-muted/5">
-                Primary Analytic Chart Area (V1 Defer)
-              </div>
+              <CandlestickChart />
             </div>
             <div className="lg:col-span-4 flex flex-col gap-6">
               <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><MarketPanel /></div>
@@ -81,7 +80,7 @@ export default function DashboardPage() {
         {mode === 'pro' && (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 h-full">
             <div className="col-span-2 row-span-2 bg-card rounded-xl border p-2 shadow-sm">
-               <MarketPanel />
+               <CandlestickChart />
             </div>
             <div className="col-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
               <NewsPanel />
