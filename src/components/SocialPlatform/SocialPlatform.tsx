@@ -23,16 +23,9 @@ export default function SocialPlatform() {
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            {" "}
-            <line x1="3" y1="12" x2="21" y2="12">
-              {" "}
-            </line>{" "}
-            <line x1="3" y1="6" x2="21" y2="6">
-              {" "}
-            </line>{" "}
-            <line x1="3" y1="18" x2="21" y2="18">
-              {" "}
-            </line>{" "}
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
           <svg
             stroke="currentColor"
@@ -42,7 +35,7 @@ export default function SocialPlatform() {
             strokeLinejoin="round"
             viewBox="0 0 24 24"
           >
-            <path d="M19 12H5M12 19l-7-7 7-7"> </path>
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
           </svg>
         </button>
 
@@ -50,61 +43,30 @@ export default function SocialPlatform() {
 
         <div className="side-wrapper">
           <div className="side-title">MENU</div>
-          <div className="side-menu">
+          <div className="side-menu fuchsia-scroll">
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
                 <path d="M9 22V12h6v10"></path>
               </svg>
               Home
             </a>
             <a href="#">
-              <svg
-                stroke="currentColor"
-                strokeWidth="2"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
               </svg>
               Latest News
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
               Explore
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path>
                 <path d="M14 2v6h6"></path>
                 <path d="M16 13H8"></path>
@@ -114,15 +76,7 @@ export default function SocialPlatform() {
               Files
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                 <circle cx="8.5" cy="8.5" r="1.5"></circle>
                 <path d="M21 15l-5-5L5 21"></path>
@@ -130,15 +84,7 @@ export default function SocialPlatform() {
               Galery
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                 <path d="M16 2v4"></path>
                 <path d="M8 2v4"></path>
@@ -151,68 +97,45 @@ export default function SocialPlatform() {
 
         <div className="side-wrapper">
           <div className="side-title">YOUR FAVOURITES</div>
-          <div className="side-menu">
+          <div className="side-menu fuchsia-scroll">
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M17 21l-5-4-5 4V3h10z"></path>
               </svg>
               Favourites
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
               </svg>
               Messages
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
               Like
             </a>
             <a href="#">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                 <circle cx="12" cy="13" r="4"></circle>
               </svg>
               Photo
             </a>
+            {/* Added extra items to demonstrate scrolling */}
+            <a href="#">
+              <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+              Ratings
+            </a>
+            <a href="#">
+              <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+              Storage
+            </a>
           </div>
         </div>
 
-        <div className="side-wrapper">
+        <div className="side-wrapper" style={{ maxHeight: '150px' }}>
           <div className="side-title">DEVELOPER</div>
           <a className="developer" href="#">
             <span className="developer">
@@ -480,26 +403,12 @@ export default function SocialPlatform() {
       <div className={`right-side ${rightSide ? "active" : ""}`}>
         <div className="account">
           <button className="account-button" type="button">
-            <svg
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
+            <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path>
             </svg>
           </button>
           <button className="account-button" type="button">
-            <svg
-              stroke="currentColor"
-              strokeWidth="2"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
+            <svg stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M18 8A6 6 0 00 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
               <path d="M13.73 21a2 2 0 01-3.46 0"></path>
             </svg>
@@ -517,41 +426,37 @@ export default function SocialPlatform() {
 
         <div className="side-wrapper">
           <div className="side-title">ONLINE FRIENDS</div>
-          <div className="side-menu">
+          <div className="side-menu orange-scroll">
             <a href="#">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=60&q=60"
-                alt=""
-              />
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=60&q=60" alt="" />
               Tom Holland
             </a>
             <a href="#">
-              <img
-                src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=60&q=60"
-                alt=""
-              />
+              <img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=60&q=60" alt="" />
               Selena Gomez
             </a>
             <a href="#">
-              <img
-                src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=60&q=60"
-                alt=""
-              />
+              <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=60&q=60" alt="" />
               Jack Sparrow
             </a>
             <a href="#">
-              <img
-                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=60&q=60"
-                alt=""
-              />
+              <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=60&q=60" alt="" />
               Aaron Paul
+            </a>
+            <a href="#">
+              <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=60&q=60" alt="" />
+              Chris Evans
+            </a>
+            <a href="#">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=60&q=60" alt="" />
+              Emma Watson
             </a>
           </div>
         </div>
 
         <div className="side-wrapper">
           <div className="side-title">LATEST UPDATES</div>
-          <div className="side-menu">
+          <div className="side-menu orange-scroll">
             <a href="#">
               <div className="activity-dot"></div>
               <span>Tonny posted 1 photo</span>
@@ -571,6 +476,16 @@ export default function SocialPlatform() {
               <div className="activity-dot"></div>
               <span>Daniel joined to the group</span>
               <span className="activity-date">4 hour ago</span>
+            </a>
+            <a href="#">
+              <div className="activity-dot"></div>
+              <span>Sarah commented on your story</span>
+              <span className="activity-date">5 hour ago</span>
+            </a>
+            <a href="#">
+              <div className="activity-dot"></div>
+              <span>Mark shared a file</span>
+              <span className="activity-date">6 hour ago</span>
             </a>
           </div>
         </div>

@@ -15,6 +15,8 @@
   --button-bg: #fff;
   --button-color: #1f242b;
   --button-hover: #f1f3f7;
+  --neon-fuchsia: #ff00ff;
+  --neon-orange: #ff6600;
 }
 
 * {
@@ -73,6 +75,9 @@ body {
 
 .side-wrapper {
   padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  max-height: 33%;
 }
 
 .side-wrapper + .side-wrapper {
@@ -84,11 +89,56 @@ body {
   font-weight: 700;
   color: #a0a7b1;
   margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .side-menu {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Fuchsia Neon Scrollbar (Left side) */
+.side-menu.fuchsia-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-fuchsia) transparent;
+}
+
+.side-menu.fuchsia-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.side-menu.fuchsia-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 0, 255, 0.05);
+  border-radius: 10px;
+}
+
+.side-menu.fuchsia-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--neon-fuchsia);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Orange Neon Scrollbar (Right side) */
+.side-menu.orange-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-orange) transparent;
+}
+
+.side-menu.orange-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.side-menu.orange-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 102, 0, 0.05);
+  border-radius: 10px;
+}
+
+.side-menu.orange-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--neon-orange);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .side-menu a {
@@ -109,6 +159,7 @@ body {
 .side-menu svg {
   width: 20px;
   margin-right: 15px;
+  flex-shrink: 0;
 }
 
 .developer {
@@ -456,6 +507,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
   margin-right: 15px;
+  flex-shrink: 0;
 }
 
 .activity-dot {
