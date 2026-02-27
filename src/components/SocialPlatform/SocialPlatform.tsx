@@ -20,7 +20,9 @@ import {
   Search,
   Plus,
   Sun,
-  Moon
+  Moon,
+  TrendingUp,
+  Hash
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -81,7 +83,6 @@ export default function SocialPlatform() {
             <a href="#"><Calendar /> Events</a>
             <a href="#"><Bookmark /> Archive</a>
             <a href="#"><MessageCircle /> Forums</a>
-            {/* Added extra items for scrolling demo */}
             <a href="#"><Star /> Trending</a>
             <a href="#"><Heart /> Activity</a>
           </div>
@@ -327,6 +328,32 @@ export default function SocialPlatform() {
                 <span>
                   {update.text}
                   <span className="activity-date block">{update.time}</span>
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="side-wrapper">
+          <div className="side-title">TRENDING TOPICS</div>
+          <div className="side-menu orange-scroll">
+            {[
+              { tag: "#nextjs", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
+              { tag: "#firebase", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
+              { tag: "#webdesign", posts: "5.2k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
+              { tag: "#reactjs", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
+              { tag: "#uidesign", posts: "15.1k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
+              { tag: "#codinglife", posts: "4.2k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
+              { tag: "#frontend", posts: "11.8k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> }
+            ].map((topic, idx) => (
+              <a href="#" key={idx}>
+                <div className="activity-dot" />
+                <span>
+                  <div className="flex items-center gap-1.5">
+                    {topic.tag}
+                    {topic.icon}
+                  </div>
+                  <span className="activity-date block">{topic.posts}</span>
                 </span>
               </a>
             ))}
