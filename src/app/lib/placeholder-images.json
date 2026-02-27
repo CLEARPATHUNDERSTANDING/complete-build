@@ -20,6 +20,12 @@
       "imageHint": "modern architecture"
     },
     {
+      "id": "post-image-2",
+      "description": "Cityscape post image",
+      "imageUrl": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1000&q=80",
+      "imageHint": "city skyline"
+    },
+    {
       "id": "story-1",
       "description": "Story background 1",
       "imageUrl": "https://images.unsplash.com/photo-1521898284481-a5ec348cb555?auto=format&fit=crop&w=400&q=80",

@@ -40,7 +40,6 @@ export default function SocialPlatform() {
   const [rightSide, setRightSide] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Apply dark mode class to body for global theme support
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add('dark');
@@ -50,6 +49,27 @@ export default function SocialPlatform() {
   }, [isDarkMode]);
 
   const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
+
+  const posts = [
+    {
+      id: 1,
+      user: "Jessica Miller",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
+      time: "8 hours ago",
+      image: "post-image-1",
+      text: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+      hint: "modern architecture"
+    },
+    {
+      id: 2,
+      user: "Mike Andrew",
+      avatar: getImgUrl('profile-mike') || "",
+      time: "2 hours ago",
+      image: "post-image-2",
+      text: "Exploring the urban landscape today. The synergy between glass and light in modern skyscrapers is simply breathtaking.",
+      hint: "city skyline"
+    }
+  ];
 
   return (
     <div className={`container ${isDarkMode ? 'dark' : ''}`}>
@@ -142,68 +162,71 @@ export default function SocialPlatform() {
           </div>
 
           <div className="timeline">
-            <div className="timeline-left">
-              <div className="timeline-left-header">
-                <div className="timeline-left-header-user">
-                  <Avatar className="w-11 h-11">
-                    <AvatarImage src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60" />
-                    <AvatarFallback>JM</AvatarFallback>
-                  </Avatar>
-                  <div className="user">
-                    <div className="username">Jessica Miller</div>
-                    <div className="time">8 hours ago</div>
+            <div className="timeline-left space-y-8 pb-10">
+              {posts.map((post) => (
+                <div key={post.id} className="timeline-card-wrapper animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="timeline-left-header mb-4">
+                    <div className="timeline-left-header-user">
+                      <Avatar className="w-11 h-11">
+                        <AvatarImage src={post.avatar} />
+                        <AvatarFallback>{post.user[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="user">
+                        <div className="username">{post.user}</div>
+                        <div className="time">{post.time}</div>
+                      </div>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="timeline-left-header-more">
+                          <MoreHorizontal className="w-5 h-5" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem>Report Post</DropdownMenuItem>
+                        <DropdownMenuItem>Save for Later</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive">Unfollow</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+
+                  <div className="timeline-left-content bg-card border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <div className="relative w-full h-[400px] bg-muted">
+                      {getImgUrl(post.image) ? (
+                        <Image
+                          className="object-cover"
+                          src={getImgUrl(post.image)!}
+                          alt="Post Content"
+                          fill
+                          data-ai-hint={post.hint}
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground italic">
+                          Loading Image...
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="timeline-left-content-text p-6">
+                      <span className="text-sm md:text-base leading-relaxed">
+                        {post.text}
+                      </span>
+                    </div>
+                    
+                    <div className="timeline-left-footer px-6 pb-6 pt-0 flex gap-4">
+                      <Button variant="ghost" size="icon" className="hover:text-red-500 transition-colors">
+                        <Heart className="w-5 h-5" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="hover:text-primary transition-colors">
+                        <MessageCircle className="w-5 h-5" />
+                      </Button>
+                      <Button variant="ghost" size="icon" className="hover:text-primary transition-colors">
+                        <Compass className="w-5 h-5" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="timeline-left-header-more">
-                      <MoreHorizontal className="w-5 h-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Report Post</DropdownMenuItem>
-                    <DropdownMenuItem>Save for Later</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">Unfollow</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div className="timeline-left-content">
-                <div className="relative w-full h-[350px] bg-muted overflow-hidden">
-                  {getImgUrl('post-image-1') ? (
-                    <Image
-                      className="timeline-left-content-image object-cover"
-                      src={getImgUrl('post-image-1')!}
-                      alt="Post Image"
-                      fill
-                      data-ai-hint="modern architecture"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-muted-foreground italic">
-                      Image Loading...
-                    </div>
-                  )}
-                </div>
-
-                <div className="timeline-left-content-text">
-                  <span>
-                    It is a long established fact that a reader will be distracted
-                    by the readable content of a page when looking at its layout.
-                  </span>
-                </div>
-              </div>
-
-              <div className="timeline-left-footer">
-                <Button variant="ghost" size="icon" className="timeline-left-footer-button">
-                  <Heart className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="timeline-left-footer-button">
-                  <MessageCircle className="w-5 h-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="timeline-left-footer-button">
-                  <Compass className="w-5 h-5" />
-                </Button>
-              </div>
+              ))}
             </div>
 
             <div className="timeline-right">
