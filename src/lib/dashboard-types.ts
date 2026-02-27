@@ -1,4 +1,4 @@
-export type ViewMode = 'focus' | 'minimal' | 'pro' | 'dual';
+export type ViewMode = 'focus' | 'minimal' | 'pro' | 'dual' | 'quad';
 
 export interface PanelConfig {
   id: string;

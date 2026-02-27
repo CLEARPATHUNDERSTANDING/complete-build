@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -19,7 +18,9 @@ import {
   Zap, 
   SlidersHorizontal,
   Maximize2,
-  Brain
+  Brain,
+  Grid2X2,
+  Rows
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -49,6 +50,7 @@ export default function DashboardPage() {
   
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
+  const [layoutStyle, setLayoutStyle] = React.useState<'grid' | 'stack'>('grid');
 
   // Update profile if URL param changes
   React.useEffect(() => {
@@ -91,12 +93,25 @@ export default function DashboardPage() {
               <TabsTrigger value="focus" className="text-xs gap-1.5"><Zap className="w-3 h-3" /> Focus</TabsTrigger>
               <TabsTrigger value="minimal" className="text-xs gap-1.5"><Layout className="w-3 h-3" /> Minimal</TabsTrigger>
               <TabsTrigger value="dual" className="text-xs gap-1.5"><Maximize2 className="w-3 h-3" /> Dual</TabsTrigger>
+              <TabsTrigger value="quad" className="text-xs gap-1.5"><Grid2X2 className="w-3 h-3" /> Quad</TabsTrigger>
               <TabsTrigger value="pro" className="text-xs gap-1.5"><Eye className="w-3 h-3" /> Pro Desk</TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         <div className="flex items-center gap-3">
+          {mode === 'quad' && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2 rounded-full"
+              onClick={() => setLayoutStyle(prev => prev === 'grid' ? 'stack' : 'grid')}
+            >
+              {layoutStyle === 'grid' ? <Rows className="w-4 h-4" /> : <Grid2X2 className="w-4 h-4" />}
+              {layoutStyle === 'grid' ? 'Stack Layout' : 'Grid Layout'}
+            </Button>
+          )}
+
           <Button variant="outline" size="sm" className="gap-2 rounded-full border-primary/30 bg-primary/5 text-primary">
             <Brain className="w-4 h-4" />
             {neuroProfile.label}
@@ -194,7 +209,7 @@ export default function DashboardPage() {
             </div>
             <div className="grid grid-cols-1 gap-6 flex-1 overflow-hidden">
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-full overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} />
+                <CandlestickChart personality={neuroProfile.personality} title="Primary Analysis" />
               </div>
             </div>
           </div>
@@ -204,15 +219,34 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
             <div className="flex flex-col gap-6">
               <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} />
+                <CandlestickChart personality={neuroProfile.personality} title="Feed Alpha" />
               </div>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><MarketPanel /></div>
             </div>
             <div className="flex flex-col gap-6 border-l-2 border-dashed border-primary/20 pl-6">
               <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
-                <CandlestickChart personality={neuroProfile.personality} />
+                <CandlestickChart personality={neuroProfile.personality} title="Feed Beta" />
               </div>
               <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
+            </div>
+          </div>
+        )}
+
+        {mode === 'quad' && (
+          <div className={`h-full ${layoutStyle === 'stack' ? 'overflow-y-auto pr-2 custom-scrollbar' : ''}`}>
+            <div className={layoutStyle === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-4 h-full" : "flex flex-col gap-4 pb-10"}>
+              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
+                <CandlestickChart personality={neuroProfile.personality} title="Stream 01" />
+              </div>
+              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
+                <CandlestickChart personality={neuroProfile.personality} title="Stream 02" />
+              </div>
+              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
+                <CandlestickChart personality={neuroProfile.personality} title="Stream 03" />
+              </div>
+              <div className={layoutStyle === 'grid' ? "h-full" : "h-[400px]"}>
+                <CandlestickChart personality={neuroProfile.personality} title="Stream 04" />
+              </div>
             </div>
           </div>
         )}
@@ -259,6 +293,19 @@ export default function DashboardPage() {
           Structure v1.2.0 • Identical Dual Active • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
         </div>
       </footer>
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: hsl(var(--primary) / 0.3);
+          border-radius: 10px;
+        }
+      `}</style>
     </div>
   );
 }

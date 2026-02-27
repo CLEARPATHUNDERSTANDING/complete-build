@@ -11,6 +11,7 @@ const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface CandlestickChartProps {
   personality?: CandlePersonality;
+  title?: string;
 }
 
 const DEFAULT_PERSONALITY: CandlePersonality = {
@@ -29,7 +30,7 @@ const DEFAULT_PERSONALITY: CandlePersonality = {
   dataDensity: 'Medium',
 };
 
-export function CandlestickChart({ personality = DEFAULT_PERSONALITY }: CandlestickChartProps) {
+export function CandlestickChart({ personality = DEFAULT_PERSONALITY, title = "Analytic Feed" }: CandlestickChartProps) {
   const chartData = useMemo(() => {
     const series = [{
       data: [
@@ -127,8 +128,8 @@ export function CandlestickChart({ personality = DEFAULT_PERSONALITY }: Candlest
       }}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-lg font-headline" style={{ color: personality.text }}>
-          Analytic Feed
+        <CardTitle className="text-sm font-headline" style={{ color: personality.text }}>
+          {title}
         </CardTitle>
         <Badge 
           variant="outline" 
@@ -138,7 +139,7 @@ export function CandlestickChart({ personality = DEFAULT_PERSONALITY }: Candlest
           {personality.dataDensity} Density
         </Badge>
       </CardHeader>
-      <CardContent className="h-[calc(100%-80px)] pt-4">
+      <CardContent className="h-[calc(100%-60px)] pt-2">
         <Chart
           options={chartData.options}
           series={chartData.series}
