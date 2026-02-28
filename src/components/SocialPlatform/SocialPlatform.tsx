@@ -85,27 +85,10 @@ export default function SocialPlatform() {
     }
   ];
 
-  const getMarketsByCategory = (category: MarketCategory) => 
-    marketCatalog.filter(item => item.category === category);
-
-  const getMarketIcon = (category: MarketCategory) => {
-    switch (category) {
-      case 'forex': return <Globe className="w-3 h-3" />;
-      case 'stocks': return <TrendingUp className="w-3 h-3" />;
-      case 'indices': return <BarChart3 className="w-3 h-3" />;
-      case 'crypto': return <Coins className="w-3 h-3" />;
-      case 'metals': return <Star className="w-3 h-3" />;
-      case 'futures': return <History className="w-3 h-3" />;
-      case 'bonds': return <Scale className="w-3 h-3" />;
-      case 'commodities': return <ImageIcon className="w-3 h-3" />;
-      default: return <Zap className="w-3 h-3" />;
-    }
-  };
-
   return (
-    <div className={`container ${isDarkMode ? 'dark' : ''}`}>
+    <div className={`container ${isDarkMode ? 'dark' : ''} bg-black border-white/10`}>
       {/* Left Sidebar */}
-      <div className={`left-side ${leftSide ? "active" : ""}`}>
+      <div className={`left-side ${leftSide ? "active" : ""} bg-black/90`}>
         <button
           type="button"
           className="left-side-button"
@@ -119,10 +102,10 @@ export default function SocialPlatform() {
           </svg>
         </button>
 
-        <div className="logo">ULTRANET</div>
+        <div className="logo text-primary">ULTRANET</div>
 
         <div className="side-wrapper overflow-hidden flex flex-col">
-          <div className="side-title">CORE INTERFACE</div>
+          <div className="side-title text-xs font-bold tracking-widest text-muted-foreground/50">CORE INTERFACE</div>
           <div className="side-menu fuchsia-scroll flex-1">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="intelligence" className="border-none">
@@ -172,11 +155,11 @@ export default function SocialPlatform() {
       </div>
 
       {/* Main Content */}
-      <div className="main">
-        <div className="search-bar">
+      <div className="main bg-black">
+        <div className="search-bar border-b border-white/5 bg-black">
           <div className="flex items-center w-full relative">
             <Search className="absolute left-0 w-4 h-4 text-muted-foreground" />
-            <input type="text" placeholder="Search markets or analysis..." className="pl-8" />
+            <input type="text" placeholder="Search markets or analysis..." className="pl-8 bg-transparent" />
           </div>
           <button
             type="button"
@@ -188,60 +171,44 @@ export default function SocialPlatform() {
           </button>
         </div>
 
-        <div className="main-container">
+        <div className="main-container bg-black">
           <div className="profile">
-            <Avatar className="w-[60px] h-[60px] rounded-xl">
+            <Avatar className="w-[60px] h-[60px] rounded-xl border border-white/10">
               <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
-            <div className="profile-name">Mike Andrew</div>
+            <div className="profile-name text-white">Mike Andrew</div>
           </div>
 
           <div className="timeline">
             <div className="timeline-left pb-20">
               {posts.map((post) => (
-                <Card key={post.id} className="w-full border shadow-lg bg-card mb-6 overflow-hidden">
+                <Card key={post.id} className="w-full border-white/5 shadow-2xl bg-[#0a0a0a] mb-6 overflow-hidden">
                   <CardHeader className="flex flex-row items-center justify-between p-6">
                     <div className="flex items-center gap-4">
-                      <Avatar className="w-12 h-12">
+                      <Avatar className="w-12 h-12 border border-white/10">
                         <AvatarImage src={post.avatar} />
                         <AvatarFallback>{post.user[0]}</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <span className="font-bold text-base">{post.user}</span>
+                        <span className="font-bold text-base text-white">{post.user}</span>
                         <span className="text-xs text-muted-foreground">{post.time}</span>
                       </div>
                     </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon">
-                          <MoreHorizontal className="w-5 h-5" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem>Report Post</DropdownMenuItem>
-                        <DropdownMenuItem>Save for Later</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">Unfollow</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
                   </CardHeader>
-                  <CardContent className="px-6 py-6 border-y bg-card/30">
-                    <p className="text-lg md:text-xl leading-relaxed font-medium">
+                  <CardContent className="px-6 py-6 border-y border-white/5 bg-black/40">
+                    <p className="text-lg md:text-xl leading-relaxed font-medium text-white/90">
                       {post.text}
                     </p>
                   </CardContent>
                   <CardFooter className="px-6 py-4 flex gap-8">
-                    <Button variant="ghost" size="sm" className="gap-2 hover:text-red-500 transition-colors">
+                    <Button variant="ghost" size="sm" className="gap-2 hover:text-red-500 transition-colors text-muted-foreground">
                       <Heart className="w-5 h-5" />
                       <span className="text-xs font-bold">2.4k</span>
                     </Button>
-                    <Button variant="ghost" size="sm" className="gap-2 hover:text-primary transition-colors">
+                    <Button variant="ghost" size="sm" className="gap-2 hover:text-primary transition-colors text-muted-foreground">
                       <MessageCircle className="w-5 h-5" />
                       <span className="text-xs font-bold">128</span>
-                    </Button>
-                    <Button variant="ghost" size="sm" className="gap-2 hover:text-primary transition-colors">
-                      <Compass className="w-5 h-5" />
-                      <span className="text-xs font-bold">Share</span>
                     </Button>
                   </CardFooter>
                 </Card>
@@ -250,15 +217,15 @@ export default function SocialPlatform() {
 
             <div className="timeline-right">
               <div className="timeline-right-header">
-                <div className="timeline-right-header-title">Market Streams</div>
+                <div className="timeline-right-header-title text-primary">Market Streams</div>
               </div>
 
               <div className="story">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="story-card group">
+                  <div key={i} className="story-card group border border-white/5">
                     {getImgUrl(`story-${i}`) ? (
                       <Image
-                        className="story-card-image object-cover group-hover:scale-110 transition-transform"
+                        className="story-card-image object-cover group-hover:scale-110 transition-transform opacity-60"
                         src={getImgUrl(`story-${i}`)!}
                         alt={`Story ${i}`}
                         fill
@@ -282,7 +249,7 @@ export default function SocialPlatform() {
       </div>
 
       {/* Right Sidebar */}
-      <div className={`right-side ${rightSide ? "active" : ""}`}>
+      <div className={`right-side ${rightSide ? "active" : ""} bg-black/95 border-l border-white/5`}>
         <div className="account">
           <Button 
             variant="ghost" 
@@ -293,16 +260,16 @@ export default function SocialPlatform() {
             {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
           </Button>
           <div className="account-user ml-auto">
-            <Avatar className="w-[30px] h-[30px]">
+            <Avatar className="w-[30px] h-[30px] border border-white/10">
               <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
-            <span className="account-username">Mike Andrew</span>
+            <span className="account-username text-white">Mike Andrew</span>
           </div>
         </div>
 
         <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">NEURO ACTIVITY</div>
+          <div className="side-title text-xs font-bold tracking-widest text-muted-foreground/50">NEURO ACTIVITY</div>
           <div className="side-menu orange-scroll flex-1">
             {[
               { text: "Optimized profile detected", time: "1 hour ago", icon: <Brain className="w-3 h-3 text-primary" /> },
@@ -310,14 +277,14 @@ export default function SocialPlatform() {
               { text: "Dual view synchronized", time: "5 hours ago", icon: <Layout className="w-3 h-3 text-blue-500" /> },
               { text: "Focus mode engaged", time: "8 hours ago", icon: <Zap className="w-3 h-3 text-yellow-500" /> }
             ].map((update, idx) => (
-              <a href="#" key={idx}>
-                <div className="activity-dot" />
+              <a href="#" key={idx} className="hover:bg-white/5 transition-colors p-2 rounded-lg">
+                <div className="activity-dot bg-primary" />
                 <span>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 text-white/80">
                     {update.text}
                     {update.icon}
                   </div>
-                  <span className="activity-date block">{update.time}</span>
+                  <span className="activity-date block text-[10px] text-muted-foreground">{update.time}</span>
                 </span>
               </a>
             ))}

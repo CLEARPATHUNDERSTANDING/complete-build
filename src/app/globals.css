@@ -29,22 +29,28 @@
   }
 }
 
-/* Global High-Focus Background - No Images Allowed */
-body {
-  background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
+/* Aggressive Reset: Remove all legacy background images and blurs */
+* {
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-sizing: border-box;
+  outline: none;
+}
+
+html, body {
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%) !important;
   background-attachment: fixed !important;
-  font-family: "DM Sans", sans-serif;
-  color: white;
+  height: 100%;
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
   overflow-x: hidden;
 }
 
-/* Force-remove all legacy background images */
-* {
-  background-image: none !important;
-  box-sizing: border-box;
-  outline: none;
+body {
+  font-family: "DM Sans", sans-serif;
+  color: white;
+  min-height: 100vh;
 }
 
 /* Neuro-Divergent Scrollbar */
@@ -67,9 +73,9 @@ body {
   background: var(--primary);
 }
 
+/* Force Opaque Container to block any hidden legacy elements */
 .container {
-  background-color: rgba(18, 18, 18, 0.95);
-  backdrop-filter: none !important; /* Remove legacy blur that was revealing old image */
+  background-color: #000000 !important; /* Force opaque black */
   width: 100%;
   max-width: 1400px;
   height: 90vh;
@@ -78,7 +84,9 @@ body {
   position: relative;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 1);
+  margin: auto;
+  margin-top: 5vh;
 }
 
 /* Dashboard Specifics */
@@ -91,4 +99,9 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: hsl(var(--primary) / 0.3);
   border-radius: 10px;
+}
+
+/* Hide any absolutely positioned Image components that might be legacy backgrounds */
+.container > img, body > img {
+  display: none !important;
 }
