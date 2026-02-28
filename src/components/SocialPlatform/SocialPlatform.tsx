@@ -30,7 +30,12 @@ import {
   Layout,
   Zap,
   Eye,
-  Activity
+  Activity,
+  BarChart3,
+  Globe,
+  Coins,
+  History,
+  Scale
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -71,7 +76,7 @@ export default function SocialPlatform() {
       user: "Jessica Miller",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
       time: "8 hours ago",
-      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day. We are looking at ways to integrate sustainable materials without compromising on the visual appeal. Functional beauty is our ultimate goal.",
+      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day. Functional beauty is our ultimate goal.",
     },
     {
       id: 2,
@@ -135,6 +140,32 @@ export default function SocialPlatform() {
                   ))}
                   <Link href="/dashboard" className="flex items-center gap-3 py-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60 hover:text-primary">
                     <MoreHorizontal className="w-3 h-3" /> More
+                  </Link>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="markets" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><BarChart3 className="w-4 h-4" /> Markets</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <Globe className="w-3 h-3" /> Forex
+                  </Link>
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <History className="w-3 h-3" /> Futures
+                  </Link>
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <Scale className="w-3 h-3" /> Bonds
+                  </Link>
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <Coins className="w-3 h-3" /> Crypto
+                  </Link>
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <TrendingUp className="w-3 h-3" /> Stocks
+                  </Link>
+                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
+                    <ImageIcon className="w-3 h-3" /> Commodities
                   </Link>
                 </AccordionContent>
               </AccordionItem>

@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -36,6 +37,36 @@
         "lastSeen",
         "modeDefault"
       ]
+    },
+    "MarketAsset": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MarketAsset",
+      "type": "object",
+      "description": "Represents a single financial asset from any market type (Forex, Crypto, etc.).",
+      "properties": {
+        "symbol": {
+          "type": "string",
+          "description": "The unique ticker symbol (e.g., 'BTC/USD', 'EUR/USD')."
+        },
+        "price": {
+          "type": "number",
+          "description": "The current spot price."
+        },
+        "change": {
+          "type": "number",
+          "description": "Percentage change in price."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["bullish", "bearish", "neutral"],
+          "description": "Visual trend indicator."
+        },
+        "marketType": {
+          "type": "string",
+          "description": "The category of the market (e.g., 'forex', 'crypto')."
+        }
+      },
+      "required": ["symbol", "price", "change", "status", "marketType"]
     },
     "UserPreference": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -269,112 +300,15 @@
           "schema": {
             "$ref": "#/backend/entities/UserProfile"
           },
-          "description": "Stores core information about a user, including their role, creation, and last activity timestamps. The '{userId}' parameter matches 'request.auth.uid' for direct ownership and access control.",
+          "description": "Stores core information about a user, including their role, creation, and last activity timestamps.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to Firebase Authentication UID."
-            }
-          ]
-        }
-      },
-      {
-        "path": "users/{userId}/preferences/{preferenceId}",
-        "definition": {
-          "entityName": "UserPreference",
-          "schema": {
-            "$ref": "#/backend/entities/UserPreference"
-          },
-          "description": "Stores user-specific application preferences and visual settings. Access is restricted to the user whose ID matches '{userId}'. Denormalized 'userId' within the path ensures authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to Firebase Authentication UID."
-            },
-            {
-              "name": "preferenceId",
-              "description": "The unique identifier for a specific set of user preferences (e.g., 'main')."
-            }
-          ]
-        }
-      },
-      {
-        "path": "users/{userId}/layouts/{layoutId}",
-        "definition": {
-          "entityName": "UserLayout",
-          "schema": {
-            "$ref": "#/backend/entities/UserLayout"
-          },
-          "description": "Defines a user's customized dashboard layout for a specific mode. Access is restricted to the user whose ID matches '{userId}'. Denormalized 'userId' within the path ensures authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to Firebase Authentication UID."
-            },
-            {
-              "name": "layoutId",
-              "description": "The unique identifier for a specific user layout within a mode."
-            }
-          ]
-        }
-      },
-      {
-        "path": "users/{userId}/experimentAssignments/{assignmentId}",
-        "definition": {
-          "entityName": "ExperimentAssignment",
-          "schema": {
-            "$ref": "#/backend/entities/ExperimentAssignment"
-          },
-          "description": "Records a user's assignment to an A/B test experiment or feature flag variant. Access is restricted to the user whose ID matches '{userId}'. Denormalized 'userId' within the path ensures authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to Firebase Authentication UID."
-            },
-            {
-              "name": "assignmentId",
-              "description": "The unique identifier for a specific experiment assignment."
-            }
-          ]
-        }
-      },
-      {
-        "path": "users/{userId}/userEvents/{eventId}",
-        "definition": {
-          "entityName": "UserEvent",
-          "schema": {
-            "$ref": "#/backend/entities/UserEvent"
-          },
-          "description": "Logs significant user actions and events within the application. Access is restricted to the user whose ID matches '{userId}'. Denormalized 'userId' within the path ensures authorization independence.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to Firebase Authentication UID."
-            },
-            {
-              "name": "eventId",
-              "description": "The unique identifier for a specific user event."
-            }
-          ]
-        }
-      },
-      {
-        "path": "feedback/{feedbackId}",
-        "definition": {
-          "entityName": "Feedback",
-          "schema": {
-            "$ref": "#/backend/entities/Feedback"
-          },
-          "description": "Stores user-submitted feedback. Documents include the 'userId' field, which is denormalized within the document for authorization independence for individual feedback items. Allows creation by any authenticated user for their own 'userId', and read/update/delete by the owning user. Listing typically restricted to administrators.",
-          "params": [
-            {
-              "name": "feedbackId",
-              "description": "The unique identifier for a specific feedback submission. May incorporate user ID and timestamp for uniqueness (e.g., '{userId}_{timestamp}')."
+              "description": "The unique identifier of the user."
             }
           ]
         }
       }
-    ],
-    "reasoning": "The Firestore structure is designed to be secure, scalable, and debuggable, prioritizing authorization independence and supporting efficient queries (QAPs). It leverages a hierarchical, path-based ownership model for all user-specific data, aligning with the \"Private Data\" and \"Hierarchical Paths for User-Owned Data\" access modeling strategies. \n\n**Authorization Independence & Denormalization:**\nAll user-owned data entities – `UserProfile`, `UserPreference`, `UserLayout`, `ExperimentAssignment`, and `UserEvent` – are nested directly under a `users/{userId}` path (e.g., `users/{userId}/preferences/{preferenceId}`). This design makes the `userId` an inherent part of the document's path, eliminating the need for `get()` calls in security rules to ascertain ownership. Authorization rules for these collections can simply check `request.auth.uid == userId`, making them atomic, easy to write, and highly debuggable. This structure directly supports atomic creation of parent/child documents by not requiring `get()` calls for authorization, fulfilling the CRITICAL Authorization Independence mandate.\n\nFor the `Feedback` entity, which is designed as a top-level collection (`feedback/{feedbackId}`), authorization independence for individual document ownership is achieved by including the `userId` field directly within each `Feedback` document. This denormalized `userId` allows security rules to verify `request.auth.uid == resource.data.userId` for read/update/delete operations on an individual feedback item without needing to access a parent document.\n\n**QAPs (Rules are not Filters) & Structural Segregation:**\n\n1.  **User-Specific Collections (`users/{userId}/...`):** For collections like `preferences`, `layouts`, `experimentAssignments`, and `userEvents`, the path-based ownership (`users/{userId}/...`) naturally enforces query scoping. Any `list` operation on these subcollections will inherently be limited to documents belonging to the `userId` specified in the path, which must match `request.auth.uid`. This allows for secure and performant `list` operations without relying on security rules to filter results, thereby adhering to QAPs.\n\n2.  **Global/Admin-Reviewable Collection (`feedback/{feedbackId}`):** The `feedback` collection is designed to be a top-level collection. Regular users are permitted to *create* feedback (ensuring `request.resource.data.userId == request.auth.uid`) and can read/update/delete *their own* specific feedback document if they know its ID. However, regular users are explicitly **not allowed to `list`** the entire `/feedback` collection. This prevents broad, unconstrained queries and upholds QAPs. For administrative access, the design accommodates `list` and `read` operations for users identified as administrators. \n\n**DBAC and Admin Role Handling (Mandate Compromise):**\nDue to the constraints of the provided schema and the JSON output format (which requires `$ref` to a defined `backend.entities` for `firestorePaths` entries), a dedicated `admin_roles/{uid}` collection (as recommended by the \"Global Roles (DBAC): Prefer Existence over Content\" mandate) cannot be explicitly listed in the `firestorePaths` output. \n\nConsequently, security rules requiring an admin check (e.g., to allow `list` access to the `feedback` collection for administrators) will need to rely on the `role` field within the user's `UserProfile` document (`get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'`). This constitutes a **necessary compromise** of the \"Authorization Independence (CRITICAL): AVOID hierarchical authorization dependencies (`get()`).\" principle. While functional, it introduces a `get()` call dependency into rules, which is less atomic and harder to debug compared to an `exists()` check on a dedicated `admin_roles` collection. The `UserProfile.role` field will serve this purpose for security rule evaluation, in addition to any application-level role logic."
+    ]
   }
 }
