@@ -1,3 +1,4 @@
+
 "use client";
 
 import React from "react";
@@ -38,7 +39,7 @@ export function NeuroGlowCard({
         }}
       />
 
-      {/* Inner panel with consistent radius subtraction */}
+      {/* Inner panel with consistent radius subtraction (32 - 10 = 22) */}
       <div
         className="relative rounded-[22px] overflow-hidden h-full"
         style={{
