@@ -29,7 +29,7 @@
   }
 }
 
-/* Aggressive Reset: Remove all legacy background images and blurs */
+/* NUCLEAR RESET: Kill all background images, pseudo-elements, and blurs globally */
 * {
   background-image: none !important;
   backdrop-filter: none !important;
@@ -38,70 +38,49 @@
   outline: none;
 }
 
+*::before, *::after {
+  background-image: none !important;
+  content: none !important;
+  display: none !important;
+}
+
 html, body {
   background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%) !important;
   background-attachment: fixed !important;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  height: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  color: white !important;
+  font-family: "DM Sans", sans-serif !important;
 }
 
-body {
-  font-family: "DM Sans", sans-serif;
-  color: white;
-  min-height: 100vh;
+/* Force specific containers to be opaque to block any underlying leaks */
+.container, main, .main-container, .timeline, .left-side, .right-side {
+  background-image: none !important;
+  background-color: transparent !important;
 }
 
-/* Neuro-Divergent Scrollbar */
+/* Clean UI Elements */
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.side-title {
+  padding: 1.5rem 1rem 0.5rem;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  border: 2px solid transparent;
-  background-clip: content-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
-
-/* Force Opaque Container to block any hidden legacy elements */
-.container {
-  background-color: #000000 !important; /* Force opaque black */
-  width: 100%;
-  max-width: 1400px;
-  height: 90vh;
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 1);
-  margin: auto;
-  margin-top: 5vh;
-}
-
-/* Dashboard Specifics */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary) / 0.3);
-  border-radius: 10px;
-}
-
-/* Hide any absolutely positioned Image components that might be legacy backgrounds */
-.container > img, body > img {
-  display: none !important;
 }
