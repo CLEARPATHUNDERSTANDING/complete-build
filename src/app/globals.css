@@ -29,7 +29,7 @@
   }
 }
 
-/* Global High-Focus Background */
+/* Global High-Focus Background - No Images Allowed */
 body {
   background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
   background-attachment: fixed !important;
@@ -40,7 +40,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Remove legacy background images */
+/* Force-remove all legacy background images */
 * {
   background-image: none !important;
   box-sizing: border-box;
