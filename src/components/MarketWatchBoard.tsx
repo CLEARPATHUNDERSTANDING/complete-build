@@ -56,7 +56,7 @@ export default function MarketWatchBoard({ items }: Props) {
             </div>
           ))}
           {items.length === 0 && (
-            <div className="py-10 text-center text-white/40 text-sm">
+            <div className="py-10 text-center text-white/40 text-sm italic">
               No matching assets found
             </div>
           )}

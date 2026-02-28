@@ -29,10 +29,11 @@
   }
 }
 
-/* Force global gradient background */
+/* NUCLEAR RESET: Force gradient and kill all legacy backgrounds/blurs */
 html, body {
-  background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%) !important;
+  background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
   background-attachment: fixed !important;
+  background-size: cover !important;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -41,7 +42,15 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Remove all legacy background images and blurs */
+/* Strip all pseudo-elements that might hold legacy images */
+body::before, body::after,
+main::before, main::after,
+section::before, section::after,
+div::before, div::after {
+  background-image: none !important;
+  display: none !important;
+}
+
 * {
   background-image: none !important;
   backdrop-filter: none !important;
@@ -60,7 +69,6 @@ html, body {
   border-radius: 10px;
 }
 
-/* Animation utilities */
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
