@@ -61,6 +61,20 @@ export default function SocialPlatform() {
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
       time: "8 hours ago",
       text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
+    },
+    {
+      id: 3,
+      user: "Market Watch",
+      avatar: "https://picsum.photos/seed/market/150/150",
+      time: "12 hours ago",
+      text: "Global indices are showing strong support levels. It might be time to switch to the Quad-View mode to track multiple sectors simultaneously.",
+    },
+    {
+      id: 4,
+      user: "Design Insider",
+      avatar: "https://picsum.photos/seed/design/150/150",
+      time: "1 day ago",
+      text: "The new NeonBoard components are finally live. They provide a high-contrast visual anchor for neuro-divergent focus during high-intensity trading.",
     }
   ];
 
@@ -69,12 +83,16 @@ export default function SocialPlatform() {
     { name: "Selena Gomez", avatar: "https://i.pravatar.cc/150?u=selena", online: true },
     { name: "Zendaya", avatar: "https://i.pravatar.cc/150?u=zen", online: true },
     { name: "Robert Downey", avatar: "https://i.pravatar.cc/150?u=rdj", online: false },
+    { name: "Scarlett J", avatar: "https://i.pravatar.cc/150?u=scarlett", online: true },
+    { name: "Chris Evans", avatar: "https://i.pravatar.cc/150?u=chris", online: false },
   ];
 
   const updates = [
     { user: "Tonny", action: "posted 1 photo", time: "2 min ago" },
     { user: "Mike", action: "started following you", time: "5 min ago" },
     { user: "Sarah", action: "liked your analysis", time: "12 min ago" },
+    { user: "David", action: "replied to your post", time: "20 min ago" },
+    { user: "Elena", action: "shared a market update", time: "45 min ago" },
   ];
 
   const trends = [
@@ -82,6 +100,8 @@ export default function SocialPlatform() {
     { tag: "#firebase", count: "8.2k posts" },
     { tag: "#neurotrading", count: "5.1k posts" },
     { tag: "#insightflow", count: "2.3k posts" },
+    { tag: "#cybersecurity", count: "1.2k posts" },
+    { tag: "#fintech", count: "900 posts" },
   ];
 
   const navItemClass = "flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
@@ -90,13 +110,13 @@ export default function SocialPlatform() {
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
       {/* 1. Independent Scroll Area: Left Sidebar Navigation */}
-      <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0">
-        <div className="p-6 flex items-center gap-3 border-b border-white/5 mb-4">
+      <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0 h-full">
+        <div className="p-6 flex items-center gap-3 border-b border-white/5 mb-4 shrink-0">
           <Menu className="w-5 h-5 text-indigo-500" />
           <div className="text-[12px] font-black tracking-[0.3em] text-indigo-500 uppercase">Navigation</div>
         </div>
 
-        <ScrollArea className="flex-1 px-4">
+        <ScrollArea className="flex-1 px-4 min-h-0">
           <div className="space-y-6 pb-8">
             <div>
               <div className={sectionLabelClass}>Workspace</div>
@@ -174,8 +194,8 @@ export default function SocialPlatform() {
       </div>
 
       {/* 2. Independent Scroll Area: Main Content Area (Feed) */}
-      <div className="flex-1 flex flex-col min-w-0 bg-transparent">
-        <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md">
+      <div className="flex-1 flex flex-col min-w-0 bg-transparent h-full">
+        <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md shrink-0">
           <div className="flex-1 max-w-xl relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input 
@@ -210,7 +230,7 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        <ScrollArea className="flex-1 p-8">
+        <ScrollArea className="flex-1 p-8 min-h-0">
           <div className="w-full max-w-2xl mx-auto space-y-10 pb-20">
             {posts.map((post) => (
               <NeonBoard key={post.id} className="w-full">
@@ -253,19 +273,19 @@ export default function SocialPlatform() {
       </div>
 
       {/* Right Sidebar - 3rd, 4th, and 5th Independent Scroll Areas */}
-      <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0">
-        <div className="flex-1 flex flex-col divide-y divide-white/10">
+      <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
+        <div className="flex-1 flex flex-col divide-y divide-white/10 min-h-0">
           
           {/* 3. Online Friends */}
           <div className="flex-[1.2] flex flex-col min-h-0">
-            <div className="px-8 py-6 flex items-center justify-between">
+            <div className="px-8 py-6 flex items-center justify-between shrink-0">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Online Friends</div>
               <div className="flex flex-col gap-1">
                 <ChevronUp className="w-3 h-3 text-primary animate-pulse" />
                 <ChevronDown className="w-3 h-3 text-primary/50" />
               </div>
             </div>
-            <ScrollArea className="flex-1 px-8 pb-4">
+            <ScrollArea className="flex-1 px-8 pb-4 min-h-0">
               <div className="space-y-6">
                 {friends.map((friend, idx) => (
                   <div key={idx} className="flex items-center gap-4 group cursor-pointer">
@@ -285,14 +305,14 @@ export default function SocialPlatform() {
 
           {/* 4. Latest Updates */}
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="px-8 py-6 flex items-center justify-between">
+            <div className="px-8 py-6 flex items-center justify-between shrink-0">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Latest Updates</div>
               <div className="flex flex-col gap-1">
                 <ChevronUp className="w-3 h-3 text-primary/50" />
                 <ChevronDown className="w-3 h-3 text-primary animate-pulse" />
               </div>
             </div>
-            <ScrollArea className="flex-1 px-8 pb-4 text-left">
+            <ScrollArea className="flex-1 px-8 pb-4 text-left min-h-0">
               <div className="space-y-6">
                 {updates.map((update, idx) => (
                   <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
@@ -311,14 +331,14 @@ export default function SocialPlatform() {
 
           {/* 5. Trending Topics */}
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="px-8 py-6 flex items-center justify-between">
+            <div className="px-8 py-6 flex items-center justify-between shrink-0">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Trending Topics</div>
               <div className="flex flex-col gap-1">
                 <ChevronUp className="w-3 h-3 text-primary" />
                 <ChevronDown className="w-3 h-3 text-primary/50" />
               </div>
             </div>
-            <ScrollArea className="flex-1 px-8 pb-4 text-left">
+            <ScrollArea className="flex-1 px-8 pb-4 text-left min-h-0">
               <div className="space-y-6">
                 {trends.map((trend, idx) => (
                   <div key={idx} className="flex flex-col gap-1 group cursor-pointer">

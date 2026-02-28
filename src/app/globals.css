@@ -58,8 +58,10 @@ div::before, div::after {
 }
 
 /* CUSTOM NEON SCROLLBARS: Red/Orange Fluid with Indigo Edges */
+/* These are the thick, visible bars to prevent anxiety and ensure accessibility */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -71,14 +73,14 @@ div::before, div::after {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%); /* Neon Red to Orange Fluid */
-  border-radius: 0;
-  box-shadow: 0 0 15px rgba(255, 0, 60, 0.5), 0 0 5px rgba(255, 138, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 0 15px rgba(255, 0, 60, 0.6), 0 0 5px rgba(255, 138, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #ff2e63 0%, #ffaa33 100%);
-  box-shadow: 0 0 20px rgba(255, 0, 60, 0.8);
+  box-shadow: 0 0 20px rgba(255, 0, 60, 0.9);
 }
 
 .fade-in {
@@ -90,15 +92,18 @@ div::before, div::after {
   to { opacity: 1; }
 }
 
+/* Ensure the scrollarea viewports allow content to overflow correctly */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: #000;
+  border-left: 2px solid #6366f1;
+  border-right: 2px solid #6366f1;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%);
+  border-radius: 6px;
 }
