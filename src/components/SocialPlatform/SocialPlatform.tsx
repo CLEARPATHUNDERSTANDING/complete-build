@@ -143,7 +143,7 @@ export default function SocialPlatform() {
             <div>
               <div className={sectionLabelClass}>Neuro Profiles</div>
               <div className="space-y-1">
-                {NEURO_PROFILES.slice(1, 16).map((p) => (
+                {NEURO_PROFILES.map((p) => (
                   <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
                     <Brain className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
                     <span className="text-[14px] font-semibold text-white/80 group-hover:text-indigo-400">{p.label}</span>
@@ -284,12 +284,12 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar - 3rd, 4th, and 5th Independent Scroll Areas */}
+      {/* Right Sidebar - 3rd, 4th, and 5th Independent Scroll Areas with 2x Thick Separators */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
-        <div className="flex-1 flex flex-col divide-y divide-white/10 min-h-0">
+        <div className="flex-1 flex flex-col min-h-0">
           
           {/* 3. Online Friends */}
-          <div className="flex-[1.2] flex flex-col min-h-0">
+          <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10">
             <div className="px-8 py-6 flex items-center justify-between shrink-0">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Online Friends</div>
               <div className="flex flex-col gap-1">
@@ -316,7 +316,7 @@ export default function SocialPlatform() {
           </div>
 
           {/* 4. Latest Updates */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 flex flex-col min-h-0 border-b-2 border-white/10">
             <div className="px-8 py-6 flex items-center justify-between shrink-0">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Latest Updates</div>
               <div className="flex flex-col gap-1">
