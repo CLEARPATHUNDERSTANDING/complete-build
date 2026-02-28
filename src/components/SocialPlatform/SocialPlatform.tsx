@@ -60,7 +60,7 @@ import {
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
-import { MARKET_CATALOG, getMarketsByCategory } from "@/data/marketCatalog";
+import { marketCatalog, MarketCategory } from "@/data/marketCatalog";
 
 export default function SocialPlatform() {
   const [leftSide, setLeftSide] = useState(false);
@@ -94,22 +94,19 @@ export default function SocialPlatform() {
     }
   ];
 
-  const assetClasses = getMarketsByCategory('asset-class');
-  const instruments = getMarketsByCategory('instrument');
-  const specialties = getMarketsByCategory('specialty');
+  const getMarketsByCategory = (category: MarketCategory) => 
+    marketCatalog.filter(item => item.category === category);
 
-  const getMarketIcon = (id: string) => {
-    switch (id) {
+  const getMarketIcon = (category: MarketCategory) => {
+    switch (category) {
       case 'forex': return <Globe className="w-3 h-3" />;
-      case 'equities': return <TrendingUp className="w-3 h-3" />;
-      case 'bonds': return <Scale className="w-3 h-3" />;
+      case 'stocks': return <TrendingUp className="w-3 h-3" />;
+      case 'indices': return <BarChart3 className="w-3 h-3" />;
       case 'crypto': return <Coins className="w-3 h-3" />;
-      case 'commodities': return <ImageIcon className="w-3 h-3" />;
-      case 'real-estate': return <Home className="w-3 h-3" />;
+      case 'metals': return <Star className="w-3 h-3" />;
       case 'futures': return <History className="w-3 h-3" />;
-      case 'options': return <Cpu className="w-3 h-3" />;
-      case 'etfs': return <Briefcase className="w-3 h-3" />;
-      case 'volatility': return <Activity className="w-3 h-3" />;
+      case 'bonds': return <Scale className="w-3 h-3" />;
+      case 'commodities': return <ImageIcon className="w-3 h-3" />;
       default: return <Zap className="w-3 h-3" />;
     }
   };
@@ -168,53 +165,68 @@ export default function SocialPlatform() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="asset-classes" className="border-none">
+              <AccordionItem value="major-markets" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Boxes className="w-4 h-4" /> Asset Classes</div>
+                  <div className="flex items-center gap-3"><Globe className="w-4 h-4" /> Major Markets</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  {assetClasses.map(item => (
-                    <Link 
-                      key={item.id} 
-                      href={`/dashboard?market=${item.id}`} 
-                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
-                    >
-                      {getMarketIcon(item.id)} {item.label}
-                    </Link>
+                  {['forex', 'stocks', 'indices'].map(cat => (
+                    <div key={cat} className="mb-2">
+                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
+                      {getMarketsByCategory(cat as MarketCategory).map(item => (
+                        <Link 
+                          key={item.symbol} 
+                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
+                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
+                        >
+                          {getMarketIcon(cat as MarketCategory)} {item.display}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="instruments" className="border-none">
+              <AccordionItem value="alt-markets" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Target className="w-4 h-4" /> Instruments</div>
+                  <div className="flex items-center gap-3"><Boxes className="w-4 h-4" /> Alt & Digital</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  {instruments.map(item => (
-                    <Link 
-                      key={item.id} 
-                      href={`/dashboard?market=${item.id}`} 
-                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
-                    >
-                      {getMarketIcon(item.id)} {item.label}
-                    </Link>
+                  {['crypto', 'metals', 'commodities'].map(cat => (
+                    <div key={cat} className="mb-2">
+                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
+                      {getMarketsByCategory(cat as MarketCategory).map(item => (
+                        <Link 
+                          key={item.symbol} 
+                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
+                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
+                        >
+                          {getMarketIcon(cat as MarketCategory)} {item.display}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="specialty" className="border-none">
+              <AccordionItem value="fixed-deriv" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Waves className="w-4 h-4" /> Specialty</div>
+                  <div className="flex items-center gap-3"><Scale className="w-4 h-4" /> Fixed & Deriv</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  {specialties.map(item => (
-                    <Link 
-                      key={item.id} 
-                      href={`/dashboard?market=${item.id}`} 
-                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
-                    >
-                      {getMarketIcon(item.id)} {item.label}
-                    </Link>
+                  {['bonds', 'futures'].map(cat => (
+                    <div key={cat} className="mb-2">
+                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
+                      {getMarketsByCategory(cat as MarketCategory).map(item => (
+                        <Link 
+                          key={item.symbol} 
+                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
+                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
+                        >
+                          {getMarketIcon(cat as MarketCategory)} {item.display}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </AccordionContent>
               </AccordionItem>
