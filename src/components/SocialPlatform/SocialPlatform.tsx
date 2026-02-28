@@ -2,7 +2,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/navigation";
 import { 
   Search,
   Sun,
@@ -19,7 +18,19 @@ import {
   ChevronUp,
   ChevronDown,
   Bell,
-  MessageSquare
+  MessageSquare,
+  Sparkles,
+  Grid2X2,
+  Users,
+  Navigation,
+  LineChart,
+  Info,
+  Eye,
+  Scale,
+  FileText,
+  ShieldAlert,
+  Lock,
+  Menu
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -85,49 +96,95 @@ export default function SocialPlatform() {
     { tag: "#insightflow", count: "2.3k posts" },
   ];
 
+  const navItemClass = "flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
+  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 px-4 uppercase";
+
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
-      {/* 1. Independent Scroll Area: Left Sidebar Navigation */}
-      <div className="w-72 border-r border-white/10 flex flex-col bg-black/80 backdrop-blur-xl shrink-0">
-        <div className="p-8">
-          <div className="text-2xl font-black tracking-tighter text-primary flex items-center gap-2">
-            <TrendingUp className="w-6 h-6" />
-            INSIGHTFLOW
-          </div>
+      {/* 1. Independent Scroll Area: Left Sidebar Navigation (Restored structure) */}
+      <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0">
+        <div className="p-6 flex items-center gap-3 border-b border-white/5 mb-4">
+          <Menu className="w-5 h-5 text-indigo-500" />
+          <div className="text-[12px] font-black tracking-[0.3em] text-indigo-500 uppercase">Navigation</div>
         </div>
 
         <ScrollArea className="flex-1 px-4">
-          <div className="space-y-2 pb-8">
-            <div className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground/50 mb-4 px-4 uppercase">Navigation</div>
-            
-            <a href="/intelligence" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors group">
-              <Globe className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-semibold">Intelligence Interface</span>
-            </a>
+          <div className="space-y-6 pb-8">
+            {/* WORKSPACE SECTION */}
+            <div>
+              <div className={sectionLabelClass}>Workspace</div>
+              <div className="space-y-1">
+                <a href="/dashboard?mode=minimal" className={navItemClass}>
+                  <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Standard View</span>
+                </a>
+                <a href="/dashboard?mode=focus" className={navItemClass}>
+                  <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-indigo-400">Neuro Mode</span>
+                </a>
+                <a href="/dashboard?mode=quad" className={navItemClass}>
+                  <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-cyan-400">Modes Hub</span>
+                </a>
+                <a href="/" className={navItemClass}>
+                  <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
+                </a>
+              </div>
+            </div>
 
-            <a href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 transition-colors group">
-              <LayoutDashboard className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-              <span className="text-sm font-semibold">Standard Dashboard</span>
-            </a>
+            {/* TOOLS SECTION */}
+            <div>
+              <div className={sectionLabelClass}>Tools</div>
+              <div className="space-y-1">
+                <a href="/dashboard" className={navItemClass}>
+                  <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Charts Hub</span>
+                </a>
+                <a href="/intelligence" className={navItemClass}>
+                  <TrendingUp className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
+                </a>
+              </div>
+            </div>
 
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="neuro" className="border-none">
-                <AccordionTrigger className="hover:no-underline px-4 py-3 text-sm font-bold text-white hover:text-primary transition-colors">
-                  <div className="flex items-center gap-3"><Brain className="w-5 h-5 text-primary" /> Neuro Profiles</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-2 pl-6 space-y-1">
-                  {NEURO_PROFILES.map((profile) => (
-                    <a 
-                      key={profile.id} 
-                      href={`/dashboard?profile=${profile.id}`} 
-                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-white transition-colors"
-                    >
-                      <Zap className="w-3 h-3 text-yellow-500" /> {profile.label}
-                    </a>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
+            {/* PLATFORM SECTION */}
+            <div>
+              <div className={sectionLabelClass}>Platform</div>
+              <div className="space-y-1">
+                <div className={navItemClass}>
+                  <Info className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Mission</span>
+                </div>
+                <div className={navItemClass}>
+                  <Eye className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Transparency</span>
+                </div>
+                <div className={navItemClass}>
+                  <Scale className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Governance</span>
+                </div>
+                <div className={navItemClass}>
+                  <FileText className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Constitution</span>
+                </div>
+              </div>
+            </div>
+
+            {/* LEGAL SECTION */}
+            <div>
+              <div className={sectionLabelClass}>Legal</div>
+              <div className="space-y-1">
+                <div className={navItemClass}>
+                  <ShieldAlert className="w-5 h-5 text-red-500" />
+                  <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
+                </div>
+                <div className={navItemClass}>
+                  <Lock className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Compliance</span>
+                </div>
+              </div>
+            </div>
           </div>
         </ScrollArea>
       </div>
@@ -135,7 +192,7 @@ export default function SocialPlatform() {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 bg-transparent">
         {/* Header Bar */}
-        <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40">
+        <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md">
           <div className="flex-1 max-w-xl relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input 
@@ -152,26 +209,27 @@ export default function SocialPlatform() {
               <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
                 <MessageSquare className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
+              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 relative">
                 <Bell className="w-4 h-4" />
+                <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border border-black" />
               </Button>
             </div>
-            <div className="flex items-center gap-3">
-              <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black">
+            <div className="flex items-center gap-3 cursor-pointer group">
+              <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black group-hover:ring-primary transition-all">
                 <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
                 <AvatarFallback>MA</AvatarFallback>
               </Avatar>
               <div className="hidden lg:flex flex-col">
-                <span className="text-xs font-bold text-white">Mike</span>
-                <span className="text-[10px] font-black text-muted-foreground uppercase">Andrew</span>
+                <span className="text-xs font-bold text-white">Mike Andrew</span>
+                <span className="text-[9px] font-black text-primary uppercase tracking-widest">Premium User</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 2. Independent Scroll Area: Middle Feed */}
+        {/* 2. Independent Scroll Area: Middle Feed (Wrapped in NeonBoards) */}
         <ScrollArea className="flex-1 p-8">
-          <div className="w-full max-w-2xl mx-auto space-y-12 pb-20">
+          <div className="w-full max-w-2xl mx-auto space-y-10 pb-20">
             {posts.map((post) => (
               <NeonBoard key={post.id} className="w-full">
                 <CardHeader className="p-6">
@@ -186,12 +244,12 @@ export default function SocialPlatform() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="px-8 py-6 bg-[#070b16]/80 border-y border-white/5">
+                <CardContent className="px-8 py-6 bg-[#070b16]/90 border-y border-white/5">
                   <p className="text-lg leading-relaxed text-white/90 font-medium">
                     {post.text}
                   </p>
                 </CardContent>
-                <CardFooter className="px-8 py-4 flex gap-8 items-center bg-[#070b16]">
+                <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
                   <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors group/btn">
                     <Heart className="w-5 h-5 group-hover/btn:fill-current" />
                     <span className="text-xs font-black">2.4K</span>
@@ -201,8 +259,8 @@ export default function SocialPlatform() {
                     <span className="text-xs font-black">128</span>
                   </button>
                   <div className="ml-auto">
-                     <a href="/intelligence" className="text-xs font-black text-primary flex items-center gap-1 hover:underline">
-                        ANALYZE <ArrowRight className="w-3 h-3" />
+                     <a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">
+                        Analyze Intel <ArrowRight className="w-3.5 h-3.5" />
                      </a>
                   </div>
                 </CardFooter>
@@ -212,12 +270,12 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar - Complex Structure with Independent Scrolling */}
-      <div className="w-80 border-l border-white/10 flex flex-col bg-black/80 backdrop-blur-xl shrink-0">
+      {/* Right Sidebar - Restored Multi-Layer Independent Scrolling */}
+      <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0">
         <div className="flex-1 flex flex-col divide-y divide-white/10">
           
           {/* 3. Independent Scroll Area: Online Friends */}
-          <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-[1.2] flex flex-col min-h-0">
             <div className="px-8 py-6 flex items-center justify-between">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Online Friends</div>
               <div className="flex flex-col gap-1">
@@ -299,4 +357,3 @@ export default function SocialPlatform() {
     </div>
   );
 }
-
