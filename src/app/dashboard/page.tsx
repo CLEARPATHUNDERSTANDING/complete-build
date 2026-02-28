@@ -1,7 +1,8 @@
+
 "use client"
 
 import * as React from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { ViewMode, VisualProfile } from "@/lib/dashboard-types"
 import { MarketPanel } from "@/components/dashboard/MarketPanel"
 import { NewsPanel } from "@/components/dashboard/NewsPanel"
@@ -20,7 +21,9 @@ import {
   Maximize2,
   Brain,
   Grid2X2,
-  Rows
+  Rows,
+  Activity,
+  LineChart
 } from "lucide-react"
 import Link from "next/link"
 import {
@@ -48,19 +51,29 @@ import { BackToDashboard } from "@/components/nav/BackToDashboard"
 
 export default function DashboardPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const profileParam = searchParams.get('profile') as NeuroProfileId;
+  const marketParam = searchParams.get('market') || 'stocks';
+  const symbolParam = searchParams.get('symbol') || 'AAPL';
   
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
   const [layoutStyle, setLayoutStyle] = React.useState<'grid' | 'stack'>('grid');
   const [timeframe, setTimeframe] = React.useState<any>("1h");
+  const [selectedSymbol, setSelectedSymbol] = React.useState(symbolParam);
 
   React.useEffect(() => {
     if (profileParam && profileParam !== selectedProfileId) {
       setSelectedProfileId(profileParam);
     }
   }, [profileParam]);
+
+  React.useEffect(() => {
+    if (symbolParam !== selectedSymbol) {
+      setSelectedSymbol(symbolParam);
+    }
+  }, [symbolParam]);
 
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
 
@@ -70,6 +83,14 @@ export default function DashboardPage() {
     contrast: 'standard',
     fontScaling: 1,
   });
+
+  const handleSymbolSelect = (symbol: string) => {
+    setSelectedSymbol(symbol);
+    // Update URL without refreshing to keep state in sync for potential refreshes
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('symbol', symbol);
+    router.replace(`/dashboard?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <div className={`min-h-screen bg-background flex flex-col transition-all duration-500 ${visualProfile.contrast === 'high' ? 'contrast-125 saturate-150' : ''} ${visualProfile.motion === 'reduced' ? 'motion-reduce' : ''}`}>
@@ -90,6 +111,11 @@ export default function DashboardPage() {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-muted rounded-full border border-primary/10 mr-2">
+            <LineChart className="w-4 h-4 text-primary" />
+            <span className="text-xs font-bold uppercase tracking-wider">{selectedSymbol}</span>
+          </div>
+
           {mode === 'quad' && (
             <Button 
               variant="outline" 
@@ -107,8 +133,6 @@ export default function DashboardPage() {
             {neuroProfile.label}
           </Button>
 
-          <Button variant="outline" size="icon" className="rounded-full w-8 h-8"><Info className="w-4 h-4" /></Button>
-          
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full w-8 h-8">
@@ -194,12 +218,12 @@ export default function DashboardPage() {
               <Zap className="w-5 h-5 text-primary mt-1" />
               <div>
                 <h4 className="font-bold text-primary mb-1">Ultra-Focus Mode</h4>
-                <p className="text-sm text-muted-foreground">Reduced noise, high-contrast assets, and single-task orientation.</p>
+                <p className="text-sm text-muted-foreground">Reduced noise, high-contrast assets, and single-task orientation for {selectedSymbol}.</p>
               </div>
             </div>
             <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
               <TimeframeBar active={timeframe} onChange={setTimeframe} neuroModeId={selectedProfileId} />
-              <CandlestickChart neuroModeId={selectedProfileId} title="Primary Analysis" height={600} />
+              <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={600} />
             </NeuroGlowCard>
           </div>
         )}
@@ -208,15 +232,19 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
             <div className="flex flex-col gap-6">
               <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
-                <CandlestickChart neuroModeId={selectedProfileId} title="Feed Alpha" height={450} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={450} />
               </NeuroGlowCard>
-              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><MarketPanel /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3 overflow-hidden">
+                <MarketPanel type={marketParam} onSelect={handleSymbolSelect} activeSymbol={selectedSymbol} />
+              </div>
             </div>
             <div className="flex flex-col gap-6 border-l-2 border-dashed border-primary/20 pl-6">
               <NeuroGlowCard neuroModeId={selectedProfileId} className="flex-1">
-                <CandlestickChart neuroModeId={selectedProfileId} title="Feed Beta" height={450} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={`${selectedSymbol} (Alt)`} height={450} />
               </NeuroGlowCard>
-              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3 overflow-hidden">
+                <NewsPanel />
+              </div>
             </div>
           </div>
         )}
@@ -225,16 +253,16 @@ export default function DashboardPage() {
           <div className={`h-full ${layoutStyle === 'stack' ? 'overflow-y-auto pr-2 custom-scrollbar' : ''}`}>
             <div className={layoutStyle === 'grid' ? "grid grid-cols-1 md:grid-cols-2 gap-4 h-full" : "flex flex-col gap-4 pb-10"}>
               <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
-                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 01" height={400} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={400} />
               </NeuroGlowCard>
               <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
-                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 02" height={400} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={`${selectedSymbol} Vol`} height={400} />
               </NeuroGlowCard>
               <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
-                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 03" height={400} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={`${selectedSymbol} Momentum`} height={400} />
               </NeuroGlowCard>
               <NeuroGlowCard neuroModeId={selectedProfileId} className={layoutStyle === 'grid' ? "h-full" : "h-[450px]"}>
-                <CandlestickChart neuroModeId={selectedProfileId} title="Stream 04" height={400} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={`${selectedSymbol} Flux`} height={400} />
               </NeuroGlowCard>
             </div>
           </div>
@@ -244,12 +272,16 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
             <div className="lg:col-span-8">
               <NeuroGlowCard neuroModeId={selectedProfileId} className="h-full">
-                <CandlestickChart neuroModeId={selectedProfileId} title="Market Overview" height={600} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={600} />
               </NeuroGlowCard>
             </div>
             <div className="lg:col-span-4 flex flex-col gap-6">
-              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1"><MarketPanel /></div>
-              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3"><NewsPanel /></div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm flex-1 overflow-hidden">
+                <MarketPanel type={marketParam} onSelect={handleSymbolSelect} activeSymbol={selectedSymbol} />
+              </div>
+              <div className="bg-card rounded-2xl border p-2 shadow-sm h-1/3 overflow-hidden">
+                <NewsPanel />
+              </div>
             </div>
           </div>
         )}
@@ -258,7 +290,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 h-full">
             <div className="col-span-2 row-span-2">
               <NeuroGlowCard neuroModeId={selectedProfileId} className="h-full">
-                <CandlestickChart neuroModeId={selectedProfileId} title="Pro Analytics" height={600} />
+                <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={600} />
               </NeuroGlowCard>
             </div>
             <div className="col-span-2 bg-card rounded-xl border p-2 shadow-sm overflow-hidden">
@@ -281,6 +313,7 @@ export default function DashboardPage() {
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Exchange: Connected</span>
           <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Feed: Real-time</span>
+          <span className="flex items-center gap-1.5 text-primary"><Activity className="w-3 h-3" /> Analyzing: {selectedSymbol}</span>
         </div>
         <div>
           Structure v1.5.0 • Physics Enabled • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}

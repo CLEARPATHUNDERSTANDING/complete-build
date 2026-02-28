@@ -35,7 +35,14 @@ import {
   Globe,
   Coins,
   History,
-  Scale
+  Scale,
+  CandlestickChart as ChartIcon,
+  ChevronRight,
+  Target,
+  Waves,
+  Cpu,
+  Boxes,
+  Briefcase
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -107,7 +114,7 @@ export default function SocialPlatform() {
         <div className="logo">ULTRANET</div>
 
         <div className="side-wrapper overflow-hidden flex flex-col">
-          <div className="side-title">MENU</div>
+          <div className="side-title">CORE INTERFACE</div>
           <div className="side-menu fuchsia-scroll flex-1">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="overview" className="border-none">
@@ -123,11 +130,11 @@ export default function SocialPlatform() {
 
               <AccordionItem value="neuro" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-primary hover:text-primary/80">
-                  <div className="flex items-center gap-3"><Brain className="w-4 h-4" /> Neuro</div>
+                  <div className="flex items-center gap-3"><Brain className="w-4 h-4" /> Neuro Analytics</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
                   <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-bold text-muted-foreground hover:text-primary">
-                    <Layout className="w-3 h-3" /> All Profiles
+                    <ChartIcon className="w-3 h-3" /> Standard View
                   </Link>
                   {NEURO_PROFILES.slice(0, 5).map((profile) => (
                     <Link 
@@ -138,46 +145,40 @@ export default function SocialPlatform() {
                       <Zap className="w-3 h-3" /> {profile.label}
                     </Link>
                   ))}
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground/60 hover:text-primary">
-                    <MoreHorizontal className="w-3 h-3" /> More
-                  </Link>
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="markets" className="border-none">
+              <AccordionItem value="asset-classes" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><BarChart3 className="w-4 h-4" /> Markets</div>
+                  <div className="flex items-center gap-3"><Boxes className="w-4 h-4" /> Asset Classes</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <Globe className="w-3 h-3" /> Forex
-                  </Link>
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <History className="w-3 h-3" /> Futures
-                  </Link>
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <Scale className="w-3 h-3" /> Bonds
-                  </Link>
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <Coins className="w-3 h-3" /> Crypto
-                  </Link>
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <TrendingUp className="w-3 h-3" /> Stocks
-                  </Link>
-                  <Link href="/dashboard" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary">
-                    <ImageIcon className="w-3 h-3" /> Commodities
-                  </Link>
+                  <Link href="/dashboard?market=forex" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Globe className="w-3 h-3" /> Forex</Link>
+                  <Link href="/dashboard?market=stocks" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><TrendingUp className="w-3 h-3" /> Equities</Link>
+                  <Link href="/dashboard?market=bonds" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Scale className="w-3 h-3" /> Bonds</Link>
+                  <Link href="/dashboard?market=commodities" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><ImageIcon className="w-3 h-3" /> Commodities</Link>
+                  <Link href="/dashboard?market=crypto" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Coins className="w-3 h-3" /> Crypto</Link>
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="assets" className="border-none">
+              <AccordionItem value="instruments" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><HardDrive className="w-4 h-4" /> Assets</div>
+                  <div className="flex items-center gap-3"><Target className="w-4 h-4" /> Instruments</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><FileText /> Files</a>
-                  <a href="#"><ImageIcon /> Gallery</a>
-                  <a href="#"><Calendar /> Events</a>
+                  <Link href="/dashboard?market=futures" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><History className="w-3 h-3" /> Futures</Link>
+                  <Link href="/dashboard?market=options" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Cpu className="w-3 h-3" /> Options</Link>
+                  <Link href="/dashboard?market=etfs" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Briefcase className="w-3 h-3" /> ETFs</Link>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="specialty" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
+                  <div className="flex items-center gap-3"><Waves className="w-4 h-4" /> Specialty</div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-0 pl-2">
+                  <Link href="/dashboard?market=volatility" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Activity className="w-3 h-3" /> Volatility</Link>
+                  <Link href="/dashboard?market=carbon" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Globe className="w-3 h-3" /> Carbon</Link>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -185,17 +186,17 @@ export default function SocialPlatform() {
         </div>
 
         <div className="side-wrapper overflow-hidden flex flex-col">
-          <div className="side-title">YOUR FAVOURITES</div>
+          <div className="side-title">PERSONAL DECK</div>
           <div className="side-menu fuchsia-scroll flex-1">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="personal" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Star className="w-4 h-4" /> Personal</div>
+                  <div className="flex items-center gap-3"><Star className="w-4 h-4" /> Favourites</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Bookmark /> Favourites</a>
+                  <a href="#"><Bookmark /> Saved Assets</a>
                   <a href="#"><MessageCircle /> Messages</a>
-                  <a href="#"><Heart /> Like</a>
+                  <a href="#"><Heart /> Following</a>
                 </AccordionContent>
               </AccordionItem>
 
@@ -204,14 +205,13 @@ export default function SocialPlatform() {
                   <div className="flex items-center gap-3"><Settings className="w-4 h-4" /> System</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Camera /> Photo</a>
-                  <a href="#"><Star /> Ratings</a>
-                  <a href="#"><HardDrive /> Storage</a>
-                  <a href="#"><Bell /> Alerts</a>
+                  <a href="#"><Camera /> Identity</a>
+                  <a href="#"><HardDrive /> Data Bank</a>
+                  <a href="#"><Bell /> Alert Hub</a>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-            <a href="#" className="mt-4"><Plus /> Custom</a>
+            <a href="#" className="mt-4"><Plus /> Custom Layer</a>
           </div>
         </div>
       </div>
@@ -221,7 +221,7 @@ export default function SocialPlatform() {
         <div className="search-bar">
           <div className="flex items-center w-full relative">
             <Search className="absolute left-0 w-4 h-4 text-muted-foreground" />
-            <input type="text" placeholder="Search" className="pl-8" />
+            <input type="text" placeholder="Search markets or analysis..." className="pl-8" />
           </div>
           <button
             type="button"
@@ -295,15 +295,15 @@ export default function SocialPlatform() {
 
             <div className="timeline-right">
               <div className="timeline-right-header">
-                <div className="timeline-right-header-title">Stories</div>
+                <div className="timeline-right-header-title">Market Streams</div>
               </div>
 
               <div className="story">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="story-card">
+                  <div key={i} className="story-card group">
                     {getImgUrl(`story-${i}`) ? (
                       <Image
-                        className="story-card-image object-cover"
+                        className="story-card-image object-cover group-hover:scale-110 transition-transform"
                         src={getImgUrl(`story-${i}`)!}
                         alt={`Story ${i}`}
                         fill
@@ -323,14 +323,14 @@ export default function SocialPlatform() {
               </div>
 
               <div className="timeline-right-header mt-8">
-                <div className="timeline-right-header-title">Suggested</div>
+                <div className="timeline-right-header-title">Suggested Traders</div>
               </div>
 
               <div className="suggested">
                 {[
-                  { name: "Tom Holland", role: "Developer", id: "th" },
-                  { name: "Selena Gomez", role: "UX Designer", id: "sg" },
-                  { name: "Chris Evans", role: "UI Architect", id: "ce" }
+                  { name: "Tom Holland", role: "Macro Expert", id: "th" },
+                  { name: "Selena Gomez", role: "Quant Architect", id: "sg" },
+                  { name: "Chris Evans", role: "Scalp Specialist", id: "ce" }
                 ].map((user) => (
                   <div key={user.id} className="suggested-user">
                     <Avatar className="w-10 h-10">
@@ -380,7 +380,7 @@ export default function SocialPlatform() {
         </div>
 
         <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">ONLINE FRIENDS</div>
+          <div className="side-title">CONNECTED TRADERS</div>
           <div className="side-menu orange-scroll flex-1">
             {["Tom Holland", "Selena Gomez", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
               <a href="#" key={name}>
@@ -418,7 +418,7 @@ export default function SocialPlatform() {
         </div>
 
         <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">TRENDING TOPICS</div>
+          <div className="side-title">TRENDING ALPHA</div>
           <div className="side-menu orange-scroll flex-1">
             {[
               { tag: "#neurotrading", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
