@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -30,9 +30,7 @@
 }
 
 html, body {
-  background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
-  background-attachment: fixed !important;
-  background-size: cover !important;
+  background: black !important;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -41,21 +39,7 @@ html, body {
   overflow-x: hidden;
 }
 
-body::before, body::after,
-main::before, main::after,
-section::before, section::after,
-div::before, div::after {
-  background-image: none !important;
-  display: none !important;
-}
-
-* {
-  background-image: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* CUSTOM NEON SCROLLBARS: Red/Orange Fluid Tracks with Indigo Edges & Solid Indigo Roller */
+/* CUSTOM NEON SCROLLBARS: SOLID Indigo Roller on Fluid Red/Orange Track */
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
@@ -68,24 +52,15 @@ div::before, div::after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #6366f1; 
+  background: #6366f1 !important; /* SOLID INDIGO */
   border-radius: 7px;
-  box-shadow: 0 0 20px rgba(99, 102, 241, 1), 0 0 10px rgba(99, 102, 241, 0.8);
+  box-shadow: 0 0 25px rgba(99, 102, 241, 1), 0 0 10px rgba(99, 102, 241, 0.8);
   border: none;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #818cf8;
-  box-shadow: 0 0 25px rgba(99, 102, 241, 1);
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  background: #818cf8 !important;
+  box-shadow: 0 0 35px rgba(99, 102, 241, 1);
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -99,6 +74,15 @@ div::before, div::after {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #6366f1;
+  background: #6366f1 !important;
   border-radius: 7px;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

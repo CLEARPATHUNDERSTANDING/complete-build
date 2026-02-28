@@ -3,6 +3,10 @@
 import React from "react";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 
+/**
+ * 3x Thick Neon Boarder Wrap (10px) with mathematically consistent radii.
+ * Outer: rounded-[32px] | Inset: 10px | Inner: rounded-[22px]
+ */
 export function NeuroGlowCard({
   neuroModeId,
   children,
@@ -17,29 +21,30 @@ export function NeuroGlowCard({
   return (
     <div
       className={[
-        "relative rounded-[22px] p-[2px] transition-all duration-700",
-        "shadow-[0_0_0_1px_rgba(255,255,255,0.06)]",
+        "relative overflow-hidden rounded-[32px] transition-all duration-700",
         className,
       ].join(" ")}
       style={{
+        padding: "10px",
         background: `linear-gradient(135deg, ${p.borderA}, ${p.borderB})`,
+        boxShadow: p.glow !== "Low" ? `0 0 50px ${p.borderA}66, 0 0 80px ${p.borderB}4D` : "none",
       }}
     >
+      {/* Glow clipping overlay */}
       <div
-        className="rounded-[20px] overflow-hidden h-full relative"
+        className="pointer-events-none absolute inset-0 rounded-[32px]"
+        style={{
+          boxShadow: p.glow !== "Low" ? "inset 0 0 24px rgba(255,255,255,0.06), inset 0 0 40px rgba(0,229,255,0.08)" : "none",
+        }}
+      />
+
+      {/* Inner panel with consistent radius subtraction */}
+      <div
+        className="relative rounded-[22px] overflow-hidden h-full"
         style={{
           background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`,
         }}
       >
-        {/* inner glow - only show for Medium and High glow profiles */}
-        {p.glow !== "Low" && (
-          <div
-            className="absolute inset-0 rounded-[22px] pointer-events-none"
-            style={{
-              boxShadow: `0 0 28px ${p.borderA}55, 0 0 42px ${p.borderB}33`,
-            }}
-          />
-        )}
         <div className="relative h-full">{children}</div>
       </div>
     </div>
