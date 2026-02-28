@@ -5,16 +5,20 @@ type NeonBoardProps = {
   className?: string;
 };
 
+/**
+ * High-intensity NeonBoard component with a 3x thick wrap.
+ * Features a 3-tone diagnostic gradient and deep layered shadows.
+ */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
     <div
-      className={`relative rounded-[28px] p-[2.5px] ${className}`}
+      className={`relative rounded-[32px] p-[8px] transition-all duration-500 ${className}`}
       style={{
         background: "linear-gradient(135deg, #7c3aed 0%, #00e5ff 50%, #f43f5e 100%)",
-        boxShadow: "0 0 25px rgba(0,229,255,0.15), 0 0 50px rgba(124,58,237,0.1)",
+        boxShadow: "0 0 40px rgba(124,58,237,0.5), 0 0 70px rgba(0,229,255,0.4), 0 0 100px rgba(244,63,94,0.3)",
       }}
     >
-      <div className="rounded-[25.5px] bg-[#070b16] h-full overflow-hidden">
+      <div className="rounded-[24px] bg-[#070b16] h-full overflow-hidden relative">
         {children}
       </div>
     </div>

@@ -6,9 +6,9 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Absolute Black */
+    --background: 0 0% 0%; 
     --foreground: 0 0% 100%;
-    --card: 0 0% 7%; /* Dark Charcoal */
+    --card: 0 0% 7%; 
     --card-foreground: 0 0% 100%;
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 100%;
@@ -29,7 +29,6 @@
   }
 }
 
-/* NUCLEAR RESET: Force gradient and kill all legacy backgrounds/blurs */
 html, body {
   background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
   background-attachment: fixed !important;
@@ -42,7 +41,6 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Strip all pseudo-elements that might hold legacy images */
 body::before, body::after,
 main::before, main::after,
 section::before, section::after,
@@ -58,24 +56,23 @@ div::before, div::after {
 }
 
 /* CUSTOM NEON SCROLLBARS: Red/Orange Fluid with Indigo Edges */
-/* These are the thick, visible bars to prevent anxiety and ensure accessibility */
 ::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 ::-webkit-scrollbar-track {
   background: #000000;
-  border-left: 2px solid #6366f1; /* Neon Indigo Edge Left */
-  border-right: 2px solid #6366f1; /* Neon Indigo Edge Right */
+  border-left: 2px solid #6366f1; 
+  border-right: 2px solid #6366f1; 
   box-shadow: inset 0 0 10px rgba(99, 102, 241, 0.2);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%); /* Neon Red to Orange Fluid */
-  border-radius: 6px;
-  box-shadow: 0 0 15px rgba(255, 0, 60, 0.6), 0 0 5px rgba(255, 138, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%); 
+  border-radius: 7px;
+  box-shadow: 0 0 15px rgba(255, 0, 60, 0.8), 0 0 5px rgba(255, 138, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -92,9 +89,8 @@ div::before, div::after {
   to { opacity: 1; }
 }
 
-/* Ensure the scrollarea viewports allow content to overflow correctly */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 12px;
+  width: 14px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
@@ -105,5 +101,5 @@ div::before, div::after {
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%);
-  border-radius: 6px;
+  border-radius: 7px;
 }
