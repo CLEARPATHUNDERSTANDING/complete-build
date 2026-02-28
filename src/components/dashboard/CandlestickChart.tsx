@@ -6,25 +6,38 @@ import dynamic from "next/dynamic";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
 
+// Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-type ApexCandlePoint = { x: number; y: [number, number, number, number] };
+/**
+ * ApexCandlePoint matches the TwelveData OHLC format:
+ * x: Timestamp (ms)
+ * y: [Open, High, Low, Close]
+ */
+export type ApexCandlePoint = { 
+  x: number; 
+  y: [number, number, number, number] 
+};
 
-export function CandlestickChart({
-  neuroModeId,
-  title = "Market Stream",
-  height = 350,
-}: {
+interface CandlestickChartProps {
   neuroModeId: NeuroProfileId;
   title?: string;
   height?: number;
-}) {
+  data?: ApexCandlePoint[]; // External data feed (e.g., from TwelveData Tool)
+}
+
+export function CandlestickChart({
+  neuroModeId,
+  title = "TwelveData Feed",
+  height = 350,
+  data,
+}: CandlestickChartProps) {
   const profile = getProfile(neuroModeId);
   const p = profile.personality;
   const physics = chartPhysics(p);
 
-  // Mock data for demonstration
-  const mockData: ApexCandlePoint[] = [
+  // Fallback Mock Data if no external TwelveData feed is provided
+  const mockData: ApexCandlePoint[] = useMemo(() => [
     { x: new Date(2023, 1, 1).getTime(), y: [6629.81, 6650.5, 6623.04, 6633.33] },
     { x: new Date(2023, 1, 2).getTime(), y: [6632.01, 6643.59, 6620, 6630.11] },
     { x: new Date(2023, 1, 3).getTime(), y: [6630.71, 6648.95, 6623.34, 6635.65] },
@@ -37,9 +50,12 @@ export function CandlestickChart({
     { x: new Date(2023, 1, 10).getTime(), y: [6645.4, 6660, 6640.12, 6655.4] },
     { x: new Date(2023, 1, 11).getTime(), y: [6655.4, 6670, 6650.12, 6665.4] },
     { x: new Date(2023, 1, 12).getTime(), y: [6665.4, 6680, 6660.12, 6675.4] }
-  ];
+  ], []);
 
-  const series = useMemo(() => [{ name: title, data: mockData }], [title]);
+  const series = useMemo(() => [{ 
+    name: title, 
+    data: data || mockData 
+  }], [title, data, mockData]);
 
   const options = useMemo<any>(() => {
     const glowCss = `drop-shadow(0 0 ${Math.round(
