@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -61,6 +60,7 @@ import {
 } from "@/components/ui/accordion";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
+import { MARKET_CATALOG, getMarketsByCategory } from "@/data/marketCatalog";
 
 export default function SocialPlatform() {
   const [leftSide, setLeftSide] = useState(false);
@@ -93,6 +93,26 @@ export default function SocialPlatform() {
       text: "City lights and urban rhythms. There's something magical about the blue hour in a bustling metropolis. Every window tells a different story. I've been spending my evenings capturing the transition from day to night across the skyline. The perspective changes completely when the lights come on.",
     }
   ];
+
+  const assetClasses = getMarketsByCategory('asset-class');
+  const instruments = getMarketsByCategory('instrument');
+  const specialties = getMarketsByCategory('specialty');
+
+  const getMarketIcon = (id: string) => {
+    switch (id) {
+      case 'forex': return <Globe className="w-3 h-3" />;
+      case 'equities': return <TrendingUp className="w-3 h-3" />;
+      case 'bonds': return <Scale className="w-3 h-3" />;
+      case 'crypto': return <Coins className="w-3 h-3" />;
+      case 'commodities': return <ImageIcon className="w-3 h-3" />;
+      case 'real-estate': return <Home className="w-3 h-3" />;
+      case 'futures': return <History className="w-3 h-3" />;
+      case 'options': return <Cpu className="w-3 h-3" />;
+      case 'etfs': return <Briefcase className="w-3 h-3" />;
+      case 'volatility': return <Activity className="w-3 h-3" />;
+      default: return <Zap className="w-3 h-3" />;
+    }
+  };
 
   return (
     <div className={`container ${isDarkMode ? 'dark' : ''}`}>
@@ -153,11 +173,15 @@ export default function SocialPlatform() {
                   <div className="flex items-center gap-3"><Boxes className="w-4 h-4" /> Asset Classes</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <Link href="/dashboard?market=forex" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Globe className="w-3 h-3" /> Forex</Link>
-                  <Link href="/dashboard?market=stocks" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><TrendingUp className="w-3 h-3" /> Equities</Link>
-                  <Link href="/dashboard?market=bonds" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Scale className="w-3 h-3" /> Bonds</Link>
-                  <Link href="/dashboard?market=commodities" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><ImageIcon className="w-3 h-3" /> Commodities</Link>
-                  <Link href="/dashboard?market=crypto" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Coins className="w-3 h-3" /> Crypto</Link>
+                  {assetClasses.map(item => (
+                    <Link 
+                      key={item.id} 
+                      href={`/dashboard?market=${item.id}`} 
+                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
+                    >
+                      {getMarketIcon(item.id)} {item.label}
+                    </Link>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
 
@@ -166,9 +190,15 @@ export default function SocialPlatform() {
                   <div className="flex items-center gap-3"><Target className="w-4 h-4" /> Instruments</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <Link href="/dashboard?market=futures" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><History className="w-3 h-3" /> Futures</Link>
-                  <Link href="/dashboard?market=options" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Cpu className="w-3 h-3" /> Options</Link>
-                  <Link href="/dashboard?market=etfs" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Briefcase className="w-3 h-3" /> ETFs</Link>
+                  {instruments.map(item => (
+                    <Link 
+                      key={item.id} 
+                      href={`/dashboard?market=${item.id}`} 
+                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
+                    >
+                      {getMarketIcon(item.id)} {item.label}
+                    </Link>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
 
@@ -177,8 +207,15 @@ export default function SocialPlatform() {
                   <div className="flex items-center gap-3"><Waves className="w-4 h-4" /> Specialty</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <Link href="/dashboard?market=volatility" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Activity className="w-3 h-3" /> Volatility</Link>
-                  <Link href="/dashboard?market=carbon" className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"><Globe className="w-3 h-3" /> Carbon</Link>
+                  {specialties.map(item => (
+                    <Link 
+                      key={item.id} 
+                      href={`/dashboard?market=${item.id}`} 
+                      className="flex items-center gap-3 py-2 text-xs font-medium text-muted-foreground hover:text-primary"
+                    >
+                      {getMarketIcon(item.id)} {item.label}
+                    </Link>
+                  ))}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
