@@ -1,4 +1,3 @@
-
 import React from "react";
 
 type NeonBoardProps = {
@@ -9,15 +8,15 @@ type NeonBoardProps = {
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
     <div
-      className={`relative rounded-[30px] p-[3px] ${className}`}
+      className={`relative rounded-[28px] p-[2.5px] ${className}`}
       style={{
-        background:
-          "linear-gradient(135deg, #7c3aed 0%, #00e5ff 45%, #ff4fd8 75%, #78a6ff 100%)",
-        boxShadow:
-          "0 0 20px rgba(0,229,255,0.18), 0 0 35px rgba(255,79,216,0.14), 0 0 60px rgba(124,58,237,0.12)",
+        background: "linear-gradient(135deg, #7c3aed 0%, #00e5ff 50%, #f43f5e 100%)",
+        boxShadow: "0 0 25px rgba(0,229,255,0.15), 0 0 50px rgba(124,58,237,0.1)",
       }}
     >
-      <div className="rounded-[27px] bg-[#070b16] h-full overflow-hidden">{children}</div>
+      <div className="rounded-[25.5px] bg-[#070b16] h-full overflow-hidden">
+        {children}
+      </div>
     </div>
   );
 }

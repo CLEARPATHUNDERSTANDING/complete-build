@@ -1,10 +1,12 @@
 import React from "react";
 import NeonBoard from "./NeonBoard";
+import { X, Grid2X2 } from "lucide-react";
 
 type IntelFeedItem = {
   tag: string;
   time: string;
   title: string;
+  highlightedWord?: string;
 };
 
 const intelItems: IntelFeedItem[] = [
@@ -12,6 +14,7 @@ const intelItems: IntelFeedItem[] = [
     tag: "SYSTEM",
     time: "Just now",
     title: "Intelligence Interface Active",
+    highlightedWord: "Interface"
   },
   {
     tag: "NETWORK",
@@ -23,49 +26,58 @@ const intelItems: IntelFeedItem[] = [
 export default function IntelFeedBoard() {
   return (
     <NeonBoard className="w-full overflow-hidden">
-      <div className="px-5 pt-4">
-        <div className="mb-4 flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="bg-[#070b16]">
+        {/* Header Section */}
+        <div className="px-5 py-4 flex items-center justify-between border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="grid h-4 w-4 grid-cols-2 gap-[2px] opacity-50">
-              <span className="rounded-sm bg-white/35" />
-              <span className="rounded-sm bg-white/20" />
-              <span className="rounded-sm bg-white/20" />
-              <span className="rounded-sm bg-white/35" />
+            <div className="grid grid-cols-2 gap-[2px] opacity-40">
+              <span className="w-1 h-1 bg-white rounded-full" />
+              <span className="w-1 h-1 bg-white rounded-full" />
+              <span className="w-1 h-1 bg-white rounded-full" />
+              <span className="w-1 h-1 bg-white rounded-full" />
+              <span className="w-1 h-1 bg-white rounded-full" />
+              <span className="w-1 h-1 bg-white rounded-full" />
             </div>
-
-            <div className="text-[14px] font-semibold uppercase tracking-[0.22em] text-white/75">
+            <div className="text-[14px] font-black uppercase tracking-[0.25em] text-white/90">
               Intel Feed
             </div>
           </div>
-
-          <button className="text-xl text-white/70">×</button>
+          <button className="text-white/40 hover:text-white transition-colors">
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
-        <div className="space-y-5 rounded-[22px] bg-[#0a0e19] p-4">
+        {/* Content Section */}
+        <div className="p-5 space-y-8">
           {intelItems.map((item, index) => (
-            <div key={index} className={index !== intelItems.length - 1 ? "border-b border-white/10 pb-5" : ""}>
-              <div className="mb-3 flex items-center justify-between">
-                <span className="rounded-full border border-[#4028a8] bg-[#101424] px-3 py-1 text-[11px] font-semibold tracking-[0.18em] text-[#6e63ff]">
+            <div key={index} className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-black tracking-widest text-indigo-400 uppercase">
                   {item.tag}
                 </span>
-                <span className="text-[12px] text-white/55">{item.time}</span>
+                <span className="text-[11px] font-medium text-white/30 lowercase">
+                  {item.time}
+                </span>
               </div>
 
-              <div className="max-w-[230px] text-[17px] font-semibold leading-[1.25] text-white">
-                {item.title}
+              <div className="text-[19px] font-bold leading-tight text-white/95 tracking-tight">
+                {item.title.split(' ').map((word, i) => (
+                  <span 
+                    key={i} 
+                    className={word === item.highlightedWord ? "bg-cyan-500/30 text-cyan-200 px-1 rounded-sm" : ""}
+                  >
+                    {word}{' '}
+                  </span>
+                ))}
               </div>
+              
+              {index !== intelItems.length - 1 && (
+                <div className="pt-4 border-b border-white/5" />
+              )}
             </div>
           ))}
         </div>
       </div>
-
-      <div
-        className="mt-4 h-[140px] w-full"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(194,223,255,0.95) 0%, rgba(255,65,182,0.92) 55%, rgba(140,199,255,0.96) 100%)",
-        }}
-      />
     </NeonBoard>
   );
 }

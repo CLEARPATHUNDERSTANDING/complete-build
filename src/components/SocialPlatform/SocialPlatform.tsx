@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,14 +6,12 @@ import {
   Sun,
   Moon,
   Brain,
-  Globe,
   LayoutDashboard,
   MessageCircle,
   Heart,
   ArrowRight,
   TrendingUp,
   Zap,
-  Activity,
   ChevronUp,
   ChevronDown,
   Bell,
@@ -23,7 +20,6 @@ import {
   Grid2X2,
   Users,
   Navigation,
-  LineChart,
   Info,
   Eye,
   Scale,
@@ -35,17 +31,9 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { 
-  Accordion, 
-  AccordionContent, 
-  AccordionItem, 
-  AccordionTrigger 
-} from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import NeonBoard from "@/components/NeonBoard";
-import { cn } from "@/lib/utils";
 
 export default function SocialPlatform() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -101,7 +89,7 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
-      {/* 1. Independent Scroll Area: Left Sidebar Navigation (Restored structure) */}
+      {/* 1. Independent Scroll Area: Left Sidebar Navigation */}
       <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0">
         <div className="p-6 flex items-center gap-3 border-b border-white/5 mb-4">
           <Menu className="w-5 h-5 text-indigo-500" />
@@ -110,7 +98,6 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1 px-4">
           <div className="space-y-6 pb-8">
-            {/* WORKSPACE SECTION */}
             <div>
               <div className={sectionLabelClass}>Workspace</div>
               <div className="space-y-1">
@@ -133,7 +120,6 @@ export default function SocialPlatform() {
               </div>
             </div>
 
-            {/* TOOLS SECTION */}
             <div>
               <div className={sectionLabelClass}>Tools</div>
               <div className="space-y-1">
@@ -148,7 +134,6 @@ export default function SocialPlatform() {
               </div>
             </div>
 
-            {/* PLATFORM SECTION */}
             <div>
               <div className={sectionLabelClass}>Platform</div>
               <div className="space-y-1">
@@ -171,7 +156,6 @@ export default function SocialPlatform() {
               </div>
             </div>
 
-            {/* LEGAL SECTION */}
             <div>
               <div className={sectionLabelClass}>Legal</div>
               <div className="space-y-1">
@@ -189,9 +173,8 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Main Content Area */}
+      {/* 2. Independent Scroll Area: Main Content Area (Feed) */}
       <div className="flex-1 flex flex-col min-w-0 bg-transparent">
-        {/* Header Bar */}
         <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md">
           <div className="flex-1 max-w-xl relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -219,7 +202,7 @@ export default function SocialPlatform() {
                 <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
                 <AvatarFallback>MA</AvatarFallback>
               </Avatar>
-              <div className="hidden lg:flex flex-col">
+              <div className="hidden lg:flex flex-col text-left">
                 <span className="text-xs font-bold text-white">Mike Andrew</span>
                 <span className="text-[9px] font-black text-primary uppercase tracking-widest">Premium User</span>
               </div>
@@ -227,13 +210,12 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        {/* 2. Independent Scroll Area: Middle Feed (Wrapped in NeonBoards) */}
         <ScrollArea className="flex-1 p-8">
           <div className="w-full max-w-2xl mx-auto space-y-10 pb-20">
             {posts.map((post) => (
               <NeonBoard key={post.id} className="w-full">
                 <CardHeader className="p-6">
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 text-left">
                     <Avatar className="w-12 h-12 border-2 border-primary/20">
                       <AvatarImage src={post.avatar} />
                       <AvatarFallback>{post.user[0]}</AvatarFallback>
@@ -244,7 +226,7 @@ export default function SocialPlatform() {
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="px-8 py-6 bg-[#070b16]/90 border-y border-white/5">
+                <CardContent className="px-8 py-6 bg-[#070b16]/95 border-y border-white/5 text-left">
                   <p className="text-lg leading-relaxed text-white/90 font-medium">
                     {post.text}
                   </p>
@@ -252,11 +234,11 @@ export default function SocialPlatform() {
                 <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
                   <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors group/btn">
                     <Heart className="w-5 h-5 group-hover/btn:fill-current" />
-                    <span className="text-xs font-black">2.4K</span>
+                    <span className="text-xs font-black tracking-widest">2.4K</span>
                   </button>
                   <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors group/btn">
                     <MessageCircle className="w-5 h-5" />
-                    <span className="text-xs font-black">128</span>
+                    <span className="text-xs font-black tracking-widest">128</span>
                   </button>
                   <div className="ml-auto">
                      <a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">
@@ -270,11 +252,11 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar - Restored Multi-Layer Independent Scrolling */}
+      {/* Right Sidebar - 3rd, 4th, and 5th Independent Scroll Areas */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0">
         <div className="flex-1 flex flex-col divide-y divide-white/10">
           
-          {/* 3. Independent Scroll Area: Online Friends */}
+          {/* 3. Online Friends */}
           <div className="flex-[1.2] flex flex-col min-h-0">
             <div className="px-8 py-6 flex items-center justify-between">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Online Friends</div>
@@ -301,7 +283,7 @@ export default function SocialPlatform() {
             </ScrollArea>
           </div>
 
-          {/* 4. Independent Scroll Area: Latest Updates */}
+          {/* 4. Latest Updates */}
           <div className="flex-1 flex flex-col min-h-0">
             <div className="px-8 py-6 flex items-center justify-between">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Latest Updates</div>
@@ -310,7 +292,7 @@ export default function SocialPlatform() {
                 <ChevronDown className="w-3 h-3 text-primary animate-pulse" />
               </div>
             </div>
-            <ScrollArea className="flex-1 px-8 pb-4">
+            <ScrollArea className="flex-1 px-8 pb-4 text-left">
               <div className="space-y-6">
                 {updates.map((update, idx) => (
                   <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
@@ -327,7 +309,7 @@ export default function SocialPlatform() {
             </ScrollArea>
           </div>
 
-          {/* 5. Independent Scroll Area: Trending Topics */}
+          {/* 5. Trending Topics */}
           <div className="flex-1 flex flex-col min-h-0">
             <div className="px-8 py-6 flex items-center justify-between">
               <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Trending Topics</div>
@@ -336,7 +318,7 @@ export default function SocialPlatform() {
                 <ChevronDown className="w-3 h-3 text-primary/50" />
               </div>
             </div>
-            <ScrollArea className="flex-1 px-8 pb-4">
+            <ScrollArea className="flex-1 px-8 pb-4 text-left">
               <div className="space-y-6">
                 {trends.map((trend, idx) => (
                   <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
