@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -29,48 +29,23 @@
   }
 }
 
-/* NUCLEAR RESET: Kill all background images, pseudo-elements, and blurs globally */
+/* Force global gradient background */
+html, body {
+  background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%) !important;
+  background-attachment: fixed !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Remove all legacy background images and blurs */
 * {
   background-image: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  box-sizing: border-box;
-  outline: none;
-}
-
-*::before, *::after {
-  background-image: none !important;
-  content: none !important;
-  display: none !important;
-}
-
-html, body {
-  background: linear-gradient(180deg, #000000 0%, #0a0a0a 100%) !important;
-  background-attachment: fixed !important;
-  height: 100% !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow-x: hidden !important;
-  color: white !important;
-  font-family: "DM Sans", sans-serif !important;
-}
-
-/* Force specific containers to be opaque to block any underlying leaks */
-.container, main, .main-container, .timeline, .left-side, .right-side {
-  background-image: none !important;
-  background-color: transparent !important;
-}
-
-/* Clean UI Elements */
-.logo {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: 0.2em;
-}
-
-.side-title {
-  padding: 1.5rem 1rem 0.5rem;
 }
 
 /* Custom Scrollbar */
@@ -83,4 +58,14 @@ html, body {
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+}
+
+/* Animation utilities */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
