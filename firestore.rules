@@ -3,113 +3,140 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
+     * Insight Flow Security Rules
+     *
      * CORE PHILOSOPHY:
-     * This ruleset implements a strict path-based and field-based ownership model designed for high 
-     * security and rapid prototyping. It prioritizes "Authorization Independence" by leveraging 
-     * hierarchical paths where possible, minimizing the need for expensive cross-document lookups.
+     * This ruleset enforces a strict user-ownership model. Access to data is primarily determined 
+     * by comparing the authenticated user's UID against path variables or denormalized ownership 
+     * fields within the documents.
      *
      * DATA STRUCTURE:
-     * - /users/{userId}: The root document for a user's profile.
-     * - /users/{userId}/[subcollections]: Private, user-owned data (Preferences, Layouts, Events, Assignments).
-     * - /feedback/{feedbackId}: Top-level collection for user-submitted feedback, secured via internal 'userId'.
+     * - User-specific data (Profiles, Preferences, Layouts, Events) is organized hierarchically 
+     *   under `/users/{userId}/...`.
+     * - Top-level collections (ExperimentAssignments, Feedback) use either the UID as the 
+     *   document ID or contain a `userId` field for ownership verification.
      *
      * KEY SECURITY DECISIONS:
-     * - Ownership via Path: Most user data is nested under /users/{userId}, making ownership checks atomic and performant.
-     * - Admin Access: Administrative privileges are verified by looking up the 'role' field in the user's Profile document.
-     * - QAPs (Rules are not Filters): Listing is strictly restricted to owned paths to prevent unconstrained queries.
-     * - Prototyping Flexibility: Logic enforces who can access data and relational integrity (e.g., matching IDs), 
-     *   but allows flexible data shapes for fast iteration.
+     * - Authorization Independence: Critical fields like `userId` are denormalized into 
+     *   documents to ensure that security checks are performant and do not require 
+     *   additional `get()` lookups.
+     * - Prototyping Flexibility: While authorization is strictly enforced, data types 
+     *   and non-relational fields are not validated to allow for rapid schema iteration.
+     * - Destructive Operations: All updates and deletes require a verification that the 
+     *   document exists and is owned by the requester.
      */
 
     // --- Helper Functions ---
 
-    /** Checks if the request is from an authenticated user. */
+    /** @description Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** Checks if the current user is the owner of the resource based on a provided UID. */
+    /** @description Checks if the provided userId matches the authenticated user's UID. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** Combines ownership check with existence check for updates and deletes. */
+    /** @description Checks if the document exists and is owned by the authenticated user. */
     function isExistingOwner(userId) {
       return resource != null && isOwner(userId);
     }
 
-    /** 
-     * Verifies if the authenticated user has an 'admin' role.
-     * This uses a cross-document get() which is a known dependency for global permissions.
-     */
-    function isAdmin() {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    /** @description Validates that a field is not being changed during an update. */
+    function isUnchanged(fieldName) {
+      return request.resource.data[fieldName] == resource.data[fieldName];
     }
 
-    // --- Rules ---
+    // --- Collection Rules ---
 
     /**
-     * @description Rules for the UserProfile document. Allows users to manage their own profile and admins to view all.
+     * @description Rules for the core UserProfile document.
      * @path /users/{userId}
-     * @allow Create if auth UID matches path; Get/List if owner or admin.
-     * @deny Create if UID mismatch; Update if not the owner.
-     * @principle Ownership and Self-Creation.
+     * @allow (create) if auth.uid matches {userId} and data.id matches {userId}.
+     * @deny (update) if the user attempts to change the document ID field.
+     * @principle Ownership-based access with relational integrity check.
      */
     match /users/{userId} {
-      allow get, list: if isOwner(userId) || isAdmin();
+      allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow update: if isExistingOwner(userId) && isUnchanged('id');
       allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Rules for user-specific application preferences.
+       * @path /users/{userId}/preferences/{preferenceId}
+       * @allow (get) if the authenticated user is the path owner.
+       * @deny (create) if the internal userId field does not match the path.
+       * @principle Path-based ownership with denormalized field validation.
+       */
+      match /preferences/{preferenceId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && isUnchanged('userId');
+        allow delete: if isExistingOwner(userId);
+      }
+
+      /**
+       * @description Rules for user-defined dashboard layouts.
+       * @path /users/{userId}/layouts/{layoutId}
+       * @allow (list) if the user is viewing their own layouts subcollection.
+       * @deny (update) if the user attempts to transfer layout ownership to another UID.
+       * @principle Hierarchical ownership with immutable relational fields.
+       */
+      match /layouts/{layoutId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && isUnchanged('userId');
+        allow delete: if isExistingOwner(userId);
+      }
+
+      /**
+       * @description Rules for tracking significant user interaction events.
+       * @path /users/{userId}/events/{eventId}
+       * @allow (create) if the owner logs a new interaction event.
+       * @deny (list) if the requester is not the path owner.
+       * @principle Private activity stream restricted to the account owner.
+       */
+      match /events/{eventId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && isUnchanged('userId');
+        allow delete: if isExistingOwner(userId);
+      }
     }
 
     /**
-     * @description Rules for user-specific subcollections (Preferences, Layouts, Assignments, Events).
-     * @path /users/{userId}/[collection]/{id}
-     * @allow Full CRUD for the owner of the parent user path.
-     * @deny Any access from other users.
-     * @principle Hierarchical Path Ownership.
+     * @description Rules for A/B testing assignments, keyed by user UID.
+     * @path /experimentAssignments/{userId}
+     * @allow (get) if the user is fetching their own experiment variant.
+     * @deny (update) if the userId field is modified.
+     * @principle Direct UID-to-Document mapping for authorization.
      */
-    match /users/{userId}/preferences/{preferenceId} {
+    match /experimentAssignments/{userId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-      allow delete: if isExistingOwner(userId);
-    }
-
-    match /users/{userId}/layouts/{layoutId} {
-      allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-      allow delete: if isExistingOwner(userId);
-    }
-
-    match /users/{userId}/experimentAssignments/{assignmentId} {
-      allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-      allow delete: if isExistingOwner(userId);
-    }
-
-    match /users/{userId}/userEvents/{eventId} {
-      allow get, list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.userId == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow update: if isExistingOwner(userId) && isUnchanged('userId');
       allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Rules for user-submitted feedback. Secured via the internal 'userId' field.
+     * @description Rules for user-submitted feedback and bug reports.
      * @path /feedback/{feedbackId}
-     * @allow Create by any signed-in user for themselves; Get by owner/admin; List by admins only.
-     * @deny List by regular users; Create if userId in data doesn't match auth UID.
-     * @principle Ownership via Denormalized Field.
+     * @allow (create) if the user identifies themselves correctly in the payload.
+     * @deny (get) if a user tries to read feedback submitted by someone else.
+     * @principle Field-based ownership for top-level collection items.
      */
     match /feedback/{feedbackId} {
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isAdmin();
+      // Users can only read/list feedback they personally submitted
+      allow get, list: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      
+      // Validation: Ensure the submitting user's UID is correctly recorded
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update: if isSignedIn() && resource != null && resource.data.userId == request.auth.uid && request.resource.data.userId == resource.data.userId;
-      allow delete: if isSignedIn() && resource != null && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      // Owners can manage their own feedback entries
+      allow update: if isSignedIn() && resource != null && resource.data.userId == request.auth.uid && isUnchanged('userId');
+      allow delete: if isSignedIn() && resource != null && resource.data.userId == request.auth.uid;
     }
   }
 }
