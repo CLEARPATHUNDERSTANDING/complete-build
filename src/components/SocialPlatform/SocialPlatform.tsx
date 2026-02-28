@@ -5,13 +5,11 @@ import {
   Search,
   Sun,
   Moon,
-  Brain,
   LayoutDashboard,
   MessageCircle,
   Heart,
   ArrowRight,
   TrendingUp,
-  Zap,
   ChevronUp,
   ChevronDown,
   Bell,
@@ -105,7 +103,7 @@ export default function SocialPlatform() {
   ];
 
   const navItemClass = "flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
-  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 px-4 uppercase";
+  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 px-4 uppercase text-left";
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
@@ -217,12 +215,12 @@ export default function SocialPlatform() {
                 <span className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border border-black" />
               </Button>
             </div>
-            <div className="flex items-center gap-3 cursor-pointer group">
+            <div className="flex items-center gap-3 cursor-pointer group text-left">
               <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black group-hover:ring-primary transition-all">
                 <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
                 <AvatarFallback>MA</AvatarFallback>
               </Avatar>
-              <div className="hidden lg:flex flex-col text-left">
+              <div className="hidden lg:flex flex-col">
                 <span className="text-xs font-bold text-white">Mike Andrew</span>
                 <span className="text-[9px] font-black text-primary uppercase tracking-widest">Premium User</span>
               </div>
@@ -288,7 +286,7 @@ export default function SocialPlatform() {
             <ScrollArea className="flex-1 px-8 pb-4 min-h-0">
               <div className="space-y-6">
                 {friends.map((friend, idx) => (
-                  <div key={idx} className="flex items-center gap-4 group cursor-pointer">
+                  <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
                     <div className="relative">
                       <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
                         <AvatarImage src={friend.avatar} />

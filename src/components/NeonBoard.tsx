@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 
 type NeonBoardProps = {
@@ -16,7 +18,7 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
       className={`relative overflow-hidden rounded-[32px] ${className}`}
       style={{
         padding: "10px",
-        background: "linear-gradient(135deg, #7c3aed 0%, #00e5ff 50%, #f43f5e 100%)",
+        background: "linear-gradient(135deg, #7c3aed 0%, #00e5ff 45%, #ff4fd8 75%, #78a6ff 100%)",
         boxShadow: "0 0 50px rgba(124,58,237,0.6), 0 0 80px rgba(0,229,255,0.5), 0 0 120px rgba(244,63,94,0.4)",
       }}
     >
