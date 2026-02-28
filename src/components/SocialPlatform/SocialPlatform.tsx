@@ -7,13 +7,7 @@ import {
   Home, 
   BookOpen, 
   Compass, 
-  FileText, 
   Image as ImageIcon, 
-  Calendar, 
-  Bookmark, 
-  MessageCircle, 
-  Heart, 
-  Camera, 
   Star, 
   HardDrive,
   MoreHorizontal,
@@ -28,7 +22,6 @@ import {
   Settings,
   Layout,
   Zap,
-  Eye,
   Activity,
   BarChart3,
   Globe,
@@ -36,12 +29,10 @@ import {
   History,
   Scale,
   CandlestickChart as ChartIcon,
-  ChevronRight,
-  Target,
-  Waves,
-  Cpu,
   Boxes,
-  Briefcase
+  MessageCircle,
+  Heart,
+  Camera
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -65,7 +56,7 @@ import { marketCatalog, MarketCategory } from "@/data/marketCatalog";
 export default function SocialPlatform() {
   const [leftSide, setLeftSide] = useState(false);
   const [rightSide, setRightSide] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -134,14 +125,14 @@ export default function SocialPlatform() {
           <div className="side-title">CORE INTERFACE</div>
           <div className="side-menu fuchsia-scroll flex-1">
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="overview" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Layout className="w-4 h-4" /> Overview</div>
+              <AccordionItem value="intelligence" className="border-none">
+                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-primary hover:text-primary/80">
+                  <div className="flex items-center gap-3"><Globe className="w-4 h-4" /> Intelligence Feed</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Home /> Home</a>
-                  <a href="#"><BookOpen /> Latest News</a>
-                  <a href="#"><Compass /> Explore</a>
+                  <Link href="/intelligence" className="flex items-center gap-3 py-2 text-xs font-bold text-muted-foreground hover:text-primary">
+                    <Search className="w-3 h-3" /> Launch Search
+                  </Link>
                 </AccordionContent>
               </AccordionItem>
 
@@ -165,102 +156,17 @@ export default function SocialPlatform() {
                 </AccordionContent>
               </AccordionItem>
 
-              <AccordionItem value="major-markets" className="border-none">
+              <AccordionItem value="overview" className="border-none">
                 <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Globe className="w-4 h-4" /> Major Markets</div>
+                  <div className="flex items-center gap-3"><Layout className="w-4 h-4" /> Overview</div>
                 </AccordionTrigger>
                 <AccordionContent className="pb-0 pl-2">
-                  {['forex', 'stocks', 'indices'].map(cat => (
-                    <div key={cat} className="mb-2">
-                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
-                      {getMarketsByCategory(cat as MarketCategory).map(item => (
-                        <Link 
-                          key={item.symbol} 
-                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
-                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
-                        >
-                          {getMarketIcon(cat as MarketCategory)} {item.display}
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="alt-markets" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Boxes className="w-4 h-4" /> Alt & Digital</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-0 pl-2">
-                  {['crypto', 'metals', 'commodities'].map(cat => (
-                    <div key={cat} className="mb-2">
-                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
-                      {getMarketsByCategory(cat as MarketCategory).map(item => (
-                        <Link 
-                          key={item.symbol} 
-                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
-                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
-                        >
-                          {getMarketIcon(cat as MarketCategory)} {item.display}
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="fixed-deriv" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Scale className="w-4 h-4" /> Fixed & Deriv</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-0 pl-2">
-                  {['bonds', 'futures'].map(cat => (
-                    <div key={cat} className="mb-2">
-                      <div className="px-2 py-1 text-[10px] uppercase font-bold text-primary/60">{cat}</div>
-                      {getMarketsByCategory(cat as MarketCategory).map(item => (
-                        <Link 
-                          key={item.symbol} 
-                          href={`/dashboard?market=${cat}&symbol=${item.symbol}`} 
-                          className="flex items-center gap-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-primary"
-                        >
-                          {getMarketIcon(cat as MarketCategory)} {item.display}
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
+                  <a href="#"><Home className="w-3 h-3 mr-2 inline" /> Home</a>
+                  <a href="#"><BookOpen className="w-3 h-3 mr-2 inline" /> Latest News</a>
+                  <a href="#"><Compass className="w-3 h-3 mr-2 inline" /> Explore</a>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-          </div>
-        </div>
-
-        <div className="side-wrapper overflow-hidden flex flex-col">
-          <div className="side-title">PERSONAL DECK</div>
-          <div className="side-menu fuchsia-scroll flex-1">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="personal" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Star className="w-4 h-4" /> Favourites</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Bookmark /> Saved Assets</a>
-                  <a href="#"><MessageCircle /> Messages</a>
-                  <a href="#"><Heart /> Following</a>
-                </AccordionContent>
-              </AccordionItem>
-
-              <AccordionItem value="system" className="border-none">
-                <AccordionTrigger className="hover:no-underline py-3 text-sm font-bold text-muted-foreground hover:text-foreground">
-                  <div className="flex items-center gap-3"><Settings className="w-4 h-4" /> System</div>
-                </AccordionTrigger>
-                <AccordionContent className="pb-0 pl-2">
-                  <a href="#"><Camera /> Identity</a>
-                  <a href="#"><HardDrive /> Data Bank</a>
-                  <a href="#"><Bell /> Alert Hub</a>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-            <a href="#" className="mt-4"><Plus /> Custom Layer</a>
           </div>
         </div>
       </div>
@@ -370,32 +276,6 @@ export default function SocialPlatform() {
                   </div>
                 ))}
               </div>
-
-              <div className="timeline-right-header mt-8">
-                <div className="timeline-right-header-title">Suggested Traders</div>
-              </div>
-
-              <div className="suggested">
-                {[
-                  { name: "Tom Holland", role: "Macro Expert", id: "th" },
-                  { name: "Selena Gomez", role: "Quant Architect", id: "sg" },
-                  { name: "Chris Evans", role: "Scalp Specialist", id: "ce" }
-                ].map((user) => (
-                  <div key={user.id} className="suggested-user">
-                    <Avatar className="w-10 h-10">
-                      <AvatarImage src={`https://i.pravatar.cc/150?u=${user.id}`} />
-                      <AvatarFallback>{user.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="suggested-user-name">
-                      <span>{user.name}</span>
-                      <span>{user.role}</span>
-                    </div>
-                    <Button variant="secondary" size="sm" className="suggested-user-button">
-                      Follow
-                    </Button>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
@@ -412,34 +292,12 @@ export default function SocialPlatform() {
           >
             {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5" />}
           </Button>
-          <Button variant="ghost" size="icon" className="ml-2">
-            <MessageCircle className="w-5 h-5" />
-          </Button>
-          <Button variant="ghost" size="icon" className="ml-2">
-            <Bell className="w-5 h-5" />
-          </Button>
-
           <div className="account-user ml-auto">
             <Avatar className="w-[30px] h-[30px]">
               <AvatarImage src={getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike"} />
               <AvatarFallback>MA</AvatarFallback>
             </Avatar>
             <span className="account-username">Mike Andrew</span>
-          </div>
-        </div>
-
-        <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">CONNECTED TRADERS</div>
-          <div className="side-menu orange-scroll flex-1">
-            {["Tom Holland", "Selena Gomez", "Chris Evans", "Emma Watson", "Tony Stark", "Bruce Banner"].map((name) => (
-              <a href="#" key={name}>
-                <Avatar className="w-6 h-6 mr-3">
-                  <AvatarImage src={`https://i.pravatar.cc/150?u=${name}`} />
-                  <AvatarFallback>{name[0]}</AvatarFallback>
-                </Avatar>
-                {name}
-              </a>
-            ))}
           </div>
         </div>
 
@@ -460,28 +318,6 @@ export default function SocialPlatform() {
                     {update.icon}
                   </div>
                   <span className="activity-date block">{update.time}</span>
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <div className="side-wrapper flex flex-col min-h-0">
-          <div className="side-title">TRENDING ALPHA</div>
-          <div className="side-menu orange-scroll flex-1">
-            {[
-              { tag: "#neurotrading", posts: "12.4k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> },
-              { tag: "#accessibility", posts: "8.5k posts", icon: <Hash className="w-3 h-3 text-orange-400" /> },
-              { tag: "#marketfocus", posts: "20k posts", icon: <TrendingUp className="w-3 h-3 text-orange-500" /> }
-            ].map((topic, idx) => (
-              <a href="#" key={idx}>
-                <div className="activity-dot" />
-                <span>
-                  <div className="flex items-center gap-1.5">
-                    {topic.tag}
-                    {topic.icon}
-                  </div>
-                  <span className="activity-date block">{topic.posts}</span>
                 </span>
               </a>
             ))}

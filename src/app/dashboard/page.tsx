@@ -9,7 +9,6 @@ import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
-  Info, 
   Settings, 
   User, 
   Eye, 
@@ -33,7 +32,6 @@ import {
 } from "@/components/ui/sheet"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
 import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
 import {
   Select,
@@ -102,7 +100,7 @@ export default function DashboardPage() {
       {/* Top Navigation */}
       <header className="h-16 border-b bg-card/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="flex items-center gap-6">
-          <BackToDashboard href="/" label="InsightFlow" />
+          <BackToDashboard href="/" label="Back to Social" />
           <div className="h-6 w-px bg-border" />
           <Tabs value={mode} onValueChange={(v) => updateMode(v as ViewMode)}>
             <TabsList className="bg-muted/50 border">

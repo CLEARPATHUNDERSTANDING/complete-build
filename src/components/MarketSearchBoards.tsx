@@ -5,7 +5,7 @@ import { marketCatalog } from "@/data/marketCatalog";
 import MarketWatchBoard from "./MarketWatchBoard";
 import IntelFeedBoard from "./IntelFeedBoard";
 import Link from "next/link";
-import { Brain, Search } from "lucide-react";
+import { Brain, Search, ArrowLeft } from "lucide-react";
 
 export default function MarketSearchBoards() {
   const [query, setQuery] = useState("");
@@ -32,6 +32,17 @@ export default function MarketSearchBoards() {
   return (
     <div className="min-h-screen bg-black px-4 py-12 text-white">
       <div className="mx-auto max-w-[430px] flex flex-col items-center">
+        {/* Back to Social Button */}
+        <div className="w-full flex justify-start mb-6">
+          <Link 
+            href="/" 
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Social
+          </Link>
+        </div>
+
         <div className="mb-10 flex flex-col items-center gap-4 text-center">
           <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20">
             <Brain className="w-8 h-8 text-primary" />

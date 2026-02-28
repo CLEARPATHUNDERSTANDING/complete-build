@@ -1,5 +1,5 @@
-import MarketSearchBoards from "@/components/MarketSearchBoards";
+import SocialPlatform from "@/components/SocialPlatform/SocialPlatform";
 
 export default function Page() {
-  return <MarketSearchBoards />;
+  return <SocialPlatform />;
 }
