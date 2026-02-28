@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
@@ -6,6 +5,7 @@ import dynamic from "next/dynamic";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
 import { Loader2, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -68,11 +68,11 @@ export function CandlestickChart({
   }], [title, chartData]);
 
   const options = useMemo<any>(() => {
-    const glowCss = `drop-shadow(0 0 ${Math.round(
+    const glowCss = physics.glowStrength > 0 ? `drop-shadow(0 0 ${Math.round(
       10 * physics.glowStrength
     )}px ${p.borderA}) drop-shadow(0 0 ${Math.round(
       16 * physics.glowStrength
-    )}px ${p.borderB})`;
+    )}px ${p.borderB})` : "none";
 
     return {
       chart: {
@@ -159,7 +159,10 @@ export function CandlestickChart({
       </div>
       
       {analyzing && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/20 backdrop-blur-[1px] transition-all duration-300">
+        <div className={cn(
+          "absolute inset-0 z-20 flex items-center justify-center bg-black/20 transition-all duration-300",
+          p.glow !== "Low" && "backdrop-blur-[1px]"
+        )}>
           <div className="flex flex-col items-center gap-2 scale-in-center">
             <Sparkles className="w-6 h-6 animate-pulse" style={{ color: p.borderA }} />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse" style={{ color: p.text }}>Neuro-Syncing...</span>

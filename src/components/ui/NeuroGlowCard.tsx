@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -32,13 +31,15 @@ export function NeuroGlowCard({
           background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`,
         }}
       >
-        {/* inner glow */}
-        <div
-          className="absolute inset-0 rounded-[22px] pointer-events-none"
-          style={{
-            boxShadow: `0 0 28px ${p.borderA}55, 0 0 42px ${p.borderB}33`,
-          }}
-        />
+        {/* inner glow - only show for Medium and High glow profiles */}
+        {p.glow !== "Low" && (
+          <div
+            className="absolute inset-0 rounded-[22px] pointer-events-none"
+            style={{
+              boxShadow: `0 0 28px ${p.borderA}55, 0 0 42px ${p.borderB}33`,
+            }}
+          />
+        )}
         <div className="relative h-full">{children}</div>
       </div>
     </div>

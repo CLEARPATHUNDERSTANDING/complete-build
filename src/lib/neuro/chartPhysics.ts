@@ -1,4 +1,3 @@
-
 'use client';
 /**
  * @fileOverview Calculates visual "physics" for the chart based on neuro-divergent profiles.
@@ -15,8 +14,9 @@ export function chartPhysics(personality: CandlePersonality) {
   const animationSpeed =
     personality.glow === "High" ? 300 : personality.glow === "Medium" ? 180 : 0;
 
+  // Set 'Low' glow strength to 0 to remove "hue blur" / noise for clarity-focused profiles
   const glowStrength =
-    personality.glow === "High" ? 0.85 : personality.glow === "Medium" ? 0.55 : 0.2;
+    personality.glow === "High" ? 0.85 : personality.glow === "Medium" ? 0.55 : 0;
 
   return {
     candleWidth,
