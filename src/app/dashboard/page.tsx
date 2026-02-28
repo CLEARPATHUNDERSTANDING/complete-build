@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -10,7 +9,6 @@ import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { 
-  ChevronLeft, 
   Info, 
   Settings, 
   User, 
@@ -25,7 +23,6 @@ import {
   Activity,
   LineChart
 } from "lucide-react"
-import Link from "next/link"
 import {
   Sheet,
   SheetContent,
@@ -52,28 +49,30 @@ import { BackToDashboard } from "@/components/nav/BackToDashboard"
 export default function DashboardPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  
+  // URL Param State
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const profileParam = searchParams.get('profile') as NeuroProfileId;
   const marketParam = searchParams.get('market') || 'stocks';
   const symbolParam = searchParams.get('symbol') || 'AAPL';
   
+  // Local State
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
   const [layoutStyle, setLayoutStyle] = React.useState<'grid' | 'stack'>('grid');
   const [timeframe, setTimeframe] = React.useState<any>("1h");
   const [selectedSymbol, setSelectedSymbol] = React.useState(symbolParam);
 
+  // Sync URL Params to State
   React.useEffect(() => {
-    if (profileParam && profileParam !== selectedProfileId) {
-      setSelectedProfileId(profileParam);
-    }
-  }, [profileParam]);
+    const p = searchParams.get('profile') as NeuroProfileId;
+    if (p && p !== selectedProfileId) setSelectedProfileId(p);
+  }, [searchParams, selectedProfileId]);
 
   React.useEffect(() => {
-    if (symbolParam !== selectedSymbol) {
-      setSelectedSymbol(symbolParam);
-    }
-  }, [symbolParam]);
+    const s = searchParams.get('symbol');
+    if (s && s !== selectedSymbol) setSelectedSymbol(s);
+  }, [searchParams, selectedSymbol]);
 
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
 
@@ -86,20 +85,26 @@ export default function DashboardPage() {
 
   const handleSymbolSelect = (symbol: string) => {
     setSelectedSymbol(symbol);
-    // Update URL without refreshing to keep state in sync for potential refreshes
     const params = new URLSearchParams(searchParams.toString());
     params.set('symbol', symbol);
     router.replace(`/dashboard?${params.toString()}`, { scroll: false });
   };
 
+  const updateMode = (newMode: ViewMode) => {
+    setMode(newMode);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('mode', newMode);
+    router.replace(`/dashboard?${params.toString()}`, { scroll: false });
+  };
+
   return (
-    <div className={`min-h-screen bg-background flex flex-col transition-all duration-500 ${visualProfile.contrast === 'high' ? 'contrast-125 saturate-150' : ''} ${visualProfile.motion === 'reduced' ? 'motion-reduce' : ''}`}>
+    <div className={`min-h-screen bg-transparent flex flex-col transition-all duration-500 ${visualProfile.contrast === 'high' ? 'contrast-125 saturate-150' : ''} ${visualProfile.motion === 'reduced' ? 'motion-reduce' : ''}`}>
       {/* Top Navigation */}
-      <header className="h-16 border-b bg-card flex items-center justify-between px-6 sticky top-0 z-50">
+      <header className="h-16 border-b bg-card/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-50">
         <div className="flex items-center gap-6">
           <BackToDashboard href="/" label="InsightFlow" />
           <div className="h-6 w-px bg-border" />
-          <Tabs value={mode} onValueChange={(v) => setMode(v as ViewMode)}>
+          <Tabs value={mode} onValueChange={(v) => updateMode(v as ViewMode)}>
             <TabsList className="bg-muted/50 border">
               <TabsTrigger value="focus" className="text-xs gap-1.5"><Zap className="w-3 h-3" /> Focus</TabsTrigger>
               <TabsTrigger value="minimal" className="text-xs gap-1.5"><Layout className="w-3 h-3" /> Minimal</TabsTrigger>
@@ -152,7 +157,15 @@ export default function DashboardPage() {
                     <Brain className="w-4 h-4 text-primary" />
                     Neuro-Divergent Profile
                   </Label>
-                  <Select value={selectedProfileId} onValueChange={(v) => setSelectedProfileId(v as NeuroProfileId)}>
+                  <Select 
+                    value={selectedProfileId} 
+                    onValueChange={(v) => {
+                      setSelectedProfileId(v as NeuroProfileId);
+                      const params = new URLSearchParams(searchParams.toString());
+                      params.set('profile', v);
+                      router.replace(`/dashboard?${params.toString()}`, { scroll: false });
+                    }}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a profile" />
                     </SelectTrigger>
@@ -187,16 +200,6 @@ export default function DashboardPage() {
                   <Switch 
                     checked={visualProfile.motion === 'reduced'} 
                     onCheckedChange={(c) => setVisualProfile(p => ({ ...p, motion: c ? 'reduced' : 'full' }))}
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label>UI Scaling</Label>
-                  <Slider 
-                    defaultValue={[visualProfile.fontScaling]} 
-                    max={1.5} 
-                    min={0.8} 
-                    step={0.1}
-                    onValueChange={([v]) => setVisualProfile(p => ({ ...p, fontScaling: v }))}
                   />
                 </div>
               </div>
@@ -316,22 +319,9 @@ export default function DashboardPage() {
           <span className="flex items-center gap-1.5 text-primary"><Activity className="w-3 h-3" /> Analyzing: {selectedSymbol}</span>
         </div>
         <div>
-          Structure v1.5.0 • Physics Enabled • {neuroProfile.label} • {visualProfile.contrast === 'high' ? 'High Contrast: ON' : ''}
+          Structure v1.5.0 • Physics Enabled • {neuroProfile.label}
         </div>
       </footer>
-
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: hsl(var(--primary) / 0.3);
-          border-radius: 10px;
-        }
-      `}</style>
     </div>
   );
 }

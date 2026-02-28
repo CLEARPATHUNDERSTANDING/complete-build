@@ -6,7 +6,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Black */
+    --background: 0 0% 0%; /* Absolute Black */
     --foreground: 0 0% 100%;
     --card: 0 0% 7%; /* Dark Charcoal */
     --card-foreground: 0 0% 100%;
@@ -26,22 +26,30 @@
     --input: 0 0% 15%;
     --ring: 212 72% 59%;
     --radius: 0.75rem;
-
-    /* Custom Neon Colors */
-    --neon-fuchsia: #ff00ff;
-    --neon-orange: #ff6600;
-    --bright-red: #ff0000;
   }
 }
 
-/* Global Outer Scrollbar */
-html {
-  scrollbar-width: thin;
-  scrollbar-color: var(--neon-orange) var(--bright-red);
+/* Global High-Focus Background */
+body {
+  background: linear-gradient(180deg, #000000 0%, #121212 100%) !important;
+  background-attachment: fixed !important;
+  font-family: "DM Sans", sans-serif;
+  color: white;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
+/* Remove legacy background images */
+* {
+  background-image: none !important;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Neuro-Divergent Scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -49,32 +57,19 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, var(--bright-red), var(--neon-orange));
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  border: 3px solid transparent;
+  border: 2px solid transparent;
   background-clip: content-box;
 }
 
-* {
-  box-sizing: border-box;
-  outline: none;
-}
-
-body {
-  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-  background-attachment: fixed;
-  font-family: "DM Sans", sans-serif;
-  color: white;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
 }
 
 .container {
-  background-color: rgba(18, 18, 18, 0.8);
-  backdrop-filter: blur(20px);
+  background-color: rgba(18, 18, 18, 0.95);
+  backdrop-filter: none !important; /* Remove legacy blur that was revealing old image */
   width: 100%;
   max-width: 1400px;
   height: 90vh;
@@ -86,70 +81,14 @@ body {
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 }
 
-.left-side {
-  width: 260px;
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 20px;
-  padding: 25px 30px;
-  color: white;
-  letter-spacing: 1px;
-}
-
-.side-wrapper {
-  padding: 20px 30px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.side-title {
-  font-size: 10px;
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.4);
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-}
-
-.main {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.main-container {
-  padding: 30px;
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-.right-side {
-  width: 300px;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.account {
-  height: 70px;
-  padding: 0 30px;
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.activity-dot {
+/* Dashboard Specifics */
+.custom-scrollbar::-webkit-scrollbar {
   width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #4a90e2;
-  margin-right: 15px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 10px;
 }
