@@ -70,6 +70,19 @@ a {
   background: #03040a;
 }
 
+.bg-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(24, 240, 255, 0.10), transparent 24%),
+    radial-gradient(circle at 80% 30%, rgba(255, 43, 214, 0.10), transparent 24%),
+    radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.02), transparent 24%),
+    radial-gradient(circle at 60% 18%, rgba(91, 61, 245, 0.10), transparent 22%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.54));
+}
+
 .topbar {
   position: relative;
   z-index: 4;
@@ -278,6 +291,14 @@ a {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: none;
+}
+
 .neon-cyan {
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.45),
@@ -406,12 +427,12 @@ a {
 
 .primary-btn {
   color: white;
-  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6, #39ff14);
+  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6);
   box-shadow:
     0 12px 34px rgba(0, 0, 0, 0.34),
     0 0 14px rgba(24, 240, 255, 0.18),
     0 0 24px rgba(255, 43, 214, 0.16),
-    0 0 34px rgba(57, 255, 20, 0.10);
+    0 0 34px rgba(91, 61, 245, 0.12);
 }
 
 .ghost-btn {
