@@ -111,6 +111,7 @@ a {
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  opacity: 0.6;
 }
 
 .brand-logo-image {
@@ -218,6 +219,11 @@ a {
 .neon-green-text {
   color: #39ff14 !important;
   text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+}
+
+.neon-peach-text {
+  color: #ffbd88 !important;
+  text-shadow: 0 0 10px rgba(255, 189, 136, 0.5);
 }
 
 .mini-stat strong {

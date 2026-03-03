@@ -10,7 +10,7 @@ export default function HomePage() {
     <main className="landing-root bg-black min-h-screen">
       <header className="topbar">
         <div className="brand-wrap">
-          <div className="brand-logo-frame opacity-60">
+          <div className="brand-logo-frame">
             <img src={HERO_IMAGE} alt="Clear Path Logo" className="brand-logo-image" />
           </div>
 
@@ -56,17 +56,17 @@ export default function HomePage() {
           <div className="bullet-grid">
             <div className="mini-stat">
               <span className="mini-label neon-green-text font-black">Adaptive Interface</span>
-              <strong>Neuro-aware visual structure</strong>
+              <strong className="neon-peach-text">Neuro-aware visual structure</strong>
             </div>
 
             <div className="mini-stat">
               <span className="mini-label neon-green-text font-black">Live Overlay</span>
-              <strong>Login and widgets on top</strong>
+              <strong className="neon-peach-text">Login and widgets on top</strong>
             </div>
 
             <div className="mini-stat">
               <span className="mini-label neon-green-text font-black">Deployment</span>
-              <strong>Stable public front page</strong>
+              <strong className="neon-peach-text">Stable public front page</strong>
             </div>
           </div>
         </div>
