@@ -17,9 +17,9 @@ export default function HomePage() {
       <header className="topbar">
         <div className="brand-wrap">
           <div className="brand-badge" />
-          <div>
-            <div className="brand-name">CLEAR PATH</div>
-            <div className="brand-sub">Adaptive Market Intelligence</div>
+          <div className="flex flex-col">
+            <span className="brand-name">CLEAR PATH</span>
+            <span className="brand-sub">Adaptive Market Intelligence</span>
           </div>
         </div>
       </header>
@@ -32,22 +32,22 @@ export default function HomePage() {
 
             <form className="login-form">
               <label>
-                <span>Email</span>
+                <span>Network Identifier</span>
                 <input type="email" placeholder="name@example.com" />
               </label>
 
               <label>
-                <span>Password</span>
-                <input type="password" placeholder="Enter your password" />
+                <span>Access Key</span>
+                <input type="password" placeholder="Enter password" />
               </label>
 
-              <button type="button" className="primary-btn large full">
-                Log In
+              <button type="button" className="primary-btn">
+                Synchronize Session
               </button>
 
               <div className="form-links">
-                <Link href="/forgot-password">Forgot password?</Link>
-                <Link href="/signup">Create account</Link>
+                <Link href="/forgot-password">Recover Key</Link>
+                <Link href="/signup">Create Identity</Link>
               </div>
             </form>
           </div>
@@ -55,19 +55,17 @@ export default function HomePage() {
           <div className="widget-grid">
             <div className="glass-card neon-green widget-card">
               <div className="widget-label">Market Pulse</div>
-              <div className="widget-value">24 Active Feeds</div>
+              <div className="widget-value">24 Feeds</div>
               <p>
-                News, watchlists, scanners, dashboards, and intelligence surfaces
-                can live here.
+                Live intelligence stream synchronized across network nodes.
               </p>
             </div>
 
             <div className="glass-card neon-indigo widget-card">
               <div className="widget-label">Mode Engine</div>
-              <div className="widget-value">Personalized Views</div>
+              <div className="widget-value">Adaptive</div>
               <p>
-                Different user types and front-end experiences can be routed from
-                this home layer.
+                Personalized diagnostic views for neuro-aware analysis.
               </p>
             </div>
           </div>
