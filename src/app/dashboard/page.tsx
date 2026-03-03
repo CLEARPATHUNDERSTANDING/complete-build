@@ -113,15 +113,15 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
-      <header className="h-20 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
-        <div className="flex items-center gap-8">
-           <div className="flex items-center gap-2">
-             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
-                <Activity className="w-5 h-5 text-white" />
+      <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
+        <div className="flex items-center gap-12">
+           <div className="flex items-center gap-4">
+             <div className="w-16 h-16 rounded-2xl bg-indigo-500 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.6)]">
+                <Activity className="w-10 h-10 text-white" />
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[12px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
-                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Terminal</span>
+                <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
+                <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Board</span>
              </div>
            </div>
 
