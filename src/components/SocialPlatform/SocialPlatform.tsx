@@ -127,8 +127,8 @@ export default function SocialPlatform() {
     annotation: string;
   } | null>(null);
 
-  // Firestore Real-time Data
-  const insightsRef = useMemoFirebase(() => collection(firestore, "insights"), [firestore]);
+  // Firestore Real-time Data - Only fetch if user is authenticated
+  const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
 
   useEffect(() => {
@@ -205,6 +205,8 @@ export default function SocialPlatform() {
       });
       return;
     }
+
+    if (!user || !insightsRef) return;
 
     const insightData = {
       userId: user.uid,
