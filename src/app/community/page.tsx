@@ -18,7 +18,8 @@ import {
   Brain, 
   TrendingUp, 
   Navigation, 
-  Menu 
+  Menu,
+  Globe
 } from "lucide-react";
 
 type FeedPost = {
@@ -180,13 +181,14 @@ function NavItem({
   icon?: any;
   href?: string;
   active?: boolean;
-  color?: "cyan" | "pink" | "orange" | "violet";
+  color?: "cyan" | "pink" | "orange" | "violet" | "emerald";
 }) {
   const colorMap = {
     cyan: "text-cyan-300",
     pink: "text-pink-400",
     orange: "text-orange-300",
     violet: "text-violet-300",
+    emerald: "text-emerald-400",
   };
 
   return (
@@ -276,6 +278,7 @@ export default function CommunityPage() {
               <div className="px-5 pb-8 space-y-7">
                 <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
                   <div className="space-y-1">
+                    <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
                     <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
                     <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
                     <NavItem label="STANDARD VIEW" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
@@ -292,7 +295,7 @@ export default function CommunityPage() {
                     <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="cyan" />
                     <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="cyan" />
                     <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="cyan" />
-                    <NavItem label="World Economy / Economic Indicators" href="/dashboard?mode=minimal&style=economy" color="cyan" />
+                    <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="cyan" />
                   </div>
                 </BorderWallCard>
 

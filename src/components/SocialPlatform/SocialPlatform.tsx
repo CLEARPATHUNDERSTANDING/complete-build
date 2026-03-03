@@ -29,7 +29,8 @@ import {
   X,
   CheckCircle2,
   MousePointer2,
-  Type
+  Type,
+  Globe
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -248,6 +249,7 @@ export default function SocialPlatform() {
           <div className="p-4 space-y-6 pb-8">
             <FluidSection title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
+                <a href="/markets" className={navItemClass}><Globe className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-emerald-400">Market Overview</span></a>
                 <a href="/dashboard?mode=minimal" className={navItemClass}><LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" /><span className="text-[15px] font-semibold text-white/90">Standard Workspace</span></a>
                 <a href="/dashboard?mode=focus" className={navItemClass}><Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span></a>
                 <a href="/dashboard?mode=quad" className={navItemClass}><Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-cyan-400">STANDARD VIEW</span></a>
@@ -257,7 +259,7 @@ export default function SocialPlatform() {
 
             <FluidSection title="Standard Modes" maxHeight="200px">
               <div className="space-y-1">
-                {NON_ND_MODES.slice(0, 8).map(m => (
+                {NON_ND_MODES.map(m => (
                   <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
                     <div className="w-1.5 h-1.5 rounded-full bg-cyan-500" />
                     <span className="text-[13px] font-medium text-white/60 group-hover:text-white">{m.label}</span>
