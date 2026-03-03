@@ -34,41 +34,6 @@ export default function HomePage() {
       </header>
 
       <section className="hero-shell">
-        <div className="glass-card neon-fuchsia hero-left">
-          <div className="eyebrow">Built for clarity</div>
-
-          <h1 className="hero-title">
-            Market intelligence designed to feel cleaner, faster, and easier to enter
-          </h1>
-
-          <div className="hero-cta-row">
-            <Link href="/signup" className="primary-btn large">
-              Start Free
-            </Link>
-
-            <Link href="/login" className="ghost-btn large">
-              Member Login
-            </Link>
-          </div>
-
-          <div className="bullet-grid">
-            <div className="mini-stat">
-              <span className="mini-label">Adaptive Interface</span>
-              <strong>Neuro-aware visual structure</strong>
-            </div>
-
-            <div className="mini-stat">
-              <span className="mini-label">Live Overlay</span>
-              <strong>Login and widgets on top</strong>
-            </div>
-
-            <div className="mini-stat">
-              <span className="mini-label">Deployment</span>
-              <strong>Stable external front page</strong>
-            </div>
-          </div>
-        </div>
-
         <div className="hero-right">
           <div className="glass-card neon-cyan login-card">
             <div className="card-kicker">Secure Access</div>

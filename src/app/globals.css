@@ -261,9 +261,8 @@ html, body {
   position: relative;
   z-index: 3;
   min-height: calc(100vh - 84px);
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 26px;
+  display: flex;
+  justify-content: center;
   align-items: center;
   padding: 24px 28px 36px;
 }
@@ -396,6 +395,8 @@ html, body {
 .hero-right {
   display: grid;
   gap: 18px;
+  max-width: 900px;
+  width: 100%;
 }
 
 .login-card {
