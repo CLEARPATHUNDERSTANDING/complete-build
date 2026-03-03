@@ -1,3 +1,4 @@
+
 "use client";
 
 import dynamic from "next/dynamic";
@@ -68,7 +69,7 @@ export default function MarketMiniChart({ series, positive }: Props) {
   };
 
   return (
-    <div className="h-28 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+    <div className="h-28 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30 relative">
       <Chart
         options={options}
         series={[{ name: "Diagnostic", data: candleData }]}
@@ -76,6 +77,16 @@ export default function MarketMiniChart({ series, positive }: Props) {
         height="100%"
         width="100%"
       />
+      {/* Micro Logo Overlay Lower Left */}
+      <div className="absolute bottom-2 left-2 z-20 pointer-events-none">
+        <div className="relative bg-black/40 backdrop-blur-sm border border-white/5 rounded p-0.5">
+          <img 
+            src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+            alt="Clear Path"
+            className="w-4 h-4 rounded-sm object-cover opacity-40"
+          />
+        </div>
+      </div>
     </div>
   );
 }

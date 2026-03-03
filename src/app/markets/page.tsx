@@ -41,7 +41,7 @@ export default async function MarketsPage() {
              </div>
              <div className="flex flex-col text-left">
                 <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
-                <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Board</span>
+                <span className="text-[20px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1px_#ff0000]">Intelligence Board</span>
              </div>
            </div>
         </div>
@@ -52,7 +52,6 @@ export default async function MarketsPage() {
         <MarketGrid cards={data.cards} />
       </div>
 
-      {/* Corrected High-Fidelity Logos Outside Blocks */}
       <div className="flex justify-center gap-16 py-16 border-t border-white/5 bg-black/40">
         <div className="flex flex-col items-center gap-4">
           <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#00e5ff] fill-current drop-shadow-[0_0_15px_#00e5ff]" xmlns="http://www.w3.org/2000/svg">

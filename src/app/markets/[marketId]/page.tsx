@@ -58,7 +58,7 @@ export default async function MarketDetailPage({
              </div>
              <div className="flex flex-col text-left">
                 <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
-                <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Board</span>
+                <span className="text-[20px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1px_#ff0000]">Intelligence Board</span>
              </div>
            </div>
         </div>

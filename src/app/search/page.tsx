@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
@@ -88,8 +89,13 @@ function SearchContent() {
           </Link>
           <div className="h-8 w-px bg-white/10" />
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="relative">
+              <img 
+                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                alt="Clear Path Logo"
+                className="w-10 h-10 rounded-xl object-cover border border-white/10 shadow-[0_0_15px_rgba(255,136,0,0.4)]"
+              />
+              <span className="absolute bottom-0.5 right-0.5 text-[6px] font-bold text-white/60 select-none">©™</span>
             </div>
             <div className="flex flex-col">
               <span className="text-[12px] font-black tracking-[0.2em] uppercase leading-none">Topic</span>
