@@ -12,6 +12,7 @@ import {
   Loader2
 } from "lucide-react"
 import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
+import { NON_ND_MODES } from "@/modes/nonNdModes"
 import {
   Select,
   SelectContent,
@@ -22,19 +23,6 @@ import {
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
 import type { ModeConfig } from "@/modes/types"
 
-const STANDARD_PERSONALITY: ModeConfig["chart"] = {
-  background: "#050816",
-  text: "rgba(255,255,255,0.7)",
-  gridVert: "rgba(255,255,255,0.06)",
-  crosshair: "rgba(255,255,255,0.2)",
-  upCandle: "#22c55e",
-  downCandle: "#ef4444",
-  priceLine: "rgba(255,255,255,0.1)",
-  accent: "#6366f1",
-  density: "normal",
-  glow: 0.2,
-};
-
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -42,44 +30,62 @@ function DashboardContent() {
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const profileParam = searchParams.get('profile') as NeuroProfileId;
   const symbolParam = searchParams.get('symbol') || 'AAPL';
-  const styleParam = searchParams.get('style') || 'standard';
+  const styleParam = searchParams.get('style') || 'pro-trading-desk';
   
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
-  const [selectedSymbol] = React.useState(symbolParam);
+  const [selectedStyleId, setSelectedStyleId] = React.useState<string>(styleParam);
 
   React.useEffect(() => {
     const p = searchParams.get('profile') as NeuroProfileId;
     if (p && p !== selectedProfileId) setSelectedProfileId(p);
-  }, [searchParams, selectedProfileId]);
+    
+    const s = searchParams.get('style');
+    if (s && s !== selectedStyleId) setSelectedStyleId(s);
+  }, [searchParams, selectedProfileId, selectedStyleId]);
 
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
+  const standardMode = React.useMemo(() => NON_ND_MODES.find(m => m.id === selectedStyleId) || NON_ND_MODES[0], [selectedStyleId]);
 
-  const modeConfig = React.useMemo<ModeConfig>(() => {
-    const isNeuro = mode === 'focus';
-    const p = isNeuro ? neuroProfile.personality : STANDARD_PERSONALITY;
+  const activeModeConfig = React.useMemo<ModeConfig>(() => {
+    if (mode === 'focus') {
+      const p = neuroProfile.personality;
+      return {
+        kind: "nd",
+        id: neuroProfile.id,
+        label: neuroProfile.label,
+        description: neuroProfile.tagline,
+        marketScope: "all",
+        defaultSymbol: symbolParam,
+        defaultCharts: mode === 'quad' ? 4 : 1,
+        defaultLayout: mode === 'quad' ? "grid" : "stack",
+        panels: {
+          chart: true, watchlist: true, news: true, alerts: true, screener: false,
+          calendar: false, journal: false, patterns: true, replay: false, research: false
+        },
+        chart: {
+          background: p.bgTop,
+          text: p.text,
+          gridVert: p.grid,
+          gridHorz: p.grid,
+          crosshair: p.borderA,
+          priceLine: p.outlineColor,
+          upCandle: p.upColor,
+          downCandle: p.downColor,
+          upWick: p.wickColor,
+          downWick: p.wickColor,
+          borderUp: p.outlineColor,
+          borderDown: p.outlineColor,
+          accent: p.borderA,
+          density: p.dataDensity === 'High' ? 'tight' : p.dataDensity === 'Low' ? 'airy' : 'normal',
+          glow: p.glow === 'High' ? 1 : p.glow === 'Medium' ? 0.5 : 0,
+        },
+        complianceLine: "Neuro-Divergent focus interface. Personal use only."
+      };
+    }
     
-    return {
-      id: isNeuro ? neuroProfile.id : styleParam,
-      label: isNeuro ? neuroProfile.label : styleParam.replace(/_/g, ' ').toUpperCase(),
-      defaultSymbol: selectedSymbol,
-      defaultTimeframe: "15m",
-      defaultCharts: mode === 'quad' ? 4 : 1,
-      defaultLayout: mode === 'quad' ? "grid" : "stack",
-      chart: isNeuro ? {
-        background: neuroProfile.personality.bgTop,
-        text: neuroProfile.personality.text,
-        gridVert: neuroProfile.personality.grid,
-        crosshair: neuroProfile.personality.borderA,
-        upCandle: neuroProfile.personality.upColor,
-        downCandle: neuroProfile.personality.downColor,
-        priceLine: neuroProfile.personality.outlineColor,
-        accent: neuroProfile.personality.borderA,
-        density: neuroProfile.personality.dataDensity === 'High' ? 'tight' : neuroProfile.personality.dataDensity === 'Low' ? 'airy' : 'normal',
-        glow: neuroProfile.personality.glow === 'High' ? 1 : neuroProfile.personality.glow === 'Medium' ? 0.5 : 0,
-      } : STANDARD_PERSONALITY
-    };
-  }, [mode, neuroProfile, selectedSymbol, styleParam]);
+    return standardMode;
+  }, [mode, neuroProfile, standardMode, symbolParam]);
 
   const updateMode = (newMode: ViewMode) => {
     setMode(newMode);
@@ -133,32 +139,39 @@ function DashboardContent() {
               <span className="text-[10px] font-black tracking-widest text-white/40 uppercase">
                 {mode === 'focus' ? 'Neuro Profile' : 'Trading Style'}
               </span>
-              {mode === 'focus' ? (
-                <Select 
-                  value={selectedProfileId} 
-                  onValueChange={(v) => {
+              <Select 
+                value={mode === 'focus' ? selectedProfileId : selectedStyleId} 
+                onValueChange={(v) => {
+                  const params = new URLSearchParams(searchParams.toString());
+                  if (mode === 'focus') {
                     setSelectedProfileId(v as NeuroProfileId);
-                    const params = new URLSearchParams(searchParams.toString());
                     params.set('profile', v);
-                    router.replace(`/dashboard?${params.toString()}`, { scroll: false });
-                  }}
-                >
-                  <SelectTrigger className="w-[180px] bg-white/5 border-white/10 rounded-xl h-10 uppercase text-[10px] font-black tracking-widest">
-                    <SelectValue placeholder="Select Profile" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#0a0f18] border-white/10">
-                    {NEURO_PROFILES.map((p) => (
-                      <SelectItem key={p.id} value={p.id} className="text-[10px] font-black uppercase tracking-widest focus:bg-indigo-500">
+                  } else {
+                    setSelectedStyleId(v);
+                    params.set('style', v);
+                  }
+                  router.replace(`/dashboard?${params.toString()}`, { scroll: false });
+                }}
+              >
+                <SelectTrigger className="w-[180px] bg-white/5 border-white/10 rounded-xl h-10 uppercase text-[10px] font-black tracking-widest">
+                  <SelectValue placeholder="Select Profile" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#0a0f18] border-white/10">
+                  {mode === 'focus' ? (
+                    NEURO_PROFILES.map((p) => (
+                      <SelectItem key={p.id} value={p.id} className="text-[10px] font-black uppercase tracking-widest focus:bg-pink-500">
                         {p.label}
                       </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-black tracking-widest uppercase text-white/60">
-                  {styleParam.replace(/_/g, ' ')}
-                </div>
-              )}
+                    ))
+                  ) : (
+                    NON_ND_MODES.map((m) => (
+                      <SelectItem key={m.id} value={m.id} className="text-[10px] font-black uppercase tracking-widest focus:bg-indigo-500">
+                        {m.label}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
            </div>
         </div>
       </header>
@@ -175,7 +188,7 @@ function DashboardContent() {
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                   </div>
-                  <span className="text-[14px] font-black tracking-[0.2em] text-white uppercase">{selectedSymbol} View</span>
+                  <span className="text-[14px] font-black tracking-[0.2em] text-white uppercase">{activeModeConfig.defaultSymbol} View</span>
                 </div>
                 <div className="flex items-center gap-2">
                    <div className="flex gap-2 p-1 bg-black/40 rounded-lg border border-white/10">
@@ -194,7 +207,7 @@ function DashboardContent() {
                 </div>
               </div>
               <div className="flex-1 p-6 overflow-auto">
-                <ChartsGrid mode={modeConfig} personality={modeConfig.chart} />
+                <ChartsGrid mode={activeModeConfig} personality={activeModeConfig.chart} />
               </div>
             </div>
           </NeuroGlowCard>
@@ -206,8 +219,11 @@ function DashboardContent() {
           <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]" /> Connected</span>
           <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full shadow-[0_0_10px_#6366f1]" /> Real-time Feed</span>
         </div>
+        <div className="truncate max-w-md">
+          {activeModeConfig.complianceLine}
+        </div>
         <div>
-          ClearPath v2.0.0 • Apex Engine Standardized • {modeConfig.label}
+          ClearPath v2.0.0 • {activeModeConfig.label}
         </div>
       </footer>
     </div>

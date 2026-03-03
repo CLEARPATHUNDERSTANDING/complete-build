@@ -35,7 +35,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NeonBoard from "@/components/NeonBoard";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
-import { STANDARD_MODES } from "@/lib/standard-modes";
+import { NON_ND_MODES } from "@/modes/nonNdModes";
 
 export default function SocialPlatform() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -125,15 +125,15 @@ export default function SocialPlatform() {
               <div className="space-y-1">
                 <a href="/dashboard?mode=minimal" className={navItemClass}>
                   <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
-                  <span className="text-[15px] font-semibold text-white/90">Standard View</span>
+                  <span className="text-[15px] font-semibold text-white/90">Standard Workspace</span>
                 </a>
                 <a href="/dashboard?mode=focus" className={navItemClass}>
                   <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-indigo-400">Neuro Mode</span>
+                  <span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span>
                 </a>
                 <a href="/dashboard?mode=quad" className={navItemClass}>
                   <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-cyan-400">Standard Modes</span>
+                  <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
                 </a>
                 <a href="/" className={navItemClass}>
                   <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
@@ -145,12 +145,25 @@ export default function SocialPlatform() {
             <div>
               <div className={sectionLabelClass}>Standard Trading Modes</div>
               <div className="space-y-1">
-                {STANDARD_MODES.map((m) => (
+                {NON_ND_MODES.slice(0, 10).map((m) => (
                   <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
                     <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
                     <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
                   </a>
                 ))}
+                <details className="group/details px-4">
+                   <summary className="text-[11px] font-bold text-white/30 cursor-pointer hover:text-white transition-colors py-2 uppercase tracking-widest list-none flex items-center gap-2">
+                     <ChevronDown className="w-3 h-3 group-open/details:rotate-180 transition-transform" />
+                     More Modes
+                   </summary>
+                   <div className="pt-2 space-y-1">
+                      {NON_ND_MODES.slice(10).map((m) => (
+                        <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className="flex items-center gap-3 py-1.5 text-[13px] text-white/50 hover:text-cyan-400 transition-colors">
+                          <Zap className="w-3 h-3" /> {m.label}
+                        </a>
+                      ))}
+                   </div>
+                </details>
               </div>
             </div>
 
