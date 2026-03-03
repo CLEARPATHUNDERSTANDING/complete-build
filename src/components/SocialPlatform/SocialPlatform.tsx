@@ -283,11 +283,14 @@ export default function SocialPlatform() {
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-32 border-b border-white/10 bg-black/40 backdrop-blur-md px-8 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-4">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path Logo"
-              className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(99,102,241,0.4)]"
-            />
+            <div className="relative">
+              <img 
+                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                alt="Clear Path Logo"
+                className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(99,102,241,0.4)]"
+              />
+              <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
+            </div>
             <div className="flex flex-col text-left">
               <span className={`text-[24px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Global Network</span>
               <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Stream</span>

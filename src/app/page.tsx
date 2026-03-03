@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -68,11 +69,14 @@ export default function HomePage() {
 
       <header className="topbar">
         <div className="brand-wrap">
-          <img
-            src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-            alt="Clear Path Logo"
-            className="brand-logo-image"
-          />
+          <div className="relative">
+            <img
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path Logo"
+              className="brand-logo-image"
+            />
+            <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
+          </div>
           <div>
             <div className="brand-name text-white">CLEAR PATH</div>
             <div className="brand-sub">Adaptive Market Intelligence</div>
@@ -82,11 +86,14 @@ export default function HomePage() {
 
       <section className="hero-shell">
         <div className="glass-card neon-fuchsia hero-left">
-          <img
-            src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-            alt="Clear Path Hero Logo"
-            className="hero-top-image"
-          />
+          <div className="relative inline-block mb-4">
+            <img
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path Hero Logo"
+              className="hero-top-image"
+            />
+            <span className="absolute bottom-3 right-3 text-[10px] font-bold text-white/60 select-none">©™</span>
+          </div>
 
           <div className="eyebrow">Built for clarity</div>
 
