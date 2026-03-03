@@ -48,7 +48,7 @@ const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-
 
 /**
  * High-Intensity Card with restored bright orange-to-magenta borders.
- * Analyzed from user reference image: Bright Orange outer, Purple/Pink inner.
+ * Recalibrated to remove Indigo/Cyan from the inner gradient.
  */
 function BorderWallCard({
   title,
@@ -80,8 +80,8 @@ function BorderWallCard({
         className="
           rounded-[23px]
           p-[5px]
-          bg-[linear-gradient(135deg,#6a5cff_0%,#ff4fd8_100%)]
-          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(106,92,255,0.3)]
+          bg-[linear-gradient(135deg,#ff0055_0%,#ff4fd8_100%)]
+          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(255,0,85,0.3)]
         "
       >
         <div
@@ -123,21 +123,20 @@ function NavItem({
   icon: Icon,
   href = "#",
   active = false,
-  color = "violet",
+  color = "orange",
 }: {
   label: string;
   icon?: any;
   href?: string;
   active?: boolean;
-  color?: "cyan" | "pink" | "orange" | "violet" | "emerald" | "blue";
+  color?: "pink" | "orange" | "emerald" | "amber" | "rose";
 }) {
   const colorMap = {
-    cyan: "text-cyan-300",
     pink: "text-pink-400",
     orange: "text-orange-300",
-    violet: "text-violet-300",
     emerald: "text-emerald-400",
-    blue: "text-blue-400",
+    amber: "text-amber-400",
+    rose: "text-rose-400",
   };
 
   return (
@@ -256,23 +255,23 @@ export default function SocialPlatform() {
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
-                <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
-                <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
-                <NavItem label="All Communities" icon={Compass} href="/communities" color="blue" />
-                <NavItem label="Overall" icon={Users} href="/community" active color="pink" />
+                <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
+                <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
+                <NavItem label="All Communities" icon={Compass} href="/communities" color="emerald" />
+                <NavItem label="Overall" icon={Users} href="/community" active color="orange" />
               </div>
             </BorderWallCard>
 
             <BorderWallCard title="Standard Modes" maxHeight="300px">
               <div className="space-y-1">
-                <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="blue" />
-                <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="violet" />
-                <NavItem label="Bonds" href="/dashboard?mode=minimal&style=bonds" color="orange" />
+                <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="orange" />
+                <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="pink" />
+                <NavItem label="Bonds" href="/dashboard?mode=minimal&style=amber" color="amber" />
                 <NavItem label="Forex" href="/dashboard?mode=minimal&style=forex" color="emerald" />
-                <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="pink" />
-                <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="blue" />
-                <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="violet" />
-                <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="orange" />
+                <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="rose" />
+                <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="emerald" />
+                <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="orange" />
+                <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="amber" />
               </div>
             </BorderWallCard>
           </div>
@@ -394,7 +393,7 @@ export default function SocialPlatform() {
               ) : (
                 insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                   <div key={post.id} className="mx-auto w-full group">
-                    <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_30%,rgba(106,92,255,1)_68%,rgba(255,79,216,1)_100%)] shadow-[0_0_26px_rgba(255,136,0,0.2),0_0_60px_rgba(255,0,85,0.1)] transition-transform hover:scale-[1.005]">
+                    <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_30%,rgba(255,79,216,1)_68%,rgba(255,138,0,1)_100%)] shadow-[0_0_26px_rgba(255,136,0,0.2),0_0_60px_rgba(255,0,85,0.1)] transition-transform hover:scale-[1.005]">
                       <div className="rounded-[29px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
@@ -477,7 +476,7 @@ export default function SocialPlatform() {
                   { name: "Research Desk", status: "Macro Update", active: false, img: getImg("hub-research-desk") },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group">
-                    <div className="relative h-12 w-12 shrink-0 rounded-full bg-[linear-gradient(135deg,#ff8800,#ff0055,#6a5cff)] p-[2px]">
+                    <div className="relative h-12 w-12 shrink-0 rounded-full bg-[linear-gradient(135deg,#ff8800,#ff0055,#ff4fd8)] p-[2px]">
                       <div className="h-full w-full rounded-full overflow-hidden">
                         <img src={hub.img} className="w-full h-full object-cover" alt="" />
                       </div>
