@@ -2,7 +2,24 @@
 
 import React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { LayoutDashboard, Sparkles, Grid2X2, Users, Info, Eye, Scale, FileText, ShieldAlert, Lock, Zap, Brain, TrendingUp, Navigation, Menu } from "lucide-react";
+import Link from "next/link";
+import { 
+  LayoutDashboard, 
+  Sparkles, 
+  Grid2X2, 
+  Users, 
+  Info, 
+  Eye, 
+  Scale, 
+  FileText, 
+  ShieldAlert, 
+  Lock, 
+  Zap, 
+  Brain, 
+  TrendingUp, 
+  Navigation, 
+  Menu 
+} from "lucide-react";
 
 type FeedPost = {
   id: number;
@@ -176,7 +193,7 @@ function NavItem({
   };
 
   return (
-    <a
+    <Link
       href={href}
       className={[
         "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200 group",
@@ -191,7 +208,7 @@ function NavItem({
         <span className={["text-lg", colorMap[color]].join(" ")}>✦</span>
       )}
       <span className={["text-[15px] font-semibold", active ? colorMap[color] : "text-white"].join(" ")}>{label}</span>
-    </a>
+    </Link>
   );
 }
 
@@ -284,17 +301,17 @@ export default function CommunityPage() {
 
                 <BorderWallCard title="Platform" maxHeight="220px">
                   <div className="space-y-1">
-                    <NavItem label="Mission" icon={Info} href="/platform-constitution#mission" color="cyan" />
-                    <NavItem label="Transparency" icon={Eye} href="/platform-constitution#scope" color="cyan" />
-                    <NavItem label="Governance" icon={Scale} href="/platform-constitution#governance" color="cyan" />
+                    <NavItem label="Mission" icon={Info} href="/mission" color="cyan" />
+                    <NavItem label="Transparency" icon={Eye} href="/transparency" color="cyan" />
+                    <NavItem label="Governance" icon={Scale} href="/governance" color="cyan" />
                     <NavItem label="Constitution" icon={FileText} href="/platform-constitution" color="cyan" />
                   </div>
                 </BorderWallCard>
 
                 <BorderWallCard title="Legal" maxHeight="150px">
                   <div className="space-y-1">
-                    <NavItem label="Risk Disclosure" icon={ShieldAlert} href="/platform-constitution#mission" color="orange" />
-                    <NavItem label="Compliance" icon={Lock} href="/platform-constitution#scope" color="cyan" />
+                    <NavItem label="Risk Disclosure" icon={ShieldAlert} href="/mission" color="orange" />
+                    <NavItem label="Compliance" icon={Lock} href="/transparency" color="cyan" />
                   </div>
                 </BorderWallCard>
               </div>

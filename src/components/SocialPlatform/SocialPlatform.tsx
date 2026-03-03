@@ -235,15 +235,15 @@ export default function SocialPlatform() {
 
             <FluidSection title="Platform" maxHeight="180px">
               <div className="space-y-1">
-                <a href="/platform-constitution#mission" className={navItemClass}>
+                <a href="/mission" className={navItemClass}>
                   <Info className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Mission</span>
                 </a>
-                <a href="/platform-constitution#scope" className={navItemClass}>
+                <a href="/transparency" className={navItemClass}>
                   <Eye className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Transparency</span>
                 </a>
-                <a href="/platform-constitution#governance" className={navItemClass}>
+                <a href="/governance" className={navItemClass}>
                   <Scale className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Governance</span>
                 </a>
@@ -256,11 +256,11 @@ export default function SocialPlatform() {
 
             <FluidSection title="Legal" maxHeight="120px">
               <div className="space-y-1">
-                <a href="/platform-constitution#mission" className={navItemClass}>
+                <a href="/mission" className={navItemClass}>
                   <ShieldAlert className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" />
                   <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
                 </a>
-                <a href="/platform-constitution#scope" className={navItemClass}>
+                <a href="/transparency" className={navItemClass}>
                   <Lock className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Compliance</span>
                 </a>
