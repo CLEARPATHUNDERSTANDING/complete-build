@@ -258,8 +258,10 @@ export default function CommunitiesDiscoveryPage() {
             <ScrollArea className="h-full pr-4">
               <div className="pb-32">
                 <div className="mb-12">
-                  <h1 className="text-4xl font-black uppercase tracking-[0.3em] mb-4 text-white">Thematic Sectors</h1>
-                  <p className="text-white/40 max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed">
+                  <h1 className="text-4xl font-black uppercase tracking-[0.3em] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00]">
+                    Thematic Sectors
+                  </h1>
+                  <p className="max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]">
                     Connect with specialized intelligence hubs to synchronize diagnostic data across the network.
                   </p>
                 </div>
