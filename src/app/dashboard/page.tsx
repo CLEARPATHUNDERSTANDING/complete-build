@@ -120,8 +120,8 @@ function DashboardContent() {
                 <Activity className="w-5 h-5 text-white" />
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[12px] font-black tracking-[0.2em] text-white uppercase leading-none">ClearPath</span>
-                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
+                <span className="text-[12px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
+                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Terminal</span>
              </div>
            </div>
 
@@ -282,7 +282,7 @@ function DashboardContent() {
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                   </div>
-                  <span className="text-[14px] font-black tracking-[0.2em] text-white uppercase">{activeModeConfig.defaultSymbol} View</span>
+                  <span className="text-[14px] font-black tracking-[0.3em] text-white uppercase">{activeModeConfig.defaultSymbol} VIEW</span>
                 </div>
                 <div className="flex items-center gap-2">
                    <div className="flex gap-2 p-1 bg-black/40 rounded-lg border border-white/10">
@@ -317,7 +317,7 @@ function DashboardContent() {
           {activeModeConfig.complianceLine}
         </div>
         <div>
-          ClearPath v2.0.0 • {activeModeConfig.label}
+          CLEAR PATH TRADER • {activeModeConfig.label}
         </div>
       </footer>
     </div>

@@ -58,7 +58,7 @@ import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { signOut } from "firebase/auth";
-import { collection, doc, serverTimestamp } from "firebase/firestore";
+import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 function FluidSection({ 
@@ -231,8 +231,6 @@ export default function SocialPlatform() {
     });
   };
 
-  const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
-
   const navItemClass = "flex items-center gap-4 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
 
   return (
@@ -243,7 +241,7 @@ export default function SocialPlatform() {
         <div className="p-4 shrink-0">
           <NeonBoard className="w-full">
             <div className="px-4 py-3 flex items-center justify-center gap-3">
-              <div className="text-[11px] font-black tracking-[0.25em] text-white uppercase text-center">
+              <div className="text-[11px] font-black tracking-[0.3em] text-white uppercase text-center">
                 CLEAR PATH TRADER
               </div>
             </div>

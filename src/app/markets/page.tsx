@@ -34,8 +34,8 @@ export default async function MarketsPage() {
                 <Activity className="w-5 h-5 text-white" />
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[12px] font-black tracking-[0.2em] text-white uppercase leading-none">Intelligence</span>
-                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Board</span>
+                <span className="text-[12px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
+                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence Board</span>
              </div>
            </div>
         </div>
@@ -64,7 +64,7 @@ export default async function MarketsPage() {
                <Activity className="w-8 h-8 text-cyan-400" />
             </div>
             <div className="text-left">
-              <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">Clear Path</div>
+              <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">CLEAR PATH TRADER</div>
               <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight">Command Center</h1>
               <p className="mt-1 text-sm text-white/65">
                 Apex-powered multi-market diagnostic dashboard.
@@ -82,7 +82,7 @@ export default async function MarketsPage() {
       <footer className="py-12 border-t border-white/10 bg-black mt-20">
         <div className="max-w-7xl mx-auto px-8 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.25em] text-white/30">
           <span>Diagnostic v3.5.0</span>
-          <span>ClearPath Markets Terminal</span>
+          <span>CLEAR PATH TRADER Terminal</span>
         </div>
       </footer>
     </main>
