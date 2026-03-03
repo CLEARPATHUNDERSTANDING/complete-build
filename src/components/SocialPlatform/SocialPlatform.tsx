@@ -25,7 +25,9 @@ import {
   Menu,
   Brain,
   Zap,
-  BarChart2
+  BarChart2,
+  X,
+  CheckCircle2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -35,6 +37,8 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NeonBoard from "@/components/NeonBoard";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import { NON_ND_MODES } from "@/modes/nonNdModes";
+import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 /**
  * High-intensity Fluid Border Wrapper
@@ -81,9 +85,54 @@ function FluidSection({
 
 export default function SocialPlatform() {
   const router = useRouter();
+  const { toast } = useToast();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Post Draft State
+  const [postText, setPostText] = useState("");
+  const [attachedSymbols, setAttachedSymbols] = useState<string[]>([]);
+  const [isChartAttached, setIsChartAttached] = useState(false);
+
+  const [posts, setPosts] = useState([
+    {
+      id: 1,
+      user: "Insight Bot",
+      avatar: "https://picsum.photos/seed/ai-bot/150/150",
+      time: "Just now",
+      text: "Market volatility is increasing in the tech sector. Our Neuro-Predictive engine suggests a high-focus mode for NVDA and AAPL today.",
+      symbols: ["NVDA", "AAPL"],
+      hasChart: true
+    },
+    {
+      id: 2,
+      user: "Jessica Miller",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
+      time: "8 hours ago",
+      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
+      symbols: [],
+      hasChart: false
+    },
+    {
+      id: 3,
+      user: "Market Watch",
+      avatar: "https://picsum.photos/seed/market/150/150",
+      time: "12 hours ago",
+      text: "Global indices are showing strong support levels. It might be time to switch to the Quad-View mode to track multiple sectors simultaneously.",
+      symbols: ["SPX", "NDX"],
+      hasChart: true
+    },
+    {
+      id: 4,
+      user: "Design Insider",
+      avatar: "https://picsum.photos/seed/design/150/150",
+      time: "1 day ago",
+      text: "The new NeonBoard components are finally live. They provide a high-contrast visual anchor for neuro-divergent focus during high-intensity trading.",
+      symbols: [],
+      hasChart: false
+    }
+  ]);
 
   useEffect(() => {
     setMounted(true);
@@ -97,38 +146,64 @@ export default function SocialPlatform() {
     }
   };
 
-  const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
-
-  const posts = [
-    {
-      id: 1,
-      user: "Insight Bot",
-      avatar: "https://picsum.photos/seed/ai-bot/150/150",
-      time: "Just now",
-      text: "Market volatility is increasing in the tech sector. Our Neuro-Predictive engine suggests a high-focus mode for NVDA and AAPL today.",
-    },
-    {
-      id: 2,
-      user: "Jessica Miller",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
-      time: "8 hours ago",
-      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
-    },
-    {
-      id: 3,
-      user: "Market Watch",
-      avatar: "https://picsum.photos/seed/market/150/150",
-      time: "12 hours ago",
-      text: "Global indices are showing strong support levels. It might be time to switch to the Quad-View mode to track multiple sectors simultaneously.",
-    },
-    {
-      id: 4,
-      user: "Design Insider",
-      avatar: "https://picsum.photos/seed/design/150/150",
-      time: "1 day ago",
-      text: "The new NeonBoard components are finally live. They provide a high-contrast visual anchor for neuro-divergent focus during high-intensity trading.",
+  const handleAddSymbol = () => {
+    const sym = prompt("Enter asset symbol (e.g. BTC, AAPL):");
+    if (sym && sym.trim()) {
+      const upper = sym.trim().toUpperCase();
+      if (!attachedSymbols.includes(upper)) {
+        setAttachedSymbols([...attachedSymbols, upper]);
+        toast({
+          title: "Symbol Added",
+          description: `${upper} has been linked to your insight.`,
+        });
+      }
     }
-  ];
+  };
+
+  const handleRemoveSymbol = (sym: string) => {
+    setAttachedSymbols(attachedSymbols.filter(s => s !== sym));
+  };
+
+  const handleAttachChart = () => {
+    setIsChartAttached(!isChartAttached);
+    toast({
+      title: isChartAttached ? "Chart Removed" : "Chart Attached",
+      description: isChartAttached ? "Technical overlay has been detached." : "Live diagnostic chart has been linked to this dispatch.",
+    });
+  };
+
+  const handleDispatch = () => {
+    if (!postText.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Dispatch Failed",
+        description: "Please record a market observation before broadcasting.",
+      });
+      return;
+    }
+
+    const newPost = {
+      id: Date.now(),
+      user: "Mike Andrew",
+      avatar: getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike",
+      time: "Just now",
+      text: postText,
+      symbols: attachedSymbols,
+      hasChart: isChartAttached
+    };
+
+    setPosts([newPost, ...posts]);
+    setPostText("");
+    setAttachedSymbols([]);
+    setIsChartAttached(false);
+
+    toast({
+      title: "Insight Dispatched",
+      description: "Your diagnostic thesis has been broadcast to the network.",
+    });
+  };
+
+  const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
 
   const friends = [
     { name: "Tom Holland", avatar: "https://i.pravatar.cc/150?u=tom", online: true },
@@ -326,22 +401,50 @@ export default function SocialPlatform() {
                     <textarea 
                       placeholder="Record market observation or diagnostic thesis..."
                       className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-[15px] font-medium text-white outline-none focus:border-primary/50 transition-all resize-none min-h-[100px] placeholder:text-white/20"
+                      value={postText}
+                      onChange={(e) => setPostText(e.target.value)}
                     />
+
+                    {/* Active Attachments Bar */}
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {attachedSymbols.map(sym => (
+                        <Badge key={sym} variant="secondary" className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 gap-1.5 px-3 py-1">
+                          {sym}
+                          <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => handleRemoveSymbol(sym)} />
+                        </Badge>
+                      ))}
+                      {isChartAttached && (
+                        <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1">
+                          <BarChart2 className="w-3 h-3" />
+                          Diagnostic Chart Attached
+                          <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setIsChartAttached(false)} />
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
                   <div className="flex items-center gap-5">
-                    <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                    <button 
+                      onClick={handleAddSymbol}
+                      className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors"
+                    >
                       <Zap className="w-3.5 h-3.5" />
                       Add Symbol
                     </button>
-                    <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                    <button 
+                      onClick={handleAttachChart}
+                      className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${isChartAttached ? 'text-cyan-400' : 'text-white/40 hover:text-primary'}`}
+                    >
                       <BarChart2 className="w-3.5 h-3.5" />
-                      Attach Chart
+                      {isChartAttached ? 'Chart Attached' : 'Attach Chart'}
                     </button>
                   </div>
-                  <Button className="bg-primary hover:bg-primary/80 text-[10px] font-black uppercase tracking-widest px-6 h-9 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                  <Button 
+                    onClick={handleDispatch}
+                    className="bg-primary hover:bg-primary/80 text-[10px] font-black uppercase tracking-widest px-6 h-9 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.4)]"
+                  >
                     Dispatch Insight →
                   </Button>
                 </div>
@@ -358,7 +461,12 @@ export default function SocialPlatform() {
                       <AvatarFallback>{post.user[0]}</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col">
-                      <span className="font-bold text-base text-white">{post.user}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-base text-white">{post.user}</span>
+                        {post.user === "Mike Andrew" && (
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                        )}
+                      </div>
                       <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{post.time}</span>
                     </div>
                   </div>
@@ -367,6 +475,22 @@ export default function SocialPlatform() {
                   <p className="text-lg leading-relaxed text-white/90 font-medium">
                     {post.text}
                   </p>
+                  
+                  {(post.symbols.length > 0 || post.hasChart) && (
+                    <div className="mt-6 flex flex-wrap gap-2 pt-4 border-t border-white/5">
+                      {post.symbols.map(s => (
+                        <Badge key={s} variant="outline" className="text-[10px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">
+                          {s}
+                        </Badge>
+                      ))}
+                      {post.hasChart && (
+                        <Badge variant="outline" className="text-[10px] font-black uppercase tracking-widest border-cyan-500/30 text-cyan-400 bg-cyan-500/5 flex items-center gap-1.5">
+                          <BarChart2 className="w-3 h-3" />
+                          TECHNICAL ATTACHMENT
+                        </Badge>
+                      )}
+                    </div>
+                  )}
                 </CardContent>
                 <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
                   <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors group/btn">
