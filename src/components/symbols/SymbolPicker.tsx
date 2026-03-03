@@ -80,7 +80,7 @@ export default function SymbolPicker({ mode, value, onChange }: Props) {
               <Zap className="w-4 h-4 text-indigo-400" />
             </div>
             <div>
-              <div className="text-[12px] font-black text-white uppercase tracking-widest">Initialize Global Network Result</div>
+              <div className="text-[12px] font-black text-white uppercase tracking-widest">Global Network Result</div>
               <div className="text-[14px] font-black text-indigo-400 uppercase">Search Terminal for: {q.toUpperCase()}</div>
             </div>
           </button>

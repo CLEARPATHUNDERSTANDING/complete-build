@@ -324,67 +324,60 @@ export default function SocialPlatform() {
         <ScrollArea className="flex-1">
           <div className="max-w-3xl mx-auto px-8 py-10 space-y-10 pb-32">
             {/* DISPATCH MODULE */}
-            <NeonBoard className="w-full">
-              <div className="bg-[#070b16] p-6 text-white">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-4 bg-orange-500 shadow-[0_0_10px_rgba(255,136,0,0.8)]" />
-                    <div className="text-[11px] font-black uppercase tracking-[0.25em] text-white/70">Initialize Dispatch</div>
-                  </div>
-                  {isLive && (
-                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 animate-pulse">
-                      <Radio className="w-3 h-3 text-rose-500" />
-                      <span className="text-[9px] font-black text-rose-400 uppercase tracking-widest">Live Sync Active</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex items-start gap-4">
+            <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false}>
+              <div className="flex items-start gap-4">
+                <div className="flex flex-col items-center gap-2">
                   <Avatar className="w-12 h-12 border border-white/10">
                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
                     <AvatarFallback className="bg-orange-500">{user.displayName?.[0]}</AvatarFallback>
                   </Avatar>
-                  <div className="flex-1">
-                    <textarea 
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-orange-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
-                      placeholder="Broadcast diagnostic thesis or network observation..."
-                      value={postText}
-                      onChange={(e) => setPostText(e.target.value)}
-                    />
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      {attachedSymbols.map(s => (
-                        <Badge key={s} className="bg-orange-500/20 text-orange-300 border-orange-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
-                          {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
-                        </Badge>
-                      ))}
-                      {activeAttachment && (
-                        <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
-                          <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
-                          <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
-                        </Badge>
-                      )}
+                  {isLive && (
+                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 animate-pulse">
+                      <Radio className="w-2.5 h-2.5 text-rose-500" />
+                      <span className="text-[7px] font-black text-rose-400 uppercase tracking-widest">LIVE</span>
                     </div>
-                  </div>
+                  )}
                 </div>
-
-                <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
-                  <div className="flex items-center gap-6">
-                    <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-orange-400 transition-colors">
-                      <Zap className="w-3.5 h-3.5" /> Link Asset
-                    </button>
-                    <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-pink-400' : 'text-white/40 hover:text-pink-400'}`}>
-                      <BarChart2 className="w-3.5 h-3.5" /> {activeAttachment ? 'Adjust Mapping' : 'Attach Mapped Chart'}
-                    </button>
-                    <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>
-                      <Radio className="w-3.5 h-3.5" /> Initialize Live
-                    </button>
+                <div className="flex-1">
+                  <textarea 
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-orange-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
+                    placeholder="Broadcast diagnostic thesis or network observation..."
+                    value={postText}
+                    onChange={(e) => setPostText(e.target.value)}
+                  />
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {attachedSymbols.map(s => (
+                      <Badge key={s} className="bg-orange-500/20 text-orange-300 border-orange-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                        {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
+                      </Badge>
+                    ))}
+                    {activeAttachment && (
+                      <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                        <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
+                        <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
+                      </Badge>
+                    )}
                   </div>
-                  <Button onClick={handleDispatch} className="bg-orange-500 hover:bg-orange-400 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(255,136,0,0.4)]">
-                    Synchronize →
-                  </Button>
                 </div>
               </div>
-            </NeonBoard>
+
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
+                <div className="flex items-center gap-6">
+                  <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-orange-400 transition-colors">
+                    <Zap className="w-3.5 h-3.5" /> Link Asset
+                  </button>
+                  <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-pink-400' : 'text-white/40 hover:text-pink-400'}`}>
+                    <BarChart2 className="w-3.5 h-3.5" /> {activeAttachment ? 'Adjust Mapping' : 'Attach Mapped Chart'}
+                  </button>
+                  <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>
+                    <Radio className="w-3.5 h-3.5" /> Live Sync
+                  </button>
+                </div>
+                <Button onClick={handleDispatch} className="bg-orange-500 hover:bg-orange-400 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(255,136,0,0.4)]">
+                  Dispatch →
+                </Button>
+              </div>
+            </BorderWallCard>
 
             {/* FEED */}
             <div className="space-y-10">
