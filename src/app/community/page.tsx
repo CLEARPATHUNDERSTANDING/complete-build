@@ -1,4 +1,8 @@
+
+"use client";
+
 import React from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type FeedPost = {
   id: number;
@@ -63,10 +67,12 @@ function BorderWallCard({
   title,
   children,
   className = "",
+  maxHeight = "400px"
 }: {
   title?: string;
   children: React.ReactNode;
   className?: string;
+  maxHeight?: string;
 }) {
   return (
     <div
@@ -92,17 +98,23 @@ function BorderWallCard({
             bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.92)_0%,rgba(3,8,24,0.98)_48%,rgba(1,4,15,1)_100%)]
             backdrop-blur-xl
             border border-white/5
+            flex flex-col overflow-hidden
           "
+          style={{ height: maxHeight }}
         >
           {title ? (
-            <div className="border-b border-white/8 px-5 py-4">
+            <div className="border-b border-white/8 px-5 py-4 shrink-0">
               <div className="text-[12px] font-black uppercase tracking-[0.28em] text-white/70">
                 {title}
               </div>
             </div>
           ) : null}
 
-          <div className="p-5">{children}</div>
+          <div className="flex-1 min-h-0 relative">
+            <ScrollArea className="h-full">
+              <div className="p-5">{children}</div>
+            </ScrollArea>
+          </div>
         </div>
       </div>
     </div>
@@ -212,35 +224,41 @@ export default function CommunityPage() {
       <div className="grid min-h-screen grid-cols-1 xl:grid-cols-[290px_minmax(0,1fr)_330px]">
         {/* LEFT SIDEBAR */}
         <aside className="border-r border-white/8 bg-black">
-          <div className="sticky top-0 h-screen overflow-y-auto px-5 py-6">
-            <div className="mb-8 flex items-center gap-3">
-              <span className="text-2xl text-violet-400">☰</span>
-              <div className="text-[13px] font-black uppercase tracking-[0.35em] text-violet-300">
-                Navigation
+          <div className="sticky top-0 h-screen flex flex-col">
+            <div className="p-6 mb-2 shrink-0">
+              <div className="mb-8 flex items-center gap-3">
+                <span className="text-2xl text-violet-400">☰</span>
+                <div className="text-[13px] font-black uppercase tracking-[0.35em] text-violet-300">
+                  Navigation
+                </div>
               </div>
             </div>
 
-            <BorderWallCard title="Workspace" className="mb-7">
-              <div className="space-y-2">
-                <NavItem label="Standard Workspace" active color="orange" />
-                <NavItem label="Neuro Workspace" color="violet" />
-                <NavItem label="Multi-View Grid" color="cyan" />
-                <NavItem label="Community Feed" color="pink" />
-              </div>
-            </BorderWallCard>
+            <ScrollArea className="flex-1 min-h-0">
+              <div className="px-5 pb-8 space-y-7">
+                <BorderWallCard title="Workspace" maxHeight="280px">
+                  <div className="space-y-2">
+                    <NavItem label="Standard Workspace" active color="orange" />
+                    <NavItem label="Neuro Workspace" color="violet" />
+                    <NavItem label="Multi-View Grid" color="cyan" />
+                    <NavItem label="Community Feed" color="pink" />
+                  </div>
+                </BorderWallCard>
 
-            <BorderWallCard title="Standard Modes">
-              <div className="space-y-2">
-                <NavItem label="Pro Trading Desk" color="cyan" />
-                <NavItem label="Macro & Rates" color="cyan" />
-                <NavItem label="ETF Markets" color="cyan" />
-                <NavItem label="Earnings & Catalysts" color="cyan" />
-                <NavItem label="Options Flow" color="cyan" />
-                <NavItem label="Futures" color="cyan" />
-                <NavItem label="FX Terminal" color="cyan" />
-                <NavItem label="Crypto Markets" color="cyan" />
+                <BorderWallCard title="Standard Modes" maxHeight="450px">
+                  <div className="space-y-2">
+                    <NavItem label="Pro Trading Desk" color="cyan" />
+                    <NavItem label="Macro & Rates" color="cyan" />
+                    <NavItem label="ETF Markets" color="cyan" />
+                    <NavItem label="Earnings & Catalysts" color="cyan" />
+                    <NavItem label="Options Flow" color="cyan" />
+                    <NavItem label="Futures" color="cyan" />
+                    <NavItem label="FX Terminal" color="cyan" />
+                    <NavItem label="Crypto Markets" color="cyan" />
+                  </div>
+                </BorderWallCard>
               </div>
-            </BorderWallCard>
+            </ScrollArea>
           </div>
         </aside>
 
@@ -278,70 +296,74 @@ export default function CommunityPage() {
             </div>
           </div>
 
-          <div className="px-8 py-8">
-            <div className="space-y-10">
+          <ScrollArea className="h-[calc(100vh-80px)]">
+            <div className="px-8 py-8 space-y-10">
               {posts.map((post) => (
                 <FeedCard key={post.id} post={post} />
               ))}
             </div>
-          </div>
+          </ScrollArea>
         </section>
 
         {/* RIGHT SIDEBAR */}
         <aside className="border-l border-white/8 bg-black">
-          <div className="sticky top-0 h-screen overflow-y-auto px-5 py-6">
-            <BorderWallCard title="Online Friends" className="mb-8">
-              <div className="space-y-5">
-                {friends.map((friend) => (
-                  <div
-                    key={friend.id}
-                    className="flex items-center gap-4 rounded-2xl px-2 py-1.5 hover:bg-white/[0.03]"
-                  >
-                    <AvatarBadge
-                      label={friend.avatar}
-                      online={friend.online}
-                    />
-                    <div className="text-[16px] font-bold text-white">
-                      {friend.name}
+          <div className="sticky top-0 h-screen flex flex-col">
+            <ScrollArea className="flex-1 min-h-0">
+              <div className="px-5 py-6 space-y-8">
+                <BorderWallCard title="Online Friends" maxHeight="350px">
+                  <div className="space-y-5">
+                    {friends.map((friend) => (
+                      <div
+                        key={friend.id}
+                        className="flex items-center gap-4 rounded-2xl px-2 py-1.5 hover:bg-white/[0.03]"
+                      >
+                        <AvatarBadge
+                          label={friend.avatar}
+                          online={friend.online}
+                        />
+                        <div className="text-[16px] font-bold text-white">
+                          {friend.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </BorderWallCard>
+
+                <BorderWallCard title="Latest Updates" maxHeight="300px">
+                  <div className="space-y-5 text-[15px]">
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
+                      <div className="text-white/90">
+                        <span className="font-black text-cyan-300">Tonny</span>{" "}
+                        posted 1 photo
+                      </div>
+                      <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
+                        2 MIN AGO
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
+                      <div className="text-white/90">
+                        <span className="font-black text-cyan-300">Mike</span>{" "}
+                        started following you
+                      </div>
+                      <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
+                        5 MIN AGO
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
+                      <div className="text-white/90">
+                        <span className="font-black text-cyan-300">Research</span>{" "}
+                        added a new macro note
+                      </div>
+                      <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
+                        11 MIN AGO
+                      </div>
                     </div>
                   </div>
-                ))}
+                </BorderWallCard>
               </div>
-            </BorderWallCard>
-
-            <BorderWallCard title="Latest Updates">
-              <div className="space-y-5 text-[15px]">
-                <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                  <div className="text-white/90">
-                    <span className="font-black text-cyan-300">Tonny</span>{" "}
-                    posted 1 photo
-                  </div>
-                  <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
-                    2 MIN AGO
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                  <div className="text-white/90">
-                    <span className="font-black text-cyan-300">Mike</span>{" "}
-                    started following you
-                  </div>
-                  <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
-                    5 MIN AGO
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                  <div className="text-white/90">
-                    <span className="font-black text-cyan-300">Research</span>{" "}
-                    added a new macro note
-                  </div>
-                  <div className="mt-1 text-[12px] font-bold uppercase tracking-[0.16em] text-white/45">
-                    11 MIN AGO
-                  </div>
-                </div>
-              </div>
-            </BorderWallCard>
+            </ScrollArea>
           </div>
         </aside>
       </div>

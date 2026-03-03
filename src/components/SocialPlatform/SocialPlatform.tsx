@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -49,7 +50,7 @@ function FluidSection({ children, title, className = "" }: { children: React.Rea
         <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02]">
           <div className="text-[10px] font-black tracking-[0.25em] text-white/60 uppercase">{title}</div>
         </div>
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 relative">
           {children}
         </div>
       </div>
@@ -71,7 +72,6 @@ export default function SocialPlatform() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim()) {
-      // Navigate to the neural Topic Search page
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
@@ -116,6 +116,8 @@ export default function SocialPlatform() {
     { name: "Robert Downey", avatar: "https://i.pravatar.cc/150?u=rdj", online: false },
     { name: "Scarlett J", avatar: "https://i.pravatar.cc/150?u=scarlett", online: true },
     { name: "Chris Evans", avatar: "https://i.pravatar.cc/150?u=chris", online: false },
+    { name: "Mark Ruffalo", avatar: "https://i.pravatar.cc/150?u=mark", online: true },
+    { name: "Jeremy Renner", avatar: "https://i.pravatar.cc/150?u=jeremy", online: false },
   ];
 
   const updates = [
@@ -124,6 +126,7 @@ export default function SocialPlatform() {
     { user: "Sarah", action: "liked your analysis", time: "12 min ago" },
     { user: "David", action: "replied to your post", time: "20 min ago" },
     { user: "Elena", action: "shared a market update", time: "45 min ago" },
+    { user: "Chris", action: "analyzed BTC volatility", time: "1h ago" },
   ];
 
   const trends = [
@@ -133,24 +136,24 @@ export default function SocialPlatform() {
     { tag: "#insightflow", count: "2.3k posts" },
     { tag: "#cybersecurity", count: "1.2k posts" },
     { tag: "#fintech", count: "900 posts" },
+    { tag: "#web3", count: "850 posts" },
   ];
 
   const navItemClass = "flex items-center gap-4 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
-      {/* 1. Independent Scroll Area: Left Sidebar Navigation */}
+      {/* Left Sidebar Navigation */}
       <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0 h-full">
-        <div className="p-6 flex items-center gap-3 border-b border-white/5 mb-4 shrink-0">
+        <div className="p-6 flex items-center gap-3 border-b border-white/5 shrink-0">
           <Menu className="w-5 h-5 text-indigo-500" />
           <div className="text-[12px] font-black tracking-[0.3em] text-indigo-500 uppercase">Navigation</div>
         </div>
 
-        <ScrollArea className="flex-1 px-4 min-h-0">
-          <div className="space-y-6 pb-8">
-            {/* Workspace Card */}
-            <div className="px-2">
-              <FluidSection title="Workspace">
+        <ScrollArea className="flex-1 min-h-0">
+          <div className="p-4 space-y-6 pb-8">
+            <FluidSection title="Workspace" className="h-48">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
                   <a href="/dashboard?mode=minimal" className={navItemClass}>
                     <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
@@ -169,39 +172,24 @@ export default function SocialPlatform() {
                     <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
                   </a>
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
 
-            {/* Standard Trading Modes Card */}
-            <div className="px-2">
-              <FluidSection title="Standard Modes">
+            <FluidSection title="Standard Modes" className="h-64">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
-                  {NON_ND_MODES.slice(0, 8).map((m) => (
+                  {NON_ND_MODES.map((m) => (
                     <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
                       <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
                       <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
                     </a>
                   ))}
-                  <details className="group/details px-4">
-                    <summary className="text-[11px] font-bold text-white/30 cursor-pointer hover:text-white transition-colors py-2 uppercase tracking-widest list-none flex items-center gap-2">
-                      <ChevronDown className="w-3 h-3 group-open/details:rotate-180 transition-transform" />
-                      More Modes
-                    </summary>
-                    <div className="pt-2 space-y-1">
-                        {NON_ND_MODES.slice(8).map((m) => (
-                          <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className="flex items-center gap-3 py-1.5 text-[13px] text-white/50 hover:text-cyan-400 transition-colors">
-                            <Zap className="w-3 h-3" /> {m.label}
-                          </a>
-                        ))}
-                    </div>
-                  </details>
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
 
-            {/* Neuro Profiles Card */}
-            <div className="px-2">
-              <FluidSection title="Neuro Profiles">
+            <FluidSection title="Neuro Profiles" className="h-64">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
                   {NEURO_PROFILES.map((p) => (
                     <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
@@ -210,12 +198,11 @@ export default function SocialPlatform() {
                     </a>
                   ))}
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
 
-            {/* Tools Card */}
-            <div className="px-2">
-              <FluidSection title="Tools">
+            <FluidSection title="Tools" className="h-32">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
                   <a href="/dashboard" className={navItemClass}>
                     <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
@@ -226,12 +213,11 @@ export default function SocialPlatform() {
                     <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
                   </a>
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
 
-            {/* Platform Section */}
-            <div className="px-2">
-              <FluidSection title="Platform">
+            <FluidSection title="Platform" className="h-48">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
                   <div className={navItemClass}>
                     <Info className="w-5 h-5 text-white/70" />
@@ -250,12 +236,11 @@ export default function SocialPlatform() {
                     <span className="text-[15px] font-semibold text-white/90">Constitution</span>
                   </div>
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
 
-            {/* Legal Section */}
-            <div className="px-2 mb-8">
-              <FluidSection title="Legal">
+            <FluidSection title="Legal" className="h-32">
+              <ScrollArea className="h-full">
                 <div className="p-2 space-y-1">
                   <div className={navItemClass}>
                     <ShieldAlert className="w-5 h-5 text-red-500" />
@@ -266,13 +251,13 @@ export default function SocialPlatform() {
                     <span className="text-[15px] font-semibold text-white/90">Compliance</span>
                   </div>
                 </div>
-              </FluidSection>
-            </div>
+              </ScrollArea>
+            </FluidSection>
           </div>
         </ScrollArea>
       </div>
 
-      {/* 2. Independent Scroll Area: Main Content Area (Feed) */}
+      {/* Main Content Area (Feed) */}
       <div className="flex-1 flex flex-col min-w-0 bg-transparent h-full">
         <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md shrink-0">
           <div className="flex-1 max-xl relative">
@@ -312,8 +297,8 @@ export default function SocialPlatform() {
           </div>
         </div>
 
-        <ScrollArea className="flex-1 p-8 min-h-0">
-          <div className="w-full max-w-2xl mx-auto space-y-10 pb-20">
+        <ScrollArea className="flex-1 min-h-0">
+          <div className="w-full max-w-2xl mx-auto p-8 space-y-10 pb-20">
             {posts.map((post) => (
               <NeonBoard key={post.id} className="w-full">
                 <CardHeader className="p-6">
@@ -354,94 +339,70 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar - With Fluid Section Outlines and 2x Thick Separators */}
+      {/* Right Sidebar */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
         <div className="flex-1 flex flex-col min-w-0">
           
-          {/* 3. Online Friends */}
+          {/* Online Friends */}
           <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10 p-4">
             <FluidSection title="Online Friends" className="h-full">
-              <div className="flex flex-col h-full">
-                <div className="px-4 py-3 flex items-center justify-between shrink-0">
-                  <div className="flex flex-col gap-1">
-                    <ChevronUp className="w-3 h-3 text-primary animate-pulse" />
-                    <ChevronDown className="w-3 h-3 text-primary/50" />
-                  </div>
-                </div>
-                <ScrollArea className="flex-1 px-4 pb-4 min-h-0">
-                  <div className="space-y-6">
-                    {friends.map((friend, idx) => (
-                      <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
-                        <div className="relative">
-                          <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
-                            <AvatarImage src={friend.avatar} />
-                            <AvatarFallback>{friend.name[0]}</AvatarFallback>
-                          </Avatar>
-                          {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
-                        </div>
-                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
+              <ScrollArea className="h-full">
+                <div className="p-4 space-y-6">
+                  {friends.map((friend, idx) => (
+                    <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
+                      <div className="relative">
+                        <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
+                          <AvatarImage src={friend.avatar} />
+                          <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                        </Avatar>
+                        {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
                       </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </div>
+                      <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
             </FluidSection>
           </div>
 
-          {/* 4. Latest Updates */}
+          {/* Latest Updates */}
           <div className="flex-1 flex flex-col min-h-0 border-b-2 border-white/10 p-4">
             <FluidSection title="Latest Updates" className="h-full">
-              <div className="flex flex-col h-full">
-                <div className="px-4 py-3 flex items-center justify-between shrink-0">
-                  <div className="flex flex-col gap-1">
-                    <ChevronUp className="w-3 h-3 text-primary/50" />
-                    <ChevronDown className="w-3 h-3 text-primary animate-pulse" />
-                  </div>
-                </div>
-                <ScrollArea className="flex-1 px-4 pb-4 text-left min-h-0">
-                  <div className="space-y-6">
-                    {updates.map((update, idx) => (
-                      <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                        <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                          <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
-                            {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
-                          </span>
-                        </div>
-                        <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
+              <ScrollArea className="h-full">
+                <div className="p-4 space-y-6 text-left">
+                  {updates.map((update, idx) => (
+                    <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
+                          {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </div>
+                      <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
             </FluidSection>
           </div>
 
-          {/* 5. Trending Topics */}
+          {/* Trending Topics */}
           <div className="flex-1 flex flex-col min-h-0 p-4">
             <FluidSection title="Trending Topics" className="h-full">
-              <div className="flex flex-col h-full">
-                <div className="px-4 py-3 flex items-center justify-between shrink-0">
-                  <div className="flex flex-col gap-1">
-                    <ChevronUp className="w-3 h-3 text-primary" />
-                    <ChevronDown className="w-3 h-3 text-primary/50" />
-                  </div>
-                </div>
-                <ScrollArea className="flex-1 px-4 pb-4 text-left min-h-0">
-                  <div className="space-y-6">
-                    {trends.map((trend, idx) => (
-                      <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                        <div className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
-                          {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
-                        </div>
-                        <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
+              <ScrollArea className="h-full">
+                <div className="p-4 space-y-6 text-left">
+                  {trends.map((trend, idx) => (
+                    <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                      <div className="flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
+                        {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
                       </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </div>
+                      <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
             </FluidSection>
           </div>
 
