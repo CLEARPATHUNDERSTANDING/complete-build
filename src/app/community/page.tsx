@@ -335,7 +335,6 @@ export default function CommunityPage() {
 
               <div className="ml-auto flex items-center gap-5">
                 <button className="text-xl text-yellow-300">☼</button>
-                <button className="text-xl text-white/70">◫</button>
                 <button className="text-xl text-white/70">◔</button>
 
                 <div className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.02] px-3 py-2">

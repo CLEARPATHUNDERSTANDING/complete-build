@@ -12,7 +12,6 @@ import {
   ArrowRight,
   TrendingUp,
   Bell,
-  MessageSquare,
   Sparkles,
   Grid2X2,
   Users,
@@ -288,9 +287,6 @@ export default function SocialPlatform() {
             <div className="flex items-center gap-4 text-muted-foreground">
               <Button variant="ghost" size="icon" className="rounded-full h-9 w-9" onClick={() => setIsDarkMode(!isDarkMode)}>
                 {isDarkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4" />}
-              </Button>
-              <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
-                <MessageSquare className="w-4 h-4" />
               </Button>
               <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 relative">
                 <Bell className="w-4 h-4" />
