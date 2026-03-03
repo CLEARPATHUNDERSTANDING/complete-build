@@ -43,6 +43,7 @@ import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
+import { cn } from "@/lib/utils";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -56,7 +57,8 @@ function BorderWallCard({
   className = "",
   maxHeight = "400px",
   id,
-  useScrollArea = true
+  useScrollArea = true,
+  variant = "warm"
 }: {
   title?: string;
   children: React.ReactNode;
@@ -64,25 +66,28 @@ function BorderWallCard({
   maxHeight?: string;
   id?: string;
   useScrollArea?: boolean;
+  variant?: "warm" | "cool";
 }) {
+  const isCool = variant === "cool";
+  
   return (
     <div
       id={id}
-      className={[
-        "relative rounded-[26px]",
-        "p-[5px]",
-        "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_100%)]",
-        "shadow-[0_0_25px_rgba(255,136,0,0.4),0_0_50px_rgba(255,0,85,0.2)]",
-        className,
-      ].join(" ")}
+      className={cn(
+        "relative rounded-[26px] p-[5px] transition-all duration-500",
+        isCool 
+          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_100%)] shadow-[0_0_25px_rgba(99,102,241,0.4),0_0_50px_rgba(0,229,255,0.2)]" 
+          : "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_100%)] shadow-[0_0_25px_rgba(255,136,0,0.4),0_0_50px_rgba(255,0,85,0.2)]",
+        className
+      )}
     >
       <div
-        className="
-          rounded-[23px]
-          p-[5px]
-          bg-[linear-gradient(135deg,#ff0055_0%,#ff4fd8_100%)]
-          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(255,0,85,0.3)]
-        "
+        className={cn(
+          "rounded-[23px] p-[5px]",
+          isCool
+            ? "bg-[linear-gradient(135deg,#00e5ff_0%,#a78bfa_100%)] shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(99,102,241,0.3)]"
+            : "bg-[linear-gradient(135deg,#ff0055_0%,#ff4fd8_100%)] shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(255,0,85,0.3)]"
+        )}
       >
         <div
           className="
@@ -95,7 +100,10 @@ function BorderWallCard({
         >
           {title ? (
             <div className="border-b border-white/8 px-5 py-4 shrink-0">
-              <div className="text-[12px] font-black uppercase tracking-[0.28em] text-white/70">
+              <div className={cn(
+                "text-[12px] font-black uppercase tracking-[0.28em]",
+                isCool ? "text-indigo-300" : "text-white/70"
+              )}>
                 {title}
               </div>
             </div>
@@ -300,7 +308,7 @@ export default function SocialPlatform() {
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input
-                className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-orange-500/50 transition-all outline-none"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-indigo-500/50 transition-all outline-none"
                 placeholder="Search universal asset network..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -322,13 +330,13 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1">
           <div className="max-w-3xl mx-auto px-8 py-10 space-y-10 pb-32">
-            {/* DISPATCH MODULE */}
-            <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false}>
+            {/* DISPATCH MODULE - NEON INDIGO/CYAN RECALIBRATION */}
+            <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false} variant="cool">
               <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center gap-2">
                   <Avatar className="w-12 h-12 border border-white/10">
                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                    <AvatarFallback className="bg-orange-500">{user.displayName?.[0]}</AvatarFallback>
+                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
                   </Avatar>
                   {isLive && (
                     <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 animate-pulse">
@@ -339,19 +347,19 @@ export default function SocialPlatform() {
                 </div>
                 <div className="flex-1">
                   <textarea 
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-orange-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-cyan-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
                     placeholder="Broadcast diagnostic thesis or network observation..."
                     value={postText}
                     onChange={(e) => setPostText(e.target.value)}
                   />
                   <div className="flex flex-wrap gap-2 mt-4">
                     {attachedSymbols.map(s => (
-                      <Badge key={s} className="bg-orange-500/20 text-orange-300 border-orange-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                      <Badge key={s} className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
                         {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
                       </Badge>
                     ))}
                     {activeAttachment && (
-                      <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                      <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
                         <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
                         <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
                       </Badge>
@@ -362,17 +370,17 @@ export default function SocialPlatform() {
 
               <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
                 <div className="flex items-center gap-6">
-                  <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-orange-400 transition-colors">
-                    <Zap className="w-3.5 h-3.5" /> Link Asset
+                  <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-indigo-400 transition-colors">
+                    <Zap className="w-3.5 h-3.5 text-indigo-400" /> Link Asset
                   </button>
-                  <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-pink-400' : 'text-white/40 hover:text-pink-400'}`}>
+                  <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-cyan-400' : 'text-white/40 hover:text-cyan-400'}`}>
                     <BarChart2 className="w-3.5 h-3.5" /> {activeAttachment ? 'Adjust Mapping' : 'Attach Mapped Chart'}
                   </button>
                   <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>
                     <Radio className="w-3.5 h-3.5" /> Live Sync
                   </button>
                 </div>
-                <Button onClick={handleDispatch} className="bg-orange-500 hover:bg-orange-400 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(255,136,0,0.4)]">
+                <Button onClick={handleDispatch} className="bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all">
                   Dispatch →
                 </Button>
               </div>
