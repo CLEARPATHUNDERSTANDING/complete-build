@@ -7,15 +7,15 @@ const HERO_IMAGE =
 
 export default function HomePage() {
   return (
-    <main className="landing-root">
+    <main className="landing-root bg-black min-h-screen">
       <header className="topbar">
         <div className="brand-wrap">
-          <div className="brand-logo-frame">
+          <div className="brand-logo-frame opacity-60">
             <img src={HERO_IMAGE} alt="Clear Path Logo" className="brand-logo-image" />
           </div>
 
           <div>
-            <div className="brand-name">CLEAR PATH</div>
+            <div className="brand-name text-white">CLEAR PATH</div>
             <div className="brand-sub">Adaptive Market Intelligence</div>
           </div>
         </div>
@@ -34,12 +34,13 @@ export default function HomePage() {
         <div className="hero-left">
           <div className="eyebrow">Built for clarity</div>
 
-          <h1 className="hero-title">
+          <h1 className="hero-title text-white">
             Market intelligence designed to feel cleaner, faster, and easier to enter
           </h1>
 
           <p className="hero-copy">
-            Your content sits above a solid, distraction-free layer with sharp neon styling.
+            Your interactive intelligence layer sits above a solid, distraction-free foundation 
+            with sharp neon styling and neuro-aware geometry.
           </p>
 
           <div className="hero-cta-row">
@@ -54,7 +55,7 @@ export default function HomePage() {
 
           <div className="bullet-grid">
             <div className="mini-stat">
-              <span className="mini-label">Adaptive Interface</span>
+              <span className="mini-label">Diagnostic Logic</span>
               <strong>Neuro-aware visual structure</strong>
             </div>
 
@@ -64,7 +65,7 @@ export default function HomePage() {
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label">Deployment</span>
+              <span className="mini-label">Stability</span>
               <strong>Stable public front page</strong>
             </div>
           </div>
@@ -78,17 +79,17 @@ export default function HomePage() {
 
           <div className="glass-card neon-cyan login-card">
             <div className="card-kicker">Secure Access</div>
-            <h2>Member Login</h2>
+            <h2 className="text-white">Member Login</h2>
 
             <form className="login-form">
               <label>
-                <span>Email</span>
-                <input type="email" placeholder="name@example.com" />
+                <span className="text-white/60">Email</span>
+                <input type="email" placeholder="name@example.com" className="bg-white/5 border-white/10" />
               </label>
 
               <label>
-                <span>Password</span>
-                <input type="password" placeholder="Enter your password" />
+                <span className="text-white/60">Password</span>
+                <input type="password" placeholder="Enter your password" className="bg-white/5 border-white/10" />
               </label>
 
               <button type="button" className="primary-btn large full">
@@ -96,8 +97,8 @@ export default function HomePage() {
               </button>
 
               <div className="form-links">
-                <Link href="/login">Forgot password?</Link>
-                <Link href="/login">Create account</Link>
+                <Link href="/login" className="text-white/40 hover:text-white">Forgot password?</Link>
+                <Link href="/login" className="text-white/40 hover:text-white">Create account</Link>
               </div>
             </form>
           </div>
@@ -105,8 +106,8 @@ export default function HomePage() {
           <div className="widget-grid">
             <div className="glass-card neon-green widget-card">
               <div className="widget-label">Market Pulse</div>
-              <div className="widget-value">24 Active Feeds</div>
-              <p>
+              <div className="widget-value text-white">24 Active Feeds</div>
+              <p className="text-white/60">
                 News, watchlists, scanners, dashboards, and intelligence surfaces
                 can live here.
               </p>
@@ -114,8 +115,8 @@ export default function HomePage() {
 
             <div className="glass-card neon-indigo widget-card">
               <div className="widget-label">Mode Engine</div>
-              <div className="widget-value">Personalized Views</div>
-              <p>
+              <div className="widget-value text-white">Personalized Views</div>
+              <p className="text-white/60">
                 Different user types and front-end experiences can be routed from
                 this home layer.
               </p>

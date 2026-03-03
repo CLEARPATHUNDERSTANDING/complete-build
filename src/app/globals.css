@@ -102,9 +102,9 @@ a {
 }
 
 .brand-logo-frame {
-  width: 56px;
-  height: 56px;
-  border-radius: 16px;
+  width: 186px; /* 3x Scale from 62px */
+  height: 186px;
+  border-radius: 24px;
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
@@ -112,11 +112,11 @@ a {
   border: 1px solid rgba(24, 240, 255, 0.28);
   box-shadow:
     0 0 0 1px rgba(255, 43, 214, 0.14),
-    0 0 18px rgba(24, 240, 255, 0.18),
-    0 0 28px rgba(91, 61, 245, 0.12);
+    0 0 30px rgba(24, 240, 255, 0.18),
+    0 0 40px rgba(91, 61, 245, 0.12);
+  filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  filter: none !important;
 }
 
 .brand-logo-image {
@@ -217,7 +217,7 @@ a {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.56);
+  color: #18f0ff; /* Neon Cyan */
   margin-bottom: 8px;
 }
 
@@ -237,7 +237,9 @@ a {
   position: relative;
   overflow: hidden;
   border-radius: 28px;
-  min-height: 320px;
+  width: 420px;
+  height: 420px;
+  margin-left: auto;
   background: #05060d;
   border: 1px solid rgba(24, 240, 255, 0.24);
   box-shadow:
@@ -245,16 +247,15 @@ a {
     0 0 18px rgba(24, 240, 255, 0.16),
     0 0 28px rgba(255, 43, 214, 0.14),
     0 0 38px rgba(91, 61, 245, 0.12);
+  filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  filter: none !important;
   isolation: isolate;
 }
 
 .hero-image {
   width: 100%;
   height: 100%;
-  min-height: 320px;
   display: block;
   object-fit: cover;
   object-position: center;
@@ -289,14 +290,6 @@ a {
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.glass-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: none;
 }
 
 .neon-cyan {
@@ -431,8 +424,7 @@ a {
   box-shadow:
     0 12px 34px rgba(0, 0, 0, 0.34),
     0 0 14px rgba(24, 240, 255, 0.18),
-    0 0 24px rgba(255, 43, 214, 0.16),
-    0 0 34px rgba(91, 61, 245, 0.12);
+    0 0 24px rgba(91, 61, 245, 0.12);
 }
 
 .ghost-btn {
