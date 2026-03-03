@@ -1,4 +1,3 @@
-
 "use client";
 
 import React from "react";
@@ -71,15 +70,20 @@ function BorderWallCard({
   title,
   children,
   className = "",
-  maxHeight = "400px"
+  maxHeight = "400px",
+  id,
+  useScrollArea = true
 }: {
   title?: string;
   children: React.ReactNode;
   className?: string;
   maxHeight?: string;
+  id?: string;
+  useScrollArea?: boolean;
 }) {
   return (
     <div
+      id={id}
       className={[
         "relative rounded-[26px]",
         "p-[5px]",
@@ -104,7 +108,7 @@ function BorderWallCard({
             border border-white/5
             flex flex-col overflow-hidden
           "
-          style={{ height: maxHeight }}
+          style={{ height: useScrollArea ? maxHeight : 'auto' }}
         >
           {title ? (
             <div className="border-b border-white/8 px-5 py-4 shrink-0">
@@ -115,9 +119,15 @@ function BorderWallCard({
           ) : null}
 
           <div className="flex-1 min-h-0 relative">
-            <ScrollArea className="h-full">
-              <div className="p-5">{children}</div>
-            </ScrollArea>
+            {useScrollArea ? (
+              <ScrollArea className="h-full">
+                <div className="p-5">{children}</div>
+              </ScrollArea>
+            ) : (
+              <div className="p-5 h-full">
+                {children}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -314,8 +324,8 @@ export default function CommunityPage() {
           <div className="sticky top-0 h-screen flex flex-col">
             <ScrollArea className="flex-1 min-h-0">
               <div className="px-5 py-6 space-y-8">
-                <BorderWallCard title="Online Friends" maxHeight="350px">
-                  <div className="space-y-5">
+                <BorderWallCard title="Online Friends" maxHeight="none" id="online-friends-card" useScrollArea={false}>
+                  <div className="friends-scroll max-h-[350px] pr-2 space-y-5">
                     {friends.map((friend) => (
                       <div
                         key={friend.id}
@@ -333,8 +343,8 @@ export default function CommunityPage() {
                   </div>
                 </BorderWallCard>
 
-                <BorderWallCard title="Latest Updates" maxHeight="300px">
-                  <div className="space-y-5 text-[15px]">
+                <BorderWallCard title="Latest Updates" maxHeight="none" id="latest-updates-card" useScrollArea={false}>
+                  <div className="latest-updates-scroll max-h-[300px] pr-2 space-y-5 text-[15px]">
                     <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
                       <div className="text-white/90">
                         <span className="font-black text-cyan-300">Tonny</span>{" "}

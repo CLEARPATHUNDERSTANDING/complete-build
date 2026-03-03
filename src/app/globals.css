@@ -78,6 +78,65 @@ html, body {
   border-radius: 7px;
 }
 
+/* =========================================================
+   LATEST UPDATES & ONLINE FRIENDS — custom neon scrollbars
+   ========================================================= */
+
+#latest-updates-card .latest-updates-scroll,
+#online-friends-card .friends-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-gutter: stable;
+}
+
+/* Chrome / Edge / Safari */
+#latest-updates-card .latest-updates-scroll::-webkit-scrollbar,
+#online-friends-card .friends-scroll::-webkit-scrollbar {
+  width: 12px;
+}
+
+#latest-updates-card .latest-updates-scroll::-webkit-scrollbar-track,
+#online-friends-card .friends-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 18px rgba(0, 0, 0, 0.65);
+}
+
+#latest-updates-card .latest-updates-scroll::-webkit-scrollbar-thumb,
+#online-friends-card .friends-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    #00d4ff 0%,
+    #6a5cff 35%,
+    #ff4fd8 70%,
+    #ff8a00 100%
+  );
+  border: 2px solid rgba(7, 7, 11, 0.95);
+  box-shadow:
+    0 0 10px rgba(0, 212, 255, 0.35),
+    0 0 16px rgba(106, 92, 255, 0.25),
+    0 0 20px rgba(255, 79, 216, 0.25);
+  background-clip: padding-box;
+}
+
+#latest-updates-card .latest-updates-scroll::-webkit-scrollbar-thumb:hover,
+#online-friends-card .friends-scroll::-webkit-scrollbar-thumb:hover {
+  box-shadow:
+    0 0 12px rgba(0, 212, 255, 0.55),
+    0 0 18px rgba(106, 92, 255, 0.35),
+    0 0 26px rgba(255, 79, 216, 0.40);
+}
+
+/* Firefox */
+#latest-updates-card .latest-updates-scroll,
+#online-friends-card .friends-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #ff4fd8 rgba(255, 255, 255, 0.10);
+}
+
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }

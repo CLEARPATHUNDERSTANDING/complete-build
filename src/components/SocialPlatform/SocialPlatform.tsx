@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -12,8 +11,6 @@ import {
   Heart,
   ArrowRight,
   TrendingUp,
-  ChevronUp,
-  ChevronDown,
   Bell,
   MessageSquare,
   Sparkles,
@@ -43,19 +40,39 @@ import { NON_ND_MODES } from "@/modes/nonNdModes";
  * High-intensity Fluid Border Wrapper
  * Colors: Fire Red (#ff003c), Neon Orange (#ff8a00), Neon Pink (#ff00d4)
  */
-function FluidSection({ children, title, className = "", maxHeight = "250px" }: { children: React.ReactNode, title: string, className?: string, maxHeight?: string }) {
+function FluidSection({ 
+  children, 
+  title, 
+  className = "", 
+  maxHeight = "250px", 
+  id,
+  useScrollArea = true 
+}: { 
+  children: React.ReactNode, 
+  title: string, 
+  className?: string, 
+  maxHeight?: string,
+  id?: string,
+  useScrollArea?: boolean
+}) {
   return (
-    <div className={`p-[2px] rounded-2xl bg-gradient-to-br from-[#ff003c] via-[#ff8a00] to-[#ff00d4] shadow-[0_0_20px_rgba(255,0,60,0.15)] ${className}`}>
+    <div id={id} className={`p-[2px] rounded-2xl bg-gradient-to-br from-[#ff003c] via-[#ff8a00] to-[#ff00d4] shadow-[0_0_20px_rgba(255,0,60,0.15)] ${className}`}>
       <div className="bg-[#070b16] rounded-[14px] overflow-hidden flex flex-col h-full">
         <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02] shrink-0">
           <div className="text-[10px] font-black tracking-[0.25em] text-white/60 uppercase">{title}</div>
         </div>
-        <div className="flex-1 min-h-0 relative" style={{ height: maxHeight }}>
-          <ScrollArea className="h-full">
-            <div className="p-2">
+        <div className="flex-1 min-h-0 relative" style={{ height: useScrollArea ? maxHeight : 'auto' }}>
+          {useScrollArea ? (
+            <ScrollArea className="h-full">
+              <div className="p-2">
+                {children}
+              </div>
+            </ScrollArea>
+          ) : (
+            <div className="p-2 h-full">
               {children}
             </div>
-          </ScrollArea>
+          )}
         </div>
       </div>
     </div>
@@ -339,8 +356,8 @@ export default function SocialPlatform() {
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
         <div className="flex-1 flex flex-col min-w-0 p-4 space-y-6">
           
-          <FluidSection title="Online Friends" maxHeight="280px">
-            <div className="space-y-6">
+          <FluidSection title="Online Friends" maxHeight="none" id="online-friends-card" useScrollArea={false}>
+            <div className="friends-scroll max-h-72 pr-2 space-y-6">
               {friends.map((friend, idx) => (
                 <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
                   <div className="relative">
@@ -356,8 +373,8 @@ export default function SocialPlatform() {
             </div>
           </FluidSection>
 
-          <FluidSection title="Latest Updates" maxHeight="220px">
-            <div className="space-y-6 text-left">
+          <FluidSection title="Latest Updates" maxHeight="none" id="latest-updates-card" useScrollArea={false}>
+            <div className="latest-updates-scroll max-h-56 pr-2 space-y-6 text-left">
               {updates.map((update, idx) => (
                 <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
                   <div className="flex items-center gap-2">
