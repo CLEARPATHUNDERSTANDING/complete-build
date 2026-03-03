@@ -55,8 +55,8 @@ export default function HomePage() {
 
           <div className="bullet-grid">
             <div className="mini-stat">
-              <span className="mini-label">Diagnostic Logic</span>
-              <strong>fire pink visual structure</strong>
+              <span className="mini-label">Adaptive Interface</span>
+              <strong>Neuro-aware visual structure</strong>
             </div>
 
             <div className="mini-stat">
@@ -65,7 +65,7 @@ export default function HomePage() {
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label">Stability</span>
+              <span className="mini-label">Deployment</span>
               <strong>Stable public front page</strong>
             </div>
           </div>

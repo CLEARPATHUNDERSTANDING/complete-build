@@ -75,7 +75,7 @@ a {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: none; /* Background removed as per request */
+  background: none;
 }
 
 .topbar {
@@ -104,10 +104,10 @@ a {
   flex-shrink: 0;
   position: relative;
   background: #05060d;
-  border: 1px solid rgba(255, 0, 212, 0.28);
+  border: 1px solid rgba(24, 240, 255, 0.28);
   box-shadow:
     0 0 0 1px rgba(255, 43, 214, 0.14),
-    0 0 30px rgba(255, 0, 212, 0.18);
+    0 0 30px rgba(24, 240, 255, 0.18);
   filter: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -165,10 +165,10 @@ a {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #ff00d4; /* Fire Pink */
+  color: #18f0ff;
   text-shadow:
-    0 0 10px rgba(255, 0, 212, 0.28),
-    0 0 18px rgba(255, 43, 214, 0.18);
+    0 0 10px rgba(24, 240, 255, 0.28),
+    0 0 18px rgba(91, 61, 245, 0.18);
   margin-bottom: 14px;
 }
 
@@ -211,7 +211,7 @@ a {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #ff00d4; /* Fire Pink */
+  color: #18f0ff;
   margin-bottom: 8px;
 }
 
@@ -235,10 +235,10 @@ a {
   height: 420px;
   margin-left: auto;
   background: #05060d;
-  border: 1px solid rgba(255, 0, 212, 0.24);
+  border: 1px solid rgba(24, 240, 255, 0.24);
   box-shadow:
     0 18px 50px rgba(0, 0, 0, 0.44),
-    0 0 18px rgba(255, 0, 212, 0.16),
+    0 0 18px rgba(24, 240, 255, 0.16),
     0 0 28px rgba(255, 43, 214, 0.14);
   filter: none !important;
   backdrop-filter: none !important;
@@ -314,9 +314,9 @@ a {
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #ff00d4; /* Fire Pink */
+  color: #18f0ff;
   text-shadow:
-    0 0 10px rgba(255, 0, 212, 0.30),
+    0 0 10px rgba(24, 240, 255, 0.30),
     0 0 18px rgba(255, 43, 214, 0.16);
   margin-bottom: 10px;
 }
@@ -413,10 +413,10 @@ a {
 
 .primary-btn {
   color: white;
-  background: linear-gradient(135deg, #00e5ff, #6366f1, #ff00d4);
+  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6, #ff00d4);
   box-shadow:
     0 12px 34px rgba(0, 0, 0, 0.34),
-    0 0 14px rgba(0, 229, 255, 0.18),
+    0 0 14px rgba(24, 240, 255, 0.18),
     0 0 24px rgba(99, 102, 241, 0.12);
 }
 
