@@ -46,6 +46,10 @@ import placeholderData from "@/app/lib/placeholder-images.json";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
+/**
+ * High-Intensity Card with dual-layer neon borders.
+ * Updated to remove Cyan from the inner layer as per protocol request.
+ */
 function BorderWallCard({
   title,
   children,
@@ -76,8 +80,8 @@ function BorderWallCard({
         className="
           rounded-[23px]
           p-[5px]
-          bg-[linear-gradient(135deg,rgba(55,214,255,1)_0%,rgba(162,122,255,0.95)_48%,rgba(255,79,179,1)_100%)]
-          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_28px_rgba(44,213,255,0.35),0_0_30px_rgba(255,76,166,0.24)]
+          bg-[linear-gradient(135deg,rgba(162,122,255,1)_0%,rgba(255,79,179,0.95)_48%,rgba(162,122,255,1)_100%)]
+          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_28px_rgba(162,122,255,0.35),0_0_30px_rgba(255,76,166,0.24)]
         "
       >
         <div
@@ -261,14 +265,14 @@ export default function SocialPlatform() {
 
             <BorderWallCard title="Standard Modes" maxHeight="300px">
               <div className="space-y-1">
-                <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="cyan" />
-                <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="cyan" />
-                <NavItem label="Bonds" href="/dashboard?mode=minimal&style=bonds" color="cyan" />
-                <NavItem label="Forex" href="/dashboard?mode=minimal&style=forex" color="cyan" />
-                <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="cyan" />
-                <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="cyan" />
-                <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="cyan" />
-                <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="cyan" />
+                <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="blue" />
+                <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="violet" />
+                <NavItem label="Bonds" href="/dashboard?mode=minimal&style=bonds" color="orange" />
+                <NavItem label="Forex" href="/dashboard?mode=minimal&style=forex" color="emerald" />
+                <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="pink" />
+                <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="blue" />
+                <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="violet" />
+                <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="orange" />
               </div>
             </BorderWallCard>
           </div>
