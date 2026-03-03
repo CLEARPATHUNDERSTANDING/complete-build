@@ -1,6 +1,8 @@
+
 'use client';
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { marketCatalog } from "@/data/marketCatalog";
 import MarketWatchBoard from "./MarketWatchBoard";
 import IntelFeedBoard from "./IntelFeedBoard";
@@ -8,7 +10,14 @@ import Link from "next/link";
 import { Brain, Search, ArrowLeft } from "lucide-react";
 
 export default function MarketSearchBoards() {
-  const [query, setQuery] = useState("");
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('q') || "";
+  const [query, setQuery] = useState(initialQuery);
+
+  useEffect(() => {
+    const q = searchParams.get('q');
+    if (q) setQuery(q);
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

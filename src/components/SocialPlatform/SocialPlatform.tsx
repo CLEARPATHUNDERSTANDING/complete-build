@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { 
   Search,
   Sun,
@@ -58,14 +59,22 @@ function FluidSection({ children, title, className = "" }: { children: React.Rea
 }
 
 export default function SocialPlatform() {
+  const router = useRouter();
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!mounted) return null;
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      router.push(`/intelligence?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   const getImgUrl = (id: string) => PlaceHolderImages.find(img => img.id === id)?.imageUrl || null;
 
@@ -272,6 +281,9 @@ export default function SocialPlatform() {
               type="text" 
               placeholder="Search markets, news, or traders..." 
               className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
             />
           </div>
           <div className="flex items-center gap-6 ml-6">
