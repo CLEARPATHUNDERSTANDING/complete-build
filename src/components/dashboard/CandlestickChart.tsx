@@ -4,8 +4,9 @@ import React, { useMemo, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
-import { Loader2, Sparkles, Search } from "lucide-react";
+import { Loader2, Sparkles, Search, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Dynamically import ApexCharts to avoid SSR issues
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -158,6 +159,14 @@ export function CandlestickChart({
     <div style={wrapStyle} className="transition-all duration-700 relative group overflow-hidden">
       <div className="px-4 pt-3 flex items-center justify-between relative z-30">
          <div className="flex items-center gap-3 flex-1">
+            <Link 
+              href="/" 
+              className="p-1.5 rounded-lg bg-white/5 border border-white/10 transition-all hover:bg-white/10"
+              style={{ color: p.text }}
+              title="Exit to Hub"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+            </Link>
             <div className="relative flex-1 max-w-[140px]">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 opacity-30" style={{ color: p.text }} />
               <input 

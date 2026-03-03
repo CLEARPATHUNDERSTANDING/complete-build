@@ -5,6 +5,8 @@ import React, { useMemo, useState } from "react";
 import type { ApexOptions } from "apexcharts";
 import { CHART_TYPES, type ApexChartType, type OhlcPoint } from "./market-watch-types";
 import { normalizeForApex } from "./market-watch-normalize";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -103,6 +105,15 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
   return (
     <div className="w-full h-full flex flex-col">
       <div className="mb-3 px-4 flex flex-wrap items-center gap-3">
+        <Link 
+          href="/" 
+          className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center gap-2"
+          title="Exit to Hub"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span className="text-[9px] font-black uppercase tracking-widest hidden sm:inline">Hub</span>
+        </Link>
+        <div className="h-6 w-px bg-white/10 mx-1" />
         <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Visualizer</label>
         <select
           className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white/80 outline-none hover:bg-white/10 transition-colors"

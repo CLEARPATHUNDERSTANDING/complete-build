@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { ModeConfig } from "@/modes/types";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -202,6 +204,13 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
       >
         <div className="flex items-center justify-between px-2 py-2 gap-4">
           <div className="flex-1 flex items-center gap-3">
+            <Link 
+              href="/" 
+              className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
+              title="Exit to Hub"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
             <input 
               value={localSymbol}
               onChange={(e) => setLocalSymbol(e.target.value.toUpperCase())}
