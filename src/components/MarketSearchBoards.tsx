@@ -39,47 +39,52 @@ export default function MarketSearchBoards() {
   }, [query]);
 
   return (
-    <div className="min-h-screen bg-black px-4 py-12 text-white">
-      <div className="mx-auto max-w-[430px] flex flex-col items-center">
+    <div className="min-h-screen bg-black px-6 py-16 text-white">
+      <div className="mx-auto max-w-[600px] flex flex-col items-center">
         {/* Back to Social Button */}
-        <div className="w-full flex justify-start mb-6">
+        <div className="w-full flex justify-start mb-10">
           <Link 
             href="/" 
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+            className="flex items-center gap-3 px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-all text-sm font-bold uppercase tracking-widest"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
             Back to Social
           </Link>
         </div>
 
-        <div className="mb-10 flex flex-col items-center gap-4 text-center">
-          <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20">
-            <Brain className="w-8 h-8 text-primary" />
+        <div className="mb-12 flex flex-col items-center gap-8 text-center">
+          <div className="relative">
+            <img 
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path Logo"
+              className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_40px_rgba(255,136,0,0.4)]"
+            />
+            <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Intelligence Interface</h1>
-            <p className="text-sm text-white/40">Data Truth Layer Active</p>
+            <h1 className="text-3xl font-black uppercase tracking-[0.3em] mb-2">Intelligence Interface</h1>
+            <p className="text-sm font-bold text-white/40 uppercase tracking-widest">Data Truth Layer Active</p>
           </div>
         </div>
 
-        <div className="w-full mb-8 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+        <div className="w-full mb-12 relative">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search forex, crypto, metals, futures..."
-            className="w-full rounded-2xl border border-white/10 bg-[#0a0f18] pl-11 pr-4 py-4 text-white outline-none focus:border-primary/50 transition-colors placeholder:text-white/35 shadow-2xl"
+            className="w-full rounded-3xl border border-white/10 bg-[#0a0f18] pl-16 pr-6 py-6 text-lg text-white outline-none focus:border-primary/50 transition-colors placeholder:text-white/35 shadow-2xl"
           />
         </div>
 
-        <div className="w-full space-y-8">
+        <div className="w-full space-y-12">
           <MarketWatchBoard items={filtered} />
           <IntelFeedBoard />
           
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center pt-8">
             <Link 
               href="/dashboard" 
-              className="px-8 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all text-sm font-bold tracking-widest uppercase"
+              className="px-12 py-5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-primary/50 transition-all text-base font-black tracking-widest uppercase"
             >
               Launch Neuro Dashboard
             </Link>

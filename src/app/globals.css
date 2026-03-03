@@ -105,30 +105,30 @@ a {
 }
 
 .brand-logo-image {
-  width: 62px;
-  height: 62px;
+  width: 186px;
+  height: 186px;
   object-fit: cover;
   display: block;
-  border-radius: 16px;
+  border-radius: 32px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.04);
   box-shadow:
-    0 0 14px rgba(24, 240, 255, 0.24),
-    0 0 22px rgba(255, 43, 214, 0.18),
-    0 0 30px rgba(91, 61, 245, 0.14);
+    0 0 24px rgba(24, 240, 255, 0.24),
+    0 0 42px rgba(255, 43, 214, 0.18),
+    0 0 60px rgba(91, 61, 245, 0.14);
 }
 
 .brand-name {
-  font-size: 15px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: 0.18em;
   color: white;
 }
 
 .brand-sub {
-  font-size: 11px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .hero-shell {
@@ -154,16 +154,16 @@ a {
 }
 
 .hero-top-image {
-  width: 140px;
+  width: 420px;
   height: auto;
   display: block;
   margin-bottom: 18px;
-  border-radius: 18px;
+  border-radius: 36px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 0 14px rgba(24, 240, 255, 0.22),
-    0 0 22px rgba(255, 43, 214, 0.16),
-    0 0 30px rgba(91, 61, 245, 0.12);
+    0 0 24px rgba(24, 240, 255, 0.22),
+    0 0 42px rgba(255, 43, 214, 0.16),
+    0 0 60px rgba(91, 61, 245, 0.12);
 }
 
 .neon-fuchsia { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 43, 214, 0.16); }

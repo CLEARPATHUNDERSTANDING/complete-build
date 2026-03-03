@@ -81,53 +81,53 @@ function SearchContent() {
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500 selection:text-white">
-      <header className="h-20 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
+      <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-10 flex items-center justify-between">
+        <div className="flex items-center gap-10">
+          <Link href="/" className="flex items-center gap-3 text-[14px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+            <ArrowLeft className="w-6 h-6" />
             Social Hub
           </Link>
-          <div className="h-8 w-px bg-white/10" />
-          <div className="flex items-center gap-2">
+          <div className="h-12 w-px bg-white/10" />
+          <div className="flex items-center gap-6">
             <div className="relative">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-10 h-10 rounded-xl object-cover border border-white/10 shadow-[0_0_15px_rgba(255,136,0,0.4)]"
+                className="w-32 h-32 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)]"
               />
-              <span className="absolute bottom-0.5 right-0.5 text-[6px] font-bold text-white/60 select-none">©™</span>
+              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white/60 select-none">©™</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[12px] font-black tracking-[0.2em] uppercase leading-none">Topic</span>
-              <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
+              <span className="text-[20px] font-black tracking-[0.2em] uppercase leading-none">Topic</span>
+              <span className="text-[16px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSearch} className="flex-1 max-w-2xl mx-12 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+        <form onSubmit={handleSearch} className="flex-1 max-w-3xl mx-16 relative">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30" />
           <input
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-white/20"
+            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-16 pr-6 py-5 text-lg focus:outline-none focus:border-indigo-500/50 transition-all placeholder:text-white/20"
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Analyze news, videos, community trends..."
           />
-          {loading && <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-500 animate-spin" />}
+          {loading && <Loader2 className="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-indigo-500 animate-spin" />}
         </form>
 
-        <div className="text-[10px] font-black tracking-widest text-white/40 uppercase">
+        <div className="text-[12px] font-black tracking-widest text-white/40 uppercase">
           Neural Search Active
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-12 px-8">
+      <main className="max-w-7xl mx-auto py-16 px-10">
         {category && (
-          <div className="mb-10 flex items-center gap-4">
-            <div className="px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span className="text-[10px] font-black uppercase tracking-widest text-white">Category: {category.toUpperCase()}</span>
+          <div className="mb-12 flex items-center gap-6">
+            <div className="px-6 py-3 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center gap-3">
+              <Sparkles className="w-5 h-5 text-indigo-400" />
+              <span className="text-[12px] font-black uppercase tracking-widest text-white">Category: {category.toUpperCase()}</span>
             </div>
-            <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em]">
+            <div className="text-[12px] font-bold text-white/30 uppercase tracking-[0.2em]">
               Cross-Referencing {items.length} Intelligence Points
             </div>
           </div>
@@ -135,54 +135,54 @@ function SearchContent() {
 
         {loading && items.length === 0 ? (
           <div className="h-[60vh] flex flex-col items-center justify-center text-indigo-500/40">
-            <Loader2 className="w-12 h-12 animate-spin mb-4" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Aggregating Data Truth Layer...</span>
+            <Loader2 className="w-16 h-16 animate-spin mb-6" />
+            <span className="text-[12px] font-black uppercase tracking-[0.4em]">Aggregating Data Truth Layer...</span>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {items.map((item, idx) => (
               <a key={idx} href={item.url} target="_blank" rel="noreferrer" className="group block">
                 <NeonBoard className="h-full">
-                  <div className="p-6 flex flex-col h-full">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className={`px-3 py-1 rounded-full border flex items-center gap-2 text-[9px] font-black uppercase tracking-widest ${getSourceColor(item.source)}`}>
+                  <div className="p-8 flex flex-col h-full">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className={`px-4 py-1.5 rounded-full border flex items-center gap-3 text-[10px] font-black uppercase tracking-widest ${getSourceColor(item.source)}`}>
                         {getSourceIcon(item.source)}
                         {item.source}
                       </div>
                       {item.publishedAt && (
-                        <span className="text-[9px] font-bold text-white/30 uppercase tracking-wider">
+                        <span className="text-[10px] font-bold text-white/30 uppercase tracking-wider">
                           {new Date(item.publishedAt).toLocaleDateString()}
                         </span>
                       )}
                     </div>
 
                     {item.image && (
-                      <div className="relative aspect-video rounded-xl overflow-hidden mb-4 border border-white/5">
+                      <div className="relative aspect-video rounded-2xl overflow-hidden mb-6 border border-white/5">
                         <img src={item.image} alt="" className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-500" />
                         <div className="absolute inset-0 bg-indigo-500/10 group-hover:bg-transparent transition-colors" />
                       </div>
                     )}
 
-                    <h3 className="text-base font-black leading-tight text-white/90 group-hover:text-indigo-400 transition-colors mb-3 line-clamp-3 uppercase tracking-tight">
+                    <h3 className="text-lg font-black leading-tight text-white/90 group-hover:text-indigo-400 transition-colors mb-4 line-clamp-3 uppercase tracking-tight">
                       {item.title}
                     </h3>
 
                     {item.snippet && (
-                      <p className="text-xs text-white/50 leading-relaxed line-clamp-4 mb-6 font-medium">
+                      <p className="text-sm text-white/50 leading-relaxed line-clamp-4 mb-8 font-medium">
                         {item.snippet}
                       </p>
                     )}
 
-                    <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Avatar className="w-6 h-6 border border-white/10">
-                          <AvatarFallback className="text-[8px] bg-white/5">{item.author?.[0] || '?'}</AvatarFallback>
+                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-8 h-8 border border-white/10">
+                          <AvatarFallback className="text-[10px] bg-white/5">{item.author?.[0] || '?'}</AvatarFallback>
                         </Avatar>
-                        <span className="text-[9px] font-black text-white/40 uppercase tracking-widest truncate max-w-[120px]">
+                        <span className="text-[10px] font-black text-white/40 uppercase tracking-widest truncate max-w-[140px]">
                           {item.author || "Unknown Intel"}
                         </span>
                       </div>
-                      <div className="text-[9px] font-black text-indigo-500 uppercase tracking-widest group-hover:underline">
+                      <div className="text-[10px] font-black text-indigo-500 uppercase tracking-widest group-hover:underline">
                         Investigate →
                       </div>
                     </div>
@@ -195,14 +195,14 @@ function SearchContent() {
 
         {!loading && items.length === 0 && initialQuery && (
           <div className="h-[60vh] flex flex-col items-center justify-center text-white/20">
-            <Search className="w-12 h-12 mb-4 opacity-20" />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">No Intelligence Found for This Query</span>
+            <Search className="w-16 h-16 mb-6 opacity-20" />
+            <span className="text-[12px] font-black uppercase tracking-[0.4em]">No Intelligence Found for This Query</span>
           </div>
         )}
       </main>
 
-      <footer className="py-12 border-t border-white/10 mt-20">
-        <div className="max-w-7xl mx-auto px-8 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+      <footer className="py-16 border-t border-white/10 mt-20">
+        <div className="max-w-7xl mx-auto px-10 flex justify-between items-center text-[12px] font-bold uppercase tracking-[0.2em] text-white/30">
           <span>ClearPath Neural Search v1.0.0</span>
           <span>Data-Only Intelligence Layer • No Financial Advice</span>
         </div>

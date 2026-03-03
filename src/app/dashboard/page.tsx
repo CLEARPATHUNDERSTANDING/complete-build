@@ -150,63 +150,63 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
-      <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
-        <div className="flex items-center gap-12">
-           <div className="flex items-center gap-4">
+      <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
+        <div className="flex items-center gap-16">
+           <div className="flex items-center gap-8">
              <div className="relative">
                <img 
                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                  alt="Clear Path Logo"
-                 className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
+                 className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_40px_rgba(255,136,0,0.4)]"
                />
-               <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
+               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
-                <span className="text-[20px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1px_#ff0000]">Intelligence Board</span>
+                <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
+                <span className="text-[24px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1.5px_#ff0000]">Intelligence Board</span>
              </div>
            </div>
 
-           <div className="flex bg-white/5 rounded-full p-1 border border-white/10">
+           <div className="flex bg-white/5 rounded-full p-1.5 border border-white/10">
               <button 
-                className={`px-6 py-2 rounded-full text-[10px] font-black tracking-widest uppercase transition-all ${mode === 'minimal' || mode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/40 hover:text-white'}`}
+                className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${mode === 'minimal' || mode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/40 hover:text-white'}`}
                 onClick={() => updateMode('minimal')}
               >
                 Standard
               </button>
               <button 
-                className={`px-6 py-2 rounded-full text-[10px] font-black tracking-widest uppercase transition-all ${mode === 'focus' ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.5)]' : 'text-white/40 hover:text-white'}`}
+                className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${mode === 'focus' ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.5)]' : 'text-white/40 hover:text-white'}`}
                 onClick={() => updateMode('focus')}
               >
                 Neurodivergent
               </button>
            </div>
 
-           <button className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
-              <Menu className="w-4 h-4" />
+           <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+              <Menu className="w-5 h-5" />
               Navigation
            </button>
         </div>
 
-        <div className="flex items-center gap-6">
-           <div className="flex items-center gap-4 text-white/30 border-r border-white/10 pr-6">
-              <Volume2 className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
+        <div className="flex items-center gap-8">
+           <div className="flex items-center gap-6 text-white/30 border-r border-white/10 pr-8">
+              <Volume2 className="w-5 h-5 hover:text-white cursor-pointer transition-colors" />
               <Bluetooth 
                 onClick={handleBluetooth}
-                className="w-4 h-4 hover:text-indigo-400 cursor-pointer transition-colors" 
+                className="w-5 h-5 hover:text-indigo-400 cursor-pointer transition-colors" 
               />
            </div>
 
-           <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-black tracking-widest text-white/40 uppercase">
+           <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3">
+                <span className="text-[11px] font-black tracking-widest text-white/40 uppercase">
                   {mode === 'focus' ? 'Neuro Profile' : 'Trading Style'}
                 </span>
                 {mode === 'focus' && (
                   <Dialog>
                     <DialogTrigger asChild>
-                      <button className="p-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all group">
-                        <Brain className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+                      <button className="p-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all group">
+                        <Brain className="w-4 h-4 group-hover:scale-110 transition-transform" />
                       </button>
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_80px_rgba(99,102,241,0.2)]">
@@ -292,19 +292,19 @@ function DashboardContent() {
                   router.replace(`/dashboard?${params.toString()}`, { scroll: false });
                 }}
               >
-                <SelectTrigger className="w-[180px] bg-white/5 border-white/10 rounded-xl h-10 uppercase text-[10px] font-black tracking-widest">
+                <SelectTrigger className="w-[220px] bg-white/5 border-white/10 rounded-xl h-12 uppercase text-[11px] font-black tracking-widest">
                   <SelectValue placeholder="Select Profile" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#0a0f18] border-white/10">
                   {mode === 'focus' ? (
                     NEURO_PROFILES.map((p) => (
-                      <SelectItem key={p.id} value={p.id} className="text-[10px] font-black uppercase tracking-widest focus:bg-pink-500">
+                      <SelectItem key={p.id} value={p.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-pink-500">
                         {p.label}
                       </SelectItem>
                     ))
                   ) : (
                     NON_ND_MODES.map((m) => (
-                      <SelectItem key={m.id} value={m.id} className="text-[10px] font-black uppercase tracking-widest focus:bg-indigo-500">
+                      <SelectItem key={m.id} value={m.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-indigo-500">
                         {m.label}
                       </SelectItem>
                     ))
@@ -316,7 +316,7 @@ function DashboardContent() {
       </header>
 
       <main className="flex-1 p-8 overflow-hidden">
-        <div className="max-w-6xl mx-auto h-full flex flex-col gap-8">
+        <div className="max-w-7xl mx-auto h-full flex flex-col gap-8">
           <NeuroGlowCard neuroModeId={mode === 'focus' ? selectedProfileId : "calm_focus"} className="flex-1">
             <div className="flex flex-col h-full">
               <div className="px-6 py-4 flex items-center justify-between border-b border-white/5">

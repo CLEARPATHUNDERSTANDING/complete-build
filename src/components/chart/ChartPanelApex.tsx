@@ -243,15 +243,15 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         {mounted && width > 50 ? (
           <div className="relative">
             <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
-            {/* Logo Overlay Lower Left */}
-            <div className="absolute bottom-12 left-4 z-20 pointer-events-none group">
-              <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
+            {/* Logo Overlay Lower Left - Enlarged 3x */}
+            <div className="absolute bottom-12 left-6 z-20 pointer-events-none group">
+              <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="Clear Path"
-                  className="w-8 h-8 rounded-md object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                  className="w-24 h-24 rounded-xl object-cover opacity-60 group-hover:opacity-100 transition-opacity"
                 />
-                <span className="absolute bottom-0.5 right-0.5 text-[5px] font-bold text-white/40 select-none">©™</span>
+                <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
               </div>
             </div>
           </div>

@@ -69,7 +69,7 @@ export default function MarketMiniChart({ series, positive }: Props) {
   };
 
   return (
-    <div className="h-28 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30 relative">
+    <div className="h-32 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30 relative">
       <Chart
         options={options}
         series={[{ name: "Diagnostic", data: candleData }]}
@@ -77,13 +77,13 @@ export default function MarketMiniChart({ series, positive }: Props) {
         height="100%"
         width="100%"
       />
-      {/* Micro Logo Overlay Lower Left */}
-      <div className="absolute bottom-2 left-2 z-20 pointer-events-none">
-        <div className="relative bg-black/40 backdrop-blur-sm border border-white/5 rounded p-0.5">
+      {/* Micro Logo Overlay Lower Left - Enlarged 3x */}
+      <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
+        <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
           <img 
             src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
             alt="Clear Path"
-            className="w-4 h-4 rounded-sm object-cover opacity-40"
+            className="w-12 h-12 rounded-md object-cover opacity-50"
           />
         </div>
       </div>
