@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useFirebase } from "@/firebase/provider";
 import { initiateEmailSignIn, initiateEmailSignUp } from "@/firebase/non-blocking-login";
+import { errorEmitter } from "@/firebase/error-emitter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import NeonBoard from "@/components/NeonBoard";
@@ -32,6 +33,19 @@ export default function LoginPage() {
       router.push("/");
     }
   }, [user, isUserLoading, router]);
+
+  useEffect(() => {
+    const handleAuthError = (error: any) => {
+      toast({
+        variant: "destructive",
+        title: "Security Protocol Failure",
+        description: error.message || "Failed to synchronize with the Intelligence Hub.",
+      });
+    };
+
+    errorEmitter.on('auth-error', handleAuthError);
+    return () => errorEmitter.off('auth-error', handleAuthError);
+  }, [toast]);
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
