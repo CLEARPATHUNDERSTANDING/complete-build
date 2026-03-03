@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from "react";
@@ -12,6 +11,7 @@ type NeonBoardProps = {
  * High-intensity NeonBoard component with a 10px thick Unified Blended Gradient.
  * Outer shell: rounded-[32px] | Padding: 10px | Inner panel: rounded-[22px]
  * Spectrum: Blended Orange-to-Magenta.
+ * Background: Transparent.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
@@ -31,8 +31,8 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
 
-      {/* inner panel: mathematically consistent radius (32 - 10 = 22) */}
-      <div className="relative rounded-[22px] bg-[#070b16] h-full overflow-hidden">
+      {/* inner panel: mathematically consistent radius (32 - 10 = 22) | Background set to transparent */}
+      <div className="relative rounded-[22px] bg-transparent h-full overflow-hidden">
         {children}
       </div>
     </div>

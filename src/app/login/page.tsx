@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -86,7 +85,8 @@ export default function LoginPage() {
         </div>
 
         <NeonBoard className="w-full">
-          <form onSubmit={handleAuth} className="p-8 space-y-6 bg-[#070b16]">
+          {/* bg-[#070b16] removed for transparency */}
+          <form onSubmit={handleAuth} className="p-8 space-y-6 bg-transparent">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
