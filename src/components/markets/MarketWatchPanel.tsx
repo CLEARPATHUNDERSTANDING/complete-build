@@ -1,42 +1,54 @@
 "use client";
 
-import React, { useMemo } from "react";
-import { MarketWatchChart } from "./apex/MarketWatchChart";
-import { OhlcPoint } from "./apex/market-watch-types";
+import React, { useMemo, useState } from "react";
+import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
+import type { OhlcPoint } from "@/components/markets/apex/market-watch-types";
 
-/**
- * Generates high-fidelity mock OhlcPoint data for the 12-mode visualizer.
- */
-function generateMockOhlc(count = 150): OhlcPoint[] {
-  const now = Date.now();
-  let price = 150 + Math.random() * 100;
-  return Array.from({ length: count }).map((_, i) => {
-    const t = now - (count - i) * 3600 * 1000;
-    const o = price;
-    const volatility = price * 0.02;
-    const c = o + (Math.random() - 0.5) * volatility;
-    const h = Math.max(o, c) + Math.random() * (volatility * 0.5);
-    const l = Math.min(o, c) - Math.random() * (volatility * 0.5);
-    const v = Math.floor(Math.random() * 10000);
-    price = c;
-    return { t, o, h, l, c, v };
-  });
+type Props = {
+  initialSymbol?: string;
+};
+
+// TEMP: mock data. Replace later with real OHLC from your API.
+function useMockOhlc(symbol: string): OhlcPoint[] {
+  return useMemo(() => {
+    const now = Date.now();
+    const pts: OhlcPoint[] = [];
+    let price = 100 + (symbol.length * 5); // Add variance based on symbol
+
+    for (let i = 240; i >= 0; i--) {
+      const t = now - i * 60_000; // 1m candles
+      const o = price;
+      const delta = (Math.random() - 0.5) * 2;
+      const c = o + delta;
+      const h = Math.max(o, c) + Math.random();
+      const l = Math.min(o, c) - Math.random();
+      const v = Math.floor(1000 + Math.random() * 5000);
+      pts.push({ t, o, h, l, c, v });
+      price = c;
+    }
+
+    return pts;
+  }, [symbol]);
 }
 
-export function MarketWatchPanel({ symbol = "BTCUSD" }: { symbol?: string }) {
-  const mockData = useMemo(() => generateMockOhlc(), [symbol]);
+export function MarketWatchPanel({ initialSymbol }: Props) {
+  const [symbol, setSymbol] = useState(initialSymbol ?? "BTC/USDT");
+  const points = useMockOhlc(symbol);
 
   return (
-    <div className="flex flex-col gap-4 mt-6">
-      <div className="flex items-center justify-between px-1">
-        <div className="flex flex-col">
-          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30">Analytics Engine</span>
-          <span className="text-[12px] font-bold text-cyan-400 uppercase tracking-tight">{symbol} Diagnostic</span>
-        </div>
+    <section className="w-full mt-6">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="text-[10px] font-black uppercase tracking-[0.25em] text-white/30 shrink-0">Analysis Focus:</div>
+        <input
+          className="flex-1 rounded-xl border border-white/10 bg-[#0a0f18] px-4 py-2 text-sm text-white font-bold outline-none focus:border-cyan-500/50 transition-all placeholder:text-white/20"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value.toUpperCase())}
+          placeholder="e.g. BTC/USDT"
+        />
       </div>
-      
-      <div className="h-[420px] rounded-[24px] border border-white/5 bg-black/40 p-4 overflow-hidden relative group">
-        <MarketWatchChart points={mockData} symbol={symbol} height={360} />
+
+      <div className="rounded-[24px] border border-white/5 bg-black/40 p-4 overflow-hidden relative group">
+        <MarketWatchChart symbol={symbol} points={points} height={360} />
         
         {/* Diagnostic Overlay */}
         <div className="absolute top-4 right-4 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
@@ -45,6 +57,6 @@ export function MarketWatchPanel({ symbol = "BTCUSD" }: { symbol?: string }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

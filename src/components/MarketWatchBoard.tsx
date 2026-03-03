@@ -1,7 +1,7 @@
 import React from "react";
 import NeonBoard from "./NeonBoard";
 import { MarketItem } from "@/data/marketCatalog";
-import { MarketWatchPanel } from "./markets/MarketWatchPanel";
+import { MarketWatchPanel } from "@/components/markets/MarketWatchPanel";
 
 type Props = {
   items: MarketItem[];
@@ -29,8 +29,6 @@ function symbolColor(item: MarketItem) {
 }
 
 export default function MarketWatchBoard({ items }: Props) {
-  const activeSymbol = items[0]?.display || "Market";
-
   return (
     <NeonBoard className="w-full">
       <div className="px-5 py-5">
@@ -71,9 +69,7 @@ export default function MarketWatchBoard({ items }: Props) {
         </div>
 
         {/* Multi-Chart Analytics Panel */}
-        {items.length > 0 && (
-          <MarketWatchPanel symbol={activeSymbol} />
-        )}
+        <MarketWatchPanel initialSymbol={items?.[0]?.symbol} />
       </div>
     </NeonBoard>
   );
