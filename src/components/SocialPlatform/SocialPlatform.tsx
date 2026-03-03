@@ -344,7 +344,7 @@ export default function SocialPlatform() {
 
       {/* Right Sidebar - With Fluid Section Outlines and 2x Thick Separators */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
-        <div className="flex-1 flex flex-col min-h-0">
+        <div className="flex-1 flex flex-col min-w-0">
           
           {/* 3. Online Friends */}
           <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10 p-4">
