@@ -379,7 +379,7 @@ export default function SocialPlatform() {
                   <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-2xl">
                     <video 
                       ref={videoRef} 
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
+                      className="w-full h-full object-cover transition-all duration-700" 
                       autoPlay 
                       muted 
                     />
