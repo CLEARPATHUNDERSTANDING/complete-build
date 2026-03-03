@@ -265,9 +265,8 @@ export default function SocialPlatform() {
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
-                <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
+                <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
                 <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
-                <NavItem label="STANDARD VIEW" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
                 <NavItem label="All Communities" icon={Compass} href="/communities" color="blue" />
                 <NavItem label="Overall" icon={Users} href="/community" active color="pink" />
               </div>
@@ -307,7 +306,7 @@ export default function SocialPlatform() {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input
                 className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-indigo-500/50 transition-all outline-none"
-                placeholder="Search network insights..."
+                placeholder="Search universal asset network..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

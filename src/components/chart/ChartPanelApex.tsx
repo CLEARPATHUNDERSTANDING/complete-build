@@ -1,10 +1,11 @@
+
 "use client";
 
 import dynamic from "next/dynamic";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { ModeConfig } from "@/modes/types";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Search, Loader2 } from "lucide-react";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -74,6 +75,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
   const [mounted, setMounted] = useState(false);
   const [width, setWidth] = useState(0);
   const [localSymbol, setLocalSymbol] = useState(mode.defaultSymbol);
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => setMounted(true), []);
 
@@ -121,7 +123,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
       type: "candlestick",
       background: personality.background,
       foreColor: personality.text,
-      animations: { enabled: false },
+      animations: { enabled: true, speed: 300 },
       toolbar: {
         show: true,
         tools: {
@@ -196,6 +198,14 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
 
   const glowShadow = `0 0 ${18 + glow * 22}px rgba(0,229,255,${0.12 + glow * 0.18})`;
 
+  const handleSymbolChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value.toUpperCase();
+    setLocalSymbol(val);
+    setIsSearching(true);
+    // Simulate network lookup
+    setTimeout(() => setIsSearching(false), 400);
+  };
+
   return (
     <div className="w-full" ref={wrapRef}>
       <div
@@ -211,18 +221,22 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
-            <input 
-              value={localSymbol}
-              onChange={(e) => setLocalSymbol(e.target.value.toUpperCase())}
-              className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-[0.1em] text-white focus:outline-none focus:border-indigo-500/50 w-32 transition-all"
-              placeholder="SEARCH..."
-            />
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-white/20" />
+              <input 
+                value={localSymbol}
+                onChange={handleSymbolChange}
+                className="bg-white/5 border border-white/10 rounded-lg pl-9 pr-3 py-1.5 text-xs font-black uppercase tracking-[0.1em] text-white focus:outline-none focus:border-indigo-500/50 w-48 transition-all"
+                placeholder="UNIVERSAL SEARCH..."
+              />
+              {isSearching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-3 h-3 text-indigo-400 animate-spin" />}
+            </div>
             <div className="text-[10px] font-black text-white/40 uppercase tracking-widest hidden sm:block">
               {mode.label} • {mode.tf?.analysisTF ?? mode.defaultTimeframe ?? ""}
             </div>
           </div>
           <div className="text-xs px-2 py-1 rounded-lg border border-white/10 shrink-0" style={{ color: personality.accent }}>
-            Apex
+            Apex Terminal
           </div>
         </div>
 
@@ -230,7 +244,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
           <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
         ) : (
           <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex items-center justify-center">
-             <div className="animate-pulse text-[10px] font-black uppercase tracking-widest opacity-20">Initializing...</div>
+             <div className="animate-pulse text-[10px] font-black uppercase tracking-widest opacity-20">Calibrating Universal Feed...</div>
           </div>
         )}
       </div>

@@ -1,9 +1,10 @@
+
 "use client";
 
 import React, { useMemo, useState } from "react";
 import type { ModeConfig } from "@/modes/types";
 import { filterUniverse, getUniverseForScope } from "@/utils/scopeFilter";
-import { Search, Globe } from "lucide-react";
+import { Search, Globe, Zap } from "lucide-react";
 
 type Props = {
   mode: ModeConfig;
@@ -17,6 +18,10 @@ export default function SymbolPicker({ mode, value, onChange }: Props) {
   const universe = useMemo(() => getUniverseForScope(mode.marketScope), [mode.marketScope]);
   const results = useMemo(() => filterUniverse(q, universe).slice(0, 30), [q, universe]);
 
+  const hasExactMatch = useMemo(() => 
+    universe.some(s => s.symbol.toUpperCase() === q.toUpperCase()),
+  [q, universe]);
+
   return (
     <div className="rounded-[24px] border border-white/10 bg-[#070b16] p-6 shadow-2xl overflow-hidden flex flex-col h-full">
       <div className="flex items-center justify-between mb-6">
@@ -25,9 +30,9 @@ export default function SymbolPicker({ mode, value, onChange }: Props) {
             <Globe className="w-4 h-4 text-indigo-400" />
           </div>
           <div>
-            <div className="text-[12px] font-black uppercase tracking-[0.2em] text-white">Symbol Search</div>
+            <div className="text-[12px] font-black uppercase tracking-[0.2em] text-white">Universal Search</div>
             <div className="text-[9px] font-black uppercase tracking-widest text-white/30">
-              Scope: <span className="text-indigo-400">{mode.marketScope.toUpperCase()}</span>
+              Network Scope: <span className="text-indigo-400">{mode.marketScope.toUpperCase()}</span>
             </div>
           </div>
         </div>
@@ -37,7 +42,7 @@ export default function SymbolPicker({ mode, value, onChange }: Props) {
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
         <input
           className="w-full rounded-xl bg-white/5 border border-white/10 pl-11 pr-4 py-3 text-[13px] font-bold text-white outline-none focus:border-indigo-500/50 transition-all placeholder:text-white/20"
-          placeholder={`Search ${mode.marketScope.toUpperCase()} universe…`}
+          placeholder={`Search all stocks & assets...`}
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
@@ -65,9 +70,25 @@ export default function SymbolPicker({ mode, value, onChange }: Props) {
             </button>
           );
         })}
-        {!results.length && (
+        
+        {q.length > 0 && !hasExactMatch && (
+          <button
+            onClick={() => onChange(q.toUpperCase())}
+            className="w-full text-left px-4 py-6 border-b border-white/5 bg-indigo-500/5 hover:bg-indigo-500/10 transition-colors group flex items-center gap-4"
+          >
+            <div className="p-2 rounded-lg bg-indigo-500/20 border border-indigo-500/40">
+              <Zap className="w-4 h-4 text-indigo-400" />
+            </div>
+            <div>
+              <div className="text-[12px] font-black text-white uppercase tracking-widest">Initialize Global Network Result</div>
+              <div className="text-[14px] font-black text-indigo-400 uppercase">Search Terminal for: {q.toUpperCase()}</div>
+            </div>
+          </button>
+        )}
+
+        {!results.length && q.length === 0 && (
           <div className="px-4 py-10 text-center text-[10px] font-black uppercase tracking-widest text-white/20">
-            No matching assets in {mode.marketScope} universe
+            Scanning Global Network Universe...
           </div>
         )}
       </div>
