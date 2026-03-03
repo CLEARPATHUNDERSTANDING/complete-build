@@ -235,35 +235,35 @@ export default function SocialPlatform() {
 
             <FluidSection title="Platform" maxHeight="180px">
               <div className="space-y-1">
-                <div className={navItemClass}>
-                  <Info className="w-5 h-5 text-white/70" />
+                <a href="/platform-constitution#mission" className={navItemClass}>
+                  <Info className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Mission</span>
-                </div>
-                <div className={navItemClass}>
-                  <Eye className="w-5 h-5 text-white/70" />
+                </a>
+                <a href="/platform-constitution#scope" className={navItemClass}>
+                  <Eye className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Transparency</span>
-                </div>
-                <div className={navItemClass}>
-                  <Scale className="w-5 h-5 text-white/70" />
+                </a>
+                <a href="/platform-constitution#governance" className={navItemClass}>
+                  <Scale className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Governance</span>
-                </div>
-                <div className={navItemClass}>
-                  <FileText className="w-5 h-5 text-white/70" />
+                </a>
+                <a href="/platform-constitution" className={navItemClass}>
+                  <FileText className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Constitution</span>
-                </div>
+                </a>
               </div>
             </FluidSection>
 
             <FluidSection title="Legal" maxHeight="120px">
               <div className="space-y-1">
-                <div className={navItemClass}>
-                  <ShieldAlert className="w-5 h-5 text-red-500" />
+                <a href="/platform-constitution#mission" className={navItemClass}>
+                  <ShieldAlert className="w-5 h-5 text-red-500 group-hover:scale-110 transition-transform" />
                   <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
-                </div>
-                <div className={navItemClass}>
-                  <Lock className="w-5 h-5 text-white/70" />
+                </a>
+                <a href="/platform-constitution#scope" className={navItemClass}>
+                  <Lock className="w-5 h-5 text-white/70 group-hover:text-white" />
                   <span className="text-[15px] font-semibold text-white/90">Compliance</span>
-                </div>
+                </a>
               </div>
             </FluidSection>
           </div>

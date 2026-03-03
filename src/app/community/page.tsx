@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { LayoutDashboard, Sparkles, Grid2X2, Users, Info, Eye, Scale, FileText, ShieldAlert, Lock, Zap, Brain, TrendingUp, Navigation, Menu } from "lucide-react";
 
 type FeedPost = {
   id: number;
@@ -156,10 +157,14 @@ function AvatarBadge({
 
 function NavItem({
   label,
+  icon: Icon,
+  href = "#",
   active = false,
   color = "cyan",
 }: {
   label: string;
+  icon?: any;
+  href?: string;
   active?: boolean;
   color?: "cyan" | "pink" | "orange" | "violet";
 }) {
@@ -171,17 +176,22 @@ function NavItem({
   };
 
   return (
-    <button
+    <a
+      href={href}
       className={[
-        "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200",
+        "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-all duration-200 group",
         active
           ? "bg-white/[0.04] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]"
           : "hover:bg-white/[0.03]",
       ].join(" ")}
     >
-      <span className={["text-lg", colorMap[color]].join(" ")}>✦</span>
-      <span className="text-[15px] font-semibold text-white">{label}</span>
-    </button>
+      {Icon ? (
+        <Icon className={["w-5 h-5", active ? colorMap[color] : "text-white/70 group-hover:text-white group-hover:scale-110 transition-all"].join(" ")} />
+      ) : (
+        <span className={["text-lg", colorMap[color]].join(" ")}>✦</span>
+      )}
+      <span className={["text-[15px] font-semibold", active ? colorMap[color] : "text-white"].join(" ")}>{label}</span>
+    </a>
   );
 }
 
@@ -251,24 +261,40 @@ export default function CommunityPage() {
             <ScrollArea className="flex-1 min-h-0">
               <div className="px-5 pb-8 space-y-7">
                 <BorderWallCard title="Workspace" maxHeight="280px">
-                  <div className="space-y-2">
-                    <NavItem label="Standard Workspace" active color="orange" />
-                    <NavItem label="Neuro Workspace" color="violet" />
-                    <NavItem label="Multi-View Grid" color="cyan" />
-                    <NavItem label="Community Feed" color="pink" />
+                  <div className="space-y-1">
+                    <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
+                    <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
+                    <NavItem label="Multi-View Grid" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
+                    <NavItem label="Community Feed" icon={Users} href="/community" active color="pink" />
                   </div>
                 </BorderWallCard>
 
-                <BorderWallCard title="Standard Modes" maxHeight="450px">
-                  <div className="space-y-2">
-                    <NavItem label="Pro Trading Desk" color="cyan" />
-                    <NavItem label="Macro & Rates" color="cyan" />
-                    <NavItem label="ETF Markets" color="cyan" />
-                    <NavItem label="Earnings & Catalysts" color="cyan" />
-                    <NavItem label="Options Flow" color="cyan" />
-                    <NavItem label="Futures" color="cyan" />
-                    <NavItem label="FX Terminal" color="cyan" />
-                    <NavItem label="Crypto Markets" color="cyan" />
+                <BorderWallCard title="Standard Modes" maxHeight="300px">
+                  <div className="space-y-1">
+                    <NavItem label="Pro Trading Desk" href="/dashboard?mode=minimal&style=pro-trading-desk" color="cyan" />
+                    <NavItem label="Macro & Rates" href="/dashboard?mode=minimal&style=macro-rates" color="cyan" />
+                    <NavItem label="ETF Markets" href="/dashboard?mode=minimal&style=etf-markets" color="cyan" />
+                    <NavItem label="Earnings & Catalysts" href="/dashboard?mode=minimal&style=earnings-catalysts" color="cyan" />
+                    <NavItem label="Options Flow" href="/dashboard?mode=minimal&style=options-flow" color="cyan" />
+                    <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="cyan" />
+                    <NavItem label="FX Terminal" href="/dashboard?mode=minimal&style=fx-terminal" color="cyan" />
+                    <NavItem label="Crypto Markets" href="/dashboard?mode=minimal&style=crypto-markets" color="cyan" />
+                  </div>
+                </BorderWallCard>
+
+                <BorderWallCard title="Platform" maxHeight="220px">
+                  <div className="space-y-1">
+                    <NavItem label="Mission" icon={Info} href="/platform-constitution#mission" color="cyan" />
+                    <NavItem label="Transparency" icon={Eye} href="/platform-constitution#scope" color="cyan" />
+                    <NavItem label="Governance" icon={Scale} href="/platform-constitution#governance" color="cyan" />
+                    <NavItem label="Constitution" icon={FileText} href="/platform-constitution" color="cyan" />
+                  </div>
+                </BorderWallCard>
+
+                <BorderWallCard title="Legal" maxHeight="150px">
+                  <div className="space-y-1">
+                    <NavItem label="Risk Disclosure" icon={ShieldAlert} href="/platform-constitution#mission" color="orange" />
+                    <NavItem label="Compliance" icon={Lock} href="/platform-constitution#scope" color="cyan" />
                   </div>
                 </BorderWallCard>
               </div>
