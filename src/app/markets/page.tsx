@@ -41,25 +41,6 @@ export default async function MarketsPage() {
         </div>
       </header>
 
-      <section className="border-b border-white/10 bg-black/30 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-4 py-10 md:flex-row md:px-6">
-          <div className="flex items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl border border-cyan-400/30 bg-white/5 flex items-center justify-center shadow-[0_0_30px_rgba(34,211,238,0.25)]">
-               <Activity className="w-8 h-8 text-cyan-400" />
-            </div>
-            <div className="text-left">
-              <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">CLEAR PATH TRADER</div>
-              <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
-                Command Center
-              </h1>
-              <p className="mt-1 text-sm text-white/65">
-                Apex-powered multi-market diagnostic dashboard.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <MarketHero />
       <div className="mt-8">
         <MarketGrid cards={data.cards} />
@@ -75,7 +56,7 @@ export default async function MarketsPage() {
         </div>
         <div className="flex flex-col items-center gap-4">
           <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#ff00d4] fill-current drop-shadow-[0_0_15px_#ff00d4]" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.52,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M6.48,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M18.15,10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15,0-.3,.06-.41,.17-.11,.11-.17,.26-.17,.41v2.01c0,.15,.06,.3,.17,.41,.11,.11,.26,.17,.41,.17h11.49c.15,0,.3-.06,.41-.17,.11-.11,.17-.26,.17-.41v-2.01c0-.15-.06-.3-.17-.41M12,1c-4.97,0-9,4.03-9,9,0,4.18,2.84,7.69,6.69,8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66,1.34-3,3-3s3,1.34,3,3v.01c0,.23-.01,.45-.03,.68,3.85-1,6.69-4.51,6.69-8.69,0-4.97-4.03-9-9-9" />
+            <path d="M17.52,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M6.48,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M18.15,10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15,0-.3,.06-.41,.17-.11,.11-.17,.26-.17,.41v2.01c0,.15,.06,.3,.17,.41,.11,.11,.26,.17,.41,.17h11.49c.15,0,.3-.06,.41-.17,.11-.11,.17-.26,.17-.41v-2.01c0-.15-.06-.3-.17-.41M12,1c-4.97,0-9,4.03-9,9,0,4.18,2.84,7.69,6.69,8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66,1.34-3,3-3s3,1.34,3,3v.01c0,.23-.01.45-.03.68,3.85-1,6.69-4.51,6.69-8.69,0-4.97-4.03-9-9-9" />
           </svg>
           <span className="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400">Android Deployed</span>
         </div>
