@@ -122,6 +122,8 @@ export default function SocialPlatform() {
     { name: "Chris Evans", avatar: "https://i.pravatar.cc/150?u=chris", online: false },
     { name: "Mark Ruffalo", avatar: "https://i.pravatar.cc/150?u=mark", online: true },
     { name: "Jeremy Renner", avatar: "https://i.pravatar.cc/150?u=jeremy", online: false },
+    { name: "Elizabeth O", avatar: "https://i.pravatar.cc/150?u=eliza", online: true },
+    { name: "Paul Bettany", avatar: "https://i.pravatar.cc/150?u=paul", online: true },
   ];
 
   const updates = [
@@ -131,6 +133,8 @@ export default function SocialPlatform() {
     { user: "David", action: "replied to your post", time: "20 min ago" },
     { user: "Elena", action: "shared a market update", time: "45 min ago" },
     { user: "Chris", action: "analyzed BTC volatility", time: "1h ago" },
+    { user: "Anna", action: "published a research note", time: "2h ago" },
+    { user: "Robert", action: "updated the macro feed", time: "3h ago" },
   ];
 
   const trends = [

@@ -61,6 +61,10 @@ const friends: Friend[] = [
   { id: 4, name: "Robert Downey", avatar: "RD", online: false },
   { id: 5, name: "Scarlett J", avatar: "SJ", online: true },
   { id: 6, name: "Chris Evans", avatar: "CE", online: false },
+  { id: 7, name: "Mark Ruffalo", avatar: "MR", online: true },
+  { id: 8, name: "Jeremy Renner", avatar: "JR", online: false },
+  { id: 9, name: "Elizabeth O", avatar: "EO", online: true },
+  { id: 10, name: "Paul Bettany", avatar: "PB", online: true },
 ];
 
 function BorderWallCard({
