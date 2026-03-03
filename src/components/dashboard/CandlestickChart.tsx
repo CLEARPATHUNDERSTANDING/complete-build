@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
@@ -196,6 +197,17 @@ export function CandlestickChart({
 
       <div className="relative z-10">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
+        {/* Logo Overlay Lower Left */}
+        <div className="absolute bottom-10 left-4 z-20 pointer-events-none group">
+          <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
+            <img 
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path"
+              className="w-6 h-6 rounded-md object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+            />
+            <span className="absolute bottom-0.5 right-0.5 text-[4px] font-bold text-white/40 select-none">©™</span>
+          </div>
+        </div>
       </div>
       
       {/* Interactive hover layer */}

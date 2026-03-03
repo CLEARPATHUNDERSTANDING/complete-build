@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import MarketGrid from "@/components/markets/MarketGrid";
 import MarketHero from "@/components/markets/MarketHero";
@@ -30,8 +31,13 @@ export default async function MarketsPage() {
               Social Hub
            </Link>
            <div className="flex items-center gap-4">
-             <div className="w-16 h-16 rounded-2xl bg-indigo-500 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.6)]">
-                <Activity className="w-10 h-10 text-white" />
+             <div className="relative">
+               <img 
+                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                 alt="Clear Path Logo"
+                 className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
+               />
+               <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
              </div>
              <div className="flex flex-col text-left">
                 <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>

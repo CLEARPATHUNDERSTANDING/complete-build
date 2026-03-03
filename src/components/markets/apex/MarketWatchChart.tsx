@@ -1,3 +1,4 @@
+
 "use client";
 
 import dynamic from "next/dynamic";
@@ -66,7 +67,7 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
   }, [normalized]);
 
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col relative">
       <div className="mb-3 px-4 flex flex-wrap items-center gap-3">
         <Link 
           href="/" 
@@ -83,8 +84,19 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
         <span className="text-[9px] font-bold text-cyan-400/50 uppercase tracking-widest ml-auto">{points.length} Data Points</span>
       </div>
 
-      <div className="flex-1 min-h-[300px]">
+      <div className="flex-1 min-h-[300px] relative">
         <ApexChart options={options} series={series} type="candlestick" height="100%" width="100%" />
+        {/* Logo Overlay Lower Left */}
+        <div className="absolute bottom-8 left-4 z-20 pointer-events-none group">
+          <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
+            <img 
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path"
+              className="w-7 h-7 rounded-md object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+            />
+            <span className="absolute bottom-0.5 right-0.5 text-[4px] font-bold text-white/40 select-none">©™</span>
+          </div>
+        </div>
       </div>
     </div>
   );

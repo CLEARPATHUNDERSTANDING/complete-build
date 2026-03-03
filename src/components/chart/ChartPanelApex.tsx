@@ -209,7 +209,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
   return (
     <div className="w-full" ref={wrapRef}>
       <div
-        className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3"
+        className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 relative"
         style={{ boxShadow: glowShadow }}
       >
         <div className="flex items-center justify-between px-2 py-2 gap-4">
@@ -241,7 +241,20 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         </div>
 
         {mounted && width > 50 ? (
-          <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
+          <div className="relative">
+            <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
+            {/* Logo Overlay Lower Left */}
+            <div className="absolute bottom-12 left-4 z-20 pointer-events-none group">
+              <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
+                <img 
+                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                  alt="Clear Path"
+                  className="w-8 h-8 rounded-md object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+                />
+                <span className="absolute bottom-0.5 right-0.5 text-[5px] font-bold text-white/40 select-none">©™</span>
+              </div>
+            </div>
+          </div>
         ) : (
           <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex items-center justify-center">
              <div className="animate-pulse text-[10px] font-black uppercase tracking-widest opacity-20">Calibrating Universal Feed...</div>

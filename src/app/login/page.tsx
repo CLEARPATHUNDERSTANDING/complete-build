@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -70,8 +71,13 @@ export default function LoginPage() {
     <div className="min-h-screen bg-black flex items-center justify-center p-6 selection:bg-indigo-500 font-body">
       <div className="w-full max-w-[450px] space-y-10">
         <div className="flex flex-col items-center gap-6 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-indigo-500 flex items-center justify-center shadow-[0_0_30px_rgba(99,102,241,0.5)]">
-            <Activity className="w-10 h-10 text-white" />
+          <div className="relative">
+            <img 
+              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+              alt="Clear Path Logo"
+              className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.5)]"
+            />
+            <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
           </div>
           <div className="space-y-2">
             <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-white">CLEAR PATH TRADER</h1>
