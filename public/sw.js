@@ -1,11 +1,13 @@
+
 const CACHE_NAME = 'insightflow-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/manifest.webmanifest',
-  'https://public.codepenassets.com/css/normalize-5.0.0.min.css',
 ];
 
+// Install Service Worker
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE);
@@ -13,22 +15,37 @@ self.addEventListener('install', (event) => {
   );
 });
 
+// Activate Service Worker
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
       );
     })
   );
+  return self.clients.claim();
 });
 
+// Fetch Strategy: Network First, falling back to cache
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request)
+      .then((response) => {
+        const clonedResponse = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, clonedResponse);
+        });
+        return response;
+      })
+      .catch(() => {
+        return caches.match(event.request);
+      })
   );
 });

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect } from 'react';
@@ -7,7 +8,7 @@ import { useEffect } from 'react';
  */
 export function PWARegistration() {
   useEffect(() => {
-    if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
+    if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
       const handleLoad = () => {
         navigator.serviceWorker.register('/sw.js').then(
           (registration) => {
@@ -19,8 +20,13 @@ export function PWARegistration() {
         );
       };
 
-      window.addEventListener('load', handleLoad);
-      return () => window.removeEventListener('load', handleLoad);
+      // Register on mount
+      if (document.readyState === 'complete') {
+        handleLoad();
+      } else {
+        window.addEventListener('load', handleLoad);
+        return () => window.removeEventListener('load', handleLoad);
+      }
     }
   }, []);
 
