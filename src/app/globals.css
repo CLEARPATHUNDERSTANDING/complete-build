@@ -8,30 +8,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.75rem;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 0 0% 0%;
     --foreground: 210 40% 98%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
@@ -50,11 +27,12 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    --radius: 0.75rem;
   }
 }
 
 html, body {
-  background-color: #03040a;
+  background-color: #000000;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -70,21 +48,25 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #070b16;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #7c3aed 0%, #00e5ff 45%, #ff4fd8 75%, #78a6ff 100%);
   border-radius: 8px;
-  border: 3px solid #070b16;
+  border: 3px solid #000000;
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
+}
+
+a {
+  text-decoration: none;
 }
 
 .landing-root {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
-  background: #03040a;
+  background: #000000;
 }
 
 .bg-frame {
@@ -102,12 +84,7 @@ html, body {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(24, 240, 255, 0.10), transparent 24%),
-    radial-gradient(circle at 80% 30%, rgba(255, 43, 214, 0.12), transparent 24%),
-    radial-gradient(circle at 50% 70%, rgba(57, 255, 20, 0.08), transparent 24%),
-    radial-gradient(circle at 60% 18%, rgba(91, 61, 245, 0.10), transparent 22%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.64));
+  background: transparent;
 }
 
 .topbar {
@@ -141,6 +118,7 @@ html, body {
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.18em;
+  color: white;
 }
 
 .brand-sub {
@@ -160,7 +138,7 @@ html, body {
   z-index: 3;
   min-height: calc(100vh - 84px);
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   gap: 26px;
   align-items: center;
   padding: 24px 28px 36px;
@@ -171,38 +149,41 @@ html, body {
   overflow: hidden;
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.10);
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.10),
-    rgba(255, 255, 255, 0.03)
-  );
+  background: rgba(0, 0, 0, 0.6);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
+    0 20px 60px rgba(0, 0, 0, 0.8),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-.neon-fuchsia { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 24px rgba(255, 43, 214, 0.16); }
-.neon-cyan { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 24px rgba(24, 240, 255, 0.16); }
-.neon-green { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 24px rgba(57, 255, 20, 0.14); }
-.neon-indigo { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45), 0 0 24px rgba(91, 61, 245, 0.18); }
+.neon-fuchsia { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 43, 214, 0.16); }
+.neon-cyan { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(24, 240, 255, 0.16); }
+.neon-green { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(57, 255, 20, 0.14); }
+.neon-indigo { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(91, 61, 245, 0.18); }
 
 .login-card { padding: 28px; }
 .card-kicker { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #18f0ff; margin-bottom: 10px; }
-.login-card h2 { margin: 0 0 18px; font-size: 30px; }
+.login-card h2 { margin: 0 0 18px; font-size: 30px; color: white; }
 .login-form { display: grid; gap: 14px; }
 .login-form label { display: grid; gap: 8px; }
 .login-form span { font-size: 13px; color: rgba(255, 255, 255, 0.82); }
-.login-form input { width: 100%; height: 50px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.10); background: rgba(0, 0, 0, 0.24); color: white; padding: 0 14px; outline: none; }
+.login-form input { width: 100%; height: 50px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.10); background: rgba(0, 0, 0, 0.4); color: white; padding: 0 14px; outline: none; }
 
 .widget-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
 .widget-card { padding: 20px; }
 .widget-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.58); margin-bottom: 8px; }
-.widget-value { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+.widget-value { font-size: 20px; font-weight: 700; margin-bottom: 10px; color: white; }
 
 .primary-btn {
   display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 999px; font-weight: 700;
   color: white; background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6, #39ff14);
   box-shadow: 0 12px 34px rgba(0, 0, 0, 0.34), 0 0 14px rgba(24, 240, 255, 0.18);
+}
+
+.ghost-btn {
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 999px; font-weight: 700;
 }
 
 @media (max-width: 1100px) {
