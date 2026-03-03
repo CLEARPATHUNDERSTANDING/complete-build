@@ -1,213 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLEAR PATH | QUANTUM TERMINAL</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clear Path Quantum Background</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #000;
-            font-family: 'Inter', sans-serif;
+      :root {
+        --neon-cyan: #18f0ff;
+        --neon-fuchsia: #ff2bd6;
+        --neon-green: #39ff14;
+        --neon-indigo: #5b3df5;
+
+        --text-main: rgba(255, 255, 255, 0.94);
+        --text-muted: rgba(255, 255, 255, 0.66);
+
+        --glass-bg: rgba(255, 255, 255, 0.04);
+        --glass-border: rgba(255, 255, 255, 0.09);
+        --glass-highlight: rgba(255, 255, 255, 0.16);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #03040a;
+        color: var(--text-main);
+        font-family: "Outfit", sans-serif;
+      }
+
+      body {
+        position: relative;
+      }
+
+      canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        z-index: 1;
+        cursor: crosshair;
+      }
+
+      .overlay-dark {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 18% 22%, rgba(24, 240, 255, 0.12), transparent 24%),
+          radial-gradient(circle at 82% 28%, rgba(255, 43, 214, 0.13), transparent 24%),
+          radial-gradient(circle at 58% 78%, rgba(57, 255, 20, 0.09), transparent 22%),
+          radial-gradient(circle at 55% 42%, rgba(91, 61, 245, 0.15), transparent 30%),
+          linear-gradient(to bottom, rgba(0, 0, 0, 0.22), rgba(0, 0, 0, 0.58));
+      }
+
+      .glass-panel {
+        position: absolute;
+        z-index: 10;
+        border-radius: 24px;
+        overflow: hidden;
+        color: var(--text-main);
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.06) 0%,
+          rgba(255, 255, 255, 0.018) 100%
+        );
+        border: 1px solid var(--glass-border);
+        border-top: 1px solid var(--glass-highlight);
+        border-left: 1px solid var(--glass-highlight);
+        backdrop-filter: blur(18px) saturate(130%);
+        -webkit-backdrop-filter: blur(18px) saturate(130%);
+        box-shadow:
+          0 18px 40px rgba(0, 0, 0, 0.42),
+          0 0 18px rgba(24, 240, 255, 0.08),
+          0 0 24px rgba(255, 43, 214, 0.07),
+          inset 0 0 20px rgba(255, 255, 255, 0.02);
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
+      }
+
+      .glass-panel:hover {
+        box-shadow:
+          0 24px 48px rgba(0, 0, 0, 0.48),
+          0 0 18px rgba(24, 240, 255, 0.12),
+          0 0 24px rgba(255, 43, 214, 0.12),
+          0 0 32px rgba(91, 61, 245, 0.10),
+          inset 0 0 20px rgba(255, 255, 255, 0.03);
+        transform: translateY(-1px);
+      }
+
+      #instructions-container {
+        top: 24px;
+        left: 24px;
+        width: 290px;
+        padding: 18px;
+      }
+
+      #instruction-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: 0.02em;
+      }
+
+      .instruction-text {
+        font-size: 13px;
+        line-height: 1.55;
+        color: var(--text-muted);
+      }
+
+      #theme-selector {
+        top: 24px;
+        right: 24px;
+        width: 340px;
+        padding: 18px;
+        display: flex;
+        gap: 18px;
+      }
+
+      #theme-selector-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-main);
+        margin-bottom: 10px;
+      }
+
+      .theme-grid {
+        display: flex;
+        gap: 10px;
+      }
+
+      .theme-button {
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.18);
+        cursor: pointer;
+        outline: none;
+      }
+
+      .theme-button.active {
+        border-color: rgba(255, 255, 255, 0.92);
+        box-shadow:
+          0 0 14px rgba(24, 240, 255, 0.18),
+          0 0 22px rgba(255, 43, 214, 0.16);
+      }
+
+      #theme-1 {
+        background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6);
+      }
+
+      #theme-2 {
+        background: linear-gradient(135deg, #ff2bd6, #5b3df5, #39ff14);
+      }
+
+      #theme-3 {
+        background: linear-gradient(135deg, #39ff14, #18f0ff, #5b3df5);
+      }
+
+      .density-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 12px;
+        margin-bottom: 8px;
+        color: var(--text-muted);
+      }
+
+      .density-slider {
+        width: 100%;
+        accent-color: #18f0ff;
+      }
+
+      #control-buttons {
+        position: absolute;
+        z-index: 10;
+        bottom: 26px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 12px;
+      }
+
+      .control-button {
+        min-width: 118px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        border: 1px solid rgba(24, 240, 255, 0.16);
+        background: rgba(255, 255, 255, 0.06);
+        color: white;
+        font-family: "Outfit", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        cursor: pointer;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow:
+          0 10px 30px rgba(0, 0, 0, 0.32),
+          0 0 12px rgba(24, 240, 255, 0.12),
+          0 0 18px rgba(255, 43, 214, 0.10),
+          0 0 24px rgba(91, 61, 245, 0.08);
+      }
+
+      .control-button:hover {
+        transform: translateY(-1px);
+      }
+
+      @media (max-width: 900px) {
+        #instructions-container {
+          top: 16px;
+          left: 16px;
+          right: 16px;
+          width: auto;
         }
-        #quantum-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+
+        #theme-selector {
+          top: auto;
+          bottom: 100px;
+          left: 16px;
+          right: 16px;
+          width: auto;
+          flex-direction: column;
         }
-        .ui-overlay {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 40px;
-            z-index: 10;
+
+        #control-buttons {
+          bottom: 18px;
+          width: calc(100% - 32px);
         }
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+
+        .control-button {
+          flex: 1;
+          min-width: 0;
         }
-        .logo-box {
-            width: 60px;
-            height: 60px;
-            background: #6366f1;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
-        }
-        .title-group h1 {
-            color: #fff;
-            margin: 0;
-            font-size: 24px;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            line-height: 1;
-        }
-        .title-group p {
-            color: rgba(255,255,255,0.4);
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-        .status-bar {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 30px;
-            border-radius: 50px;
-            display: flex;
-            gap: 40px;
-            align-self: center;
-            backdrop-blur: 10px;
-        }
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-        }
-        .stat-label {
-            font-size: 9px;
-            color: rgba(255,255,255,0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-weight: 900;
-        }
-        .stat-value {
-            font-size: 14px;
-            color: #00e5ff;
-            font-weight: 900;
-            letter-spacing: 0.1em;
-        }
-        .corner-decor {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border: 2px solid rgba(0, 229, 255, 0.2);
-        }
-        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
-        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+      }
     </style>
-</head>
-<body>
-    <canvas id="quantum-canvas"></canvas>
-    
-    <div class="ui-overlay">
-        <div class="header">
-            <div class="logo-box">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </div>
-            <div class="title-group">
-                <h1>CLEAR PATH QUANTUM</h1>
-                <p>Diagnostic Stream Alpha-9</p>
-            </div>
-        </div>
+  </head>
 
-        <div class="status-bar">
-            <div class="stat-item">
-                <span class="stat-label">Neural Load</span>
-                <span class="stat-value" id="load-val">42.8%</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Entropy Sync</span>
-                <span class="stat-value" style="color: #ff00d4;">ACTIVE</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-label">Data Stability</span>
-                <span class="stat-value">99.99%</span>
-            </div>
-        </div>
+  <body>
+    <div class="overlay-dark"></div>
 
-        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div style="color: rgba(255,255,255,0.2); font-size: 10px; letter-spacing: 0.3em; font-weight: 900; text-transform: uppercase;">
-                Quantum Core v4.0.2 // Secure Session
-            </div>
-            <div style="color: #6366f1; font-size: 10px; letter-spacing: 0.3em; font-weight: 900; text-transform: uppercase;">
-                [ NETWORK SYNCHRONIZED ]
-            </div>
-        </div>
+    <div id="instructions-container" class="glass-panel">
+      <div id="instruction-title">Clear Path Quantum Grid</div>
+      <div class="instruction-text">
+        Interactive animated front layer for your homepage.
+        Drag to explore. Click to pulse. Change the theme and density.
+      </div>
     </div>
 
-    <div class="corner-decor top-left"></div>
-    <div class="corner-decor bottom-right"></div>
+    <div id="theme-selector" class="glass-panel">
+      <div style="flex: 1;">
+        <div id="theme-selector-title">Theme</div>
+        <div class="theme-grid">
+          <button class="theme-button active" id="theme-1" data-theme="0" aria-label="Cyan Indigo Fuchsia"></button>
+          <button class="theme-button" id="theme-2" data-theme="1" aria-label="Fuchsia Indigo Green"></button>
+          <button class="theme-button" id="theme-3" data-theme="2" aria-label="Green Cyan Indigo"></button>
+        </div>
+      </div>
 
-    <script>
-        const canvas = document.getElementById('quantum-canvas');
-        const ctx = canvas.getContext('2d');
-        const loadVal = document.getElementById('load-val');
+      <div style="flex: 1;">
+        <div class="density-label">
+          <span>Density</span>
+          <span id="density-value">100%</span>
+        </div>
+        <input
+          type="range"
+          min="30"
+          max="100"
+          value="100"
+          class="density-slider"
+          id="density-slider"
+          aria-label="Network Density"
+        />
+      </div>
+    </div>
 
-        let particles = [];
-        const particleCount = 150;
+    <div id="control-buttons">
+      <button id="change-formation-btn" class="control-button">Morph</button>
+      <button id="pause-play-btn" class="control-button">Freeze</button>
+      <button id="reset-camera-btn" class="control-button">Reset</button>
+    </div>
 
-        function init() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                    color: Math.random() > 0.5 ? '#6366f1' : '#00e5ff'
-                });
-            }
+    <canvas id="neural-network-canvas"></canvas>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
         }
-
-        function animate() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(p => {
-                p.x += p.speedX;
-                p.y += p.speedY;
-
-                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
-
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Draw lines to nearby particles
-                particles.forEach(p2 => {
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 100) {
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${1 - dist / 100})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath();
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                });
-            });
-
-            // Randomly update load value for effect
-            if (Math.random() > 0.95) {
-                loadVal.innerText = (Math.random() * 10 + 40).toFixed(1) + '%';
-            }
-
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', init);
-        init();
-        animate();
+      }
     </script>
-</body>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+      import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+      import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+      import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+      import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+      const config = {
+        paused: false,
+        activePaletteIndex: 0,
+        currentFormation: 0,
+        numFormations: 3,
+        densityFactor: 1
+      };
+
+      const colorPalettes = [
+        [
+          new THREE.Color(0x18f0ff),
+          new THREE.Color(0xff2bd6),
+          new THREE.Color(0x5b3df5),
+          new THREE.Color(0x39ff14),
+          new THREE.Color(0x18f0ff)
+        ],
+        [
+          new THREE.Color(0xff2bd6),
+          new THREE.Color(0x5b3df5),
+          new THREE.Color(0x39ff14),
+          new THREE.Color(0x18f0ff),
+          new THREE.Color(0xff2bd6)
+        ],
+        [
+          new THREE.Color(0x39ff14),
+          new THREE.Color(0x18f0ff),
+          new THREE.Color(0x5b3df5),
+          new THREE.Color(0xff2bd6),
+          new THREE.Color(0x39ff14)
+        ]
+      ];
+
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.FogExp2(0x000000, 0.002);
+
+      const camera = new THREE.PerspectiveCamera(
+        65,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, 8, 28);
+
+      const canvasElement = document.getElementById("neural-network-canvas");
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvasElement,
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      function createStarfield() {
+        const count = 5000;
+        const positions = [];
+        const colors = [];
+        const sizes = [];
+
+        for (let i = 0; i < count; i++) {
+          const r = THREE.MathUtils.randFloat(50, 150);
+          const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
+          const theta = THREE.MathUtils.randFloat(0, Math.PI * 2);
+
+          positions.push(
+            r * Math.sin(phi) * Math.cos(theta),
+            r * Math.sin(phi) * Math.sin(theta),
+            r * Math.cos(phi)
+          );
+
+          const colorChoice = Math.random();
+          if (colorChoice < 0.55) colors.push(0.09, 0.94, 1.0);
+          else if (colorChoice < 0.8) colors.push(1.0, 0.17, 0.84);
+          else if (colorChoice < 0.93) colors.push(0.36, 0.24, 0.96);
+          else colors.push(0.22, 1.0, 0.08);
+
+          sizes.push(THREE.MathUtils.randFloat(0.08, 0.3));
+        }
+
+        const geo = new THREE.BufferGeometry();
+        geo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        geo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+        geo.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+
+        const mat = new THREE.ShaderMaterial({
+          uniforms: { uTime: { value: 0 } },
+          vertexShader: `
+            attribute float size;
+            attribute vec3 color;
+            varying vec3 vColor;
+            uniform float uTime;
+            void main() {
+              vColor = color;
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              float twinkle = sin(uTime * 2.0 + position.x * 100.0) * 0.3 + 0.7;
+              gl_PointSize = size * twinkle * (300.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            varying vec3 vColor;
+            void main() {
+              vec2 center = gl_PointCoord - 0.5;
+              float dist = length(center);
+              if (dist > 0.5) discard;
+              float alpha = 1.0 - smoothstep(0.0, 0.5, dist);
+              gl_FragColor = vec4(vColor, alpha * 0.85);
+            }
+          `,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending
+        });
+
+        return new THREE.Points(geo, mat);
+      }
+
+      const starField = createStarfield();
+      scene.add(starField);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+      controls.rotateSpeed = 0.6;
+      controls.minDistance = 8;
+      controls.maxDistance = 80;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.2;
+      controls.enablePan = false;
+
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+
+      const bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        1.6,
+        0.6,
+        0.8
+      );
+      composer.addPass(bloomPass);
+      composer.addPass(new OutputPass());
+
+      let nodesMesh = null;
+      let connectionsMesh = null;
+
+      function getPalette() {
+        return colorPalettes[config.activePaletteIndex];
+      }
+
+      function clearOldNetwork() {
+        if (nodesMesh) {
+          scene.remove(nodesMesh);
+          nodesMesh.geometry.dispose();
+          nodesMesh.material.dispose();
+          nodesMesh = null;
+        }
+
+        if (connectionsMesh) {
+          scene.remove(connectionsMesh);
+          connectionsMesh.geometry.dispose();
+          connectionsMesh.material.dispose();
+          connectionsMesh = null;
+        }
+      }
+
+      function createNetworkVisualization(formationIndex = 0, densityFactor = 1) {
+        clearOldNetwork();
+
+        const palette = getPalette();
+        const nodeCount = Math.floor(520 * densityFactor);
+
+        const positions = [];
+        const colors = [];
+        const nodeSizes = [];
+        const linePositions = [];
+        const lineColors = [];
+        const nodeVectors = [];
+
+        for (let i = 0; i < nodeCount; i++) {
+          let x, y, z;
+
+          if (formationIndex === 0) {
+            const radius = THREE.MathUtils.randFloat(4, 13);
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
+            x = radius * Math.sin(phi) * Math.cos(theta);
+            y = radius * Math.cos(phi) * 0.7;
+            z = radius * Math.sin(phi) * Math.sin(theta);
+          } else if (formationIndex === 1) {
+            const spiral = (i / nodeCount) * Math.PI * 12;
+            const radius = 4 + (i / nodeCount) * 9;
+            x = Math.cos(spiral) * radius;
+            y = (i / nodeCount - 0.5) * 18;
+            z = Math.sin(spiral) * radius;
+          } else {
+            const layers = 8;
+            const perLayer = Math.ceil(nodeCount / layers);
+            const layer = Math.floor(i / perLayer);
+            const angle = ((i % perLayer) / perLayer) * Math.PI * 2;
+            const radius = 5 + (layer % 2) * 3;
+            x = Math.cos(angle) * radius;
+            y = (layer - layers / 2) * 2.5;
+            z = Math.sin(angle) * radius;
+          }
+
+          positions.push(x, y, z);
+          nodeVectors.push(new THREE.Vector3(x, y, z));
+
+          const color = palette[i % palette.length];
+          colors.push(color.r, color.g, color.b);
+          nodeSizes.push(THREE.MathUtils.randFloat(0.6, 1.6));
+        }
+
+        for (let i = 0; i < nodeVectors.length; i++) {
+          const a = nodeVectors[i];
+
+          for (let j = i + 1; j < Math.min(i + 10, nodeVectors.length); j++) {
+            const b = nodeVectors[j];
+            const dist = a.distanceTo(b);
+
+            if (dist < 4.8) {
+              linePositions.push(a.x, a.y, a.z, b.x, b.y, b.z);
+
+              const colorA = palette[i % palette.length];
+              const colorB = palette[j % palette.length];
+
+              lineColors.push(
+                colorA.r, colorA.g, colorA.b,
+                colorB.r, colorB.g, colorB.b
+              );
+            }
+          }
+        }
+
+        const nodeGeo = new THREE.BufferGeometry();
+        nodeGeo.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        nodeGeo.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+        nodeGeo.setAttribute("size", new THREE.Float32BufferAttribute(nodeSizes, 1));
+
+        const nodeMat = new THREE.ShaderMaterial({
+          uniforms: {
+            uTime: { value: 0.0 }
+          },
+          vertexShader: `
+            attribute float size;
+            attribute vec3 color;
+            varying vec3 vColor;
+            uniform float uTime;
+            void main() {
+              vColor = color;
+              vec3 pos = position;
+              pos.y += sin(uTime * 0.9 + position.x * 0.4 + position.z * 0.4) * 0.25;
+              vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+              gl_PointSize = size * (220.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+            }
+          `,
+          fragmentShader: `
+            varying vec3 vColor;
+            void main() {
+              vec2 uv = gl_PointCoord - vec2(0.5);
+              float d = length(uv);
+              if (d > 0.5) discard;
+              float alpha = smoothstep(0.5, 0.0, d);
+              gl_FragColor = vec4(vColor, alpha);
+            }
+          `,
+          transparent: true,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending
+        });
+
+        nodesMesh = new THREE.Points(nodeGeo, nodeMat);
+        scene.add(nodesMesh);
+
+        const lineGeo = new THREE.BufferGeometry();
+        lineGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
+        lineGeo.setAttribute("color", new THREE.Float32BufferAttribute(lineColors, 3));
+
+        const lineMat = new THREE.LineBasicMaterial({
+          vertexColors: true,
+          transparent: true,
+          opacity: 0.28,
+          blending: THREE.AdditiveBlending
+        });
+
+        connectionsMesh = new THREE.LineSegments(lineGeo, lineMat);
+        scene.add(connectionsMesh);
+      }
+
+      const themeButtons = document.querySelectorAll(".theme-button");
+      const densitySlider = document.getElementById("density-slider");
+      const densityValue = document.getElementById("density-value");
+      const morphBtn = document.getElementById("change-formation-btn");
+      const pauseBtn = document.getElementById("pause-play-btn");
+      const resetBtn = document.getElementById("reset-camera-btn");
+
+      themeButtons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.stopPropagation();
+          config.activePaletteIndex = Number(button.dataset.theme);
+          document.querySelectorAll(".theme-button").forEach((b) => b.classList.remove("active"));
+          button.classList.add("active");
+          createNetworkVisualization(config.currentFormation, config.densityFactor);
+        });
+      });
+
+      densitySlider.addEventListener("input", (e) => {
+        const value = Number(e.target.value);
+        densityValue.textContent = `${value}%`;
+        config.densityFactor = value / 100;
+        createNetworkVisualization(config.currentFormation, config.densityFactor);
+      });
+
+      morphBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        config.currentFormation = (config.currentFormation + 1) % config.numFormations;
+        createNetworkVisualization(config.currentFormation, config.densityFactor);
+      });
+
+      pauseBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        config.paused = !config.paused;
+        pauseBtn.textContent = config.paused ? "Play" : "Freeze";
+        controls.autoRotate = !config.paused;
+      });
+
+      resetBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        controls.reset();
+        controls.autoRotate = false;
+        setTimeout(() => {
+          controls.autoRotate = true;
+        }, 1400);
+      });
+
+      window.addEventListener("click", (event) => {
+        const mouse = new THREE.Vector2(
+          (event.clientX / window.innerWidth) * 2 - 1,
+          -(event.clientY / window.innerHeight) * 2 + 1
+        );
+
+        const raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(mouse, camera);
+
+        const pulseGeo = new THREE.SphereGeometry(0.18, 16, 16);
+        const pulseMat = new THREE.MeshBasicMaterial({
+          color: getPalette()[Math.floor(Math.random() * getPalette().length)],
+          transparent: true,
+          opacity: 0.95
+        });
+
+        const pulse = new THREE.Mesh(pulseGeo, pulseMat);
+        pulse.position.copy(raycaster.ray.origin).add(raycaster.ray.direction.clone().multiplyScalar(12));
+        scene.add(pulse);
+
+        const start = performance.now();
+
+        function animatePulse(now) {
+          const elapsed = now - start;
+          const progress = elapsed / 700;
+
+          if (progress >= 1) {
+            scene.remove(pulse);
+            pulse.geometry.dispose();
+            pulse.material.dispose();
+            return;
+          }
+
+          const scale = 1 + progress * 18;
+          pulse.scale.set(scale, scale, scale);
+          pulse.material.opacity = 0.95 * (1 - progress);
+          requestAnimationFrame(animatePulse);
+        }
+
+        requestAnimationFrame(animatePulse);
+      });
+
+      const clock = new THREE.Clock();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const t = clock.getElapsedTime();
+
+        if (!config.paused) {
+          if (nodesMesh && nodesMesh.material.uniforms?.uTime) {
+            nodesMesh.material.uniforms.uTime.value = t;
+            nodesMesh.rotation.y = Math.sin(t * 0.04) * 0.08;
+          }
+
+          if (connectionsMesh) {
+            connectionsMesh.rotation.y = Math.sin(t * 0.04) * 0.08;
+          }
+        }
+
+        starField.rotation.y += 0.0002;
+        if (starField.material.uniforms?.uTime) {
+          starField.material.uniforms.uTime.value = t;
+        }
+
+        controls.update();
+        composer.render();
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      window.addEventListener("resize", onWindowResize);
+
+      createNetworkVisualization(config.currentFormation, config.densityFactor);
+      animate();
+    </script>
+  </body>
 </html>
