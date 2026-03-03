@@ -60,12 +60,12 @@ export default function HomePage() {
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label">Live Overlay</span>
+              <span className="mini-label neon-green-text font-black">Live Overlay</span>
               <strong>Login and widgets on top</strong>
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label">Deployment</span>
+              <span className="mini-label neon-green-text font-black">Deployment</span>
               <strong>Stable public front page</strong>
             </div>
           </div>
