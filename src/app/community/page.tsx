@@ -80,8 +80,6 @@ const friends: Friend[] = [
   { id: 6, name: "Chris Evans", avatar: "CE", online: false },
   { id: 7, name: "Mark Ruffalo", avatar: "MR", online: true },
   { id: 8, name: "Jeremy Renner", avatar: "JR", online: false },
-  { id: 9, name: "Elizabeth O", avatar: "EO", online: true },
-  { id: 10, name: "Paul Bettany", avatar: "PB", online: true },
 ];
 
 function BorderWallCard({
@@ -126,7 +124,6 @@ function BorderWallCard({
             border border-white/5
             flex flex-col overflow-hidden
           "
-          style={{ height: useScrollArea ? maxHeight : 'auto' }}
         >
           {title ? (
             <div className="border-b border-white/8 px-5 py-4 shrink-0">
@@ -139,10 +136,10 @@ function BorderWallCard({
           <div className="flex-1 min-h-0 relative">
             {useScrollArea ? (
               <ScrollArea className="h-full">
-                <div className="p-5">{children}</div>
+                <div className="p-5" style={{ maxHeight: maxHeight }}>{children}</div>
               </ScrollArea>
             ) : (
-              <div className="p-5 h-full">
+              <div className="p-5 h-full overflow-hidden" style={{ maxHeight: maxHeight }}>
                 {children}
               </div>
             )}
@@ -216,7 +213,7 @@ function FeedCard({ post }: { post: FeedPost }) {
   return (
     <div className="mx-auto max-w-4xl">
       <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(83,238,255,1)_0%,rgba(110,142,255,1)_30%,rgba(255,87,182,1)_68%,rgba(184,160,255,1)_100%)] shadow-[0_0_26px_rgba(92,223,255,0.3),0_0_60px_rgba(180,80,255,0.16)]">
-        <div className="rounded-[29px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7">
+        <div className="rounded-[29px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7 text-left">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-4">
               <AvatarBadge label={post.avatar} />
@@ -261,7 +258,7 @@ function FeedCard({ post }: { post: FeedPost }) {
 
 export default function CommunityPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-black text-white selection:bg-indigo-500">
       <div className="grid min-h-screen grid-cols-1 xl:grid-cols-[290px_minmax(0,1fr)_330px]">
         {/* LEFT SIDEBAR */}
         <aside className="border-r border-white/8 bg-black">
@@ -277,7 +274,7 @@ export default function CommunityPage() {
 
             <ScrollArea className="flex-1 min-h-0">
               <div className="px-5 pb-8 space-y-7">
-                <BorderWallCard title="Workspace" maxHeight="280px">
+                <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
                   <div className="space-y-1">
                     <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
                     <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
@@ -299,7 +296,7 @@ export default function CommunityPage() {
                   </div>
                 </BorderWallCard>
 
-                <BorderWallCard title="Platform" maxHeight="220px">
+                <BorderWallCard title="Platform" maxHeight="none" useScrollArea={false}>
                   <div className="space-y-1">
                     <NavItem label="Mission" icon={Info} href="/mission" color="cyan" />
                     <NavItem label="Transparency" icon={Eye} href="/transparency" color="cyan" />
@@ -308,7 +305,7 @@ export default function CommunityPage() {
                   </div>
                 </BorderWallCard>
 
-                <BorderWallCard title="Legal" maxHeight="150px">
+                <BorderWallCard title="Legal" maxHeight="none" useScrollArea={false}>
                   <div className="space-y-1">
                     <NavItem label="Risk Disclosure" icon={ShieldAlert} href="/mission" color="orange" />
                     <NavItem label="Compliance" icon={Lock} href="/transparency" color="cyan" />
@@ -325,7 +322,7 @@ export default function CommunityPage() {
             <div className="flex flex-wrap items-center gap-4">
               <div className="min-w-[280px] flex-1">
                 <div className="flex h-14 items-center rounded-2xl border border-white/10 bg-white/[0.02] px-5 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.02)]">
-                  <span className="mr-3 text-white/50">⌕</span>
+                  <span className="mr-3 text-white/50 text-xl">⌕</span>
                   <input
                     className="w-full bg-transparent text-[18px] text-white outline-none placeholder:text-white/35"
                     placeholder="Search markets, news, or traders..."
@@ -339,7 +336,7 @@ export default function CommunityPage() {
 
                 <div className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/[0.02] px-3 py-2">
                   <AvatarBadge label="MA" />
-                  <div className="leading-tight">
+                  <div className="leading-tight text-left">
                     <div className="text-[15px] font-black text-white">
                       Mike Andrew
                     </div>
@@ -371,7 +368,7 @@ export default function CommunityPage() {
                     {friends.map((friend) => (
                       <div
                         key={friend.id}
-                        className="flex items-center gap-4 rounded-2xl px-2 py-1.5 hover:bg-white/[0.03]"
+                        className="flex items-center gap-4 rounded-2xl px-2 py-1.5 hover:bg-white/[0.03] transition-all cursor-pointer"
                       >
                         <AvatarBadge
                           label={friend.avatar}
@@ -386,9 +383,9 @@ export default function CommunityPage() {
                 </BorderWallCard>
 
                 <BorderWallCard title="Latest Updates" maxHeight="none" id="latest-updates-card" useScrollArea={false}>
-                  <div className="latest-updates-scroll max-h-[300px] pr-2 space-y-5 text-[15px]">
-                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                      <div className="text-white/90">
+                  <div className="latest-updates-scroll max-h-[300px] pr-2 space-y-5 text-[15px] text-left">
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3 border border-white/5">
+                      <div className="text-white/90 leading-snug">
                         <span className="font-black text-cyan-300">Tonny</span>{" "}
                         posted 1 photo
                       </div>
@@ -397,8 +394,8 @@ export default function CommunityPage() {
                       </div>
                     </div>
 
-                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                      <div className="text-white/90">
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3 border border-white/5">
+                      <div className="text-white/90 leading-snug">
                         <span className="font-black text-cyan-300">Mike</span>{" "}
                         started following you
                       </div>
@@ -407,8 +404,8 @@ export default function CommunityPage() {
                       </div>
                     </div>
 
-                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3">
-                      <div className="text-white/90">
+                    <div className="rounded-2xl bg-white/[0.02] px-4 py-3 border border-white/5">
+                      <div className="text-white/90 leading-snug">
                         <span className="font-black text-cyan-300">Research</span>{" "}
                         added a new macro note
                       </div>

@@ -39,7 +39,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* CUSTOM NEON SCROLLBARS: SOLID Indigo Roller on Fluid Red/Orange Track */
+/* GLOBAL CUSTOM NEON SCROLLBARS */
 ::-webkit-scrollbar {
   width: 14px;
   height: 14px;
@@ -52,7 +52,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #6366f1 !important; /* SOLID INDIGO */
+  background: #6366f1 !important;
   border-radius: 7px;
   box-shadow: 0 0 25px rgba(99, 102, 241, 1), 0 0 10px rgba(99, 102, 241, 0.8);
   border: none;
@@ -63,23 +63,8 @@ html, body {
   box-shadow: 0 0 35px rgba(99, 102, 241, 1);
 }
 
-.custom-scrollbar::-webkit-scrollbar {
-  width: 14px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%);
-  border-left: 2px solid #6366f1;
-  border-right: 2px solid #6366f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #6366f1 !important;
-  border-radius: 7px;
-}
-
 /* =========================================================
-   LATEST UPDATES & ONLINE FRIENDS — custom neon scrollbars
+   SCOPED NEON SCROLLBARS (Friends & Updates)
    ========================================================= */
 
 #latest-updates-card .latest-updates-scroll,
@@ -89,7 +74,6 @@ html, body {
   scrollbar-gutter: stable;
 }
 
-/* Chrome / Edge / Safari */
 #latest-updates-card .latest-updates-scroll::-webkit-scrollbar,
 #online-friends-card .friends-scroll::-webkit-scrollbar {
   width: 12px;
@@ -122,19 +106,26 @@ html, body {
   background-clip: padding-box;
 }
 
-#latest-updates-card .latest-updates-scroll::-webkit-scrollbar-thumb:hover,
-#online-friends-card .friends-scroll::-webkit-scrollbar-thumb:hover {
-  box-shadow:
-    0 0 12px rgba(0, 212, 255, 0.55),
-    0 0 18px rgba(106, 92, 255, 0.35),
-    0 0 26px rgba(255, 79, 216, 0.40);
-}
-
-/* Firefox */
+/* Firefox Support */
 #latest-updates-card .latest-updates-scroll,
 #online-friends-card .friends-scroll {
   scrollbar-width: thin;
   scrollbar-color: #ff4fd8 rgba(255, 255, 255, 0.10);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 14px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #ff003c 0%, #ff8a00 100%);
+  border-left: 2px solid #6366f1;
+  border-right: 2px solid #6366f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #6366f1 !important;
+  border-radius: 7px;
 }
 
 .fade-in {
