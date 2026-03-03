@@ -19,7 +19,7 @@ export default function HomePage() {
   // Redirect to social hub if already logged in
   useEffect(() => {
     if (user && !isUserLoading) {
-      router.push("/community"); // Standard entry point for authenticated users
+      router.push("/community"); 
     }
   }, [user, isUserLoading, router]);
 
@@ -68,7 +68,11 @@ export default function HomePage() {
 
       <header className="topbar">
         <div className="brand-wrap">
-          <div className="brand-badge" />
+          <img
+            src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+            alt="Clear Path Logo"
+            className="brand-logo-image"
+          />
           <div>
             <div className="brand-name text-white">CLEAR PATH</div>
             <div className="brand-sub">Adaptive Market Intelligence</div>
@@ -77,6 +81,51 @@ export default function HomePage() {
       </header>
 
       <section className="hero-shell">
+        <div className="glass-card neon-fuchsia hero-left">
+          <img
+            src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+            alt="Clear Path Hero Logo"
+            className="hero-top-image"
+          />
+
+          <div className="eyebrow">Built for clarity</div>
+
+          <h1 className="hero-title text-white font-black uppercase">
+            Market intelligence designed to feel cleaner
+          </h1>
+
+          <p className="hero-copy">
+            Professional diagnostic workspace utilizing an interactive quantum 
+            truth layer for high-fidelity market investigation.
+          </p>
+
+          <div className="hero-cta-row">
+            <Link href="/login" className="primary-btn large">
+              Synchronize Profile
+            </Link>
+            <Link href="/login" className="ghost-btn large">
+              Explore Network
+            </Link>
+          </div>
+
+          <div className="bullet-grid">
+            <div className="mini-stat">
+              <span className="mini-label">Adaptive Interface</span>
+              <strong>Neuro-aware visual structure</strong>
+            </div>
+
+            <div className="mini-stat">
+              <span className="mini-label">Live Overlay</span>
+              <strong>Login and widgets on top</strong>
+            </div>
+
+            <div className="mini-stat">
+              <span className="mini-label">Deployment</span>
+              <strong>Stable external front page</strong>
+            </div>
+          </div>
+        </div>
+
         <div className="hero-right">
           <div className="glass-card neon-cyan login-card">
             <div className="card-kicker">Secure Access</div>
@@ -84,7 +133,7 @@ export default function HomePage() {
 
             <form className="login-form" onSubmit={handleLogin}>
               <label>
-                <span>Email</span>
+                <span className="text-white/60">Email</span>
                 <input 
                   type="email" 
                   placeholder="name@example.com" 
@@ -95,7 +144,7 @@ export default function HomePage() {
               </label>
 
               <label>
-                <span>Password</span>
+                <span className="text-white/60">Password</span>
                 <input 
                   type="password" 
                   placeholder="Enter your password" 

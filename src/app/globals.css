@@ -1,4 +1,3 @@
-
 /* src/app/globals.css */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
@@ -62,6 +61,8 @@ a {
   text-decoration: none;
 }
 
+/* --- LANDING PAGE STYLES (Replacement) --- */
+
 .landing-root {
   position: relative;
   min-height: 100vh;
@@ -103,15 +104,18 @@ a {
   gap: 14px;
 }
 
-.brand-badge {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6, #39ff14);
+.brand-logo-image {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
   box-shadow:
-    0 0 14px rgba(24, 240, 255, 0.34),
-    0 0 22px rgba(255, 43, 214, 0.24),
-    0 0 30px rgba(91, 61, 245, 0.18);
+    0 0 14px rgba(24, 240, 255, 0.24),
+    0 0 22px rgba(255, 43, 214, 0.18),
+    0 0 30px rgba(91, 61, 245, 0.14);
 }
 
 .brand-name {
@@ -127,18 +131,12 @@ a {
   margin-top: 2px;
 }
 
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .hero-shell {
   position: relative;
   z-index: 3;
   min-height: calc(100vh - 84px);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 26px;
   align-items: center;
   padding: 24px 28px 36px;
@@ -155,10 +153,33 @@ a {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.hero-top-image {
+  width: 140px;
+  height: auto;
+  display: block;
+  margin-bottom: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 14px rgba(24, 240, 255, 0.22),
+    0 0 22px rgba(255, 43, 214, 0.16),
+    0 0 30px rgba(91, 61, 245, 0.12);
+}
+
 .neon-fuchsia { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(255, 43, 214, 0.16); }
 .neon-cyan { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(24, 240, 255, 0.16); }
 .neon-green { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(57, 255, 20, 0.14); }
 .neon-indigo { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 24px rgba(91, 61, 245, 0.18); }
+
+.hero-left { padding: 34px; }
+.eyebrow { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #18f0ff; margin-bottom: 14px; }
+.hero-title { font-size: clamp(2rem, 4vw, 4.4rem); line-height: 1.02; margin: 0 0 14px; }
+.hero-copy { max-width: 700px; color: rgba(255, 255, 255, 0.76); font-size: 16px; line-height: 1.65; margin-bottom: 24px; }
+.hero-cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+.bullet-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mini-stat { padding: 16px; border-radius: 18px; background: rgba(255, 255, 255, 0.045); border: 1px solid rgba(255, 255, 255, 0.08); }
+.mini-label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(255, 255, 255, 0.56); margin-bottom: 8px; }
+.mini-stat strong { font-size: 14px; line-height: 1.3; color: white; }
 
 .login-card { padding: 28px; }
 .card-kicker { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #18f0ff; margin-bottom: 10px; }
@@ -188,4 +209,5 @@ a {
 
 @media (max-width: 1100px) {
   .hero-shell { grid-template-columns: 1fr; align-items: start; }
+  .bullet-grid { grid-template-columns: 1fr; }
 }
