@@ -60,7 +60,10 @@ function mk(
 
     panels: { ...P_BASE },
 
-    chart: baseChart("#05060a"),
+    chart: {
+      ...baseChart("#05060a"),
+      density: "normal",
+    },
 
     complianceLine: COMPLIANCE,
     ...patch,
