@@ -11,26 +11,26 @@ export const metadata: Metadata = {
 export default function TransparencyPage() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500">
-      <header className="h-20 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
+      <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-8">
-           <Link href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+           <Link href="/" className="flex items-center gap-2 text-[14px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Social Hub
            </Link>
            <div className="flex items-center gap-2">
-             <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-                <Activity className="w-5 h-5 text-white" />
+             <div className="w-16 h-16 rounded-lg bg-indigo-500 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.6)]">
+                <Activity className="w-10 h-10 text-white" />
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[12px] font-black tracking-[0.2em] text-white uppercase leading-none">Transparency</span>
-                <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
+                <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">Transparency</span>
+                <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
              </div>
            </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-4xl px-8 py-16 text-white/90">
-        <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_10px_rgba(106,92,255,0.3)]">
+        <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
           Transparency
         </h1>
 

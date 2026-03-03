@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -200,20 +199,20 @@ export default function CommunitiesDiscoveryPage() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500 selection:text-white font-body overflow-hidden">
       {/* Header */}
-      <header className="h-20 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between">
+      <header className="h-32 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-[14px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Social Hub
           </Link>
           <div className="h-8 w-px bg-white/10" />
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-              <Compass className="w-5 h-5 text-white" />
+            <div className="w-16 h-16 rounded-2xl bg-indigo-500 flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.6)]">
+              <Compass className="w-10 h-10 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-[12px] font-black tracking-[0.2em] uppercase leading-none">Community</span>
-              <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
+              <span className="text-[24px] font-black tracking-[0.3em] uppercase leading-none">Community</span>
+              <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
             </div>
           </div>
         </div>
@@ -232,7 +231,7 @@ export default function CommunitiesDiscoveryPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-8 h-[calc(100vh-80px)] flex flex-col pt-12">
+      <main className="max-w-7xl mx-auto px-8 h-[calc(100vh-128px)] flex flex-col pt-12">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
           <div className="flex items-center justify-between mb-8 shrink-0">
             <TabsList className="bg-white/5 border border-white/10 p-1 h-12 rounded-2xl">
@@ -258,7 +257,7 @@ export default function CommunitiesDiscoveryPage() {
             <ScrollArea className="h-full pr-4">
               <div className="pb-32">
                 <div className="mb-12">
-                  <h1 className="text-4xl font-black uppercase tracking-[0.3em] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00]">
+                  <h1 className="text-4xl font-black uppercase tracking-[0.1em] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
                     Thematic Sectors
                   </h1>
                   <p className="max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]">

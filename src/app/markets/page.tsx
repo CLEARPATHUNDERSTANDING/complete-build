@@ -49,7 +49,7 @@ export default async function MarketsPage() {
             </div>
             <div className="text-left">
               <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">CLEAR PATH TRADER</div>
-              <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_15px_rgba(106,92,255,0.4)] brightness-110">
+              <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
                 Command Center
               </h1>
               <p className="mt-1 text-sm text-white/65">
@@ -65,18 +65,19 @@ export default async function MarketsPage() {
         <MarketGrid cards={data.cards} />
       </div>
 
+      {/* Corrected High-Fidelity Logos Outside Blocks */}
       <div className="flex justify-center gap-16 py-16 border-t border-white/5 bg-black/40">
         <div className="flex flex-col items-center gap-4">
           <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#00e5ff] fill-current drop-shadow-[0_0_15px_#00e5ff]" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.151 3.096 3.712 3.034 1.498-.058 2.074-1.047 3.882-1.047 1.8 0 2.316 1.047 3.89 1.012 1.61-.027 2.59-1.478 3.572-2.902 1.129-1.659 1.597-3.258 1.621-3.34-.034-.014-3.11-1.194-3.14-4.741-.024-2.96 2.42-4.384 2.53-4.455-1.389-2.03-3.522-2.27-4.274-2.32-1.912-.155-3.41 1.115-4.39 1.115zM15.21 4.501c.849-1.02 1.419-2.439 1.263-3.851-1.218.049-2.69.811-3.562 1.83-.783.9-.1.465-2.421-1.311-3.838.156 1.41.039 2.826-.812 3.86z"/>
+            <path d="M17.05,20.28c-.96,.95-2.26,1.53-3.71,1.53s-2.75-.58-3.71-1.53c-.96-.95-1.53-2.26-1.53-3.71s.58-2.75,1.53-3.71c.96-.95,2.26-1.53,3.71-1.53s2.75,.58,3.71,1.53c.96,.95,1.53,2.26,1.53,3.71s-.58,2.75-1.53,3.71M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2M15.67,1.02c.45-.1,.84,.3,.74,.75-.14,.61-.55,1.13-1.1,1.43-.55,.3-1.21,.38-1.82,.23-.61-.14-1.13-.55-1.43-1.1-.3-.55-.38-1.21-.23-1.82,.1-.45,.6-.65,1-.45,.55,.3,1,.85,1.25,1.5,.25,.65,.35,1.35,.3,2,.4,.4,1,.65,1.6,.65s1.2-.25,1.6-.65c-.05-.65,.05-1.35,.3-2,.25-.65,.7-1.2,1.25-1.5,.4-.2,.9,0,1,.45,.15,.61,.07,1.27-.23,1.82-.3,.55-.82,.96-1.43,1.1-.61,.15-1.27,.07-1.82-.23-.55-.3-.96-.82-1.1-1.43-.1-.45,.29-.85,.74-.75Z" />
           </svg>
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">iOS Ready</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">iOS Deployed</span>
         </div>
         <div className="flex flex-col items-center gap-4">
           <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#ff00d4] fill-current drop-shadow-[0_0_15px_#ff00d4]" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.52 14.33c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-11.04 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM18.15 10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15 0-.3.06-.41.17-.11.11-.17.26-.17.41v2.01c0 .15.06.3.17.41.11.11.26.17.41.17h11.49c.15 0 .3-.06.41-.17.11-.11.17-.26.17-.41v-2.01c0-.15-.06-.3-.17-.41zM12 1c-4.97 0-9 4.03-9 9 0 4.18 2.84 7.69 6.69 8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66 1.34-3 3-3s3 1.34 3 3v.01c0 .23-.01.45-.03.68 3.85-1 6.69-4.51 6.69-8.69 0-4.97-4.03-9-9-9z"/>
+            <path d="M17.52,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M6.48,14.33c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1M18.15,10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15,0-.3,.06-.41,.17-.11,.11-.17,.26-.17,.41v2.01c0,.15,.06,.3,.17,.41,.11,.11,.26,.17,.41,.17h11.49c.15,0,.3-.06,.41-.17,.11-.11,.17-.26,.17-.41v-2.01c0-.15-.06-.3-.17-.41M12,1c-4.97,0-9,4.03-9,9,0,4.18,2.84,7.69,6.69,8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66,1.34-3,3-3s3,1.34,3,3v.01c0,.23-.01,.45-.03,.68,3.85-1,6.69-4.51,6.69-8.69,0-4.97-4.03-9-9-9" />
           </svg>
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400">Android Ready</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400">Android Deployed</span>
         </div>
       </div>
 

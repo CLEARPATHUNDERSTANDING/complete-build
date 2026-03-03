@@ -65,7 +65,7 @@ export default async function MarketDetailPage({
               <div className={`inline-flex rounded-full bg-gradient-to-r ${data.market.accent} px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-black`}>
                 {data.market.label} / {data.symbol}
               </div>
-              <h1 className="mt-6 text-4xl font-black md:text-6xl uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_20px_rgba(106,92,255,0.5)] brightness-125">
+              <h1 className="mt-6 text-4xl font-black md:text-6xl uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
                 {data.symbol} Terminal
               </h1>
               <p className="mt-4 max-w-3xl text-lg text-white/60 leading-relaxed italic border-l-2 border-indigo-500 pl-6">
