@@ -48,8 +48,8 @@ import { cn } from "@/lib/utils";
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 /**
- * High-Intensity Card with restored bright orange-to-magenta borders.
- * Recalibrated to remove Indigo/Cyan from the inner gradient.
+ * High-Intensity Card with Unified Blended Gradients.
+ * Replaces layered nesting with a single spectral flow border.
  */
 function BorderWallCard({
   title,
@@ -74,52 +74,44 @@ function BorderWallCard({
     <div
       id={id}
       className={cn(
-        "relative rounded-[26px] p-[5px] transition-all duration-500",
+        "relative rounded-[26px] p-[3px] transition-all duration-500",
         isCool 
-          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_100%)] shadow-[0_0_25px_rgba(99,102,241,0.4),0_0_50px_rgba(0,229,255,0.2)]" 
-          : "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_100%)] shadow-[0_0_25px_rgba(255,136,0,0.4),0_0_50px_rgba(255,0,85,0.2)]",
+          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_50%,#a78bfa_100%)] shadow-[0_0_25px_rgba(99,102,241,0.3)]" 
+          : "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_50%,#ff4fd8_100%)] shadow-[0_0_25px_rgba(255,136,0,0.3)]",
         className
       )}
     >
       <div
-        className={cn(
-          "rounded-[23px] p-[5px]",
-          isCool
-            ? "bg-[linear-gradient(135deg,#00e5ff_0%,#a78bfa_100%)] shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(99,102,241,0.3)]"
-            : "bg-[linear-gradient(135deg,#ff0055_0%,#ff4fd8_100%)] shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(255,0,85,0.3)]"
-        )}
+        className="
+          h-full w-full
+          rounded-[23px]
+          bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.95)_0%,rgba(3,8,24,0.98)_48%,rgba(0,0,0,1)_100%)]
+          backdrop-blur-xl
+          border border-white/5
+          flex flex-col overflow-hidden
+        "
       >
-        <div
-          className="
-            rounded-[20px]
-            bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.95)_0%,rgba(3,8,24,0.98)_48%,rgba(0,0,0,1)_100%)]
-            backdrop-blur-xl
-            border border-white/5
-            flex flex-col overflow-hidden
-          "
-        >
-          {title ? (
-            <div className="border-b border-white/8 px-5 py-4 shrink-0">
-              <div className={cn(
-                "text-[12px] font-black uppercase tracking-[0.28em]",
-                isCool ? "text-indigo-300" : "text-white/70"
-              )}>
-                {title}
-              </div>
+        {title ? (
+          <div className="border-b border-white/8 px-5 py-4 shrink-0">
+            <div className={cn(
+              "text-[12px] font-black uppercase tracking-[0.28em]",
+              isCool ? "text-indigo-300" : "text-white/70"
+            )}>
+              {title}
             </div>
-          ) : null}
-
-          <div className="flex-1 min-h-0 relative">
-            {useScrollArea ? (
-              <ScrollArea className="h-full">
-                <div className="p-5" style={{ maxHeight: maxHeight }}>{children}</div>
-              </ScrollArea>
-            ) : (
-              <div className="p-5 h-full overflow-hidden" style={{ maxHeight: maxHeight }}>
-                {children}
-              </div>
-            )}
           </div>
+        ) : null}
+
+        <div className="flex-1 min-h-0 relative">
+          {useScrollArea ? (
+            <ScrollArea className="h-full">
+              <div className="p-5" style={{ maxHeight: maxHeight }}>{children}</div>
+            </ScrollArea>
+          ) : (
+            <div className="p-5 h-full overflow-hidden" style={{ maxHeight: maxHeight }}>
+              {children}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -401,8 +393,8 @@ export default function SocialPlatform() {
               ) : (
                 insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                   <div key={post.id} className="mx-auto w-full group">
-                    <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_30%,rgba(255,79,216,1)_68%,rgba(255,138,0,1)_100%)] shadow-[0_0_26px_rgba(255,136,0,0.2),0_0_60px_rgba(255,0,85,0.1)] transition-transform hover:scale-[1.005]">
-                      <div className="rounded-[29px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7">
+                    <div className="relative rounded-[36px] p-[3px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_50%,rgba(255,138,0,1)_100%)] shadow-[0_0_26px_rgba(255,136,0,0.2)] transition-transform hover:scale-[1.005]">
+                      <div className="rounded-[33px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
                             <Avatar className="w-12 h-12 ring-2 ring-orange-500/20">

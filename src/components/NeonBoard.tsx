@@ -9,9 +9,9 @@ type NeonBoardProps = {
 };
 
 /**
- * High-intensity NeonBoard component with a 10px thick wrap (3x thick).
- * Recalibrated to remove Cyan and Neon Indigo, utilizing the Orange-Pink spectrum.
+ * High-intensity NeonBoard component with a 10px thick Unified Blended Gradient.
  * Outer shell: rounded-[32px] | Padding: 10px | Inner panel: rounded-[22px]
+ * Spectrum: Blended Orange-to-Magenta.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
@@ -20,10 +20,10 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
       style={{
         padding: "10px",
         background: "linear-gradient(135deg, #ff8800 0%, #ff0055 50%, #ff4fd8 100%)",
-        boxShadow: "0 0 50px rgba(255,136,0,0.4), 0 0 80px rgba(255,0,85,0.3), 0 0 120px rgba(255,0,85,0.2)",
+        boxShadow: "0 0 50px rgba(255,136,0,0.4), 0 0 80px rgba(255,0,85,0.2)",
       }}
     >
-      {/* glow overlay, clipped correctly to match outer radius */}
+      {/* Blended internal glow shadow */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[32px]"
         style={{

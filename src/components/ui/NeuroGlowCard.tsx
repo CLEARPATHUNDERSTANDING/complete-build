@@ -5,7 +5,7 @@ import React from "react";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 
 /**
- * 3x Thick Neon Boarder Wrap (10px) with mathematically consistent radii.
+ * 10px Thick Unified Blended Gradient Border with mathematically consistent radii.
  * Outer: rounded-[32px] | Inset: 10px | Inner: rounded-[22px]
  */
 export function NeuroGlowCard({
@@ -27,11 +27,11 @@ export function NeuroGlowCard({
       ].join(" ")}
       style={{
         padding: "10px",
-        background: `linear-gradient(135deg, ${p.borderA}, ${p.borderB})`,
+        background: `linear-gradient(135deg, ${p.borderA} 0%, ${p.borderB} 100%)`,
         boxShadow: p.glow !== "Low" ? `0 0 50px ${p.borderA}66, 0 0 80px ${p.borderB}4D` : "none",
       }}
     >
-      {/* Glow clipping overlay */}
+      {/* Unified glow clipping overlay */}
       <div
         className="pointer-events-none absolute inset-0 rounded-[32px]"
         style={{
