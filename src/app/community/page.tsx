@@ -301,6 +301,7 @@ export default function CommunityPage() {
 
                 <BorderWallCard title="Platform" maxHeight="none" useScrollArea={false}>
                   <div className="space-y-1">
+                    <NavItem label="On-Going Research" icon={Zap} href="/research" color="orange" />
                     <NavItem label="Mission" icon={Info} href="/mission" color="cyan" />
                     <NavItem label="Transparency" icon={Eye} href="/transparency" color="cyan" />
                     <NavItem label="Governance" icon={Scale} href="/governance" color="cyan" />

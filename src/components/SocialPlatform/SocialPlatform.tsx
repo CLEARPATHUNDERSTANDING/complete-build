@@ -270,6 +270,7 @@ export default function SocialPlatform() {
 
             <FluidSection title="Platform" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1 text-white/60">
+                <a href="/research" className={navItemClass}><Zap className="w-4 h-4 text-orange-400" /><span className="text-orange-400 font-bold">On-Going Research</span></a>
                 <a href="/mission" className={navItemClass}><Info className="w-4 h-4" /><span>Mission</span></a>
                 <a href="/transparency" className={navItemClass}><Eye className="w-4 h-4" /><span>Transparency</span></a>
                 <a href="/governance" className={navItemClass}><Scale className="w-4 h-4" /><span>Governance</span></a>
