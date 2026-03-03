@@ -9,9 +9,14 @@ import {
   Volume2,
   Bluetooth,
   Menu,
-  Loader2
+  Loader2,
+  Info,
+  BookOpen,
+  ShieldCheck,
+  ExternalLink
 } from "lucide-react"
 import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
+import { getRationale } from "@/lib/neuro/clinical-rationale"
 import { NON_ND_MODES } from "@/modes/nonNdModes"
 import {
   Select,
@@ -20,7 +25,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogTrigger 
+} from "@/components/ui/dialog"
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
+import { Badge } from "@/components/ui/badge"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import type { ModeConfig } from "@/modes/types"
 
 function DashboardContent() {
@@ -30,7 +44,7 @@ function DashboardContent() {
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const profileParam = searchParams.get('profile') as NeuroProfileId;
   const symbolParam = searchParams.get('symbol') || 'AAPL';
-  const styleParam = searchParams.get('style') || 'pro-trading-desk';
+  const styleParam = searchParams.get('style') || 'stocks';
   
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
@@ -45,6 +59,7 @@ function DashboardContent() {
   }, [searchParams, selectedProfileId, selectedStyleId]);
 
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
+  const rationale = React.useMemo(() => getRationale(selectedProfileId), [selectedProfileId]);
   const standardMode = React.useMemo(() => NON_ND_MODES.find(m => m.id === selectedStyleId) || NON_ND_MODES[0], [selectedStyleId]);
 
   const activeModeConfig = React.useMemo<ModeConfig>(() => {
@@ -80,7 +95,7 @@ function DashboardContent() {
           density: p.dataDensity === 'High' ? 'tight' : p.dataDensity === 'Low' ? 'airy' : 'normal',
           glow: p.glow === 'High' ? 1 : p.glow === 'Medium' ? 0.5 : 0,
         },
-        complianceLine: "Neuro-Divergent focus interface. Personal use only."
+        complianceLine: "Neuro-Divergent focus interface. Evidence-informed controls."
       };
     }
     
@@ -136,9 +151,76 @@ function DashboardContent() {
            </div>
 
            <div className="flex items-center gap-4">
-              <span className="text-[10px] font-black tracking-widest text-white/40 uppercase">
-                {mode === 'focus' ? 'Neuro Profile' : 'Trading Style'}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black tracking-widest text-white/40 uppercase">
+                  {mode === 'focus' ? 'Neuro Profile' : 'Trading Style'}
+                </span>
+                {mode === 'focus' && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="p-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all">
+                        <Info className="w-3.5 h-3.5" />
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-2xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_80px_rgba(99,102,241,0.2)]">
+                      <div className="p-8">
+                        <DialogHeader className="mb-6">
+                          <DialogTitle className="text-2xl font-black uppercase tracking-[0.1em] flex items-center gap-3">
+                            <BookOpen className="w-6 h-6 text-indigo-400" />
+                            Clinical Rationale
+                          </DialogTitle>
+                        </DialogHeader>
+                        
+                        <div className="space-y-8">
+                          <div>
+                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Design Goal</div>
+                            <div className="text-lg font-bold text-indigo-300 leading-snug">{rationale.goal}</div>
+                          </div>
+
+                          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Behavioral Logic</div>
+                            <p className="text-[15px] leading-relaxed text-white/80">{rationale.summary}</p>
+                          </div>
+
+                          <div className="grid grid-cols-2 gap-6">
+                            <div>
+                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Design Rules</div>
+                              <ul className="space-y-2">
+                                {rationale.designRules.map((rule, i) => (
+                                  <li key={i} className="flex items-start gap-2 text-[13px] font-medium text-white/60">
+                                    <div className="w-1 h-1 rounded-full bg-indigo-500 mt-2 shrink-0" />
+                                    {rule}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Evidence Tags</div>
+                              <div className="flex flex-wrap gap-2">
+                                {rationale.evidenceTags.map((tag, i) => (
+                                  <Badge key={i} variant="outline" className="bg-indigo-500/5 border-indigo-500/30 text-indigo-400 text-[9px] uppercase tracking-widest">{tag}</Badge>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="pt-6 border-t border-white/5">
+                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-4">Scientific Citations</div>
+                            <div className="space-y-3">
+                              {rationale.citations.map((cite, i) => (
+                                <a key={i} href={cite.url} target="_blank" rel="noreferrer" className="flex items-center justify-between group p-3 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all">
+                                  <span className="text-xs font-bold text-white/70 group-hover:text-white">{cite.text}</span>
+                                  <ExternalLink className="w-3.5 h-3.5 text-white/20 group-hover:text-indigo-400" />
+                                </a>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                )}
+              </div>
               <Select 
                 value={mode === 'focus' ? selectedProfileId : selectedStyleId} 
                 onValueChange={(v) => {
