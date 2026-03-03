@@ -40,7 +40,7 @@ export default function HomePage() {
 
           <p className="hero-copy">
             Your interactive intelligence layer sits above a solid, distraction-free foundation 
-            with sharp neon styling and neuro-aware geometry.
+            with sharp neon styling and high-fidelity diagnostic anchors.
           </p>
 
           <div className="hero-cta-row">
@@ -56,7 +56,7 @@ export default function HomePage() {
           <div className="bullet-grid">
             <div className="mini-stat">
               <span className="mini-label">Diagnostic Logic</span>
-              <strong>Neuro-aware visual structure</strong>
+              <strong>fire pink visual structure</strong>
             </div>
 
             <div className="mini-stat">
