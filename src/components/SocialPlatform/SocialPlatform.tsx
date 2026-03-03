@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -72,7 +71,8 @@ export default function SocialPlatform() {
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim()) {
-      router.push(`/intelligence?q=${encodeURIComponent(searchQuery.trim())}`);
+      // Navigate to the neural Topic Search page
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
