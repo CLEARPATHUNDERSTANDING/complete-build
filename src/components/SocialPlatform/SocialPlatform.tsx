@@ -5,38 +5,23 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { 
   Search,
-  Sun,
-  Moon,
   LayoutDashboard,
   MessageCircle,
   Heart,
-  ArrowRight,
   TrendingUp,
-  Bell,
   Sparkles,
-  Grid2X2,
   Users,
-  Navigation,
-  Info,
-  Eye,
-  Scale,
-  FileText,
-  ShieldAlert,
-  Lock,
-  Menu,
-  Brain,
+  Compass,
   Zap,
   BarChart2,
   X,
-  CheckCircle2,
   MousePointer2,
   Type,
   Globe,
-  Compass,
-  LogOut,
   Loader2,
   Radio,
-  Activity
+  Activity,
+  MessageSquare
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -55,7 +40,6 @@ import { marketCatalog } from "@/data/marketCatalog";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
-import { signOut } from "firebase/auth";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
@@ -174,7 +158,7 @@ function NavItem({
 export default function SocialPlatform() {
   const router = useRouter();
   const { toast } = useToast();
-  const { auth, firestore } = useFirebase();
+  const { firestore } = useFirebase();
   const { user, isUserLoading } = useUser();
   
   const [mounted, setMounted] = useState(false);
@@ -399,7 +383,7 @@ export default function SocialPlatform() {
                 </div>
               ) : insightsData?.length === 0 ? (
                 <div className="py-20 flex flex-col items-center opacity-20">
-                  <Brain className="w-16 h-16 mb-4" />
+                  <Activity className="w-16 h-16 mb-4" />
                   <span className="text-[10px] font-black uppercase tracking-[0.4em]">Intelligence Layer Empty</span>
                 </div>
               ) : (
@@ -496,6 +480,33 @@ export default function SocialPlatform() {
                       <div className="text-[14px] font-black text-white group-hover:text-indigo-400 transition-colors">{hub.name}</div>
                       <div className="text-[10px] font-black text-white/30 uppercase tracking-widest">{hub.status}</div>
                     </div>
+                  </div>
+                ))}
+              </div>
+            </BorderWallCard>
+
+            <BorderWallCard title="Network Intelligence" maxHeight="none" useScrollArea={false}>
+              <div className="space-y-5">
+                {[
+                  { name: "Mike Andrew", status: "Analyzing BTCUSD", active: true },
+                  { name: "Sarah Chen", status: "Monitoring AAPL", active: true },
+                  { name: "David K.", status: "Macro Idle", active: false },
+                  { name: "Elena R.", status: "Backtesting Gold", active: true },
+                ].map((friend, i) => (
+                  <div key={i} className="flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group">
+                    <div className="flex items-center gap-4">
+                      <div className="relative h-10 w-10 shrink-0">
+                        <Avatar className="h-full w-full border border-white/10">
+                          <AvatarFallback className="bg-indigo-500/20 text-indigo-400 text-xs font-black">{friend.name[0]}</AvatarFallback>
+                        </Avatar>
+                        {friend.active && <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-emerald-400 shadow-[0_0_8px_#10b981]" />}
+                      </div>
+                      <div className="text-left">
+                        <div className="text-[13px] font-black text-white group-hover:text-cyan-400 transition-colors">{friend.name}</div>
+                        <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">{friend.status}</div>
+                      </div>
+                    </div>
+                    <MessageSquare className="w-3.5 h-3.5 text-white/10 group-hover:text-indigo-400 transition-colors" />
                   </div>
                 ))}
               </div>
