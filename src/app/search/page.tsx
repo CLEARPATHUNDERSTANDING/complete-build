@@ -93,7 +93,7 @@ function SearchContent() {
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-32 h-32 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)]"
+                className="w-32 h-32 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)] opacity-60"
               />
               <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white/60 select-none">©™</span>
             </div>

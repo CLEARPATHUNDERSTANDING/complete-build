@@ -75,7 +75,7 @@ export default function LoginPage() {
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path Logo"
-              className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_50px_rgba(255,136,0,0.5)]"
+              className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_50px_rgba(255,136,0,0.5)] opacity-60"
             />
             <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
           </div>

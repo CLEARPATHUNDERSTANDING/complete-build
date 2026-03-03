@@ -86,13 +86,13 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
 
       <div className="flex-1 min-h-[300px] relative">
         <ApexChart options={options} series={series} type="candlestick" height="100%" width="100%" />
-        {/* Logo Overlay Lower Left - Enlarged 3x */}
+        {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
         <div className="absolute bottom-10 left-8 z-20 pointer-events-none group">
           <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path"
-              className="w-20 h-20 rounded-xl object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+              className="w-20 h-20 rounded-xl object-cover opacity-40 group-hover:opacity-80 transition-opacity"
             />
             <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
           </div>

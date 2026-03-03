@@ -197,13 +197,13 @@ export function CandlestickChart({
 
       <div className="relative z-10">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
-        {/* Logo Overlay Lower Left - Enlarged 3x */}
+        {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
         <div className="absolute bottom-10 left-6 z-20 pointer-events-none group">
           <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-1.5">
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path"
-              className="w-18 h-18 rounded-lg object-cover opacity-60 group-hover:opacity-100 transition-opacity"
+              className="w-18 h-18 rounded-lg object-cover opacity-40 group-hover:opacity-80 transition-opacity"
             />
             <span className="absolute bottom-0.5 right-0.5 text-[6px] font-bold text-white/40 select-none">©™</span>
           </div>

@@ -12,24 +12,24 @@ export const metadata: Metadata = {
 export default function PlatformConstitutionPage() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500">
-      <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
-        <div className="flex items-center gap-8">
+      <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
+        <div className="flex items-center gap-16">
            <Link href="/" className="flex items-center gap-2 text-[14px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
               <ArrowLeft className="w-4 h-4" />
               Social Hub
            </Link>
-           <div className="flex items-center gap-4">
+           <div className="flex items-center gap-8">
              <div className="relative">
                <img 
                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                  alt="Clear Path Logo"
-                 className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
+                 className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_40px_rgba(255,136,0,0.4)] opacity-60"
                />
-               <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
+               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
              </div>
              <div className="flex flex-col text-left">
-                <span className="text-[24px] font-black tracking-[0.3em] text-white uppercase leading-none">Constitution</span>
-                <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
+                <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">Constitution</span>
+                <span className="text-[24px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
              </div>
            </div>
         </div>

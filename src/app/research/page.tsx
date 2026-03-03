@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 export default function ResearchPage() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500">
-      <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
+      <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-8">
            <Link href="/" className="flex items-center gap-2 text-[14px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
               <ArrowLeft className="w-4 h-4" />
@@ -42,7 +42,7 @@ export default function ResearchPage() {
                <img 
                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                  alt="Clear Path Logo"
-                 className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
+                 className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)] opacity-60"
                />
                <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
              </div>
@@ -133,11 +133,10 @@ export default function ResearchPage() {
                                   <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
                                   {feat}
                                 </li>
-                              ))}
-                            </ul>
+                              </ul>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
                       <div className="grid md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
                         <div className="space-y-4">

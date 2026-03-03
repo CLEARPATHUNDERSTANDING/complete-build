@@ -73,7 +73,7 @@ export default function HomePage() {
             <img
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path Logo"
-              className="brand-logo-image"
+              className="brand-logo-image opacity-60"
             />
             <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
           </div>
@@ -90,7 +90,7 @@ export default function HomePage() {
             <img
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path Hero Logo"
-              className="hero-top-image"
+              className="hero-top-image opacity-60"
             />
             <span className="absolute bottom-3 right-3 text-[10px] font-bold text-white/60 select-none">©™</span>
           </div>

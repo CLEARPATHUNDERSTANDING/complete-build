@@ -77,13 +77,13 @@ export default function MarketMiniChart({ series, positive }: Props) {
         height="100%"
         width="100%"
       />
-      {/* Micro Logo Overlay Lower Left - Enlarged 3x */}
+      {/* Micro Logo Overlay Lower Left - Enlarged 3x See-Through */}
       <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
         <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
           <img 
             src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
             alt="Clear Path"
-            className="w-12 h-12 rounded-md object-cover opacity-50"
+            className="w-12 h-12 rounded-md object-cover opacity-40"
           />
         </div>
       </div>
