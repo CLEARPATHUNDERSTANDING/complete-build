@@ -85,8 +85,6 @@
         border: 1px solid var(--glass-border);
         border-top: 1px solid var(--glass-highlight);
         border-left: 1px solid var(--glass-highlight);
-        backdrop-filter: blur(18px) saturate(130%);
-        -webkit-backdrop-filter: blur(18px) saturate(130%);
         box-shadow:
           0 18px 40px rgba(0, 0, 0, 0.42),
           0 0 18px rgba(24, 240, 255, 0.08),
@@ -94,208 +92,11 @@
           inset 0 0 20px rgba(255, 255, 255, 0.02);
         transition: box-shadow 0.25s ease, transform 0.25s ease;
       }
-
-      .glass-panel:hover {
-        box-shadow:
-          0 24px 48px rgba(0, 0, 0, 0.48),
-          0 0 18px rgba(24, 240, 255, 0.12),
-          0 0 24px rgba(255, 43, 214, 0.12),
-          0 0 32px rgba(91, 61, 245, 0.10),
-          inset 0 0 20px rgba(255, 255, 255, 0.03);
-        transform: translateY(-1px);
-      }
-
-      #instructions-container {
-        top: 24px;
-        left: 24px;
-        width: 290px;
-        padding: 18px;
-      }
-
-      #instruction-title {
-        font-size: 18px;
-        font-weight: 700;
-        margin-bottom: 8px;
-        letter-spacing: 0.02em;
-      }
-
-      .instruction-text {
-        font-size: 13px;
-        line-height: 1.55;
-        color: var(--text-muted);
-      }
-
-      #theme-selector {
-        top: 24px;
-        right: 24px;
-        width: 340px;
-        padding: 18px;
-        display: flex;
-        gap: 18px;
-      }
-
-      #theme-selector-title {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-main);
-        margin-bottom: 10px;
-      }
-
-      .theme-grid {
-        display: flex;
-        gap: 10px;
-      }
-
-      .theme-button {
-        width: 24px;
-        height: 24px;
-        border-radius: 999px;
-        border: 2px solid rgba(255, 255, 255, 0.18);
-        cursor: pointer;
-        outline: none;
-      }
-
-      .theme-button.active {
-        border-color: rgba(255, 255, 255, 0.92);
-        box-shadow:
-          0 0 14px rgba(24, 240, 255, 0.18),
-          0 0 22px rgba(255, 43, 214, 0.16);
-      }
-
-      #theme-1 {
-        background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6);
-      }
-
-      #theme-2 {
-        background: linear-gradient(135deg, #ff2bd6, #5b3df5, #39ff14);
-      }
-
-      #theme-3 {
-        background: linear-gradient(135deg, #39ff14, #18f0ff, #5b3df5);
-      }
-
-      .density-label {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        font-size: 12px;
-        margin-bottom: 8px;
-        color: var(--text-muted);
-      }
-
-      .density-slider {
-        width: 100%;
-        accent-color: #18f0ff;
-      }
-
-      #control-buttons {
-        position: absolute;
-        z-index: 10;
-        bottom: 26px;
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        gap: 12px;
-      }
-
-      .control-button {
-        min-width: 118px;
-        padding: 12px 18px;
-        border-radius: 999px;
-        border: 1px solid rgba(24, 240, 255, 0.16);
-        background: rgba(255, 255, 255, 0.06);
-        color: white;
-        font-family: "Outfit", sans-serif;
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        cursor: pointer;
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        box-shadow:
-          0 10px 30px rgba(0, 0, 0, 0.32),
-          0 0 12px rgba(24, 240, 255, 0.12),
-          0 0 18px rgba(255, 43, 214, 0.10),
-          0 0 24px rgba(91, 61, 245, 0.08);
-      }
-
-      .control-button:hover {
-        transform: translateY(-1px);
-      }
-
-      @media (max-width: 900px) {
-        #instructions-container {
-          top: 16px;
-          left: 16px;
-          right: 16px;
-          width: auto;
-        }
-
-        #theme-selector {
-          top: auto;
-          bottom: 100px;
-          left: 16px;
-          right: 16px;
-          width: auto;
-          flex-direction: column;
-        }
-
-        #control-buttons {
-          bottom: 18px;
-          width: calc(100% - 32px);
-        }
-
-        .control-button {
-          flex: 1;
-          min-width: 0;
-        }
-      }
     </style>
   </head>
 
   <body>
     <div class="overlay-dark"></div>
-
-    <div id="instructions-container" class="glass-panel">
-      <div id="instruction-title">Clear Path Quantum Grid</div>
-      <div class="instruction-text">
-        Interactive animated front layer for your homepage.
-        Drag to explore. Click to pulse. Change the theme and density.
-      </div>
-    </div>
-
-    <div id="theme-selector" class="glass-panel">
-      <div style="flex: 1;">
-        <div id="theme-selector-title">Theme</div>
-        <div class="theme-grid">
-          <button class="theme-button active" id="theme-1" data-theme="0" aria-label="Cyan Indigo Fuchsia"></button>
-          <button class="theme-button" id="theme-2" data-theme="1" aria-label="Fuchsia Indigo Green"></button>
-          <button class="theme-button" id="theme-3" data-theme="2" aria-label="Green Cyan Indigo"></button>
-        </div>
-      </div>
-
-      <div style="flex: 1;">
-        <div class="density-label">
-          <span>Density</span>
-          <span id="density-value">100%</span>
-        </div>
-        <input
-          type="range"
-          min="30"
-          max="100"
-          value="100"
-          class="density-slider"
-          id="density-slider"
-          aria-label="Network Density"
-        />
-      </div>
-    </div>
-
-    <div id="control-buttons">
-      <button id="change-formation-btn" class="control-button">Morph</button>
-      <button id="pause-play-btn" class="control-button">Freeze</button>
-      <button id="reset-camera-btn" class="control-button">Reset</button>
-    </div>
 
     <canvas id="neural-network-canvas"></canvas>
 
@@ -331,20 +132,6 @@
           new THREE.Color(0x5b3df5),
           new THREE.Color(0x39ff14),
           new THREE.Color(0x18f0ff)
-        ],
-        [
-          new THREE.Color(0xff2bd6),
-          new THREE.Color(0x5b3df5),
-          new THREE.Color(0x39ff14),
-          new THREE.Color(0x18f0ff),
-          new THREE.Color(0xff2bd6)
-        ],
-        [
-          new THREE.Color(0x39ff14),
-          new THREE.Color(0x18f0ff),
-          new THREE.Color(0x5b3df5),
-          new THREE.Color(0xff2bd6),
-          new THREE.Color(0x39ff14)
         ]
       ];
 
@@ -608,52 +395,6 @@
         connectionsMesh = new THREE.LineSegments(lineGeo, lineMat);
         scene.add(connectionsMesh);
       }
-
-      const themeButtons = document.querySelectorAll(".theme-button");
-      const densitySlider = document.getElementById("density-slider");
-      const densityValue = document.getElementById("density-value");
-      const morphBtn = document.getElementById("change-formation-btn");
-      const pauseBtn = document.getElementById("pause-play-btn");
-      const resetBtn = document.getElementById("reset-camera-btn");
-
-      themeButtons.forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.stopPropagation();
-          config.activePaletteIndex = Number(button.dataset.theme);
-          document.querySelectorAll(".theme-button").forEach((b) => b.classList.remove("active"));
-          button.classList.add("active");
-          createNetworkVisualization(config.currentFormation, config.densityFactor);
-        });
-      });
-
-      densitySlider.addEventListener("input", (e) => {
-        const value = Number(e.target.value);
-        densityValue.textContent = `${value}%`;
-        config.densityFactor = value / 100;
-        createNetworkVisualization(config.currentFormation, config.densityFactor);
-      });
-
-      morphBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        config.currentFormation = (config.currentFormation + 1) % config.numFormations;
-        createNetworkVisualization(config.currentFormation, config.densityFactor);
-      });
-
-      pauseBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        config.paused = !config.paused;
-        pauseBtn.textContent = config.paused ? "Play" : "Freeze";
-        controls.autoRotate = !config.paused;
-      });
-
-      resetBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        controls.reset();
-        controls.autoRotate = false;
-        setTimeout(() => {
-          controls.autoRotate = true;
-        }, 1400);
-      });
 
       window.addEventListener("click", (event) => {
         const mouse = new THREE.Vector2(

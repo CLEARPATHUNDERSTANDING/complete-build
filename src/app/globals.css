@@ -79,7 +79,6 @@ html, body {
   box-shadow: 0 0 15px rgba(99, 102, 241, 0.8);
 }
 
-/* Landing Page Visual System */
 .landing-root {
   position: relative;
   min-height: 100vh;
@@ -103,10 +102,9 @@ html, body {
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(circle at 20% 20%, rgba(24, 240, 255, 0.10), transparent 24%),
-    radial-gradient(circle at 80% 30%, rgba(255, 43, 214, 0.12), transparent 24%),
-    radial-gradient(circle at 50% 70%, rgba(57, 255, 20, 0.08), transparent 24%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.64));
+    radial-gradient(circle at 20% 20%, rgba(24, 240, 255, 0.05), transparent 30%),
+    radial-gradient(circle at 80% 30%, rgba(255, 43, 214, 0.06), transparent 30%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.4));
 }
 
 .topbar {
@@ -115,85 +113,89 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 40px;
-  pointer-events: none;
+  gap: 20px;
+  padding: 20px 28px;
 }
 
 .brand-wrap {
   display: flex;
   align-items: center;
   gap: 14px;
-  pointer-events: auto;
 }
 
 .brand-badge {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   border-radius: 999px;
-  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6);
-  box-shadow: 0 0 15px rgba(24, 240, 255, 0.4);
+  background: linear-gradient(135deg, #18f0ff, #5b3df5, #ff2bd6, #39ff14);
+  box-shadow:
+    0 0 14px rgba(24, 240, 255, 0.34),
+    0 0 22px rgba(255, 43, 214, 0.24);
 }
 
 .brand-name {
-  font-size: 16px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  color: white;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
 }
 
 .brand-sub {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
 }
 
 .hero-shell {
   position: relative;
   z-index: 3;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 84px);
   display: flex;
-  justify-content: flex-end; /* Reveal center formation */
+  justify-content: flex-end;
   align-items: center;
-  padding: 0 60px 40px;
-  pointer-events: none; /* Allow interaction with background */
+  padding: 24px 60px 36px;
+  pointer-events: none;
 }
 
 .hero-right {
   display: grid;
-  gap: 24px;
+  gap: 18px;
   max-width: 480px;
   width: 100%;
-  pointer-events: auto; /* Re-enable interaction for widgets */
+  pointer-events: auto;
 }
 
 .glass-card {
   position: relative;
   overflow: hidden;
-  border-radius: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
-.neon-cyan { border-color: rgba(24, 240, 255, 0.3); box-shadow: 0 0 30px rgba(24, 240, 255, 0.15); }
-.neon-green { border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 0 30px rgba(57, 255, 20, 0.12); }
-.neon-indigo { border-color: rgba(91, 61, 245, 0.3); box-shadow: 0 0 30px rgba(91, 61, 245, 0.15); }
+.neon-fuchsia { border-color: rgba(255, 43, 214, 0.3); box-shadow: 0 0 24px rgba(255, 43, 214, 0.15); }
+.neon-cyan { border-color: rgba(24, 240, 255, 0.3); box-shadow: 0 0 24px rgba(24, 240, 255, 0.15); }
+.neon-green { border-color: rgba(57, 255, 20, 0.3); box-shadow: 0 0 24px rgba(57, 255, 20, 0.12); }
+.neon-indigo { border-color: rgba(91, 61, 245, 0.3); box-shadow: 0 0 24px rgba(91, 61, 245, 0.15); }
 
-.login-card { padding: 40px; }
-.card-kicker { font-size: 12px; letter-spacing: 0.2em; color: #18f0ff; text-transform: uppercase; font-weight: 800; margin-bottom: 12px; }
-.login-card h2 { font-size: 32px; font-weight: 900; margin-bottom: 24px; color: white; }
+.login-card { padding: 34px; }
+.card-kicker { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #18f0ff; font-weight: 800; margin-bottom: 12px; }
+.login-card h2 { margin: 0 0 20px; font-size: 32px; font-weight: 900; color: white; }
 
-.login-form { display: grid; gap: 20px; }
+.login-form { display: grid; gap: 16px; }
 .login-form label { display: grid; gap: 8px; }
-.login-form span { font-size: 13px; color: rgba(255, 255, 255, 0.6); font-weight: 600; }
+.login-form span { font-size: 13px; color: rgba(255, 255, 255, 0.7); font-weight: 600; }
 .login-form input { 
-  width: 100%; height: 54px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%; height: 54px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(0, 0, 0, 0.3); color: white; padding: 0 18px; outline: none; transition: border-color 0.2s;
 }
 .login-form input:focus { border-color: #18f0ff; }
+
+.widget-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.widget-card { padding: 24px; }
+.widget-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.5); margin-bottom: 8px; font-weight: 800; }
+.widget-value { font-size: 22px; font-weight: 900; color: white; margin-bottom: 10px; }
+.widget-card p { margin: 0; font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.6); }
 
 .primary-btn {
   height: 54px; border-radius: 999px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;
@@ -205,12 +207,6 @@ html, body {
 .form-links { display: flex; justify-content: space-between; font-size: 13px; margin-top: 8px; }
 .form-links a { color: rgba(255, 255, 255, 0.5); font-weight: 600; transition: color 0.2s; }
 .form-links a:hover { color: #18f0ff; }
-
-.widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.widget-card { padding: 24px; }
-.widget-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4); margin-bottom: 8px; font-weight: 800; }
-.widget-value { font-size: 20px; font-weight: 900; color: white; margin-bottom: 8px; }
-.widget-card p { font-size: 13px; line-height: 1.5; color: rgba(255, 255, 255, 0.5); margin: 0; }
 
 @media (max-width: 1024px) {
   .hero-shell { justify-content: center; padding: 20px; }
