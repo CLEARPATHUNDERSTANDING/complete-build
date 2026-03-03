@@ -2,9 +2,6 @@
 
 import Link from "next/link";
 
-const HERO_IMAGE =
-  "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png";
-
 export default function HomePage() {
   return (
     <main className="landing-root bg-black min-h-screen">
@@ -68,11 +65,6 @@ export default function HomePage() {
         </div>
 
         <div className="hero-right">
-          <div className="hero-image-card">
-            <img src={HERO_IMAGE} alt="Clear Path Hero" className="hero-image" />
-            <div className="hero-image-glow" />
-          </div>
-
           <div className="glass-card neon-cyan login-card">
             <div className="card-kicker">Secure Access</div>
             <h2 className="text-white">Member Login</h2>
