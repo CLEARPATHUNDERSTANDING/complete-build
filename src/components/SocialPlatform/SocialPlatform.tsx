@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { 
   Search,
@@ -21,7 +21,8 @@ import {
   Loader2,
   Radio,
   Activity,
-  MessageSquare
+  MessageSquare,
+  AlertCircle
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,11 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert";
 import { marketCatalog } from "@/data/marketCatalog";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
@@ -76,7 +82,7 @@ function BorderWallCard({
       className={cn(
         "relative rounded-[26px] p-[3px] transition-all duration-500",
         isCool 
-          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_50%,#a78bfa_100%)] shadow-[0_0_25px_rgba(99,102,241,0.3)]" 
+          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_50%,#ff4fd8_100%)] shadow-[0_0_25px_rgba(99,102,241,0.3)]" 
           : "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_50%,#ff4fd8_100%)] shadow-[0_0_25px_rgba(255,136,0,0.3)]",
         className
       )}
@@ -178,6 +184,10 @@ export default function SocialPlatform() {
   const [annotationText, setAnnotationText] = useState("");
   const [activeAttachment, setActiveAttachment] = useState<any>(null);
 
+  // Camera State
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+
   // Firestore Data
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
@@ -187,6 +197,45 @@ export default function SocialPlatform() {
   useEffect(() => {
     if (!isUserLoading && !user && mounted) router.push("/login");
   }, [user, isUserLoading, mounted, router]);
+
+  // Handle Camera Permission
+  useEffect(() => {
+    let stream: MediaStream | null = null;
+
+    const getCameraPermission = async () => {
+      if (isLive) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          setHasCameraPermission(true);
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+          }
+        } catch (error) {
+          console.error('Error accessing camera:', error);
+          setHasCameraPermission(false);
+          setIsLive(false);
+          toast({
+            variant: "destructive",
+            title: "Camera Access Denied",
+            description: "Please enable camera permissions in your browser settings to use this feature.",
+          });
+        }
+      } else {
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+        }
+        setHasCameraPermission(null);
+      }
+    };
+
+    getCameraPermission();
+
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [isLive, toast]);
 
   const filteredCatalog = useMemo(() => {
     const q = chartSearchQuery.toLowerCase();
@@ -322,40 +371,69 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1">
           <div className="max-w-3xl mx-auto px-8 py-10 space-y-10 pb-32">
-            {/* DISPATCH MODULE - NEON INDIGO/CYAN/PINK RECALIBRATION */}
+            {/* DISPATCH MODULE - NEON INDIGO/CYAN/PINK BLENDED WRAP */}
             <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false} variant="cool">
-              <div className="flex items-start gap-4">
-                <div className="flex flex-col items-center gap-2">
-                  <Avatar className="w-12 h-12 border border-white/10">
-                    <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
-                  </Avatar>
-                  {isLive && (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 animate-pulse">
-                      <Radio className="w-2.5 h-2.5 text-rose-500" />
-                      <span className="text-[7px] font-black text-rose-400 uppercase tracking-widest">LIVE</span>
+              <div className="flex flex-col gap-6">
+                {/* Live Camera Preview */}
+                {isLive && (
+                  <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-2xl">
+                    <video 
+                      ref={videoRef} 
+                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" 
+                      autoPlay 
+                      muted 
+                    />
+                    <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/80 backdrop-blur-md border border-white/20 animate-pulse">
+                      <Radio className="w-3.5 h-3.5 text-white" />
+                      <span className="text-[10px] font-black text-white uppercase tracking-widest">LIVE DIAGNOSTIC</span>
                     </div>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <textarea 
-                    className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-cyan-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
-                    placeholder="Broadcast diagnostic thesis or network observation..."
-                    value={postText}
-                    onChange={(e) => setPostText(e.target.value)}
-                  />
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    {attachedSymbols.map(s => (
-                      <Badge key={s} className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
-                        {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
-                      </Badge>
-                    ))}
-                    {activeAttachment && (
-                      <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
-                        <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
-                        <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
-                      </Badge>
+                    {hasCameraPermission === false && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-xl p-8 text-center">
+                        <div className="space-y-4">
+                          <AlertCircle className="w-12 h-12 text-rose-500 mx-auto" />
+                          <div className="text-sm font-black uppercase tracking-widest text-white">Camera Access Required</div>
+                          <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-relaxed">
+                            Please allow camera permissions in your browser to initialize the live synchronization feed.
+                          </p>
+                        </div>
+                      </div>
                     )}
+                  </div>
+                )}
+
+                <div className="flex items-start gap-4">
+                  <div className="flex flex-col items-center gap-2">
+                    <Avatar className="w-12 h-12 border border-white/10 ring-2 ring-indigo-500/20">
+                      <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
+                      <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
+                    </Avatar>
+                    {isLive && (
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/40 animate-pulse">
+                        <Radio className="w-2.5 h-2.5 text-rose-500" />
+                        <span className="text-[7px] font-black text-rose-400 uppercase tracking-widest">LIVE</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <textarea 
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-cyan-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
+                      placeholder="Broadcast diagnostic thesis or network observation..."
+                      value={postText}
+                      onChange={(e) => setPostText(e.target.value)}
+                    />
+                    <div className="flex flex-wrap gap-2 mt-4">
+                      {attachedSymbols.map(s => (
+                        <Badge key={s} className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                          {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
+                        </Badge>
+                      ))}
+                      {activeAttachment && (
+                        <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                          <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
+                          <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
+                        </Badge>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
