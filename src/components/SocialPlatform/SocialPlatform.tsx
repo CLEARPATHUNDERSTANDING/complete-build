@@ -242,10 +242,17 @@ export default function SocialPlatform() {
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white font-body">
       {/* Left Sidebar */}
       <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0 h-full">
-        <div className="p-6 flex items-center gap-3 border-b border-white/5 shrink-0">
-          <Menu className="w-5 h-5 text-indigo-500" />
-          <div className="text-[12px] font-black tracking-[0.3em] text-indigo-500 uppercase">Navigation</div>
+        {/* CLEAR PATH TRADER Header */}
+        <div className="p-4 shrink-0">
+          <NeonBoard className="w-full">
+            <div className="px-4 py-3 flex items-center justify-center gap-3">
+              <div className="text-[11px] font-black tracking-[0.25em] text-white uppercase text-center">
+                Clear Path Trader
+              </div>
+            </div>
+          </NeonBoard>
         </div>
+
         <ScrollArea className="flex-1 min-h-0">
           <div className="p-4 space-y-6 pb-8">
             <FluidSection title="Workspace" maxHeight="none" useScrollArea={false}>

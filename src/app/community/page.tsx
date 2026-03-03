@@ -22,6 +22,7 @@ import {
   Globe,
   Compass
 } from "lucide-react";
+import NeonBoard from "@/components/NeonBoard";
 
 type FeedPost = {
   id: number;
@@ -267,13 +268,15 @@ export default function CommunityPage() {
         {/* LEFT SIDEBAR */}
         <aside className="border-r border-white/8 bg-black">
           <div className="sticky top-0 h-screen flex flex-col">
-            <div className="p-6 mb-2 shrink-0">
-              <div className="mb-8 flex items-center gap-3">
-                <span className="text-2xl text-violet-400">☰</span>
-                <div className="text-[13px] font-black uppercase tracking-[0.35em] text-violet-300">
-                  Navigation
+            {/* CLEAR PATH TRADER Header */}
+            <div className="p-4 shrink-0">
+              <NeonBoard className="w-full">
+                <div className="px-4 py-3 flex items-center justify-center gap-3">
+                  <div className="text-[11px] font-black tracking-[0.25em] text-white uppercase text-center">
+                    Clear Path Trader
+                  </div>
                 </div>
-              </div>
+              </NeonBoard>
             </div>
 
             <ScrollArea className="flex-1 min-h-0">
