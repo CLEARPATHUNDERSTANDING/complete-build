@@ -288,7 +288,7 @@ export default function CommunityPage() {
                     <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
                     <NavItem label="STANDARD VIEW" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
                     <NavItem label="All Communities" icon={Compass} href="/communities" color="blue" />
-                    <NavItem label="Community Feed" icon={Users} href="/community" active color="pink" />
+                    <NavItem label="Overall" icon={Users} href="/community" active color="pink" />
                   </div>
                 </BorderWallCard>
 
