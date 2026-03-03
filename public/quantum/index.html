@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLEAR PATH | QUANTUM TERMINAL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Inter', sans-serif;
+        }
+        #quantum-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .ui-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            z-index: 10;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo-box {
+            width: 60px;
+            height: 60px;
+            background: #6366f1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.6);
+        }
+        .title-group h1 {
+            color: #fff;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        .title-group p {
+            color: rgba(255,255,255,0.4);
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .status-bar {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: flex;
+            gap: 40px;
+            align-self: center;
+            backdrop-blur: 10px;
+        }
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .stat-label {
+            font-size: 9px;
+            color: rgba(255,255,255,0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 900;
+        }
+        .stat-value {
+            font-size: 14px;
+            color: #00e5ff;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+        }
+        .corner-decor {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid rgba(0, 229, 255, 0.2);
+        }
+        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+    </style>
+</head>
+<body>
+    <canvas id="quantum-canvas"></canvas>
+    
+    <div class="ui-overlay">
+        <div class="header">
+            <div class="logo-box">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="title-group">
+                <h1>CLEAR PATH QUANTUM</h1>
+                <p>Diagnostic Stream Alpha-9</p>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="stat-item">
+                <span class="stat-label">Neural Load</span>
+                <span class="stat-value" id="load-val">42.8%</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Entropy Sync</span>
+                <span class="stat-value" style="color: #ff00d4;">ACTIVE</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Data Stability</span>
+                <span class="stat-value">99.99%</span>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div style="color: rgba(255,255,255,0.2); font-size: 10px; letter-spacing: 0.3em; font-weight: 900; text-transform: uppercase;">
+                Quantum Core v4.0.2 // Secure Session
+            </div>
+            <div style="color: #6366f1; font-size: 10px; letter-spacing: 0.3em; font-weight: 900; text-transform: uppercase;">
+                [ NETWORK SYNCHRONIZED ]
+            </div>
+        </div>
+    </div>
+
+    <div class="corner-decor top-left"></div>
+    <div class="corner-decor bottom-right"></div>
+
+    <script>
+        const canvas = document.getElementById('quantum-canvas');
+        const ctx = canvas.getContext('2d');
+        const loadVal = document.getElementById('load-val');
+
+        let particles = [];
+        const particleCount = 150;
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    color: Math.random() > 0.5 ? '#6366f1' : '#00e5ff'
+                });
+            }
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw lines to nearby particles
+                particles.forEach(p2 => {
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 100) {
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${1 - dist / 100})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            // Randomly update load value for effect
+            if (Math.random() > 0.95) {
+                loadVal.innerText = (Math.random() * 10 + 40).toFixed(1) + '%';
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', init);
+        init();
+        animate();
+    </script>
+</body>
+</html>
