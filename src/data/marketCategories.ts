@@ -80,10 +80,46 @@ export const marketCategories: MarketCategory[] = [
   {
     id: "crypto",
     label: "Crypto",
-    accent: "from-indigo-400 to-purple-600",
-    glow: "shadow-[0_0_35px_rgba(129,140,248,0.28)]",
-    description: "Decentralized assets, layer-1s, and ecosystem tokens.",
-    children: ["Major Coins", "Stablecoins", "Layer 1s", "DeFi", "Memes", "Ecosystems"],
-    starterSymbols: ["BTC", "ETH", "SOL", "XRP", "BNB"]
+    accent: "from-cyan-400 to-fuchsia-500",
+    glow: "shadow-[0_0_35px_rgba(6,182,212,0.28)]",
+    description: "Digital assets grouped by utility and structure.",
+    children: ["Layer 1", "DeFi", "Stablecoins", "Meme", "AI Tokens", "Gaming", "Privacy"],
+    starterSymbols: ["BTCUSD", "ETHUSD", "SOLUSD", "XRPUSD", "DOGEUSD"]
+  },
+  {
+    id: "options",
+    label: "Options",
+    accent: "from-rose-400 to-red-500",
+    glow: "shadow-[0_0_35px_rgba(244,63,94,0.28)]",
+    description: "Equity, index, ETF, and volatility derivatives.",
+    children: ["Equity Options", "Index Options", "ETF Options", "Volatility"],
+    starterSymbols: ["SPY-OPT", "QQQ-OPT", "SPX-OPT", "VIX-OPT"]
+  },
+  {
+    id: "economic-calendar",
+    label: "Economic Calendar",
+    accent: "from-blue-400 to-cyan-500",
+    glow: "shadow-[0_0_35px_rgba(59,130,246,0.28)]",
+    description: "Scheduled macro catalysts for trader preparation.",
+    children: ["Central Banks", "Inflation", "Employment", "GDP", "PMI", "Retail Sales"],
+    starterSymbols: ["CPI", "NFP", "FOMC", "GDP", "PMI"]
+  },
+  {
+    id: "macro",
+    label: "Macro",
+    accent: "from-purple-400 to-fuchsia-500",
+    glow: "shadow-[0_0_35px_rgba(147,51,234,0.28)]",
+    description: "World economy dashboard for rates, inflation, and production.",
+    children: ["GDP", "Inflation", "Interest Rates", "Unemployment", "Trade Balance"],
+    starterSymbols: ["US-GDP", "US-CPI", "US-IR", "EU-CPI", "JP-GDP"]
+  },
+  {
+    id: "funds-rates",
+    label: "Funds / Rates",
+    accent: "from-lime-400 to-emerald-500",
+    glow: "shadow-[0_0_35px_rgba(132,204,22,0.28)]",
+    description: "Yield curves, money markets, and rate-term structures.",
+    children: ["Money Markets", "Yield Curves", "Short Rates", "Long Rates"],
+    starterSymbols: ["SOFR", "EFFR", "US02Y", "US10Y", "US30Y"]
   }
 ];

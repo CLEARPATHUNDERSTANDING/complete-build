@@ -38,15 +38,22 @@ export default function MarketMiniChart({ series, positive }: Props) {
       axisBorder: { show: false },
       axisTicks: { show: false }
     },
-    yaxis: { show: false },
-    colors: [positive ? "#22d3ee" : "#f43f5e"],
+    yaxis: {
+      labels: { show: false }
+    },
+    theme: { mode: "dark" },
+    colors: positive ? ["#22d3ee"] : ["#f472b6"]
   };
 
-  const chartSeries = [{ name: "Value", data: series }];
-
   return (
-    <div className="h-24 w-full">
-      <Chart options={options} series={chartSeries} type="area" height="100%" width="100%" />
+    <div className="h-28 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+      <Chart
+        options={options}
+        series={[{ name: "value", data: series }]}
+        type="area"
+        height="100%"
+        width="100%"
+      />
     </div>
   );
 }
