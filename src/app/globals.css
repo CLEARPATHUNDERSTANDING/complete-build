@@ -221,9 +221,9 @@ a {
   text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
 }
 
-.neon-peach-text {
-  color: #ffbd88 !important;
-  text-shadow: 0 0 10px rgba(255, 189, 136, 0.5);
+.neon-fuchsia-text {
+  color: #ff4fd8 !important;
+  text-shadow: 0 0 10px rgba(255, 79, 216, 0.5);
 }
 
 .mini-stat strong {
