@@ -1,10 +1,9 @@
-
 "use client"
 
 import * as React from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { ViewMode } from "@/lib/dashboard-types"
-import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
+import ChartsGrid from "@/components/chart/ChartsGrid"
 import { 
   Activity,
   Volume2,
@@ -21,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
+import type { ModeConfig } from "@/modes/types"
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -44,6 +44,26 @@ function DashboardContent() {
 
   const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
 
+  // Map NeuroProfile to ModeConfig for Apex
+  const modeConfig = React.useMemo<ModeConfig>(() => ({
+    id: neuroProfile.id,
+    label: neuroProfile.label,
+    defaultSymbol: selectedSymbol,
+    defaultTimeframe: "15m",
+    chart: {
+      background: neuroProfile.personality.bgTop,
+      text: neuroProfile.personality.text,
+      gridVert: neuroProfile.personality.grid,
+      crosshair: neuroProfile.personality.borderA,
+      upCandle: neuroProfile.personality.upColor,
+      downCandle: neuroProfile.personality.downColor,
+      priceLine: neuroProfile.personality.outlineColor,
+      accent: neuroProfile.personality.borderA,
+      density: neuroProfile.personality.dataDensity === 'High' ? 'tight' : neuroProfile.personality.dataDensity === 'Low' ? 'airy' : 'normal',
+      glow: neuroProfile.personality.glow === 'High' ? 1 : neuroProfile.personality.glow === 'Medium' ? 0.5 : 0,
+    }
+  }), [neuroProfile, selectedSymbol]);
+
   const updateMode = (newMode: ViewMode) => {
     setMode(newMode);
     const params = new URLSearchParams(searchParams.toString());
@@ -60,7 +80,7 @@ function DashboardContent() {
              <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center">
                 <Activity className="w-5 h-5 text-white" />
              </div>
-             <div className="flex flex-col">
+             <div className="flex flex-col text-left">
                 <span className="text-[12px] font-black tracking-[0.2em] text-white uppercase leading-none">ClearPath</span>
                 <span className="text-[10px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
              </div>
@@ -127,7 +147,9 @@ function DashboardContent() {
               {/* Chart Header Sync */}
               <div className="px-6 py-4 flex items-center justify-between border-b border-white/5">
                 <div className="flex items-center gap-3">
-                  <div className="grid grid-cols-2 gap-1 opacity-60">
+                  <div className="grid grid-cols-2 gap-[2px] opacity-60">
+                     <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
+                     <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                      <div className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_white]" />
                   </div>
@@ -146,8 +168,8 @@ function DashboardContent() {
                    </button>
                 </div>
               </div>
-              <div className="flex-1 p-4">
-                <CandlestickChart neuroModeId={selectedProfileId} title={selectedSymbol} height={600} />
+              <div className="flex-1 p-6">
+                <ChartsGrid mode={modeConfig} personality={modeConfig.chart} layout={mode === 'quad' ? 'quad' : 'single'} />
               </div>
             </div>
           </NeuroGlowCard>
@@ -161,7 +183,7 @@ function DashboardContent() {
           <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full shadow-[0_0_10px_#6366f1]" /> Real-time Feed</span>
         </div>
         <div>
-          ClearPath v1.9.0 • Physics Enabled • {neuroProfile.label}
+          ClearPath v2.0.0 • Apex Engine Standardized • {neuroProfile.label}
         </div>
       </footer>
     </div>
