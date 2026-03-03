@@ -41,12 +41,6 @@ export default function HomePage() {
             Market intelligence designed to feel cleaner, faster, and easier to enter
           </h1>
 
-          <p className="hero-copy">
-            This homepage uses your animated quantum front layer as the visual surface,
-            while your login, navigation, and launch widgets sit above it in a clean
-            neon glass interface.
-          </p>
-
           <div className="hero-cta-row">
             <Link href="/signup" className="primary-btn large">
               Start Free
