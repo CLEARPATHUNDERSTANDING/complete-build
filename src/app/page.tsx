@@ -55,7 +55,7 @@ export default function HomePage() {
 
           <div className="bullet-grid">
             <div className="mini-stat">
-              <span className="mini-label">Adaptive Interface</span>
+              <span className="mini-label neon-green-text font-black">Adaptive Interface</span>
               <strong>Neuro-aware visual structure</strong>
             </div>
 
