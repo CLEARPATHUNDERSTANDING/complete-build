@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -36,6 +37,25 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NeonBoard from "@/components/NeonBoard";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import { NON_ND_MODES } from "@/modes/nonNdModes";
+
+/**
+ * High-intensity Fluid Border Wrapper
+ * Colors: Fire Red (#ff003c), Neon Orange (#ff8a00), Neon Pink (#ff00d4)
+ */
+function FluidSection({ children, title, className = "" }: { children: React.ReactNode, title: string, className?: string }) {
+  return (
+    <div className={`p-[2px] rounded-2xl bg-gradient-to-br from-[#ff003c] via-[#ff8a00] to-[#ff00d4] shadow-[0_0_20px_rgba(255,0,60,0.15)] ${className}`}>
+      <div className="bg-[#070b16] rounded-[14px] overflow-hidden flex flex-col h-full">
+        <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02]">
+          <div className="text-[10px] font-black tracking-[0.25em] text-white/60 uppercase">{title}</div>
+        </div>
+        <div className="flex-1 min-h-0">
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function SocialPlatform() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -193,40 +213,44 @@ export default function SocialPlatform() {
               </div>
             </div>
 
-            <div>
-              <div className={sectionLabelClass}>Platform</div>
-              <div className="space-y-1">
-                <div className={navItemClass}>
-                  <Info className="w-5 h-5 text-white/70" />
-                  <span className="text-[15px] font-semibold text-white/90">Mission</span>
+            {/* Platform Section with Fluid Outline */}
+            <div className="mt-8 px-2">
+              <FluidSection title="Platform">
+                <div className="p-2 space-y-1">
+                  <div className={navItemClass}>
+                    <Info className="w-5 h-5 text-white/70" />
+                    <span className="text-[15px] font-semibold text-white/90">Mission</span>
+                  </div>
+                  <div className={navItemClass}>
+                    <Eye className="w-5 h-5 text-white/70" />
+                    <span className="text-[15px] font-semibold text-white/90">Transparency</span>
+                  </div>
+                  <div className={navItemClass}>
+                    <Scale className="w-5 h-5 text-white/70" />
+                    <span className="text-[15px] font-semibold text-white/90">Governance</span>
+                  </div>
+                  <div className={navItemClass}>
+                    <FileText className="w-5 h-5 text-white/70" />
+                    <span className="text-[15px] font-semibold text-white/90">Constitution</span>
+                  </div>
                 </div>
-                <div className={navItemClass}>
-                  <Eye className="w-5 h-5 text-white/70" />
-                  <span className="text-[15px] font-semibold text-white/90">Transparency</span>
-                </div>
-                <div className={navItemClass}>
-                  <Scale className="w-5 h-5 text-white/70" />
-                  <span className="text-[15px] font-semibold text-white/90">Governance</span>
-                </div>
-                <div className={navItemClass}>
-                  <FileText className="w-5 h-5 text-white/70" />
-                  <span className="text-[15px] font-semibold text-white/90">Constitution</span>
-                </div>
-              </div>
+              </FluidSection>
             </div>
 
-            <div>
-              <div className={sectionLabelClass}>Legal</div>
-              <div className="space-y-1">
-                <div className={navItemClass}>
-                  <ShieldAlert className="w-5 h-5 text-red-500" />
-                  <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
+            {/* Legal Section with Fluid Outline */}
+            <div className="mt-6 px-2 mb-8">
+              <FluidSection title="Legal">
+                <div className="p-2 space-y-1">
+                  <div className={navItemClass}>
+                    <ShieldAlert className="w-5 h-5 text-red-500" />
+                    <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
+                  </div>
+                  <div className={navItemClass}>
+                    <Lock className="w-5 h-5 text-white/70" />
+                    <span className="text-[15px] font-semibold text-white/90">Compliance</span>
+                  </div>
                 </div>
-                <div className={navItemClass}>
-                  <Lock className="w-5 h-5 text-white/70" />
-                  <span className="text-[15px] font-semibold text-white/90">Compliance</span>
-                </div>
-              </div>
+              </FluidSection>
             </div>
           </div>
         </ScrollArea>
@@ -235,7 +259,7 @@ export default function SocialPlatform() {
       {/* 2. Independent Scroll Area: Main Content Area (Feed) */}
       <div className="flex-1 flex flex-col min-w-0 bg-transparent h-full">
         <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md shrink-0">
-          <div className="flex-1 max-w-xl relative">
+          <div className="flex-1 max-xl relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input 
               type="text" 
@@ -311,86 +335,95 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar - 3rd, 4th, and 5th Independent Scroll Areas with 2x Thick Separators */}
+      {/* Right Sidebar - With Fluid Section Outlines and 2x Thick Separators */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
         <div className="flex-1 flex flex-col min-h-0">
           
           {/* 3. Online Friends */}
-          <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10">
-            <div className="px-8 py-6 flex items-center justify-between shrink-0">
-              <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Online Friends</div>
-              <div className="flex flex-col gap-1">
-                <ChevronUp className="w-3 h-3 text-primary animate-pulse" />
-                <ChevronDown className="w-3 h-3 text-primary/50" />
-              </div>
-            </div>
-            <ScrollArea className="flex-1 px-8 pb-4 min-h-0">
-              <div className="space-y-6">
-                {friends.map((friend, idx) => (
-                  <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
-                    <div className="relative">
-                      <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
-                        <AvatarImage src={friend.avatar} />
-                        <AvatarFallback>{friend.name[0]}</AvatarFallback>
-                      </Avatar>
-                      {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
-                    </div>
-                    <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
+          <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10 p-4">
+            <FluidSection title="Online Friends" className="h-full">
+              <div className="flex flex-col h-full">
+                <div className="px-4 py-3 flex items-center justify-between shrink-0">
+                  <div className="flex flex-col gap-1">
+                    <ChevronUp className="w-3 h-3 text-primary animate-pulse" />
+                    <ChevronDown className="w-3 h-3 text-primary/50" />
                   </div>
-                ))}
+                </div>
+                <ScrollArea className="flex-1 px-4 pb-4 min-h-0">
+                  <div className="space-y-6">
+                    {friends.map((friend, idx) => (
+                      <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
+                        <div className="relative">
+                          <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
+                            <AvatarImage src={friend.avatar} />
+                            <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                          </Avatar>
+                          {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
+                        </div>
+                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
-            </ScrollArea>
+            </FluidSection>
           </div>
 
           {/* 4. Latest Updates */}
-          <div className="flex-1 flex flex-col min-h-0 border-b-2 border-white/10">
-            <div className="px-8 py-6 flex items-center justify-between shrink-0">
-              <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Latest Updates</div>
-              <div className="flex flex-col gap-1">
-                <ChevronUp className="w-3 h-3 text-primary/50" />
-                <ChevronDown className="w-3 h-3 text-primary animate-pulse" />
-              </div>
-            </div>
-            <ScrollArea className="flex-1 px-8 pb-4 text-left min-h-0">
-              <div className="space-y-6">
-                {updates.map((update, idx) => (
-                  <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                      <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
-                        {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
-                      </span>
-                    </div>
-                    <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
+          <div className="flex-1 flex flex-col min-h-0 border-b-2 border-white/10 p-4">
+            <FluidSection title="Latest Updates" className="h-full">
+              <div className="flex flex-col h-full">
+                <div className="px-4 py-3 flex items-center justify-between shrink-0">
+                  <div className="flex flex-col gap-1">
+                    <ChevronUp className="w-3 h-3 text-primary/50" />
+                    <ChevronDown className="w-3 h-3 text-primary animate-pulse" />
                   </div>
-                ))}
+                </div>
+                <ScrollArea className="flex-1 px-4 pb-4 text-left min-h-0">
+                  <div className="space-y-6">
+                    {updates.map((update, idx) => (
+                      <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                          <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
+                            {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
+                          </span>
+                        </div>
+                        <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
-            </ScrollArea>
+            </FluidSection>
           </div>
 
           {/* 5. Trending Topics */}
-          <div className="flex-1 flex flex-col min-h-0">
-            <div className="px-8 py-6 flex items-center justify-between shrink-0">
-              <div className="text-[11px] font-black tracking-[0.25em] text-muted-foreground/50 uppercase">Trending Topics</div>
-              <div className="flex flex-col gap-1">
-                <ChevronUp className="w-3 h-3 text-primary" />
-                <ChevronDown className="w-3 h-3 text-primary/50" />
-              </div>
-            </div>
-            <ScrollArea className="flex-1 px-8 pb-4 text-left min-h-0">
-              <div className="space-y-6">
-                {trends.map((trend, idx) => (
-                  <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                    <div className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                      <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
-                      {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
-                    </div>
-                    <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
+          <div className="flex-1 flex flex-col min-h-0 p-4">
+            <FluidSection title="Trending Topics" className="h-full">
+              <div className="flex flex-col h-full">
+                <div className="px-4 py-3 flex items-center justify-between shrink-0">
+                  <div className="flex flex-col gap-1">
+                    <ChevronUp className="w-3 h-3 text-primary" />
+                    <ChevronDown className="w-3 h-3 text-primary/50" />
                   </div>
-                ))}
+                </div>
+                <ScrollArea className="flex-1 px-4 pb-4 text-left min-h-0">
+                  <div className="space-y-6">
+                    {trends.map((trend, idx) => (
+                      <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                        <div className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
+                          {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
+                        </div>
+                        <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </div>
-            </ScrollArea>
+            </FluidSection>
           </div>
 
         </div>
