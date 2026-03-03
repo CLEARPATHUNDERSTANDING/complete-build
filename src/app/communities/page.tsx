@@ -198,11 +198,11 @@ export default function CommunitiesDiscoveryPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-black text-white selection:bg-indigo-500 selection:text-white font-body">
+    <div className="min-h-screen bg-black text-white selection:bg-indigo-500 selection:text-white font-body overflow-hidden">
       {/* Header */}
       <header className="h-20 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-8 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-[10px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Social Hub
           </Link>
@@ -232,9 +232,9 @@ export default function CommunitiesDiscoveryPage() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-12 px-8 h-[calc(100vh-80px)] flex flex-col">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-          <div className="flex items-center justify-between mb-8">
+      <main className="max-w-7xl mx-auto px-8 h-[calc(100vh-80px)] flex flex-col pt-12">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-between mb-8 shrink-0">
             <TabsList className="bg-white/5 border border-white/10 p-1 h-12 rounded-2xl">
               <TabsTrigger value="discover" className="rounded-xl px-8 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-indigo-500 data-[state=active]:text-white">
                 Discover
@@ -256,59 +256,61 @@ export default function CommunitiesDiscoveryPage() {
           {/* DISCOVER TAB */}
           <TabsContent value="discover" className="flex-1 min-h-0 focus-visible:outline-none">
             <ScrollArea className="h-full pr-4">
-              <div className="mb-12">
-                <h1 className="text-4xl font-black uppercase tracking-[0.2em] mb-4 text-white">Thematic Sectors</h1>
-                <p className="text-white/40 max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed">
-                  Connect with specialized intelligence hubs to synchronize diagnostic data across the network.
-                </p>
-              </div>
+              <div className="pb-32">
+                <div className="mb-12">
+                  <h1 className="text-4xl font-black uppercase tracking-[0.3em] mb-4 text-white">Thematic Sectors</h1>
+                  <p className="text-white/40 max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed">
+                    Connect with specialized intelligence hubs to synchronize diagnostic data across the network.
+                  </p>
+                </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-12">
-                {communities.map((comm) => (
-                  <NeonBoard key={comm.id} className="h-full group hover:scale-[1.01] transition-transform">
-                    <div className="p-8 flex flex-col h-full bg-[#070b16]">
-                      <div className="flex items-start justify-between mb-6">
-                        <div className={`p-4 rounded-2xl ${comm.bg} border border-white/5`}>
-                          <comm.icon className={`w-8 h-8 ${comm.color}`} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {communities.map((comm) => (
+                    <NeonBoard key={comm.id} className="h-full group hover:scale-[1.01] transition-transform">
+                      <div className="p-8 flex flex-col h-full bg-[#070b16]">
+                        <div className="flex items-start justify-between mb-6">
+                          <div className={`p-4 rounded-2xl ${comm.bg} border border-white/5`}>
+                            <comm.icon className={`w-8 h-8 ${comm.color}`} />
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">Members</div>
+                            <div className="text-xl font-black text-white tracking-tighter">{comm.members}</div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mb-1">Members</div>
-                          <div className="text-xl font-black text-white tracking-tighter">{comm.members}</div>
+
+                        <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-3 group-hover:text-indigo-400 transition-colors">
+                          {comm.title}
+                        </h3>
+                        
+                        <p className="text-[15px] text-white/50 leading-relaxed font-medium mb-8 flex-1 italic border-l-2 border-indigo-500/30 pl-4">
+                          {comm.description}
+                        </p>
+
+                        <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                          <div className="flex flex-col">
+                            <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Activity</span>
+                            <span className={`text-[11px] font-black uppercase tracking-wider ${comm.activity === 'Critical' ? 'text-pink-500' : 'text-emerald-400'}`}>{comm.activity}</span>
+                          </div>
+                          <Button 
+                            onClick={() => handleJoinHub(comm.id)}
+                            className="bg-indigo-500 hover:bg-indigo-400 text-white font-black uppercase text-[10px] tracking-widest px-6 h-10 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
+                          >
+                            Synchronize →
+                          </Button>
                         </div>
                       </div>
-
-                      <h3 className="text-2xl font-black uppercase tracking-tight text-white mb-3 group-hover:text-indigo-400 transition-colors">
-                        {comm.title}
-                      </h3>
-                      
-                      <p className="text-[15px] text-white/50 leading-relaxed font-medium mb-8 flex-1 italic border-l-2 border-indigo-500/30 pl-4">
-                        {comm.description}
-                      </p>
-
-                      <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                        <div className="flex flex-col">
-                          <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Activity</span>
-                          <span className={`text-[11px] font-black uppercase tracking-wider ${comm.activity === 'Critical' ? 'text-pink-500' : 'text-emerald-400'}`}>{comm.activity}</span>
-                        </div>
-                        <Button 
-                          onClick={() => handleJoinHub(comm.id)}
-                          className="bg-indigo-500 hover:bg-indigo-400 text-white font-black uppercase text-[10px] tracking-widest px-6 h-10 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
-                        >
-                          Synchronize →
-                        </Button>
-                      </div>
-                    </div>
-                  </NeonBoard>
-                ))}
+                    </NeonBoard>
+                  ))}
+                </div>
               </div>
             </ScrollArea>
           </TabsContent>
 
           {/* CHAT TAB */}
           <TabsContent value="chat" className="flex-1 min-h-0 focus-visible:outline-none">
-            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 h-full">
+            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 h-full pb-12">
               {/* Chat Sidebar */}
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 overflow-hidden">
                 <NeonBoard className="h-full">
                   <div className="flex flex-col h-full bg-[#070b16]">
                     <div className="p-5 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
@@ -435,7 +437,7 @@ export default function CommunitiesDiscoveryPage() {
                         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
                           <Brain className="w-10 h-10 opacity-30" />
                         </div>
-                        <h2 className="text-xl font-black uppercase tracking-[0.2em] text-white/60 mb-2">Select Sector Room</h2>
+                        <h2 className="text-xl font-black uppercase tracking-[0.3em] text-white/60 mb-2">Select Sector Room</h2>
                         <p className="max-w-sm text-sm font-bold uppercase tracking-widest opacity-30 leading-loose">
                           Pick a community and room from the left diagnostic panel to open the intelligence stream.
                         </p>
@@ -449,59 +451,61 @@ export default function CommunitiesDiscoveryPage() {
 
           {/* SETTINGS TAB */}
           <TabsContent value="settings" className="flex-1 min-h-0 focus-visible:outline-none">
-            <div className="max-w-2xl mx-auto py-12">
-              <NeonBoard>
-                <div className="p-8 space-y-8 bg-[#070b16]">
-                  <div className="flex items-center gap-4 border-b border-white/10 pb-6">
-                    <div className="p-3 rounded-xl bg-pink-500/10 border border-pink-500/20">
-                      <Settings className="w-6 h-6 text-pink-400" />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-black uppercase tracking-widest">Identity Settings</h2>
-                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400/60">Configure Diagnostic Profile</p>
-                    </div>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Display Name</label>
-                      <Input 
-                        value={me.displayName}
-                        onChange={(e) => setMe({...me, displayName: e.target.value})}
-                        className="bg-white/5 border-white/10 h-12 rounded-xl text-lg font-bold"
-                      />
-                      <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest">This identifier will be broadcasted across rooms.</p>
-                    </div>
-
-                    <div className="pt-6 border-t border-white/5">
-                      <div className="flex items-center justify-between p-4 rounded-xl bg-indigo-500/5 border border-indigo-500/20">
-                        <div>
-                          <div className="text-[11px] font-black uppercase tracking-widest text-indigo-400">Local-First Storage</div>
-                          <div className="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-1">Data truth layer saved in browser.</div>
-                        </div>
-                        <Badge className="bg-indigo-500">ACTIVE</Badge>
+            <ScrollArea className="h-full">
+              <div className="max-w-2xl mx-auto py-12 pb-32">
+                <NeonBoard>
+                  <div className="p-8 space-y-8 bg-[#070b16]">
+                    <div className="flex items-center gap-4 border-b border-white/10 pb-6">
+                      <div className="p-3 rounded-xl bg-pink-500/10 border border-pink-500/20">
+                        <Settings className="w-6 h-6 text-pink-400" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-black uppercase tracking-widest">Identity Settings</h2>
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-pink-400/60">Configure Diagnostic Profile</p>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="pt-8 flex justify-end">
-                    <Button onClick={() => setActiveTab("discover")} className="bg-white/5 border border-white/10 hover:bg-white/10 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-11 transition-all">
-                      Exit Identity Panel
-                    </Button>
+                    <div className="space-y-6">
+                      <div className="space-y-3">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Display Name</label>
+                        <Input 
+                          value={me.displayName}
+                          onChange={(e) => setMe({...me, displayName: e.target.value})}
+                          className="bg-white/5 border-white/10 h-12 rounded-xl text-lg font-bold"
+                        />
+                        <p className="text-[9px] font-bold text-white/20 uppercase tracking-widest">This identifier will be broadcasted across rooms.</p>
+                      </div>
+
+                      <div className="pt-6 border-t border-white/5">
+                        <div className="flex items-center justify-between p-4 rounded-xl bg-indigo-500/5 border border-indigo-500/20">
+                          <div>
+                            <div className="text-[11px] font-black uppercase tracking-widest text-indigo-400">Local-First Storage</div>
+                            <div className="text-[9px] font-bold text-white/40 uppercase tracking-widest mt-1">Data truth layer saved in browser.</div>
+                          </div>
+                          <Badge className="bg-indigo-500">ACTIVE</Badge>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-8 flex justify-end">
+                      <Button onClick={() => setActiveTab("discover")} className="bg-white/5 border border-white/10 hover:bg-white/10 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-11 transition-all">
+                        Exit Identity Panel
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </NeonBoard>
-            </div>
+                </NeonBoard>
+              </div>
+            </ScrollArea>
           </TabsContent>
         </Tabs>
       </main>
 
-      <footer className="py-12 border-t border-white/10 mt-auto shrink-0">
+      <footer className="py-8 border-t border-white/10 mt-auto shrink-0 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 flex justify-between items-center">
           <span>ClearPath v2.5.0 • Global Network Directory</span>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Synchronized</span>
-            <span>No Financial Advice • Information Only</span>
+            <span className="hidden md:inline">No Financial Advice • Information Only</span>
           </div>
         </div>
       </footer>
