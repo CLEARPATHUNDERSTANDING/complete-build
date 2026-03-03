@@ -13,13 +13,17 @@ export function computePct(series: number[]) {
   return Number((((last - first) / first) * 100).toFixed(2));
 }
 
-function buildFallbackSeries(seedText: string, points = 24) {
+function hashText(input: string) {
   let hash = 0;
-  for (let i = 0; i < seedText.length; i++) {
-    hash = (hash << 5) - hash + seedText.charCodeAt(i);
+  for (let i = 0; i < input.length; i += 1) {
+    hash = (hash << 5) - hash + input.charCodeAt(i);
     hash |= 0;
   }
-  const seed = Math.abs(hash);
+  return Math.abs(hash);
+}
+
+function buildFallbackSeries(seedText: string, points = 24) {
+  const seed = hashText(seedText);
   let value = 100 + (seed % 25);
   const out: number[] = [];
   for (let i = 0; i < points; i++) {
@@ -33,24 +37,34 @@ function buildFallbackSeries(seedText: string, points = 24) {
 
 // Mocked server-side functions for the scaffold
 async function getTwelveDataSeries(symbol: string): Promise<QuotePoint[]> {
-  // Replace with real fetch to TwelveData in route handlers
-  return [];
+  return []; // Integration point for real TwelveData API
 }
 
 async function getFinnhubCryptoSeries(symbol: string): Promise<QuotePoint[]> {
-  // Replace with real fetch to Finnhub in route handlers
-  return [];
+  return []; // Integration point for real Finnhub API
 }
 
 async function getFredSeries(fredId: string): Promise<QuotePoint[]> {
-  // Replace with real fetch to FRED in route handlers
-  return [];
+  return []; // Integration point for real FRED API
 }
 
 export async function getBestSeriesForSymbol(marketId: string, symbol: string) {
   try {
-    // Logic to hit real APIs if keys were present would go here
-    // For the scaffold, we fall back to high-fidelity deterministic mock data
+    if (["forex", "stocks", "etfs", "indices", "futures", "commodities", "bonds"].includes(marketId)) {
+      const data = await getTwelveDataSeries(symbol);
+      if (data.length) return data;
+    }
+
+    if (marketId === "crypto") {
+      const cryptoSymbol = symbol.includes(":") ? symbol : `BINANCE:${symbol.replace("/", "")}`;
+      const data = await getFinnhubCryptoSeries(cryptoSymbol);
+      if (data.length) return data;
+    }
+
+    if (["economic-calendar", "macro", "funds-rates"].includes(marketId)) {
+      const data = await getFredProxySeries(symbol);
+      if (data.length) return data;
+    }
   } catch (e) {
     // fall through
   }
@@ -61,7 +75,7 @@ export async function getBestSeriesForSymbol(marketId: string, symbol: string) {
   }));
 }
 
-export async function getFredProxySeries(symbol: string) {
+async function getFredProxySeries(symbol: string) {
   const fredMap: Record<string, string> = {
     CPI: "CPIAUCSL",
     NFP: "PAYEMS",

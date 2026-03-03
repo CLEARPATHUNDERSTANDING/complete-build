@@ -1,6 +1,6 @@
 'use client';
 /**
- * @fileOverview Definition of major market categories for the visual overview board.
+ * @fileOverview Master definition of the 12 major market categories.
  */
 
 export type MarketCategory = {
