@@ -1,167 +1,42 @@
-rules_version = '2';
 
-/**
- * FIRESTORE SECURITY RULES
- * 
- * Core Philosophy:
- * This ruleset implements a strict User-Ownership model combined with Role-Based Access Control (RBAC) 
- * via an administrative "roles" collection. The architecture prioritizes "Authorization Independence," 
- * meaning most security decisions are made based on the document's path or denormalized data 
- * within the document itself, minimizing the need for expensive cross-document lookups.
- * 
- * Data Structure:
- * - /users/{userId}: The root of a user's private data tree. All sub-collections (preferences, layouts, 
- *   events, AI chats) inherit the ownership restriction of the parent user ID.
- * - /feedbackItems/{feedbackItemId}: A top-level collection for user-submitted feedback. 
- *   Ownership is verified via a denormalized 'userId' field.
- * - /roles_admin/{userId}: A protected collection where the existence of a document 
- *   grants administrative privileges to the corresponding user.
- * 
- * Key Security Decisions:
- * 1. Ownership Enforcement: All writes to user-scoped paths require the authenticated UID 
- *    to match the {userId} path parameter.
- * 2. Admin Oversight: Users in the 'roles_admin' collection are granted read access to 
- *    feedback items for management purposes.
- * 3. Relational Integrity: On creation of user-scoped documents, the rules enforce that internal 
- *    ID fields (like 'userId' or 'id') match the authenticated user's identity to prevent data spoofing.
- * 4. Flexible Schemas: In this prototyping phase, data types and specific object shapes are 
- *    not enforced, allowing for rapid iteration on entities like AI chat messages and UI configurations.
- * 
- * Denormalization for Authorization:
- * We use denormalized 'userId' fields in top-level collections (Feedback) and deep sub-collections 
- * (AI Messages) to ensure that every read and write can be authorized atomically.
- */
+rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
     // --- GLOBAL HELPER FUNCTIONS ---
 
-    /** @description Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** @description Checks if the authenticated user matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** @description Checks if the user is an owner and the document exists (for updates/deletes). */
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
-    }
-
-    /** @description Checks if the authenticated user has an entry in the roles_admin collection. */
-    function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-    }
-
     // --- COLLECTION RULES ---
 
-    /**
-     * @description Rules for the User Profile. Users manage their own profiles.
-     * @path /users/{userId}
-     * @allow (create) if auth.uid == 'user_123' and data.id == 'user_123'
-     * @deny (update) if auth.uid != userId
-     * @principle Ownership and Self-Creation validation.
-     */
     match /users/{userId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if isOwner(userId);
 
-      /**
-       * @description User-specific preferences, layouts, events, and AI threads.
-       * @path /users/{userId}/[subcollection]/{id}
-       * @principle Inherited ownership from the user path.
-       */
-      match /preferences/{preferenceId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      match /visualProfiles/{visualProfileId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId);
-        allow update: if isExistingOwner(userId);
-        allow delete: if isExistingOwner(userId);
-      }
-
-      match /layouts/{layoutId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-
-        match /panelConfigurations/{panelConfigurationId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId);
-          allow update: if isExistingOwner(userId);
-          allow delete: if isExistingOwner(userId);
-        }
-      }
-
-      match /experimentAssignments/{assignmentId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      match /events/{userEventId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update, delete: if false; // Events are typically append-only
-      }
-
-      match /aiChatThreads/{chatThreadId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-
-        /**
-         * @description Individual messages in an AI thread. Flexible 'content' for Gemini signatures.
-         * @path /users/{userId}/aiChatThreads/{chatThreadId}/messages/{messageId}
-         * @principle Relational integrity via denormalized userId.
-         */
-        match /messages/{messageId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId) && request.resource.data.chatThreadId == chatThreadId;
-          allow update: if isExistingOwner(userId);
-          allow delete: if isExistingOwner(userId);
-        }
+      match /events/{eventId} {
+        allow read, write: if isOwner(userId);
       }
     }
 
-    /**
-     * @description Top-level Feedback collection. Users create/read own; Admins manage all.
-     * @path /feedbackItems/{feedbackItemId}
-     * @allow (list) if user is in roles_admin collection.
-     * @deny (get) if auth.uid != resource.data.userId and !isAdmin()
-     * @principle Role-Based Access Control and Denormalized Ownership.
-     */
-    match /feedbackItems/{feedbackItemId} {
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isAdmin();
+    // Insights are public to read for authenticated users, but writeable only by owner
+    match /insights/{insightId} {
+      allow read: if isSignedIn();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update: if isAdmin();
-      allow delete: if isAdmin();
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
     }
 
-    /**
-     * @description Admin Role mapping. Existence of UID here grants admin rights.
-     * @path /roles_admin/{userId}
-     * @principle DBAC (Database Access Control) via "Existence over Content".
-     */
-    match /roles_admin/{userId} {
-      allow get: if isSignedIn();
-      allow list: if isAdmin();
-      allow write: if false; // Managed via Admin SDK/Console only for security
+    match /feedbackItems/{feedbackItemId} {
+      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
   }
 }

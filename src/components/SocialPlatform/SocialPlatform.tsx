@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -31,7 +32,9 @@ import {
   MousePointer2,
   Type,
   Globe,
-  Compass
+  Compass,
+  LogOut,
+  Loader2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,6 +57,10 @@ import { marketCatalog } from "@/data/marketCatalog";
 import { CHART_TYPES, type ApexChartType } from "@/components/markets/apex/market-watch-types";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
+import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
+import { signOut } from "firebase/auth";
+import { collection, doc, serverTimestamp } from "firebase/firestore";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 
 function FluidSection({ 
   children, 
@@ -97,6 +104,9 @@ function FluidSection({
 export default function SocialPlatform() {
   const router = useRouter();
   const { toast } = useToast();
+  const { auth, firestore } = useFirebase();
+  const { user, isUserLoading } = useUser();
+  
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -117,47 +127,19 @@ export default function SocialPlatform() {
     annotation: string;
   } | null>(null);
 
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      user: "Insight Bot",
-      avatar: "https://picsum.photos/seed/ai-bot/150/150",
-      time: "Just now",
-      text: "Market volatility is increasing in the tech sector. Our Neuro-Predictive engine suggests a high-focus mode for NVDA and AAPL today.",
-      symbols: ["NVDA", "AAPL"],
-      attachment: {
-        symbol: "NVDA",
-        type: "candlestick" as ApexChartType,
-        annotation: "CRITICAL RESISTANCE ZONE DETECTED"
-      }
-    },
-    {
-      id: 2,
-      user: "Jessica Miller",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=60&q=60",
-      time: "8 hours ago",
-      text: "Exploring the intersection of modern aesthetics and functional design. This latest project focuses on how light transforms architectural spaces throughout the day.",
-      symbols: [],
-      attachment: null
-    },
-    {
-      id: 3,
-      user: "Market Watch",
-      avatar: "https://picsum.photos/seed/market/150/150",
-      time: "12 hours ago",
-      text: "Global indices are showing strong support levels. It might be time to switch to the STANDARD VIEW mode to track multiple sectors simultaneously.",
-      symbols: ["SPX", "NDX"],
-      attachment: {
-        symbol: "SPX",
-        type: "area" as ApexChartType,
-        annotation: "Support holds firm here."
-      }
-    }
-  ]);
+  // Firestore Real-time Data
+  const insightsRef = useMemoFirebase(() => collection(firestore, "insights"), [firestore]);
+  const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!isUserLoading && !user && mounted) {
+      router.push("/login");
+    }
+  }, [user, isUserLoading, mounted, router]);
 
   const filteredCatalog = useMemo(() => {
     const q = chartSearchQuery.toLowerCase();
@@ -167,7 +149,19 @@ export default function SocialPlatform() {
     ).slice(0, 5);
   }, [chartSearchQuery]);
 
-  if (!mounted) return null;
+  if (!mounted || isUserLoading || !user) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500">
+        <Loader2 className="w-10 h-10 animate-spin mb-4" />
+        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Synchronizing Network Profile...</span>
+      </div>
+    );
+  }
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    router.push("/login");
+  };
 
   const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchQuery.trim()) {
@@ -212,17 +206,19 @@ export default function SocialPlatform() {
       return;
     }
 
-    const newPost = {
-      id: Date.now(),
-      user: "Mike Andrew",
-      avatar: getImgUrl('profile-mike') || "https://i.pravatar.cc/150?u=mike",
+    const insightData = {
+      userId: user.uid,
+      user: user.displayName || user.email?.split("@")[0] || "Trader",
+      avatar: user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`,
       time: "Just now",
+      createdAt: serverTimestamp(),
       text: postText,
       symbols: attachedSymbols,
       attachment: activeAttachment ? { ...activeAttachment } : null
     };
 
-    setPosts([newPost, ...posts]);
+    addDocumentNonBlocking(insightsRef, insightData);
+
     setPostText("");
     setAttachedSymbols([]);
     setActiveAttachment(null);
@@ -230,7 +226,7 @@ export default function SocialPlatform() {
 
     toast({
       title: "Insight Dispatched",
-      description: "Your diagnostic thesis has been broadcast to the network.",
+      description: "Your diagnostic thesis has been broadcast to the cloud network.",
     });
   };
 
@@ -307,11 +303,9 @@ export default function SocialPlatform() {
           </div>
           <div className="flex items-center gap-6 ml-6">
             <div className="flex items-center gap-4 px-3 py-1.5 bg-white/5 border border-white/10 rounded-full">
-              {/* Neon Cyan Apple */}
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-[#00e5ff] fill-current drop-shadow-[0_0_5px_#00e5ff]" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.05 20.28c-.98.95-2.05 1.61-3.22 1.61-1.12 0-1.5-.68-2.83-.68-1.32 0-1.76.66-2.82.68-1.13.02-2.32-.75-3.32-1.73-2.04-1.99-3.12-5.11-3.12-7.81 0-2.69 1.01-4.64 2.1-5.79 1.09-1.15 2.33-1.74 3.42-1.74 1.04 0 1.76.41 2.72.41 1.01 0 1.5-.41 2.7-.41 1.01 0 2.14.53 3.06 1.43-2.41 1.43-2.01 4.69.41 5.81-.51 1.28-1.17 2.52-2.13 3.56l.01-.01zM12.03 4.13c-.02-1.34.52-2.63 1.41-3.56.91-.95 2.21-1.57 3.51-1.57.02 1.34-.52 2.63-1.41 3.56-.91.95-2.21 1.57-3.51 1.57z"/>
               </svg>
-              {/* Neon Fuchsia Android */}
               <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 text-[#ff00d4] fill-current drop-shadow-[0_0_5px_#ff00d4]" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.523 15.3414c-.5511 0-1-.4489-1-1s.4489-1 1-1 1 .4489 1 1-.4489 1-1 1zm-11.046 0c-.5511 0-1-.4489-1-1s.4489-1 1-1 1 .4489 1 1-.4489 1-1 1zM18.1535 11.6566c-.1141-.1141-.2617-.1712-.4092-.1712h-11.4886c-.1475 0-.2951.0571-.4092.1712-.1141.1141-.1712.2617-.1712.4092v2.0114c0 .1475.0571.2951.1712.4092.1141.1141.2617.1712.4092.1712h11.4886c.1475 0 .2951-.0571.4092-.1712.1141-.1141.1712-.2617.1712-.4092v-2.0114c0-.1475-.0571-.2951-.1712-.4092zM12 2c-4.9706 0-9 4.0294-9 9 0 4.1788 2.8412 7.6933 6.6923 8.6885-.0152-.224-.0256-.4501-.0256-.6785v-.01c0-1.6569 1.3431-3 3-3s3 1.3431 3 3v.01c0 .2284-.0104.4545-.0256.6785 3.8511-.9952 6.6923-4.5097 6.6923-8.6885 0-4.9706-4.0294-9-9-9z"/>
               </svg>
@@ -319,10 +313,24 @@ export default function SocialPlatform() {
             <Button variant="ghost" size="icon" className="rounded-full h-9 w-9" onClick={() => setIsDarkMode(!isDarkMode)}>
               {isDarkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4" />}
             </Button>
-            <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black">
-              <AvatarImage src={getImgUrl('profile-mike') || ""} />
-              <AvatarFallback>MA</AvatarFallback>
-            </Avatar>
+            <div className="group relative">
+              <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black cursor-pointer">
+                <AvatarImage src={user.photoURL || ""} />
+                <AvatarFallback className="bg-indigo-500 text-xs font-black">{user.displayName?.[0] || user.email?.[0]}</AvatarFallback>
+              </Avatar>
+              <div className="absolute right-0 mt-2 w-48 py-2 bg-[#070b16] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+                <div className="px-4 py-2 border-b border-white/5 mb-2">
+                  <div className="text-[11px] font-black text-white/90 truncate">{user.displayName || "Trader"}</div>
+                  <div className="text-[9px] font-bold text-white/30 truncate">{user.email}</div>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-[10px] font-black uppercase tracking-widest text-rose-400 hover:bg-white/5 transition-all"
+                >
+                  <LogOut className="w-3.5 h-3.5" /> Synchronize End
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -338,8 +346,8 @@ export default function SocialPlatform() {
                 </div>
                 <div className="flex items-start gap-4">
                   <Avatar className="w-10 h-10 border border-white/10 mt-1">
-                    <AvatarImage src={getImgUrl('profile-mike') || ""} />
-                    <AvatarFallback>MA</AvatarFallback>
+                    <AvatarImage src={user.photoURL || ""} />
+                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0] || user.email?.[0]}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <textarea 
@@ -381,61 +389,75 @@ export default function SocialPlatform() {
             </NeonBoard>
 
             {/* FEED */}
-            {posts.map((post) => (
-              <NeonBoard key={post.id} className="w-full">
-                <CardHeader className="p-6">
-                  <div className="flex items-center gap-4 text-left">
-                    <Avatar className="w-12 h-12 border-2 border-primary/20"><AvatarImage src={post.avatar} /><AvatarFallback>{post.user[0]}</AvatarFallback></Avatar>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <span className="font-bold text-base text-white">{post.user}</span>
-                        {post.user === "Mike Andrew" && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
-                      </div>
-                      <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{post.time}</span>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="px-8 py-6 bg-[#070b16]/95 border-y border-white/5 text-left">
-                  <p className="text-lg leading-relaxed text-white/90 font-medium mb-6">{post.text}</p>
-                  
-                  {post.attachment && (
-                    <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden group">
-                      <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[10px] font-black text-cyan-300 uppercase tracking-widest">
-                        DIAGNOSTIC CAPTURE: {post.attachment.symbol} {post.attachment.type.toUpperCase()}
-                      </div>
-                      <div className="opacity-80 group-hover:opacity-100 transition-opacity">
-                        <MarketWatchChart 
-                          symbol={post.attachment.symbol} 
-                          points={generateMockOhlc(post.attachment.symbol, 100)} 
-                          height={300}
-                        />
-                      </div>
-                      {post.attachment.annotation && (
-                        <div className="absolute bottom-12 right-8 z-30 transform rotate-[-2deg]">
-                          <div className="bg-yellow-400/90 text-black px-4 py-2 rounded-sm shadow-2xl font-mono text-[13px] font-black tracking-tight border-b-2 border-black/20">
-                            {post.attachment.annotation}
-                          </div>
-                          <div className="w-4 h-4 bg-yellow-400 absolute top-[-8px] right-[-8px] rotate-45 border-t border-r border-black/10" />
+            {isInsightsLoading ? (
+              <div className="flex flex-col items-center py-20 opacity-20">
+                <Loader2 className="w-8 h-8 animate-spin mb-4" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Establishing Data Sync...</span>
+              </div>
+            ) : insightsData?.length === 0 ? (
+              <div className="flex flex-col items-center py-20 opacity-20">
+                <Brain className="w-12 h-12 mb-4" />
+                <span className="text-[10px] font-black uppercase tracking-widest">Network stream empty. Initialize broadcast.</span>
+              </div>
+            ) : (
+              insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
+                <NeonBoard key={post.id} className="w-full">
+                  <CardHeader className="p-6">
+                    <div className="flex items-center gap-4 text-left">
+                      <Avatar className="w-12 h-12 border-2 border-primary/20"><AvatarImage src={post.avatar} /><AvatarFallback>{post.user[0]}</AvatarFallback></Avatar>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-base text-white">{post.user}</span>
+                          {post.userId === user.uid && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
                         </div>
-                      )}
+                        <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
+                          {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : post.time}
+                        </span>
+                      </div>
                     </div>
-                  )}
+                  </CardHeader>
+                  <CardContent className="px-8 py-6 bg-[#070b16]/95 border-y border-white/5 text-left">
+                    <p className="text-lg leading-relaxed text-white/90 font-medium mb-6">{post.text}</p>
+                    
+                    {post.attachment && (
+                      <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden group">
+                        <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[10px] font-black text-cyan-300 uppercase tracking-widest">
+                          DIAGNOSTIC CAPTURE: {post.attachment.symbol} {post.attachment.type.toUpperCase()}
+                        </div>
+                        <div className="opacity-80 group-hover:opacity-100 transition-opacity">
+                          <MarketWatchChart 
+                            symbol={post.attachment.symbol} 
+                            points={generateMockOhlc(post.attachment.symbol, 100)} 
+                            height={300}
+                          />
+                        </div>
+                        {post.attachment.annotation && (
+                          <div className="absolute bottom-12 right-8 z-30 transform rotate-[-2deg]">
+                            <div className="bg-yellow-400/90 text-black px-4 py-2 rounded-sm shadow-2xl font-mono text-[13px] font-black tracking-tight border-b-2 border-black/20">
+                              {post.attachment.annotation}
+                            </div>
+                            <div className="w-4 h-4 bg-yellow-400 absolute top-[-8px] right-[-8px] rotate-45 border-t border-r border-black/10" />
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                  {(post.symbols.length > 0) && (
-                    <div className="mt-2 flex flex-wrap gap-2 pt-4 border-t border-white/5">
-                      {post.symbols.map(s => (
-                        <Badge key={s} variant="outline" className="text-[10px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">{s}</Badge>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-                <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
-                  <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors"><Heart className="w-5 h-5" /><span className="text-xs font-black tracking-widest">2.4K</span></button>
-                  <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"><MessageCircle className="w-5 h-5" /><span className="text-xs font-black tracking-widest">128</span></button>
-                  <div className="ml-auto"><a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">Analyze Intel <ArrowRight className="w-3.5 h-3.5" /></a></div>
-                </CardFooter>
-              </NeonBoard>
-            ))}
+                    {(post.symbols && post.symbols.length > 0) && (
+                      <div className="mt-2 flex flex-wrap gap-2 pt-4 border-t border-white/5">
+                        {post.symbols.map((s: string) => (
+                          <Badge key={s} variant="outline" className="text-[10px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">{s}</Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                  <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
+                    <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors"><Heart className="w-5 h-5" /><span className="text-xs font-black tracking-widest">2.4K</span></button>
+                    <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"><MessageCircle className="w-5 h-5" /><span className="text-xs font-black tracking-widest">128</span></button>
+                    <div className="ml-auto"><a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">Analyze Intel <ArrowRight className="w-3.5 h-3.5" /></a></div>
+                  </CardFooter>
+                </NeonBoard>
+              ))
+            )}
           </div>
         </ScrollArea>
       </div>
