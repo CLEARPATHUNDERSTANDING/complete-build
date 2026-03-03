@@ -281,7 +281,7 @@ export default function CommunityPage() {
                   <div className="space-y-1">
                     <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
                     <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
-                    <NavItem label="Multi-View Grid" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
+                    <NavItem label="STANDARD VIEW" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
                     <NavItem label="Community Feed" icon={Users} href="/community" active color="pink" />
                   </div>
                 </BorderWallCard>

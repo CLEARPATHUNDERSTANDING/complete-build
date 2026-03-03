@@ -188,7 +188,7 @@ export default function SocialPlatform() {
                 </a>
                 <a href="/dashboard?mode=quad" className={navItemClass}>
                   <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
+                  <span className="text-[15px] font-semibold text-cyan-400">STANDARD VIEW</span>
                 </a>
                 <a href="/community" className={navItemClass}>
                   <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
