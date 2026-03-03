@@ -42,6 +42,7 @@ import { generateMockOhlc } from "@/utils/mockData";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import placeholderData from "@/app/lib/placeholder-images.json";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -192,6 +193,8 @@ export default function SocialPlatform() {
     ).slice(0, 5);
   }, [chartSearchQuery]);
 
+  const getImg = (id: string) => placeholderData.placeholderImages.find(img => img.id === id)?.imageUrl || "";
+
   if (!mounted || isUserLoading || !user) {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500">
@@ -299,7 +302,7 @@ export default function SocialPlatform() {
 
           <div className="flex items-center gap-3 bg-white/5 border border-white/8 rounded-2xl px-4 py-2">
             <Avatar className="w-10 h-10 ring-2 ring-indigo-500/20">
-              <AvatarImage src={user.photoURL || ""} />
+              <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
               <AvatarFallback className="bg-indigo-500 text-xs font-black">{user.displayName?.[0]}</AvatarFallback>
             </Avatar>
             <div className="text-left leading-tight hidden lg:block">
@@ -329,7 +332,7 @@ export default function SocialPlatform() {
 
                 <div className="flex items-start gap-4">
                   <Avatar className="w-12 h-12 border border-white/10">
-                    <AvatarImage src={user.photoURL || ""} />
+                    <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
                     <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
@@ -394,7 +397,7 @@ export default function SocialPlatform() {
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
                             <Avatar className="w-12 h-12 ring-2 ring-indigo-500/20">
-                              <AvatarImage src={post.avatar} />
+                              <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
                               <AvatarFallback className="bg-indigo-500">{post.user[0]}</AvatarFallback>
                             </Avatar>
                             <div>
@@ -467,13 +470,15 @@ export default function SocialPlatform() {
             <BorderWallCard title="Live Hubs" maxHeight="none" useScrollArea={false}>
               <div className="space-y-5">
                 {[
-                  { name: "Jessica Miller", status: "Live Analyzing NVDA", active: true },
-                  { name: "Market Watch", status: "Session Review", active: true },
-                  { name: "Research Desk", status: "Macro Update", active: false },
+                  { name: "Jessica Miller", status: "Live Analyzing NVDA", active: true, img: getImg("profile-jessica") },
+                  { name: "Market Watch", status: "Session Review", active: true, img: getImg("hub-market-watch") },
+                  { name: "Research Desk", status: "Macro Update", active: false, img: getImg("hub-research-desk") },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group">
                     <div className="relative h-12 w-12 shrink-0 rounded-full bg-[linear-gradient(135deg,#59e7ff,#8a7dff,#ff4ba3)] p-[2px]">
-                      <div className="flex h-full w-full items-center justify-center rounded-full bg-slate-950 text-sm font-black text-white">{hub.name[0]}</div>
+                      <div className="h-full w-full rounded-full overflow-hidden">
+                        <img src={hub.img} className="w-full h-full object-cover" alt="" />
+                      </div>
                       {hub.active && <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-slate-950 bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.8)]" />}
                     </div>
                     <div className="text-left">
@@ -488,15 +493,16 @@ export default function SocialPlatform() {
             <BorderWallCard title="Network Intelligence" maxHeight="none" useScrollArea={false}>
               <div className="space-y-5">
                 {[
-                  { name: "Mike Andrew", status: "Analyzing BTCUSD", active: true },
-                  { name: "Sarah Chen", status: "Monitoring AAPL", active: true },
-                  { name: "David K.", status: "Macro Idle", active: false },
-                  { name: "Elena R.", status: "Backtesting Gold", active: true },
+                  { name: "Mike Andrew", status: "Analyzing BTCUSD", active: true, img: getImg("profile-mike") },
+                  { name: "Sarah Chen", status: "Monitoring AAPL", active: true, img: getImg("profile-sarah") },
+                  { name: "David K.", status: "Macro Idle", active: false, img: getImg("profile-david") },
+                  { name: "Elena R.", status: "Backtesting Gold", active: true, img: getImg("profile-elena") },
                 ].map((friend, i) => (
                   <div key={i} className="flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group">
                     <div className="flex items-center gap-4">
                       <div className="relative h-10 w-10 shrink-0">
                         <Avatar className="h-full w-full border border-white/10">
+                          <AvatarImage src={friend.img} />
                           <AvatarFallback className="bg-indigo-500/20 text-indigo-400 text-xs font-black">{friend.name[0]}</AvatarFallback>
                         </Avatar>
                         {friend.active && <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-emerald-400 shadow-[0_0_8px_#10b981]" />}
