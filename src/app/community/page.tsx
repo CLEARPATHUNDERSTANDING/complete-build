@@ -273,7 +273,7 @@ export default function CommunityPage() {
               <NeonBoard className="w-full">
                 <div className="px-4 py-3 flex items-center justify-center gap-3">
                   <div className="text-[11px] font-black tracking-[0.25em] text-white uppercase text-center">
-                    Clear Path Trader
+                    CLEAR PATH TRADER
                   </div>
                 </div>
               </NeonBoard>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -61,7 +60,7 @@ export default function LoginPage() {
             <Activity className="w-10 h-10 text-white" />
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-black uppercase tracking-tighter text-white">CLEAR PATH TRADER</h1>
+            <h1 className="text-3xl font-black uppercase tracking-[0.2em] text-white">CLEAR PATH TRADER</h1>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Secure Identity Protocol v2.5.0</p>
           </div>
         </div>
