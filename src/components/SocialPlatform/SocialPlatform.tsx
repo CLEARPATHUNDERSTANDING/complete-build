@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -22,7 +21,9 @@ import {
   Radio,
   Activity,
   MessageSquare,
-  AlertCircle
+  AlertCircle,
+  Volume2,
+  Bluetooth
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -237,6 +238,40 @@ export default function SocialPlatform() {
     };
   }, [isLive, toast]);
 
+  const handleBluetooth = async () => {
+    if (!navigator.bluetooth) {
+      toast({
+        variant: "destructive",
+        title: "Protocol Unsupported",
+        description: "Bluetooth synchronization is not supported by your current browser engine.",
+      });
+      return;
+    }
+
+    try {
+      toast({
+        title: "Bluetooth Initializing",
+        description: "Scanning for neuro-peripherals and diagnostic hardware...",
+      });
+      
+      const device = await navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+      });
+
+      toast({
+        title: "Device Synchronized",
+        description: `Linked to: ${device.name || 'Unknown Peripheral'}`,
+      });
+    } catch (error: any) {
+      if (error.name === 'NotFoundError') return;
+      toast({
+        variant: "destructive",
+        title: "Sync Failure",
+        description: "Failed to establish a secure link with the peripheral.",
+      });
+    }
+  };
+
   const filteredCatalog = useMemo(() => {
     const q = chartSearchQuery.toLowerCase();
     return marketCatalog.filter(item => 
@@ -357,14 +392,24 @@ export default function SocialPlatform() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 bg-white/5 border border-white/8 rounded-2xl px-4 py-2">
-            <Avatar className="w-10 h-10 ring-2 ring-orange-500/20">
-              <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-              <AvatarFallback className="bg-orange-500 text-xs font-black">{user.displayName?.[0]}</AvatarFallback>
-            </Avatar>
-            <div className="text-left leading-tight hidden lg:block">
-              <div className="text-sm font-black text-white">{user.displayName || "Trader"}</div>
-              <div className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Authorized</div>
+          <div className="flex items-center gap-6">
+            <div className="hidden lg:flex items-center gap-4 text-white/30 border-r border-white/10 pr-6">
+              <Volume2 className="w-4 h-4 hover:text-indigo-400 cursor-pointer transition-colors" />
+              <Bluetooth 
+                onClick={handleBluetooth}
+                className="w-4 h-4 hover:text-indigo-400 cursor-pointer transition-colors" 
+              />
+            </div>
+
+            <div className="flex items-center gap-3 bg-white/5 border border-white/8 rounded-2xl px-4 py-2">
+              <Avatar className="w-10 h-10 ring-2 ring-orange-500/20">
+                <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
+                <AvatarFallback className="bg-orange-500 text-xs font-black">{user.displayName?.[0]}</AvatarFallback>
+              </Avatar>
+              <div className="text-left leading-tight hidden lg:block">
+                <div className="text-sm font-black text-white">{user.displayName || "Trader"}</div>
+                <div className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Authorized</div>
+              </div>
             </div>
           </div>
         </header>

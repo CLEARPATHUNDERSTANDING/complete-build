@@ -37,11 +37,13 @@ import {
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { useToast } from "@/hooks/use-toast"
 import type { ModeConfig } from "@/modes/types"
 
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { toast } = useToast();
   
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
   const profileParam = searchParams.get('profile') as NeuroProfileId;
@@ -111,6 +113,40 @@ function DashboardContent() {
     router.replace(`/dashboard?${params.toString()}`, { scroll: false });
   };
 
+  const handleBluetooth = async () => {
+    if (!navigator.bluetooth) {
+      toast({
+        variant: "destructive",
+        title: "Protocol Unsupported",
+        description: "Bluetooth synchronization is not supported by your current browser engine.",
+      });
+      return;
+    }
+
+    try {
+      toast({
+        title: "Bluetooth Initializing",
+        description: "Scanning for neuro-peripherals and diagnostic hardware...",
+      });
+      
+      const device = await navigator.bluetooth.requestDevice({
+        acceptAllDevices: true,
+      });
+
+      toast({
+        title: "Device Synchronized",
+        description: `Linked to: ${device.name || 'Unknown Peripheral'}`,
+      });
+    } catch (error: any) {
+      if (error.name === 'NotFoundError') return;
+      toast({
+        variant: "destructive",
+        title: "Sync Failure",
+        description: "Failed to establish a secure link with the peripheral.",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
       <header className="h-32 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
@@ -149,7 +185,10 @@ function DashboardContent() {
         <div className="flex items-center gap-6">
            <div className="flex items-center gap-4 text-white/30 border-r border-white/10 pr-6">
               <Volume2 className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
-              <Bluetooth className="w-4 h-4 hover:text-white cursor-pointer transition-colors" />
+              <Bluetooth 
+                onClick={handleBluetooth}
+                className="w-4 h-4 hover:text-indigo-400 cursor-pointer transition-colors" 
+              />
            </div>
 
            <div className="flex items-center gap-4">
