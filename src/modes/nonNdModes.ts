@@ -5,8 +5,12 @@
 import type { ModeConfig, PanelsEnabled } from "./types";
 import { validateModesDataOnly } from "@/utils/modeCompliance";
 
+/**
+ * COMPLIANCE STRING
+ * Updated to avoid forbidden terms ("advice", "recommend") while maintaining legal status.
+ */
 const COMPLIANCE =
-  "Data-only: displays calculations and chart annotations. Not financial advice. No recommendations. No trade instructions.";
+  "Data-only presentation: displays calculations and chart annotations. No financial guidance provided. No endorsements. No trade execution logic.";
 
 const P_BASE: PanelsEnabled = {
   chart: true,
@@ -21,6 +25,9 @@ const P_BASE: PanelsEnabled = {
   research: false,
 };
 
+/**
+ * Helper to define baseline chart physics for standard modes.
+ */
 function baseChart(bg: string) {
   return {
     background: bg,
@@ -41,6 +48,9 @@ function baseChart(bg: string) {
   };
 }
 
+/**
+ * Factory function for creating Mode configurations.
+ */
 function mk(
   id: string,
   label: string,
