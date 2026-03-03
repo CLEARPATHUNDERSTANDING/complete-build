@@ -12,15 +12,6 @@ export default function HomePage() {
             <div className="brand-sub">Adaptive Market Intelligence</div>
           </div>
         </div>
-
-        <nav className="top-actions">
-          <Link href="/login" className="ghost-btn">
-            Log In
-          </Link>
-          <Link href="/login" className="primary-btn">
-            Create Account
-          </Link>
-        </nav>
       </header>
 
       <section className="hero-shell">
