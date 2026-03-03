@@ -49,7 +49,9 @@ export default async function MarketsPage() {
             </div>
             <div className="text-left">
               <div className="text-xs uppercase tracking-[0.35em] text-cyan-300/80">CLEAR PATH TRADER</div>
-              <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight">Command Center</h1>
+              <h1 className="mt-1 text-2xl font-black md:text-4xl uppercase tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_15px_rgba(106,92,255,0.4)] brightness-110">
+                Command Center
+              </h1>
               <p className="mt-1 text-sm text-white/65">
                 Apex-powered multi-market diagnostic dashboard.
               </p>
