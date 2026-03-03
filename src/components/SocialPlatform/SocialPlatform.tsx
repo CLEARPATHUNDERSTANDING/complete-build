@@ -134,6 +134,15 @@ export default function SocialPlatform() {
     setMounted(true);
   }, []);
 
+  // Theme synchronization
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   useEffect(() => {
     if (!isUserLoading && !user && mounted) {
       router.push("/login");
@@ -234,7 +243,7 @@ export default function SocialPlatform() {
   const navItemClass = "flex items-center gap-4 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
 
   return (
-    <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white font-body">
+    <div className="flex w-full h-screen overflow-hidden bg-background text-foreground fade-in selection:bg-primary selection:text-white font-body">
       {/* Left Sidebar */}
       <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0 h-full">
         {/* CLEAR PATH TRADER Header */}
@@ -294,20 +303,20 @@ export default function SocialPlatform() {
             <input 
               type="text" 
               placeholder="Search markets, news, or traders..." 
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-all"
+              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-primary/50 transition-all text-white"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearch}
             />
           </div>
           <div className="flex items-center gap-6 ml-6">
-            <Button variant="ghost" size="icon" className="rounded-full h-9 w-9" onClick={() => setIsDarkMode(!isDarkMode)}>
+            <Button variant="ghost" size="icon" className="rounded-full h-9 w-9 text-white" onClick={() => setIsDarkMode(!isDarkMode)}>
               {isDarkMode ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4" />}
             </Button>
             <div className="group relative">
               <Avatar className="w-10 h-10 ring-2 ring-primary/20 ring-offset-2 ring-offset-black cursor-pointer">
                 <AvatarImage src={user.photoURL || ""} />
-                <AvatarFallback className="bg-indigo-500 text-xs font-black">{user.displayName?.[0] || user.email?.[0]}</AvatarFallback>
+                <AvatarFallback className="bg-indigo-500 text-xs font-black text-white">{user.displayName?.[0] || user.email?.[0]}</AvatarFallback>
               </Avatar>
               <div className="absolute right-0 mt-2 w-48 py-2 bg-[#070b16] border border-white/10 rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
                 <div className="px-4 py-2 border-b border-white/5 mb-2">
@@ -330,7 +339,7 @@ export default function SocialPlatform() {
             
             {/* INSIGHT DISPATCH MODULE */}
             <NeonBoard className="w-full">
-              <div className="bg-[#070b16] p-6">
+              <div className="bg-[#070b16] p-6 text-white">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-1 h-4 bg-primary shadow-[0_0_8px_#3b82f6]" />
                   <div className="text-[11px] font-black uppercase tracking-[0.25em] text-white/70">Dispatch Insight</div>
@@ -393,59 +402,61 @@ export default function SocialPlatform() {
             ) : (
               insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                 <NeonBoard key={post.id} className="w-full">
-                  <CardHeader className="p-6">
-                    <div className="flex items-center gap-4 text-left">
-                      <Avatar className="w-12 h-12 border-2 border-primary/20"><AvatarImage src={post.avatar} /><AvatarFallback>{post.user[0]}</AvatarFallback></Avatar>
-                      <div className="flex flex-col">
-                        <div className="flex items-center gap-2">
-                          <span className="font-bold text-base text-white">{post.user}</span>
-                          {post.userId === user.uid && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
-                        </div>
-                        <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
-                          {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : post.time}
-                        </span>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="px-8 py-6 bg-[#070b16]/95 border-y border-white/5 text-left">
-                    <p className="text-lg leading-relaxed text-white/90 font-medium mb-6">{post.text}</p>
-                    
-                    {post.attachment && (
-                      <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden group">
-                        <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[10px] font-black text-cyan-300 uppercase tracking-widest">
-                          DIAGNOSTIC CAPTURE: {post.attachment.symbol} {post.attachment.type.toUpperCase()}
-                        </div>
-                        <div className="opacity-80 group-hover:opacity-100 transition-opacity">
-                          <MarketWatchChart 
-                            symbol={post.attachment.symbol} 
-                            points={generateMockOhlc(post.attachment.symbol, 100)} 
-                            height={300}
-                          />
-                        </div>
-                        {post.attachment.annotation && (
-                          <div className="absolute bottom-12 right-8 z-30 transform rotate-[-2deg]">
-                            <div className="bg-yellow-400/90 text-black px-4 py-2 rounded-sm shadow-2xl font-mono text-[13px] font-black tracking-tight border-b-2 border-black/20">
-                              {post.attachment.annotation}
-                            </div>
-                            <div className="w-4 h-4 bg-yellow-400 absolute top-[-8px] right-[-8px] rotate-45 border-t border-r border-black/10" />
+                  <div className="text-white">
+                    <CardHeader className="p-6">
+                      <div className="flex items-center gap-4 text-left">
+                        <Avatar className="w-12 h-12 border-2 border-primary/20"><AvatarImage src={post.avatar} /><AvatarFallback>{post.user[0]}</AvatarFallback></Avatar>
+                        <div className="flex flex-col">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-base text-white">{post.user}</span>
+                            {post.userId === user.uid && <CheckCircle2 className="w-3.5 h-3.5 text-primary" />}
                           </div>
-                        )}
+                          <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">
+                            {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : post.time}
+                          </span>
+                        </div>
                       </div>
-                    )}
+                    </CardHeader>
+                    <CardContent className="px-8 py-6 bg-[#070b16]/95 border-y border-white/5 text-left">
+                      <p className="text-lg leading-relaxed text-white/90 font-medium mb-6">{post.text}</p>
+                      
+                      {post.attachment && (
+                        <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden group">
+                          <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[10px] font-black text-cyan-300 uppercase tracking-widest">
+                            DIAGNOSTIC CAPTURE: {post.attachment.symbol} {post.attachment.type.toUpperCase()}
+                          </div>
+                          <div className="opacity-80 group-hover:opacity-100 transition-opacity">
+                            <MarketWatchChart 
+                              symbol={post.attachment.symbol} 
+                              points={generateMockOhlc(post.attachment.symbol, 100)} 
+                              height={300}
+                            />
+                          </div>
+                          {post.attachment.annotation && (
+                            <div className="absolute bottom-12 right-8 z-30 transform rotate-[-2deg]">
+                              <div className="bg-yellow-400/90 text-black px-4 py-2 rounded-sm shadow-2xl font-mono text-[13px] font-black tracking-tight border-b-2 border-black/20">
+                                {post.attachment.annotation}
+                              </div>
+                              <div className="w-4 h-4 bg-yellow-400 absolute top-[-8px] right-[-8px] rotate-45 border-t border-r border-black/10" />
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-                    {(post.symbols && post.symbols.length > 0) && (
-                      <div className="mt-2 flex flex-wrap gap-2 pt-4 border-t border-white/5">
-                        {post.symbols.map((s: string) => (
-                          <Badge key={s} variant="outline" className="text-[10px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">{s}</Badge>
-                        ))}
-                      </div>
-                    )}
-                  </CardContent>
-                  <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
-                    <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors"><Heart className="w-5 h-5" /><span className="text-xs font-black tracking-widest">2.4K</span></button>
-                    <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"><MessageCircle className="w-5 h-5" /><span className="text-xs font-black tracking-widest">128</span></button>
-                    <div className="ml-auto"><a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">Analyze Intel <ArrowRight className="w-3.5 h-3.5" /></a></div>
-                  </CardFooter>
+                      {(post.symbols && post.symbols.length > 0) && (
+                        <div className="mt-2 flex flex-wrap gap-2 pt-4 border-t border-white/5">
+                          {post.symbols.map((s: string) => (
+                            <Badge key={s} variant="outline" className="text-[10px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">{s}</Badge>
+                          ))}
+                        </div>
+                      )}
+                    </CardContent>
+                    <CardFooter className="px-8 py-5 flex gap-8 items-center bg-[#070b16]">
+                      <button className="flex items-center gap-2 text-muted-foreground hover:text-red-500 transition-colors"><Heart className="w-5 h-5" /><span className="text-xs font-black tracking-widest">2.4K</span></button>
+                      <button className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"><MessageCircle className="w-5 h-5" /><span className="text-xs font-black tracking-widest">128</span></button>
+                      <div className="ml-auto"><a href="/intelligence" className="text-[11px] font-black text-primary flex items-center gap-1.5 hover:underline tracking-widest uppercase">Analyze Intel <ArrowRight className="w-3.5 h-3.5" /></a></div>
+                    </CardFooter>
+                  </div>
                 </NeonBoard>
               ))
             )}
@@ -541,7 +552,7 @@ export default function SocialPlatform() {
                   </label>
                   <div className="relative">
                     <input 
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500/50 transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-cyan-500/50 transition-all text-white"
                       value={chartSearchQuery}
                       onChange={(e) => setChartSearchQuery(e.target.value)}
                       placeholder="BTC, AAPL, SPX..."
@@ -565,7 +576,7 @@ export default function SocialPlatform() {
                     <Grid2X2 className="w-3 h-3" /> Diagnostic Visualizer
                   </label>
                   <select 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-xs font-bold outline-none appearance-none cursor-pointer hover:bg-white/10"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-xs font-bold outline-none appearance-none cursor-pointer hover:bg-white/10 text-white"
                     value={selectedChartType}
                     onChange={(e) => setSelectedChartType(e.target.value as ApexChartType)}
                   >
@@ -580,7 +591,7 @@ export default function SocialPlatform() {
                     <Type className="w-3 h-3" /> Annotation (Write on Chart)
                   </label>
                   <textarea 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-bold outline-none focus:border-cyan-500/50 h-24 resize-none placeholder:text-white/20"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-bold outline-none focus:border-cyan-500/50 h-24 resize-none placeholder:text-white/20 text-white"
                     placeholder="e.g. BREAKOUT IMMINENT..."
                     value={annotationText}
                     onChange={(e) => setAnnotationText(e.target.value.toUpperCase())}
