@@ -322,7 +322,7 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1">
           <div className="max-w-3xl mx-auto px-8 py-10 space-y-10 pb-32">
-            {/* DISPATCH MODULE - NEON INDIGO/CYAN RECALIBRATION */}
+            {/* DISPATCH MODULE - NEON INDIGO/CYAN/PINK RECALIBRATION */}
             <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false} variant="cool">
               <div className="flex items-start gap-4">
                 <div className="flex flex-col items-center gap-2">
