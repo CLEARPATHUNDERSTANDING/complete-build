@@ -53,7 +53,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { marketCatalog } from "@/data/marketCatalog";
-import { CHART_TYPES, type ApexChartType } from "@/components/markets/apex/market-watch-types";
+import { type ApexChartType } from "@/components/markets/apex/market-watch-types";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
@@ -114,11 +114,10 @@ export default function SocialPlatform() {
   const [postText, setPostText] = useState("");
   const [attachedSymbols, setAttachedSymbols] = useState<string[]>([]);
   
-  // Advanced Chart Attachment State
+  // Advanced Chart Attachment State - Locked to Candlestick
   const [isChartModalOpen, setIsChartModalOpen] = useState(false);
   const [chartSearchQuery, setChartSearchQuery] = useState("");
   const [selectedChartSymbol, setSelectedChartSymbol] = useState("BTCUSD");
-  const [selectedChartType, setSelectedChartType] = useState<ApexChartType>("candlestick");
   const [annotationText, setAnnotationText] = useState("");
   const [activeAttachment, setActiveAttachment] = useState<{
     symbol: string;
@@ -194,13 +193,13 @@ export default function SocialPlatform() {
   const handleConfirmAttachment = () => {
     setActiveAttachment({
       symbol: selectedChartSymbol,
-      type: selectedChartType,
+      type: "candlestick",
       annotation: annotationText
     });
     setIsChartModalOpen(false);
     toast({
       title: "Chart Captured",
-      description: `Diagnostic ${selectedChartType} for ${selectedChartSymbol} has been annotated and attached.`,
+      description: `Diagnostic CANDLESTICK for ${selectedChartSymbol} has been annotated and attached.`,
     });
   };
 
@@ -246,7 +245,6 @@ export default function SocialPlatform() {
     <div className="flex w-full h-screen overflow-hidden bg-background text-foreground fade-in selection:bg-primary selection:text-white font-body">
       {/* Left Sidebar */}
       <div className="w-72 border-r border-white/10 flex flex-col bg-black shrink-0 h-full">
-        {/* CLEAR PATH TRADER Header */}
         <div className="p-4 shrink-0">
           <NeonBoard className="w-full">
             <div className="px-4 py-3 flex items-center justify-center gap-3">
@@ -294,9 +292,7 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Main Feed Area */}
       <div className="flex-1 flex flex-col min-w-0 bg-transparent h-full">
-        {/* Header */}
         <div className="h-20 border-b border-white/10 flex items-center justify-between px-8 bg-black/40 backdrop-blur-md shrink-0">
           <div className="flex-1 max-w-xl relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -336,8 +332,6 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1 min-h-0">
           <div className="w-full max-w-2xl mx-auto p-8 space-y-10 pb-20">
-            
-            {/* INSIGHT DISPATCH MODULE */}
             <NeonBoard className="w-full">
               <div className="bg-[#070b16] p-6 text-white">
                 <div className="flex items-center gap-3 mb-4">
@@ -365,7 +359,7 @@ export default function SocialPlatform() {
                       {activeAttachment && (
                         <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1">
                           <BarChart2 className="w-3 h-3" />
-                          {activeAttachment.symbol} {activeAttachment.type.toUpperCase()} Attached
+                          {activeAttachment.symbol} CANDLESTICK Attached
                           <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
                         </Badge>
                       )}
@@ -388,7 +382,6 @@ export default function SocialPlatform() {
               </div>
             </NeonBoard>
 
-            {/* FEED */}
             {isInsightsLoading ? (
               <div className="flex flex-col items-center py-20 opacity-20">
                 <Loader2 className="w-8 h-8 animate-spin mb-4" />
@@ -423,7 +416,7 @@ export default function SocialPlatform() {
                       {post.attachment && (
                         <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden group">
                           <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[10px] font-black text-cyan-300 uppercase tracking-widest">
-                            DIAGNOSTIC CAPTURE: {post.attachment.symbol} {post.attachment.type.toUpperCase()}
+                            DIAGNOSTIC CAPTURE: {post.attachment.symbol} CANDLESTICK
                           </div>
                           <div className="opacity-80 group-hover:opacity-100 transition-opacity">
                             <MarketWatchChart 
@@ -461,17 +454,16 @@ export default function SocialPlatform() {
               ))
             )}
 
-            {/* EXTERNAL MOBILE STATUS INDICATORS */}
             <div className="flex justify-center gap-16 py-12 border-t border-white/5 mt-12">
               <div className="flex flex-col items-center gap-4">
                 <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#00e5ff] fill-current drop-shadow-[0_0_15px_#00e5ff]" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.151 3.096 3.712 3.034 1.498-.058 2.074-1.047 3.882-1.047 1.8 0 2.316 1.047 3.89 1.012 1.61-.027 2.59-1.478 3.572-2.902 1.129-1.659 1.597-3.258 1.621-3.34-.034-.014-3.11-1.194-3.14-4.741-.024-2.96 2.42-4.384 2.53-4.455-1.389-2.03-3.522-2.27-4.274-2.32-1.912-.155-3.41 1.115-4.39 1.115zM15.21 4.501c.849-1.02 1.419-2.439 1.263-3.851-1.218.049-2.69.811-3.562 1.83-.783.9-.1.465-2.421-1.311-3.838.156 1.41.039 2.826-.812 3.86z"/>
+                  <path d="M17.05,20.28c-.96,.95-2.26,1.53-3.71,1.53s-2.75-.58-3.71-1.53c-.96-.95-1.53-2.26-1.53-3.71s.58-2.75,1.53-3.71c.96-.95,2.26-1.53,3.71-1.53s2.75,.58,3.71,1.53c.96,.95,1.53,2.26,1.53,3.71s-.58,2.75-1.53,3.71M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2M15.67,1.02c.45-.1,.84,.3,.74,.75-.14,.61-.55,1.13-1.1,1.43-.55,.3-1.21,.38-1.82,.23-.61-.14-1.13-.55-1.43-1.1-.3-.55-.38-1.21-.23-1.82,.1-.45,.6-.65,1-.45,.55,.3,1,.85,1.25,1.5,.25,.65,.35,1.35,.3,2,.4,.4,1,.65,1.6,.65s1.2-.25,1.6-.65c-.05-.65,.05-1.35,.3-2,.25-.65,.7-1.2,1.25-1.5,.4-.2,.9,0,1,.45,.15,.61,.07,1.27-.23,1.82-.3,.55-.82,.96-1.43,1.1-.61,.15-1.27,.07-1.82-.23-.55-.3-.96-.82-1.1-1.43-.1-.45,.29-.85,.74-.75Z" />
                 </svg>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400">iOS Deployed</span>
               </div>
               <div className="flex flex-col items-center gap-4">
                 <svg viewBox="0 0 24 24" className="w-12 h-12 text-[#ff00d4] fill-current drop-shadow-[0_0_15px_#ff00d4]" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.52 14.33c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-11.04 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM18.15 10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15 0-.3.06-.41.17-.11.11-.17.26-.17.41v2.01c0 .15.06.3.17.41.11.11.26.17.41.17h11.49c.15 0 .3-.06.41-.17.11-.11.17-.26.17-.41v-2.01c0-.15-.06-.3-.17-.41zM12 1c-4.97 0-9 4.03-9 9 0 4.18 2.84 7.69 6.69 8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66 1.34-3 3-3s3 1.34 3 3v.01c0 .23-.01.45-.03.68 3.85-1 6.69-4.51 6.69-8.69 0-4.97-4.03-9-9-9z"/>
+                  <path d="M17.52 14.33c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-11.04 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zM18.15 10.66c-.11-.11-.26-.17-.41-.17H6.26c-.15 0-.3.06-.41.17-.11.11-.17.26-.17.41v2.01c0 .15.06.3.17.41.11.11.26.17.41.17h11.49c.15 0 .3-.06.41-.17.11-.11.17-.26.17-.41v-2.01c0-.15-.06-.3-.17-.41zM12 1c-4.97 0-9 4.03-9 9 0 4.18 2.84 7.69 6.69 8.69-.02-.22-.03-.45-.03-.68v-.01c0-1.66 1.34-3 3-3s3 1.34 3 3v.01c0 .23-.01.45-.03.68 3.85-1 6.69-4.51 6.69-8.69 0-4.97-4.03-9-9-9z" />
                 </svg>
                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-pink-400">Android Deployed</span>
               </div>
@@ -480,7 +472,6 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* Right Sidebar */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black shrink-0 h-full">
         <div className="p-6 flex items-center gap-3 border-b border-white/5 shrink-0">
           <TrendingUp className="w-5 h-5 text-indigo-500" />
@@ -532,7 +523,6 @@ export default function SocialPlatform() {
         </ScrollArea>
       </div>
 
-      {/* ADVANCED CHART ATTACHMENT MODAL */}
       <Dialog open={isChartModalOpen} onOpenChange={setIsChartModalOpen}>
         <DialogContent className="max-w-4xl bg-[#070b16] border-white/10 text-white shadow-[0_0_100px_rgba(0,229,255,0.15)] rounded-[32px] overflow-hidden p-0">
           <div className="p-8 h-full flex flex-col">
@@ -544,7 +534,6 @@ export default function SocialPlatform() {
             </DialogHeader>
 
             <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8 flex-1 min-h-0">
-              {/* Controls */}
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
@@ -573,17 +562,11 @@ export default function SocialPlatform() {
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
-                    <Grid2X2 className="w-3 h-3" /> Diagnostic Visualizer
+                    <Grid2X2 className="w-3 h-3" /> Visualizer Status
                   </label>
-                  <select 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-xs font-bold outline-none appearance-none cursor-pointer hover:bg-white/10 text-white"
-                    value={selectedChartType}
-                    onChange={(e) => setSelectedChartType(e.target.value as ApexChartType)}
-                  >
-                    {CHART_TYPES.map(t => (
-                      <option key={t.type} value={t.type} className="bg-[#070b16]">{t.label}</option>
-                    ))}
-                  </select>
+                  <div className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-[10px] font-black uppercase tracking-widest text-cyan-400 text-center">
+                    Standard Candlestick Mode
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -599,10 +582,9 @@ export default function SocialPlatform() {
                 </div>
               </div>
 
-              {/* Preview Area */}
               <div className="relative rounded-2xl border border-white/5 bg-black/40 p-6 overflow-hidden min-h-[400px] flex flex-col">
                 <div className="absolute top-6 left-6 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[9px] font-black text-cyan-300 uppercase tracking-widest">
-                  SNAPSHOT PREVIEW: {selectedChartSymbol} {selectedChartType.toUpperCase()}
+                  SNAPSHOT PREVIEW: {selectedChartSymbol} CANDLESTICK
                 </div>
                 
                 <div className="flex-1 min-h-0 mt-8">

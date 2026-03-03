@@ -1,9 +1,9 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import type { ApexOptions } from "apexcharts";
-import { CHART_TYPES, type ApexChartType, type OhlcPoint } from "./market-watch-types";
+import { type OhlcPoint } from "./market-watch-types";
 import { normalizeForApex } from "./market-watch-normalize";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -17,25 +17,27 @@ type Props = {
 };
 
 export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
-  const [chartType, setChartType] = useState<ApexChartType>("candlestick");
-  const normalized = useMemo(() => normalizeForApex(chartType, points), [chartType, points]);
+  // Locked to candlestick as per protocol requirements
+  const chartType = "candlestick";
+  const normalized = useMemo(() => normalizeForApex(chartType, points), [points]);
 
   const options: ApexOptions = useMemo(() => {
-    const title = CHART_TYPES.find((c) => c.type === chartType)?.label ?? chartType;
-
-    const base: ApexOptions = {
+    return {
       chart: {
         id: `mw-${symbol}`,
-        type: chartType as any,
+        type: "candlestick",
         toolbar: { show: true },
         zoom: { enabled: true },
         animations: { enabled: true },
         background: "transparent",
         foreColor: 'rgba(255,255,255,0.5)',
       },
-      title: { text: `${symbol} · ${title}`, style: { fontSize: "12px", color: '#00e5ff' } },
+      title: { 
+        text: `${symbol} · DIAGNOSTIC CANDLESTICK`, 
+        style: { fontSize: "12px", color: '#00e5ff', fontWeight: 900 } 
+      },
       dataLabels: { enabled: false },
-      stroke: { width: chartType === "scatter" ? 0 : 2, curve: 'smooth' },
+      stroke: { width: 1 },
       xaxis: { 
         type: "datetime",
         axisBorder: { show: false },
@@ -48,7 +50,7 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
       tooltip: { theme: 'dark', shared: true },
       grid: { borderColor: "rgba(255,255,255,0.08)" },
       theme: { mode: "dark" },
-      colors: ['#00e5ff', '#ff003c', '#7c4dff', '#f59e0b'],
+      colors: ['#00e5ff', '#ff003c'],
       plotOptions: {
         candlestick: {
           colors: { upward: '#00e5ff', downward: '#ff003c' },
@@ -56,50 +58,11 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
         }
       }
     };
-
-    if (chartType === "rangeBar") {
-      base.plotOptions = { ...base.plotOptions, bar: { horizontal: true } };
-      base.xaxis = { type: "category" } as any;
-    }
-
-    if (chartType === "pie" || chartType === "donut") {
-      if (normalized.kind === "pie") base.labels = normalized.labels;
-    }
-
-    if (chartType === "radialBar") {
-      if (normalized.kind === "radial") base.labels = normalized.labels;
-    }
-
-    if (chartType === "heatmap") {
-      base.xaxis = { type: "category" } as any;
-    }
-
-    if (chartType === "treemap") {
-      base.xaxis = { type: "category" } as any;
-    }
-
-    if (chartType === "boxPlot") {
-      base.xaxis = { type: "category" } as any;
-    }
-
-    return base;
-  }, [chartType, symbol, normalized]);
+  }, [symbol]);
 
   const series: any = useMemo(() => {
-    switch (normalized.kind) {
-      case "xy":
-      case "candle":
-      case "rangeBar":
-      case "heatmap":
-      case "treemap":
-      case "boxPlot":
-        return normalized.series as any;
-      case "pie":
-      case "radial":
-        return normalized.series as any;
-      default:
-        return [];
-    }
+    if (normalized.kind === "candle") return normalized.series;
+    return [];
   }, [normalized]);
 
   return (
@@ -114,23 +77,14 @@ export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
           <span className="text-[9px] font-black uppercase tracking-widest hidden sm:inline">Hub</span>
         </Link>
         <div className="h-6 w-px bg-white/10 mx-1" />
-        <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Visualizer</label>
-        <select
-          className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-white/80 outline-none hover:bg-white/10 transition-colors"
-          value={chartType}
-          onChange={(e) => setChartType(e.target.value as ApexChartType)}
-        >
-          {CHART_TYPES.map((c) => (
-            <option key={c.type} value={c.type} className="bg-[#0a0f18]">
-              {c.label}
-            </option>
-          ))}
-        </select>
+        <div className="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[9px] font-black uppercase tracking-widest text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
+          CANDLESTICK VISUALIZER ACTIVE
+        </div>
         <span className="text-[9px] font-bold text-cyan-400/50 uppercase tracking-widest ml-auto">{points.length} Data Points</span>
       </div>
 
       <div className="flex-1 min-h-[300px]">
-        <ApexChart options={options} series={series} type={chartType as any} height="100%" width="100%" />
+        <ApexChart options={options} series={series} type="candlestick" height="100%" width="100%" />
       </div>
     </div>
   );
