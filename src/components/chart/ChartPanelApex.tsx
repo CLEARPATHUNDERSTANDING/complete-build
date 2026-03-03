@@ -30,9 +30,10 @@ function extractAlpha(rgba: string | undefined, fallback = 0.06) {
   return m ? Number(m[1]) : fallback;
 }
 
-function sampleData(): OHLCPoint[] {
+function sampleData(symbol: string): OHLCPoint[] {
   const now = Math.floor(Date.now() / 1000);
-  let price = 100;
+  const seed = symbol.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  let price = 100 + (seed % 50);
   const out: OHLCPoint[] = [];
   for (let i = 120; i >= 0; i--) {
     const t = now - i * 60 * 15;
@@ -70,8 +71,13 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   const [width, setWidth] = useState(0);
+  const [localSymbol, setLocalSymbol] = useState(mode.defaultSymbol);
 
   useEffect(() => setMounted(true), []);
+
+  useEffect(() => {
+    setLocalSymbol(mode.defaultSymbol);
+  }, [mode.defaultSymbol]);
 
   useEffect(() => {
     if (!wrapRef.current) return;
@@ -89,19 +95,19 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
     return () => ro.disconnect();
   }, []);
 
-  const bars = useMemo(() => sanitize(data?.length ? data : sampleData()), [data]);
+  const bars = useMemo(() => sanitize(data?.length ? data : sampleData(localSymbol)), [data, localSymbol]);
 
   const series = useMemo(
     () => [
       {
-        name: mode.defaultSymbol,
+        name: localSymbol,
         data: bars.map((d) => ({
           x: new Date(d.time * 1000),
           y: [d.open, d.high, d.low, d.close],
         })),
       },
     ],
-    [bars, mode.defaultSymbol]
+    [bars, localSymbol]
   );
 
   const gridAlpha = extractAlpha(personality.gridVert, 0.06);
@@ -172,9 +178,9 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
     stroke: { width: 1 },
   };
 
-  // ✅ Force Apex to rebuild when personality changes
   const chartKey = [
     mode.id,
+    localSymbol,
     personality.upCandle,
     personality.downCandle,
     personality.background,
@@ -194,11 +200,19 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3"
         style={{ boxShadow: glowShadow }}
       >
-        <div className="flex items-center justify-between px-2 py-2">
-          <div className="text-white/85 font-semibold">
-            {mode.label} • {mode.defaultSymbol} • {mode.tf?.analysisTF ?? mode.defaultTimeframe ?? ""}
+        <div className="flex items-center justify-between px-2 py-2 gap-4">
+          <div className="flex-1 flex items-center gap-3">
+            <input 
+              value={localSymbol}
+              onChange={(e) => setLocalSymbol(e.target.value.toUpperCase())}
+              className="bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs font-black uppercase tracking-[0.1em] text-white focus:outline-none focus:border-indigo-500/50 w-32 transition-all"
+              placeholder="SEARCH..."
+            />
+            <div className="text-[10px] font-black text-white/40 uppercase tracking-widest hidden sm:block">
+              {mode.label} • {mode.tf?.analysisTF ?? mode.defaultTimeframe ?? ""}
+            </div>
           </div>
-          <div className="text-xs px-2 py-1 rounded-lg border border-white/10" style={{ color: personality.accent }}>
+          <div className="text-xs px-2 py-1 rounded-lg border border-white/10 shrink-0" style={{ color: personality.accent }}>
             Apex
           </div>
         </div>

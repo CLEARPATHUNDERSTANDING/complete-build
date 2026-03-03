@@ -4,7 +4,7 @@ import React, { useMemo, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
-import { Loader2, Sparkles } from "lucide-react";
+import { Loader2, Sparkles, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Dynamically import ApexCharts to avoid SSR issues
@@ -29,22 +29,28 @@ export function CandlestickChart({
   data: externalData,
 }: CandlestickChartProps) {
   const [analyzing, setAnalyzing] = useState(false);
+  const [localSymbol, setLocalSymbol] = useState(title);
+  
   const profile = getProfile(neuroModeId);
   const p = profile.personality;
   const physics = chartPhysics(p);
+
+  useEffect(() => {
+    setLocalSymbol(title);
+  }, [title]);
 
   // Simulate analysis state on symbol change
   useEffect(() => {
     setAnalyzing(true);
     const timer = setTimeout(() => setAnalyzing(false), 800);
     return () => clearTimeout(timer);
-  }, [title]);
+  }, [localSymbol]);
 
-  // Fallback Mock Data generation based on title to make different charts look unique
+  // Fallback Mock Data generation based on localSymbol to make different charts look unique
   const chartData: ApexCandlePoint[] = useMemo(() => {
     if (externalData) return externalData;
     
-    const seed = title.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const seed = localSymbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const mock: ApexCandlePoint[] = [];
     let currentPrice = seed % 500 + 1000;
     
@@ -60,12 +66,12 @@ export function CandlestickChart({
       });
     }
     return mock;
-  }, [title, externalData]);
+  }, [localSymbol, externalData]);
 
   const series = useMemo(() => [{ 
-    name: title, 
+    name: localSymbol, 
     data: chartData 
-  }], [title, chartData]);
+  }], [localSymbol, chartData]);
 
   const options = useMemo<any>(() => {
     const glowCss = physics.glowStrength > 0 ? `drop-shadow(0 0 ${Math.round(
@@ -150,12 +156,21 @@ export function CandlestickChart({
 
   return (
     <div style={wrapStyle} className="transition-all duration-700 relative group overflow-hidden">
-      <div className="px-4 pt-3 flex items-center justify-between relative z-10">
-         <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: p.text }}>{title}</span>
+      <div className="px-4 pt-3 flex items-center justify-between relative z-30">
+         <div className="flex items-center gap-3 flex-1">
+            <div className="relative flex-1 max-w-[140px]">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3 h-3 opacity-30" style={{ color: p.text }} />
+              <input 
+                value={localSymbol}
+                onChange={(e) => setLocalSymbol(e.target.value.toUpperCase())}
+                className="w-full bg-white/5 border border-white/10 rounded-lg pl-7 pr-2 py-1 text-[10px] font-black uppercase tracking-widest focus:outline-none focus:border-indigo-500/50 transition-all"
+                style={{ color: p.text }}
+                placeholder="SYMBOL..."
+              />
+            </div>
             {analyzing && <Loader2 className="w-3 h-3 animate-spin" style={{ color: p.text }} />}
          </div>
-         <span className="text-[10px] font-bold uppercase tracking-widest opacity-50" style={{ color: p.text }}>{profile.label}</span>
+         <span className="text-[10px] font-bold uppercase tracking-widest opacity-50 ml-2" style={{ color: p.text }}>{profile.label}</span>
       </div>
       
       {analyzing && (
@@ -170,7 +185,9 @@ export function CandlestickChart({
         </div>
       )}
 
-      <Chart options={options} series={series} type="candlestick" height={height - 40} />
+      <div className="relative z-10">
+        <Chart options={options} series={series} type="candlestick" height={height - 40} />
+      </div>
       
       {/* Interactive hover layer */}
       <div className="absolute inset-0 pointer-events-none group-hover:bg-white/[0.02] transition-colors duration-500" />
