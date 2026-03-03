@@ -285,14 +285,14 @@ export default function CommunityPage() {
 
                 <BorderWallCard title="Standard Modes" maxHeight="300px">
                   <div className="space-y-1">
-                    <NavItem label="Pro Trading Desk" href="/dashboard?mode=minimal&style=pro-trading-desk" color="cyan" />
-                    <NavItem label="Macro & Rates" href="/dashboard?mode=minimal&style=macro-rates" color="cyan" />
-                    <NavItem label="ETF Markets" href="/dashboard?mode=minimal&style=etf-markets" color="cyan" />
-                    <NavItem label="Earnings & Catalysts" href="/dashboard?mode=minimal&style=earnings-catalysts" color="cyan" />
-                    <NavItem label="Options Flow" href="/dashboard?mode=minimal&style=options-flow" color="cyan" />
+                    <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="cyan" />
+                    <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="cyan" />
+                    <NavItem label="Bonds" href="/dashboard?mode=minimal&style=bonds" color="cyan" />
+                    <NavItem label="Forex" href="/dashboard?mode=minimal&style=forex" color="cyan" />
                     <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="cyan" />
-                    <NavItem label="FX Terminal" href="/dashboard?mode=minimal&style=fx-terminal" color="cyan" />
-                    <NavItem label="Crypto Markets" href="/dashboard?mode=minimal&style=crypto-markets" color="cyan" />
+                    <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="cyan" />
+                    <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="cyan" />
+                    <NavItem label="World Economy / Economic Indicators" href="/dashboard?mode=minimal&style=economy" color="cyan" />
                   </div>
                 </BorderWallCard>
 
