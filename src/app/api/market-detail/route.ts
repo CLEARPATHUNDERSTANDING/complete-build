@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error: any) {
-    console.error("Market detail API failure:", error);
+    console.error("Market detail API critical failure:", error);
     return NextResponse.json({ ok: false, error: error.message || "Internal Server Error" }, { status: 500 });
   }
 }
