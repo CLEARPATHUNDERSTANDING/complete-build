@@ -51,17 +51,17 @@ export default function HomePage() {
 
           <div className="bullet-grid">
             <div className="mini-stat">
-              <span className="mini-label neon-green-text font-black">Adaptive Interface</span>
+              <span className="mini-label neon-indigo-text font-black">Adaptive Interface</span>
               <strong className="neon-fuchsia-text">Neuro-aware visual structure</strong>
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label neon-green-text font-black">Live Overlay</span>
+              <span className="mini-label neon-indigo-text font-black">Live Overlay</span>
               <strong className="neon-fuchsia-text">Login and widgets on top</strong>
             </div>
 
             <div className="mini-stat">
-              <span className="mini-label neon-green-text font-black">Deployment</span>
+              <span className="mini-label neon-indigo-text font-black">Deployment</span>
               <strong className="neon-fuchsia-text">Stable public front page</strong>
             </div>
           </div>
