@@ -30,7 +30,8 @@ import {
   CheckCircle2,
   MousePointer2,
   Type,
-  Globe
+  Globe,
+  Compass
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -253,6 +254,7 @@ export default function SocialPlatform() {
                 <a href="/dashboard?mode=minimal" className={navItemClass}><LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" /><span className="text-[15px] font-semibold text-white/90">Standard Workspace</span></a>
                 <a href="/dashboard?mode=focus" className={navItemClass}><Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span></a>
                 <a href="/dashboard?mode=quad" className={navItemClass}><Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-cyan-400">STANDARD VIEW</span></a>
+                <a href="/communities" className={navItemClass}><Compass className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-blue-400">All Communities</span></a>
                 <a href="/community" className={navItemClass}><Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" /><span className="text-[15px] font-semibold text-pink-400">Community Feed</span></a>
               </div>
             </FluidSection>

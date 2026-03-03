@@ -19,7 +19,8 @@ import {
   TrendingUp, 
   Navigation, 
   Menu,
-  Globe
+  Globe,
+  Compass
 } from "lucide-react";
 
 type FeedPost = {
@@ -181,7 +182,7 @@ function NavItem({
   icon?: any;
   href?: string;
   active?: boolean;
-  color?: "cyan" | "pink" | "orange" | "violet" | "emerald";
+  color?: "cyan" | "pink" | "orange" | "violet" | "emerald" | "blue";
 }) {
   const colorMap = {
     cyan: "text-cyan-300",
@@ -189,6 +190,7 @@ function NavItem({
     orange: "text-orange-300",
     violet: "text-violet-300",
     emerald: "text-emerald-400",
+    blue: "text-blue-400",
   };
 
   return (
@@ -282,6 +284,7 @@ export default function CommunityPage() {
                     <NavItem label="Standard Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="orange" />
                     <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="violet" />
                     <NavItem label="STANDARD VIEW" icon={Grid2X2} href="/dashboard?mode=quad" color="cyan" />
+                    <NavItem label="All Communities" icon={Compass} href="/communities" color="blue" />
                     <NavItem label="Community Feed" icon={Users} href="/community" active color="pink" />
                   </div>
                 </BorderWallCard>
