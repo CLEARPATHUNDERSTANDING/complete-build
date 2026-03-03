@@ -24,7 +24,8 @@ import {
   Lock,
   Menu,
   Brain,
-  Zap
+  Zap,
+  BarChart2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -308,6 +309,46 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1 min-h-0">
           <div className="w-full max-w-2xl mx-auto p-8 space-y-10 pb-20">
+            {/* POST INSIGHT MODULE */}
+            <NeonBoard className="w-full">
+              <div className="bg-[#070b16] p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-1 h-4 bg-primary shadow-[0_0_8px_#3b82f6]" />
+                  <div className="text-[11px] font-black uppercase tracking-[0.25em] text-white/70">Dispatch Insight</div>
+                </div>
+                
+                <div className="flex items-start gap-4">
+                  <Avatar className="w-10 h-10 border border-white/10 mt-1">
+                    <AvatarImage src="https://i.pravatar.cc/150?u=mike" />
+                    <AvatarFallback>MA</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <textarea 
+                      placeholder="Record market observation or diagnostic thesis..."
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-[15px] font-medium text-white outline-none focus:border-primary/50 transition-all resize-none min-h-[100px] placeholder:text-white/20"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
+                  <div className="flex items-center gap-5">
+                    <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                      <Zap className="w-3.5 h-3.5" />
+                      Add Symbol
+                    </button>
+                    <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-primary transition-colors">
+                      <BarChart2 className="w-3.5 h-3.5" />
+                      Attach Chart
+                    </button>
+                  </div>
+                  <Button className="bg-primary hover:bg-primary/80 text-[10px] font-black uppercase tracking-widest px-6 h-9 rounded-full shadow-[0_0_15px_rgba(59,130,246,0.4)]">
+                    Dispatch Insight →
+                  </Button>
+                </div>
+              </div>
+            </NeonBoard>
+
+            {/* FEED POSTS */}
             {posts.map((post) => (
               <NeonBoard key={post.id} className="w-full">
                 <CardHeader className="p-6">
