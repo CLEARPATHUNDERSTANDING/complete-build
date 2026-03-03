@@ -13,7 +13,9 @@ import {
   Info,
   BookOpen,
   ShieldCheck,
-  ExternalLink
+  ExternalLink,
+  Brain,
+  CheckCircle2
 } from "lucide-react"
 import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
 import { getRationale } from "@/lib/neuro/clinical-rationale"
@@ -158,65 +160,75 @@ function DashboardContent() {
                 {mode === 'focus' && (
                   <Dialog>
                     <DialogTrigger asChild>
-                      <button className="p-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all">
-                        <Info className="w-3.5 h-3.5" />
+                      <button className="p-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all group">
+                        <Brain className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                       </button>
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_80px_rgba(99,102,241,0.2)]">
-                      <div className="p-8">
-                        <DialogHeader className="mb-6">
-                          <DialogTitle className="text-2xl font-black uppercase tracking-[0.1em] flex items-center gap-3">
-                            <BookOpen className="w-6 h-6 text-indigo-400" />
-                            Clinical Rationale
-                          </DialogTitle>
-                        </DialogHeader>
-                        
-                        <div className="space-y-8">
-                          <div>
-                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">Design Goal</div>
-                            <div className="text-lg font-bold text-indigo-300 leading-snug">{rationale.goal}</div>
-                          </div>
-
-                          <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Behavioral Logic</div>
-                            <p className="text-[15px] leading-relaxed text-white/80">{rationale.summary}</p>
-                          </div>
-
-                          <div className="grid grid-cols-2 gap-6">
-                            <div>
-                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Design Rules</div>
-                              <ul className="space-y-2">
-                                {rationale.designRules.map((rule, i) => (
-                                  <li key={i} className="flex items-start gap-2 text-[13px] font-medium text-white/60">
-                                    <div className="w-1 h-1 rounded-full bg-indigo-500 mt-2 shrink-0" />
-                                    {rule}
-                                  </li>
-                                ))}
-                              </ul>
+                      <ScrollArea className="max-h-[85vh]">
+                        <div className="p-8">
+                          <DialogHeader className="mb-6">
+                            <DialogTitle className="text-2xl font-black uppercase tracking-[0.1em] flex items-center gap-3">
+                              <BookOpen className="w-6 h-6 text-indigo-400" />
+                              Clinical Rationale
+                            </DialogTitle>
+                          </DialogHeader>
+                          
+                          <div className="space-y-8">
+                            <div className="bg-indigo-500/5 border border-indigo-500/20 p-6 rounded-2xl">
+                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">VC-Safe Claim</div>
+                              <div className="text-lg font-bold text-indigo-300 leading-snug">"{rationale.goal}"</div>
                             </div>
-                            <div>
-                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Evidence Tags</div>
-                              <div className="flex flex-wrap gap-2">
-                                {rationale.evidenceTags.map((tag, i) => (
-                                  <Badge key={i} variant="outline" className="bg-indigo-500/5 border-indigo-500/30 text-indigo-400 text-[9px] uppercase tracking-widest">{tag}</Badge>
+
+                            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
+                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Behavioral Logic</div>
+                              <p className="text-[14px] leading-relaxed text-white/80">{rationale.summary}</p>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Design Rules</div>
+                                <ul className="space-y-2">
+                                  {rationale.designRules.map((rule, i) => (
+                                    <li key={i} className="flex items-start gap-2 text-[12px] font-medium text-white/60">
+                                      <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
+                                      {rule}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div>
+                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Evidence Domains</div>
+                                <div className="flex flex-wrap gap-2">
+                                  {rationale.evidenceTags.map((tag, i) => (
+                                    <Badge key={i} variant="outline" className="bg-indigo-500/5 border-indigo-500/30 text-indigo-400 text-[9px] uppercase tracking-widest">{tag}</Badge>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="pt-6 border-t border-white/5">
+                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-4">Scientific Citations</div>
+                              <div className="space-y-3">
+                                {rationale.citations.map((cite, i) => (
+                                  <a key={i} href={cite.url} target="_blank" rel="noreferrer" className="flex items-center justify-between group p-3 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all">
+                                    <span className="text-[11px] font-bold text-white/70 group-hover:text-white flex items-center gap-3">
+                                      <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+                                      {cite.text}
+                                    </span>
+                                    <ExternalLink className="w-3.5 h-3.5 text-white/20 group-hover:text-indigo-400" />
+                                  </a>
                                 ))}
                               </div>
                             </div>
-                          </div>
 
-                          <div className="pt-6 border-t border-white/5">
-                            <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-4">Scientific Citations</div>
-                            <div className="space-y-3">
-                              {rationale.citations.map((cite, i) => (
-                                <a key={i} href={cite.url} target="_blank" rel="noreferrer" className="flex items-center justify-between group p-3 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all">
-                                  <span className="text-xs font-bold text-white/70 group-hover:text-white">{cite.text}</span>
-                                  <ExternalLink className="w-3.5 h-3.5 text-white/20 group-hover:text-indigo-400" />
-                                </a>
-                              ))}
+                            <div className="pt-6 border-t border-white/5 flex items-center gap-3 text-white/30">
+                              <ShieldCheck className="w-4 h-4" />
+                              <span className="text-[9px] font-bold uppercase tracking-widest">Non-Medical Claim Boundary Active</span>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </ScrollArea>
                     </DialogContent>
                   </Dialog>
                 )}
