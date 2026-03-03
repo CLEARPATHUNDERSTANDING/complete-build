@@ -8,15 +8,6 @@ const HERO_IMAGE =
 export default function HomePage() {
   return (
     <main className="landing-root">
-      <iframe
-        src="/quantum/index.html"
-        className="bg-frame"
-        title="Clear Path Background"
-        aria-hidden="true"
-      />
-
-      <div className="bg-shade" />
-
       <header className="topbar">
         <div className="brand-wrap">
           <div className="brand-logo-frame">
@@ -48,8 +39,7 @@ export default function HomePage() {
           </h1>
 
           <p className="hero-copy">
-            Your quantum front layer stays animated underneath, while your login,
-            launch actions, and feature widgets sit above it with sharp neon styling.
+            Your content sits above a solid, distraction-free layer with sharp neon styling.
           </p>
 
           <div className="hero-cta-row">
