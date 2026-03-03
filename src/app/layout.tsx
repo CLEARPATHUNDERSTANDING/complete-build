@@ -29,12 +29,6 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://public.codepenassets.com/css/normalize-5.0.0.min.css"
-        />
-      </head>
       <body className="antialiased">
         <FirebaseClientProvider>
           <PWARegistration />

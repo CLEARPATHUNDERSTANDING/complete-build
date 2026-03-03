@@ -61,36 +61,13 @@ a {
   text-decoration: none;
 }
 
-/* --- LANDING PAGE STYLES (Fixed Anti-Blur) --- */
+/* --- LANDING PAGE STYLES --- */
 
 .landing-root {
   position: relative;
   min-height: 100vh;
   overflow: hidden;
   background: #03040a;
-}
-
-.bg-frame {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  z-index: 0;
-  pointer-events: auto;
-}
-
-.bg-shade {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(24, 240, 255, 0.10), transparent 24%),
-    radial-gradient(circle at 80% 30%, rgba(255, 43, 214, 0.10), transparent 24%),
-    radial-gradient(circle at 50% 70%, rgba(57, 255, 20, 0.08), transparent 24%),
-    radial-gradient(circle at 60% 18%, rgba(91, 61, 245, 0.10), transparent 22%),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.26), rgba(0, 0, 0, 0.54));
 }
 
 .topbar {
@@ -299,14 +276,6 @@ a {
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-.glass-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: none;
 }
 
 .neon-cyan {
