@@ -25,7 +25,8 @@ import {
   ShieldAlert,
   Lock,
   Menu,
-  Brain
+  Brain,
+  Zap
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import NeonBoard from "@/components/NeonBoard";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
+import { STANDARD_MODES } from "@/lib/standard-modes";
 
 export default function SocialPlatform() {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -105,7 +107,7 @@ export default function SocialPlatform() {
   ];
 
   const navItemClass = "flex items-center gap-4 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
-  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 mt-4 px-4 uppercase text-left";
+  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 mt-6 px-4 uppercase text-left";
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
@@ -131,12 +133,24 @@ export default function SocialPlatform() {
                 </a>
                 <a href="/dashboard?mode=quad" className={navItemClass}>
                   <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-cyan-400">Modes Hub</span>
+                  <span className="text-[15px] font-semibold text-cyan-400">Standard Modes</span>
                 </a>
                 <a href="/" className={navItemClass}>
                   <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
                   <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
                 </a>
+              </div>
+            </div>
+
+            <div>
+              <div className={sectionLabelClass}>Standard Trading Modes</div>
+              <div className="space-y-1">
+                {STANDARD_MODES.map((m) => (
+                  <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
+                    <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
+                  </a>
+                ))}
               </div>
             </div>
 
