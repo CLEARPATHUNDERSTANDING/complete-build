@@ -3,17 +3,13 @@
 import Link from "next/link";
 
 const HERO_IMAGE =
-  "https://i.postimg.cc/3xxDchys/photo-2026-03-03-13-43-28.jpg";
+  "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png";
 
 export default function HomePage() {
   return (
     <main className="landing-root bg-black min-h-screen">
       <header className="topbar">
         <div className="brand-wrap">
-          <div className="brand-logo-frame">
-            <img src={HERO_IMAGE} alt="Clear Path Logo" className="brand-logo-image" />
-          </div>
-
           <div>
             <div className="brand-name text-white">CLEAR PATH</div>
             <div className="brand-sub">Adaptive Market Intelligence</div>
