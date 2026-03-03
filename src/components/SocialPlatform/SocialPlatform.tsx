@@ -47,8 +47,8 @@ import placeholderData from "@/app/lib/placeholder-images.json";
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 /**
- * High-Intensity Card with dual-layer neon borders.
- * Updated to remove Cyan from the inner layer as per protocol request.
+ * High-Intensity Card with restored bright orange-to-magenta borders.
+ * Analyzed from user reference image: Bright Orange outer, Purple/Pink inner.
  */
 function BorderWallCard({
   title,
@@ -71,8 +71,8 @@ function BorderWallCard({
       className={[
         "relative rounded-[26px]",
         "p-[5px]",
-        "bg-[linear-gradient(135deg,rgba(255,110,34,1)_0%,rgba(255,40,120,0.95)_45%,rgba(255,140,0,1)_100%)]",
-        "shadow-[0_0_22px_rgba(255,98,0,0.48),0_0_44px_rgba(255,40,120,0.26),0_0_70px_rgba(255,140,0,0.12)]",
+        "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_100%)]",
+        "shadow-[0_0_25px_rgba(255,136,0,0.4),0_0_50px_rgba(255,0,85,0.2)]",
         className,
       ].join(" ")}
     >
@@ -80,14 +80,14 @@ function BorderWallCard({
         className="
           rounded-[23px]
           p-[5px]
-          bg-[linear-gradient(135deg,rgba(162,122,255,1)_0%,rgba(255,79,179,0.95)_48%,rgba(162,122,255,1)_100%)]
-          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_28px_rgba(162,122,255,0.35),0_0_30px_rgba(255,76,166,0.24)]
+          bg-[linear-gradient(135deg,#6a5cff_0%,#ff4fd8_100%)]
+          shadow-[inset_0_0_16px_rgba(255,255,255,0.09),0_0_20px_rgba(106,92,255,0.3)]
         "
       >
         <div
           className="
             rounded-[20px]
-            bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.92)_0%,rgba(3,8,24,0.98)_48%,rgba(1,4,15,1)_100%)]
+            bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.95)_0%,rgba(3,8,24,0.98)_48%,rgba(0,0,0,1)_100%)]
             backdrop-blur-xl
             border border-white/5
             flex flex-col overflow-hidden
