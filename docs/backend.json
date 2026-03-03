@@ -4,29 +4,37 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
       "type": "object",
-      "description": "Represents a user's profile and top-level settings, including basic identification and system interaction data.",
+      "description": "Represents a user's core profile information and references to their personalized settings.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserProfile entity, corresponding to the Firebase Authentication User ID (UID)."
+          "description": "Unique identifier for the UserProfile entity."
         },
         "role": {
           "type": "string",
-          "description": "The user's designated role within the application (e.g., 'user', 'admin')."
+          "description": "The user's role within the application (e.g., 'standard', 'admin')."
         },
         "createdAt": {
           "type": "string",
-          "description": "Timestamp indicating when the user profile was initially created.",
+          "description": "Timestamp when the user profile was created.",
           "format": "date-time"
         },
         "lastSeen": {
           "type": "string",
-          "description": "Timestamp of the user's most recent activity or login.",
+          "description": "Timestamp of the user's last activity.",
           "format": "date-time"
+        },
+        "defaultUserPreferenceId": {
+          "type": "string",
+          "description": "Reference to the UserPreference entity representing the user's default preferences. (Relationship: UserProfile 1:1 UserPreference)"
+        },
+        "defaultUserLayoutId": {
+          "type": "string",
+          "description": "Reference to the UserLayout entity representing the user's default dashboard layout. (Relationship: UserProfile 1:1 UserLayout)"
         },
         "defaultModeId": {
           "type": "string",
-          "description": "Reference to the ID of the mode (e.g., 'MinimalMode', 'FocusMode') that the user prefers as their default. (Relationship: Mode 1:N UserProfile)"
+          "description": "Identifier for the default mode the user is set to experience (e.g., 'MinimalMode', 'FocusMode')."
         }
       },
       "required": [
@@ -34,6 +42,8 @@
         "role",
         "createdAt",
         "lastSeen",
+        "defaultUserPreferenceId",
+        "defaultUserLayoutId",
         "defaultModeId"
       ]
     },
@@ -41,105 +51,118 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserPreference",
       "type": "object",
-      "description": "Stores detailed user interface and functional preferences, including visual profile settings and schema versioning for migration.",
+      "description": "Stores user-specific settings and preferences, linked to a specific user and potentially a specific mode.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserPreference entity. For a single preferences document per user, this might be a fixed identifier like 'main'."
+          "description": "Unique identifier for the UserPreference entity."
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the UserProfile that these preferences belong to. (Relationship: UserProfile 1:N UserPreference)"
+          "description": "Reference to the UserProfile entity this preference belongs to. (Relationship: UserProfile 1:N UserPreference)"
         },
         "schemaVersion": {
-          "type": "number",
-          "description": "Version number of the preference schema, crucial for managing updates and data migrations without breaking existing user configurations."
-        },
-        "visualProfileDensity": {
           "type": "string",
-          "description": "Setting for the UI density (e.g., 'compact', 'comfortable'), impacting spacing and element size."
-        },
-        "visualProfileMotion": {
-          "type": "string",
-          "description": "Preference for UI animations and transitions (e.g., 'reduced' for minimal motion, 'full' for standard animations)."
-        },
-        "visualProfileContrast": {
-          "type": "string",
-          "description": "Setting for the UI's visual contrast (e.g., 'normal', 'high')."
-        },
-        "visualProfileFontScaling": {
-          "type": "number",
-          "description": "Factor by which the base font size is scaled in the UI (e.g., 1.0 for default, 1.2 for larger text)."
+          "description": "Version of the schema used for this preference configuration, for migration purposes."
         },
         "lastMigratedAt": {
           "type": "string",
-          "description": "Timestamp indicating when these user preferences were last successfully migrated to a newer schema version.",
+          "description": "Timestamp when this preference set was last migrated to a newer schema version.",
           "format": "date-time"
+        },
+        "visualProfileId": {
+          "type": "string",
+          "description": "Reference to the VisualProfile entity defining visual settings for this preference. (Relationship: UserPreference 1:1 VisualProfile)"
+        },
+        "modeId": {
+          "type": "string",
+          "description": "Identifier of the application mode to which these preferences apply (e.g., 'MinimalMode')."
         }
       },
       "required": [
         "id",
         "userId",
         "schemaVersion",
-        "visualProfileDensity",
-        "visualProfileMotion",
-        "visualProfileContrast",
-        "visualProfileFontScaling",
-        "lastMigratedAt"
+        "visualProfileId",
+        "modeId"
+      ]
+    },
+    "VisualProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "VisualProfile",
+      "type": "object",
+      "description": "Defines a set of visual settings that can be applied to user preferences or layouts.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the VisualProfile entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "A user-friendly name for this visual profile (e.g., 'Default Calm Profile')."
+        },
+        "density": {
+          "type": "string",
+          "description": "Controls the UI information density (e.g., 'compact', 'comfortable')."
+        },
+        "motion": {
+          "type": "string",
+          "description": "Controls the level of UI animations and motion (e.g., 'reduced', 'full')."
+        },
+        "contrast": {
+          "type": "string",
+          "description": "Controls the UI contrast settings (e.g., 'standard', 'high')."
+        },
+        "fontScaling": {
+          "type": "string",
+          "description": "Controls the scaling of fonts in the UI (e.g., 'small', 'medium', 'large')."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "density",
+        "motion",
+        "contrast",
+        "fontScaling"
       ]
     },
     "UserLayout": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserLayout",
       "type": "object",
-      "description": "Defines a customizable dashboard layout configuration for a user, including the arrangement and specific settings of individual panels.",
+      "description": "Stores a user's specific dashboard layout configuration for a given mode.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserLayout entity (e.g., 'my-market-layout', used in 'users/{uid}/layouts/{layoutId}')."
+          "description": "Unique identifier for the UserLayout entity."
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the UserProfile that this layout belongs to. (Relationship: UserProfile 1:N UserLayout)"
+          "description": "Reference to the UserProfile entity this layout belongs to. (Relationship: UserProfile 1:N UserLayout)"
         },
         "schemaVersion": {
-          "type": "number",
-          "description": "Version number of the layout schema, used to ensure compatibility during application updates and data migrations."
+          "type": "string",
+          "description": "Version of the schema used for this layout configuration, for migration purposes."
         },
         "modeId": {
           "type": "string",
-          "description": "The identifier of the display mode (e.g., 'MinimalMode', 'ProDeskMode') this layout is designed for or associated with."
+          "description": "Identifier of the application mode to which this layout applies (e.g., 'ProDeskMode')."
         },
         "layoutName": {
           "type": "string",
-          "description": "A user-friendly name or title for this specific dashboard layout (e.g., 'My Main Chart Layout')."
+          "description": "A user-friendly name for this specific layout (e.g., 'My Market Watch')."
         },
-        "panelConfigJsonStrings": {
-          "type": "array",
-          "description": "An array where each string is a JSON representation of a panel's configuration, containing its stable ID, type, order, and specific settings.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "gridConfigRows": {
-          "type": "number",
-          "description": "The total number of rows defined in the grid system for this layout."
-        },
-        "gridConfigCols": {
-          "type": "number",
-          "description": "The total number of columns defined in the grid system for this layout."
-        },
-        "gridConfigLayoutJsonStrings": {
-          "type": "array",
-          "description": "An array where each string is a JSON representation of a panel's position and size within the grid (including 'i', 'x', 'y', 'w', 'h' properties).",
-          "items": {
-            "type": "string"
-          }
-        },
-        "lastMigratedAt": {
+        "gridConfiguration": {
           "type": "string",
-          "description": "Timestamp indicating when this layout was last successfully migrated to a newer schema version.",
-          "format": "date-time"
+          "description": "JSON string representing the grid structure and arrangement of panels within the layout."
+        },
+        "panelConfigurationIds": {
+          "type": "array",
+          "description": "References to PanelConfiguration entities included in this layout. (Relationship: UserLayout N:N PanelConfiguration)",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
@@ -148,129 +171,65 @@
         "schemaVersion",
         "modeId",
         "layoutName",
-        "panelConfigJsonStrings",
-        "gridConfigRows",
-        "gridConfigCols",
-        "gridConfigLayoutJsonStrings",
-        "lastMigratedAt"
+        "gridConfiguration",
+        "panelConfigurationIds"
       ]
     },
-    "UserEvent": {
+    "PanelConfiguration": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "UserEvent",
+      "title": "PanelConfiguration",
       "type": "object",
-      "description": "Records significant user interaction events within the application, such as onboarding milestones and mode usage.",
+      "description": "Defines the specific configuration for a single data panel within a dashboard layout.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserEvent entity."
+          "description": "Unique identifier for the PanelConfiguration entity."
         },
-        "userId": {
+        "panelType": {
           "type": "string",
-          "description": "Reference to the UserProfile that generated this event. (Relationship: UserProfile 1:N UserEvent)"
+          "description": "The type of panel (e.g., 'chart', 'news', 'watchlist', 'calendar')."
         },
-        "eventType": {
+        "panelState": {
           "type": "string",
-          "description": "The specific type of event that occurred (e.g., 'onboarding_started', 'mode_selected', 'panel_added')."
+          "description": "JSON string representing the specific state and properties of the panel (e.g., chart symbol, time range, news filters)."
         },
-        "eventDataJsonString": {
+        "stableId": {
           "type": "string",
-          "description": "A JSON string representing a flexible object containing additional context or data relevant to the specific event (e.g., {'modeId': 'MinimalMode'})."
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "Timestamp indicating when the event occurred.",
-          "format": "date-time"
+          "description": "A stable identifier for the panel configuration instance, as per app requirements for schema versioning."
         }
       },
       "required": [
         "id",
-        "userId",
-        "eventType",
-        "eventDataJsonString",
-        "timestamp"
-      ]
-    },
-    "Feedback": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Feedback",
-      "type": "object",
-      "description": "Captures structured user feedback, bug reports, issues, or 'confusion points' reported by users for continuous improvement.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Feedback entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the UserProfile who submitted this feedback. (Relationship: UserProfile 1:N Feedback)"
-        },
-        "feedbackType": {
-          "type": "string",
-          "description": "The category of feedback submitted (e.g., 'issue', 'confusion_point', 'suggestion', 'bug_report')."
-        },
-        "description": {
-          "type": "string",
-          "description": "A detailed textual description of the feedback, issue, or suggestion."
-        },
-        "screenshotUrl": {
-          "type": "string",
-          "description": "An optional URL pointing to a screenshot or image that visually supports the feedback.",
-          "format": "uri"
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "Timestamp indicating when the feedback was submitted.",
-          "format": "date-time"
-        },
-        "currentPage": {
-          "type": "string",
-          "description": "The URL or identifier of the page/view where the user was when they submitted the feedback.",
-          "format": "uri"
-        },
-        "modeId": {
-          "type": "string",
-          "description": "Optional ID of the mode the user was actively using when the feedback was submitted."
-        },
-        "layoutId": {
-          "type": "string",
-          "description": "Optional ID of the dashboard layout the user was viewing when the feedback was submitted."
-        }
-      },
-      "required": [
-        "id",
-        "userId",
-        "feedbackType",
-        "description",
-        "timestamp",
-        "currentPage"
+        "panelType",
+        "panelState",
+        "stableId"
       ]
     },
     "ExperimentAssignment": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "ExperimentAssignment",
       "type": "object",
-      "description": "Records a user's assignment to a specific variant within an A/B test experiment.",
+      "description": "Records a user's assignment to a specific variant within an A/B test or experiment.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the ExperimentAssignment entity, typically the same as the userId (Firebase Auth UID), indicating a 1:1 relationship."
+          "description": "Unique identifier for the ExperimentAssignment entity."
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the UserProfile who has been assigned to this experiment variant. (Relationship: UserProfile 1:1 ExperimentAssignment)"
+          "description": "Reference to the UserProfile entity that is part of this experiment. (Relationship: UserProfile 1:N ExperimentAssignment)"
         },
         "experimentName": {
           "type": "string",
-          "description": "The name or identifier of the A/B experiment (e.g., 'onboarding_variant', 'default_mode_ordering_test')."
+          "description": "The name of the A/B test or experiment (e.g., 'onboarding_variant')."
         },
         "variant": {
           "type": "string",
-          "description": "The specific variant ('control', 'variantA', 'workflow_copy') that the user has been assigned to for this experiment."
+          "description": "The specific variant assigned to the user (e.g., 'workflow', 'brain_UI')."
         },
         "assignedAt": {
           "type": "string",
-          "description": "Timestamp indicating when the user was assigned to this particular experiment variant.",
+          "description": "Timestamp when the user was assigned to this experiment variant.",
           "format": "date-time"
         }
       },
@@ -280,6 +239,165 @@
         "experimentName",
         "variant",
         "assignedAt"
+      ]
+    },
+    "FeedbackItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FeedbackItem",
+      "type": "object",
+      "description": "Stores user-submitted feedback, bug reports, or 'confusion points'.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FeedbackItem entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity who submitted the feedback. (Relationship: UserProfile 1:N FeedbackItem)"
+        },
+        "type": {
+          "type": "string",
+          "description": "The category of feedback (e.g., 'bug', 'suggestion', 'confusion_point', 'general')."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the feedback, issue, or confusion."
+        },
+        "screenshotUrl": {
+          "type": "string",
+          "description": "Optional URL to a screenshot or image supporting the feedback.",
+          "format": "uri"
+        },
+        "status": {
+          "type": "string",
+          "description": "Current status of the feedback item (e.g., 'new', 'in_review', 'resolved', 'closed')."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the feedback item was submitted.",
+          "format": "date-time"
+        },
+        "resolvedAt": {
+          "type": "string",
+          "description": "Timestamp when the feedback item was resolved, if applicable.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "description",
+        "status",
+        "createdAt"
+      ]
+    },
+    "UserEvent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserEvent",
+      "type": "object",
+      "description": "Logs significant user actions and events for analytics and behavioral insights.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserEvent entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity associated with this event. (Relationship: UserProfile 1:N UserEvent)"
+        },
+        "eventType": {
+          "type": "string",
+          "description": "The type of event (e.g., 'onboarding_started', 'onboarding_completed', 'mode_activated', 'panel_added')."
+        },
+        "eventData": {
+          "type": "string",
+          "description": "Optional JSON string containing additional context or properties for the event (e.g., {'modeId': 'MinimalMode'})."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp when the event occurred.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "eventType",
+        "timestamp"
+      ]
+    },
+    "AIChatThread": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AIChatThread",
+      "type": "object",
+      "description": "Represents a conversational thread with the AI assistant, storing metadata about the conversation.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AIChatThread entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity who initiated this chat thread. (Relationship: UserProfile 1:N AIChatThread)"
+        },
+        "title": {
+          "type": "string",
+          "description": "An auto-generated or user-provided summary/title for the chat thread."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the chat thread was created.",
+          "format": "date-time"
+        },
+        "lastUpdatedAt": {
+          "type": "string",
+          "description": "Timestamp of the last message or update within the chat thread.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "createdAt",
+        "lastUpdatedAt"
+      ]
+    },
+    "AIChatMessage": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AIChatMessage",
+      "type": "object",
+      "description": "Represents a single message within an AI chat thread, including content and role.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AIChatMessage entity."
+        },
+        "chatThreadId": {
+          "type": "string",
+          "description": "Reference to the AIChatThread entity this message belongs to. (Relationship: AIChatThread 1:N AIChatMessage)"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the message sender (e.g., 'user', 'assistant', 'tool')."
+        },
+        "content": {
+          "type": "string",
+          "description": "The full message content, potentially including JSON for tool calls or thought signatures as returned by the AI model."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp when the message was sent or received.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "chatThreadId",
+        "role",
+        "content",
+        "timestamp"
       ]
     }
   },
@@ -294,29 +412,55 @@
       {
         "path": "/users/{userId}",
         "definition": {
-          "entityName": "UserProfile",
+          "entityName": "userProfile",
           "schema": {
             "$ref": "#/backend/entities/UserProfile"
           },
-          "description": "Stores user profiles and top-level settings. The document ID `{userId}` corresponds to `request.auth.uid`. Includes the user's `role` for database-based access control (DBAC)."
+          "description": "Stores core profile information for each user. Access is restricted to the owning user. This document implicitly includes the user's role, but for critical authorization, the '/roles_admin/{userId}' collection should be used.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+            }
+          ]
         }
       },
       {
         "path": "/users/{userId}/preferences/{preferenceId}",
         "definition": {
-          "entityName": "UserPreference",
+          "entityName": "userPreference",
           "schema": {
             "$ref": "#/backend/entities/UserPreference"
           },
-          "description": "Stores detailed user interface and functional preferences. The `userId` in the path ensures authorization independence. Often `preferenceId` will be a fixed string like 'main'.",
+          "description": "Contains user-specific preferences, organized under the user's profile. Access is restricted to the owning user. The `userId` is denormalized via the path.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user, inherited from the parent path."
             },
             {
               "name": "preferenceId",
-              "description": "The unique identifier for a specific set of user preferences (e.g., 'main')."
+              "description": "The unique identifier for a specific user preference set (e.g., 'main', or a mode-specific ID)."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/visualProfiles/{visualProfileId}",
+        "definition": {
+          "entityName": "visualProfile",
+          "schema": {
+            "$ref": "#/backend/entities/VisualProfile"
+          },
+          "description": "Stores user-specific visual settings or customizations. Access is restricted to the owning user. The `userId` is denormalized via the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, inherited from the parent path."
+            },
+            {
+              "name": "visualProfileId",
+              "description": "The unique identifier for a specific visual profile."
             }
           ]
         }
@@ -324,76 +468,164 @@
       {
         "path": "/users/{userId}/layouts/{layoutId}",
         "definition": {
-          "entityName": "UserLayout",
+          "entityName": "userLayout",
           "schema": {
             "$ref": "#/backend/entities/UserLayout"
           },
-          "description": "Defines customizable dashboard layout configurations for a user. The `userId` in the path ensures authorization independence. Includes denormalized fields like `schemaVersion` and `modeId` for versioning and context.",
+          "description": "Manages individual dashboard layouts configured by the user. Access is restricted to the owning user. The `userId` is denormalized via the path.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user, inherited from the parent path."
             },
             {
               "name": "layoutId",
-              "description": "The unique identifier for a specific user-defined dashboard layout."
+              "description": "The unique identifier for a specific user layout."
             }
           ]
         }
       },
       {
-        "path": "/users/{userId}/events/{eventId}",
+        "path": "/users/{userId}/layouts/{layoutId}/panelConfigurations/{panelConfigurationId}",
         "definition": {
-          "entityName": "UserEvent",
+          "entityName": "panelConfiguration",
           "schema": {
-            "$ref": "#/backend/entities/UserEvent"
+            "$ref": "#/backend/entities/PanelConfiguration"
           },
-          "description": "Records significant user interaction events within the application. The `userId` in the path ensures authorization independence, allowing users to create their own events. Events are typically immutable after creation.",
+          "description": "Defines the specific configuration for a single panel within a user's dashboard layout. Access is restricted to the owning user via the hierarchical path. The `userId` and `layoutId` are denormalized via the path.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user, inherited from the grandparent path."
             },
             {
-              "name": "eventId",
-              "description": "The unique identifier for a specific user event."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/feedback/{feedbackId}",
-        "definition": {
-          "entityName": "Feedback",
-          "schema": {
-            "$ref": "#/backend/entities/Feedback"
-          },
-          "description": "Captures structured user feedback. Includes denormalized `userId` field for authorization independence during creation and for specific read rules. Primarily intended for user creation and admin review.",
-          "params": [
+              "name": "layoutId",
+              "description": "The unique identifier for the parent user layout, inherited from the parent path."
+            },
             {
-              "name": "feedbackId",
-              "description": "The unique identifier for a specific feedback submission."
+              "name": "panelConfigurationId",
+              "description": "The unique identifier for a specific panel configuration."
             }
           ]
         }
       },
       {
-        "path": "/experimentAssignments/{userId}",
+        "path": "/users/{userId}/experimentAssignments/{assignmentId}",
         "definition": {
-          "entityName": "ExperimentAssignment",
+          "entityName": "experimentAssignment",
           "schema": {
             "$ref": "#/backend/entities/ExperimentAssignment"
           },
-          "description": "Records a user's assignment to an A/B test variant. The document ID `{userId}` is the `request.auth.uid`, ensuring direct lookup and authorization independence for each user's assignment.",
+          "description": "Records a user's assignment to A/B test variants. Access is restricted to the owning user. The `userId` is denormalized via the path.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, serving as the document ID and corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user, inherited from the parent path."
+            },
+            {
+              "name": "assignmentId",
+              "description": "The unique identifier for an experiment assignment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/events/{userEventId}",
+        "definition": {
+          "entityName": "userEvent",
+          "schema": {
+            "$ref": "#/backend/entities/UserEvent"
+          },
+          "description": "Logs significant user actions and events for analytics. Access is restricted to the owning user. The `userId` is denormalized via the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, inherited from the parent path."
+            },
+            {
+              "name": "userEventId",
+              "description": "The unique identifier for a user event."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/aiChatThreads/{chatThreadId}",
+        "definition": {
+          "entityName": "aiChatThread",
+          "schema": {
+            "$ref": "#/backend/entities/AIChatThread"
+          },
+          "description": "Represents a conversational thread with the AI assistant, owned by a specific user. Access is restricted to the owning user. The `userId` is denormalized via the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, inherited from the parent path."
+            },
+            {
+              "name": "chatThreadId",
+              "description": "The unique identifier for an AI chat thread."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/aiChatThreads/{chatThreadId}/messages/{messageId}",
+        "definition": {
+          "entityName": "aiChatMessage",
+          "schema": {
+            "$ref": "#/backend/entities/AIChatMessage"
+          },
+          "description": "Stores individual messages within an AI chat thread. To ensure Authorization Independence, this document includes a denormalized 'userId' field in addition to being nested under the user's path. Access is restricted to the owning user.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, inherited from the grandparent path and denormalized into the document."
+            },
+            {
+              "name": "chatThreadId",
+              "description": "The unique identifier for the parent AI chat thread, inherited from the parent path."
+            },
+            {
+              "name": "messageId",
+              "description": "The unique identifier for a specific chat message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/feedbackItems/{feedbackItemId}",
+        "definition": {
+          "entityName": "feedbackItem",
+          "schema": {
+            "$ref": "#/backend/entities/FeedbackItem"
+          },
+          "description": "Stores user-submitted feedback items. Each document includes a denormalized 'userId' field for Authorization Independence, enabling users to create and read their own feedback, and administrators to list all feedback. This supports Queryable Access Patterns (QAPs).",
+          "params": [
+            {
+              "name": "feedbackItemId",
+              "description": "The unique identifier for a feedback item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "Role",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "A dedicated collection for managing administrative roles based on user ID. This collection follows the 'Existence over Content' principle for DBAC, allowing efficient and secure checks for admin privileges without relying on custom claims or detailed user profile reads. The document content can be minimal (e.g., an empty object or a timestamp).",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who possesses the admin role."
             }
           ]
         }
       }
     ],
-    "reasoning": "The recommended Firestore structure prioritizes secure, scalable, and debuggable authorization by strictly adhering to the core design principles and mandates. Central to this is **Authorization Independence via Denormalization** and **Structural Segregation**.\n\nAll user-specific data (UserProfile, UserPreference, UserLayout, UserEvent) is rooted under a dedicated `/users/{userId}` collection. This path-based ownership is the primary mechanism for authorization. For example, for any document in `/users/{userId}/preferences/{preferenceId}`, the security rule `allow read, write: if request.auth.uid == userId;` immediately establishes ownership without requiring any `get()` operations to parent documents. The `userId` wildcard in the path acts as an implicit denormalization of the owner's ID, thereby eliminating hierarchical authorization dependencies and enabling atomic operations.\n\n**Structural Segregation** is maintained by ensuring that all documents within a given collection or subcollection share a homogeneous security posture. For instance, `/users/{userId}/preferences` is strictly for a single user's preferences, and `/users/{userId}/layouts` for that same user's layouts. This avoids complex conditional logic in security rules and improves clarity.\n\n**QAPs (Rules are not Filters)** are directly supported by this structure. For any subcollection under `/users/{userId}`, a `list` operation initiated by an authenticated user will automatically be scoped to their `userId` in the path, ensuring they can only list their own data securely and efficiently. For instance, `db.collection('users').doc(uid).collection('layouts').get()` will only return `layout` documents belonging to `uid`, validated by the path itself.\n\nFor `Feedback` and `ExperimentAssignment` which are top-level collections, explicit denormalization of the `userId` field within each document is used. For `/feedback/{feedbackId}`, `allow create: if request.auth.uid == request.resource.data.userId;` enforces that the creator's UID matches the `userId` field. Reading/listing for `Feedback` is primarily intended for administrators, allowing for `allow read, list: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';` (assuming the role is stored on the UserProfile). If users need to read their own feedback, the `read` rule would check `resource.data.userId == request.auth.uid`, and any `list` operation would explicitly need to include a `where('userId', '==', request.auth.uid)` filter which the rule could enforce (`allow list: if request.auth.uid != null && request.query.where.userId == request.auth.uid;`).\n\nFor `/experimentAssignments/{userId}`, the `userId` is used as the document ID directly. This allows a user to `get('/experimentAssignments/$(request.auth.uid)')` their own assignment with a simple `allow read: if request.auth.uid == userId;` rule, ensuring direct authorization independence. This design makes the intent of access control explicit and significantly reduces the complexity of Firestore security rules, making the application launch-safe and highly debuggable."
+    "reasoning": "The recommended Firestore data structure prioritizes Authorization Independence and Queryable Access Patterns (QAPs) through a combination of path-based ownership and strategic denormalization. Most user-specific data, such as `UserProfile` itself, `UserPreference`, `UserLayout`, `VisualProfile` (when user-specific), `ExperimentAssignment`, `UserEvent`, and `AIChatThread`, are structured under hierarchical paths like `/users/{userId}/...`. This approach inherently denormalizes the `userId` into the document's path, allowing Firestore Security Rules to directly evaluate `request.auth.uid == userId` without needing any `get()` operations on parent documents. This ensures atomic authorization checks and simplifies rule logic considerably.\n\nFor entities like `AIChatMessage`, which are nested deeply (e.g., `/users/{userId}/aiChatThreads/{chatThreadId}/messages/{messageId}`), the `userId` will also be explicitly denormalized within the `AIChatMessage` document itself. This ensures that even for operations on a message, ownership can be verified atomically by checking `request.auth.uid == resource.data.userId`, rather than performing a `get()` on the parent `AIChatThread`.\n\nFor `FeedbackItem` entities, which are conceptually submitted by a user but may require listing by administrators, a top-level collection `/feedbackItems/{feedbackItemId}` is used. To maintain Authorization Independence and support QAPs, each `FeedbackItem` document includes the `userId` of the submitter. This allows for simple rules like `allow create: if request.auth.uid == request.resource.data.userId;` and secure admin `list` operations (e.g., `allow list: if exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));`), while preventing regular users from listing all feedback items. Users can still read their own feedback by checking `resource.data.userId == request.auth.uid`.\n\nGlobal roles for Database Access Control (DBAC) are implemented using an 'existence over content' strategy with a dedicated top-level collection: `/roles_admin/{userId}`. An administrator's presence in this collection signifies their role, allowing security rules to check `exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))` for granting elevated permissions. This is more robust and scalable than storing roles within the `UserProfile` document for critical authorization.\n\nStructural Segregation is applied by ensuring that all documents within a given collection path share the same security posture (e.g., all documents under `/users/{userId}/preferences` are owned by `userId`). This radically simplifies security rule writing and debugging. Predictable schemas, explicit state modeling (e.g., `status` field for `FeedbackItem`), and consistent naming conventions further enhance debuggability and maintainability."
   }
 }

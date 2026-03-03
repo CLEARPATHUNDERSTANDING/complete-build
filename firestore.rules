@@ -1,161 +1,167 @@
 rules_version = '2';
+
+/**
+ * FIRESTORE SECURITY RULES
+ * 
+ * Core Philosophy:
+ * This ruleset implements a strict User-Ownership model combined with Role-Based Access Control (RBAC) 
+ * via an administrative "roles" collection. The architecture prioritizes "Authorization Independence," 
+ * meaning most security decisions are made based on the document's path or denormalized data 
+ * within the document itself, minimizing the need for expensive cross-document lookups.
+ * 
+ * Data Structure:
+ * - /users/{userId}: The root of a user's private data tree. All sub-collections (preferences, layouts, 
+ *   events, AI chats) inherit the ownership restriction of the parent user ID.
+ * - /feedbackItems/{feedbackItemId}: A top-level collection for user-submitted feedback. 
+ *   Ownership is verified via a denormalized 'userId' field.
+ * - /roles_admin/{userId}: A protected collection where the existence of a document 
+ *   grants administrative privileges to the corresponding user.
+ * 
+ * Key Security Decisions:
+ * 1. Ownership Enforcement: All writes to user-scoped paths require the authenticated UID 
+ *    to match the {userId} path parameter.
+ * 2. Admin Oversight: Users in the 'roles_admin' collection are granted read access to 
+ *    feedback items for management purposes.
+ * 3. Relational Integrity: On creation of user-scoped documents, the rules enforce that internal 
+ *    ID fields (like 'userId' or 'id') match the authenticated user's identity to prevent data spoofing.
+ * 4. Flexible Schemas: In this prototyping phase, data types and specific object shapes are 
+ *    not enforced, allowing for rapid iteration on entities like AI chat messages and UI configurations.
+ * 
+ * Denormalization for Authorization:
+ * We use denormalized 'userId' fields in top-level collections (Feedback) and deep sub-collections 
+ * (AI Messages) to ensure that every read and write can be authorized atomically.
+ */
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * CORE PHILOSOPHY:
-     * This ruleset implements a strict User-Ownership model optimized for a high-security prototyping phase.
-     * Authorization is primarily enforced through path-based ownership, where data is nested under 
-     * /users/{userId}. This structure eliminates the need for expensive cross-document lookups (get() calls)
-     * by making the user's identity part of the document path itself.
-     *
-     * DATA STRUCTURE:
-     * - /users/{userId}: Root profile documents where the Document ID matches the Firebase Auth UID.
-     * - /users/{userId}/...: Private subcollections (preferences, layouts, events) accessible only by the owner.
-     * - /feedback/{feedbackId}: A top-level collection for submissions, secured via denormalized userId fields.
-     * - /experimentAssignments/{userId}: A lookup collection for A/B testing variants, mapped 1:1 to UIDs.
-     *
-     * KEY DECISIONS:
-     * 1. Path-Based Authorization: We use the {userId} wildcard in the path to immediately verify ownership.
-     * 2. Denormalization: Critical relational fields (like userId) are validated on creation to ensure data 
-     *    consistency with the path, and are made immutable on updates.
-     * 3. Prototyping Flexibility: Rules do not enforce strict data types or optional/required field presence 
-     *    beyond those necessary for authorization and relational integrity.
-     * 4. Admin Access: Administrative functions (like reading all feedback) are gated by a 'role' check 
-     *    on the user's profile document.
-     */
+    // --- GLOBAL HELPER FUNCTIONS ---
 
-    // --- Helper Functions ---
-
-    /** Checks if the request is from an authenticated user. */
+    /** @description Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** Checks if the authenticated user's UID matches the provided userId. */
+    /** @description Checks if the authenticated user matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** Checks if the user is an owner and the document currently exists (for updates/deletes). */
+    /** @description Checks if the user is an owner and the document exists (for updates/deletes). */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
-    /** Checks if the current user has the 'admin' role by looking up their profile. */
+    /** @description Checks if the authenticated user has an entry in the roles_admin collection. */
     function isAdmin() {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
-    /** Validates that the userId field in the document data matches the path userId. */
-    function isDataConsistent(userId) {
-      return request.resource.data.userId == userId;
-    }
-
-    /** Validates that a field remains unchanged during an update. */
-    function isImmutable(fieldName) {
-      return request.resource.data[fieldName] == resource.data[fieldName];
-    }
-
-    // --- Collection Rules ---
+    // --- COLLECTION RULES ---
 
     /**
-     * @description Rules for the UserProfile entity. Users can only manage their own profile.
+     * @description Rules for the User Profile. Users manage their own profiles.
      * @path /users/{userId}
-     * @allow (create) User 'abc' creates document '/users/abc' where data.id == 'abc'.
-     * @deny (get) User 'abc' attempts to read '/users/xyz'.
-     * @principle Ownership/Self-Creation: Document ID must match authenticated UID.
+     * @allow (create) if auth.uid == 'user_123' and data.id == 'user_123'
+     * @deny (update) if auth.uid != userId
+     * @principle Ownership and Self-Creation validation.
      */
     match /users/{userId} {
-      allow get: if isOwner(userId);
-      allow list: if false; // Prevent listing all users for privacy.
+      allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && isImmutable('id');
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
       allow delete: if isExistingOwner(userId);
 
       /**
-       * @description Rules for UserPreference. Users manage their own UI/UX settings.
-       * @path /users/{userId}/preferences/{preferenceId}
-       * @allow (list) User 'abc' queries '/users/abc/preferences'.
-       * @deny (create) User 'abc' attempts to create '/users/xyz/preferences/main'.
-       * @principle Ownership: Access restricted to the user's own data tree.
+       * @description User-specific preferences, layouts, events, and AI threads.
+       * @path /users/{userId}/[subcollection]/{id}
+       * @principle Inherited ownership from the user path.
        */
       match /preferences/{preferenceId} {
         allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && isDataConsistent(userId);
-        allow update: if isExistingOwner(userId) && isImmutable('userId');
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
         allow delete: if isExistingOwner(userId);
       }
 
-      /**
-       * @description Rules for UserLayout. Custom dashboard configurations.
-       * @path /users/{userId}/layouts/{layoutId}
-       * @allow (update) User 'abc' updates their own layout 'layout_1'.
-       * @deny (delete) User 'abc' attempts to delete user 'xyz's layout.
-       * @principle Ownership: Enforces document ownership for all write operations.
-       */
+      match /visualProfiles/{visualProfileId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId);
+        allow update: if isExistingOwner(userId);
+        allow delete: if isExistingOwner(userId);
+      }
+
       match /layouts/{layoutId} {
         allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && isDataConsistent(userId);
-        allow update: if isExistingOwner(userId) && isImmutable('userId');
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+
+        match /panelConfigurations/{panelConfigurationId} {
+          allow get, list: if isOwner(userId);
+          allow create: if isOwner(userId);
+          allow update: if isExistingOwner(userId);
+          allow delete: if isExistingOwner(userId);
+        }
+      }
+
+      match /experimentAssignments/{assignmentId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
         allow delete: if isExistingOwner(userId);
       }
 
-      /**
-       * @description Rules for UserEvent. Immutable log of user interactions.
-       * @path /users/{userId}/events/{eventId}
-       * @allow (create) User 'abc' logs a new event 'onboarding_started'.
-       * @deny (update) User 'abc' attempts to modify an existing event.
-       * @principle Ownership: Users can write to their own event log; updates are disallowed to preserve history.
-       */
-      match /events/{eventId} {
+      match /events/{userEventId} {
         allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && isDataConsistent(userId);
-        allow update, delete: if false; // Events are typically immutable.
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update, delete: if false; // Events are typically append-only
+      }
+
+      match /aiChatThreads/{chatThreadId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+
+        /**
+         * @description Individual messages in an AI thread. Flexible 'content' for Gemini signatures.
+         * @path /users/{userId}/aiChatThreads/{chatThreadId}/messages/{messageId}
+         * @principle Relational integrity via denormalized userId.
+         */
+        match /messages/{messageId} {
+          allow get, list: if isOwner(userId);
+          allow create: if isOwner(userId) && request.resource.data.chatThreadId == chatThreadId;
+          allow update: if isExistingOwner(userId);
+          allow delete: if isExistingOwner(userId);
+        }
       }
     }
 
     /**
-     * @description Rules for Feedback. Users can submit; admins can review all.
-     * @path /feedback/{feedbackId}
-     * @allow (create) Signed-in user 'abc' submits feedback with userId 'abc'.
-     * @allow (list) User with 'admin' role in their profile queries the collection.
-     * @deny (get) Regular user 'abc' tries to read feedback submitted by 'xyz'.
-     * @principle Roles and Owner-Only Writes: Uses denormalized userId for creation and profile-based roles for admin access.
+     * @description Top-level Feedback collection. Users create/read own; Admins manage all.
+     * @path /feedbackItems/{feedbackItemId}
+     * @allow (list) if user is in roles_admin collection.
+     * @deny (get) if auth.uid != resource.data.userId and !isAdmin()
+     * @principle Role-Based Access Control and Denormalized Ownership.
      */
-    match /feedback/{feedbackId} {
-      allow get: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+    match /feedbackItems/{feedbackItemId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow list: if isAdmin();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if isAdmin(); // Only admins can manage feedback status or remove entries.
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
     }
 
     /**
-     * @description Rules for ExperimentAssignment. Secure A/B test variant lookup.
-     * @path /experimentAssignments/{userId}
-     * @allow (get) User 'abc' fetches their assigned variant from '/experimentAssignments/abc'.
-     * @deny (create) User 'abc' attempts to self-assign a variant (writes should be server-side or restricted).
-     * @principle Ownership: Direct lookup based on UID ensures users only see their own experiment assignments.
+     * @description Admin Role mapping. Existence of UID here grants admin rights.
+     * @path /roles_admin/{userId}
+     * @principle DBAC (Database Access Control) via "Existence over Content".
      */
-    match /experimentAssignments/{userId} {
-      allow get: if isOwner(userId);
+    match /roles_admin/{userId} {
+      allow get: if isSignedIn();
       allow list: if isAdmin();
-      allow create, update, delete: if false; // Assignments are typically handled by backend logic or admins.
+      allow write: if false; // Managed via Admin SDK/Console only for security
     }
   }
 }
-
-/** 
- * PROTOTYPING NOTICE: 
- * These rules prioritize authorization (WHO can access) over schema validation (WHAT data looks like). 
- * This allows for rapid iteration of frontend data structures without needing constant rule updates.
- * Ensure that for production, additional validation for non-auth fields is considered.
- */
-
-/*
-  SUMMARY OF ACCESS PATTERNS APPLIED:
-  1. /users/{userId} -> Ownership/Self-Creation (P3.1, P3.4)
-  2. /users/{userId}/... -> Ownership (P3.1)
-  3. /feedback/{feedbackId} -> Owner-Only Writes + Admin-Only Reads (P3.2, P3.5 Variant)
-  4. /experimentAssignments/{userId} -> Ownership (P3.1)
-*/
