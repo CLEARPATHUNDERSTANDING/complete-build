@@ -287,7 +287,7 @@ export default function SocialPlatform() {
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(99,102,241,0.4)]"
+                className="w-16 h-16 rounded-2xl object-cover border border-white/10 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
               />
               <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
             </div>
@@ -301,7 +301,7 @@ export default function SocialPlatform() {
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
               <input
-                className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-indigo-500/50 transition-all outline-none"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-orange-500/50 transition-all outline-none"
                 placeholder="Search universal asset network..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -310,13 +310,13 @@ export default function SocialPlatform() {
           </div>
 
           <div className="flex items-center gap-3 bg-white/5 border border-white/8 rounded-2xl px-4 py-2">
-            <Avatar className="w-10 h-10 ring-2 ring-indigo-500/20">
+            <Avatar className="w-10 h-10 ring-2 ring-orange-500/20">
               <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-              <AvatarFallback className="bg-indigo-500 text-xs font-black">{user.displayName?.[0]}</AvatarFallback>
+              <AvatarFallback className="bg-orange-500 text-xs font-black">{user.displayName?.[0]}</AvatarFallback>
             </Avatar>
             <div className="text-left leading-tight hidden lg:block">
               <div className="text-sm font-black text-white">{user.displayName || "Trader"}</div>
-              <div className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Authorized</div>
+              <div className="text-[10px] font-black text-orange-400 uppercase tracking-widest">Authorized</div>
             </div>
           </div>
         </header>
@@ -328,7 +328,7 @@ export default function SocialPlatform() {
               <div className="bg-[#070b16] p-6 text-white">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-4 bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+                    <div className="w-1.5 h-4 bg-orange-500 shadow-[0_0_10px_rgba(255,136,0,0.8)]" />
                     <div className="text-[11px] font-black uppercase tracking-[0.25em] text-white/70">Initialize Dispatch</div>
                   </div>
                   {isLive && (
@@ -342,23 +342,23 @@ export default function SocialPlatform() {
                 <div className="flex items-start gap-4">
                   <Avatar className="w-12 h-12 border border-white/10">
                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
+                    <AvatarFallback className="bg-orange-500">{user.displayName?.[0]}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1">
                     <textarea 
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-indigo-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
+                      className="w-full bg-white/[0.03] border border-white/10 rounded-xl p-4 text-base font-medium text-white outline-none focus:border-orange-500/50 transition-all resize-none min-h-[120px] placeholder:text-white/20"
                       placeholder="Broadcast diagnostic thesis or network observation..."
                       value={postText}
                       onChange={(e) => setPostText(e.target.value)}
                     />
                     <div className="flex flex-wrap gap-2 mt-4">
                       {attachedSymbols.map(s => (
-                        <Badge key={s} className="bg-indigo-500/20 text-indigo-300 border-indigo-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                        <Badge key={s} className="bg-orange-500/20 text-orange-300 border-orange-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
                           {s} <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setAttachedSymbols(prev => prev.filter(x => x !== s))} />
                         </Badge>
                       ))}
                       {activeAttachment && (
-                        <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
+                        <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30 gap-1.5 px-3 py-1 uppercase font-black tracking-widest text-[9px]">
                           <BarChart2 className="w-3 h-3" /> {activeAttachment.symbol} Mapped
                           <X className="w-3 h-3 cursor-pointer hover:text-white" onClick={() => setActiveAttachment(null)} />
                         </Badge>
@@ -369,17 +369,17 @@ export default function SocialPlatform() {
 
                 <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/5">
                   <div className="flex items-center gap-6">
-                    <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-indigo-400 transition-colors">
+                    <button onClick={() => { const s = prompt("Symbol:"); if(s) setAttachedSymbols([...attachedSymbols, s.toUpperCase()]); }} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-orange-400 transition-colors">
                       <Zap className="w-3.5 h-3.5" /> Link Asset
                     </button>
-                    <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-cyan-400' : 'text-white/40 hover:text-cyan-400'}`}>
+                    <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-pink-400' : 'text-white/40 hover:text-pink-400'}`}>
                       <BarChart2 className="w-3.5 h-3.5" /> {activeAttachment ? 'Adjust Mapping' : 'Attach Mapped Chart'}
                     </button>
                     <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>
                       <Radio className="w-3.5 h-3.5" /> Initialize Live
                     </button>
                   </div>
-                  <Button onClick={handleDispatch} className="bg-indigo-500 hover:bg-indigo-400 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+                  <Button onClick={handleDispatch} className="bg-orange-500 hover:bg-orange-400 text-white font-black uppercase text-[10px] tracking-widest px-8 h-10 rounded-full shadow-[0_0_20px_rgba(255,136,0,0.4)]">
                     Synchronize →
                   </Button>
                 </div>
@@ -390,7 +390,7 @@ export default function SocialPlatform() {
             <div className="space-y-10">
               {isInsightsLoading ? (
                 <div className="py-20 flex flex-col items-center opacity-20">
-                  <Activity className="w-10 h-10 animate-pulse mb-4 text-indigo-500" />
+                  <Activity className="w-10 h-10 animate-pulse mb-4 text-orange-500" />
                   <span className="text-[10px] font-black uppercase tracking-[0.4em]">Calibrating Data Stream...</span>
                 </div>
               ) : insightsData?.length === 0 ? (
@@ -401,13 +401,13 @@ export default function SocialPlatform() {
               ) : (
                 insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                   <div key={post.id} className="mx-auto w-full group">
-                    <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(83,238,255,1)_0%,rgba(110,142,255,1)_30%,rgba(255,87,182,1)_68%,rgba(184,160,255,1)_100%)] shadow-[0_0_26px_rgba(92,223,255,0.2),0_0_60px_rgba(180,80,255,0.1)] transition-transform hover:scale-[1.005]">
+                    <div className="relative rounded-[36px] p-[8px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_30%,rgba(106,92,255,1)_68%,rgba(255,79,216,1)_100%)] shadow-[0_0_26px_rgba(255,136,0,0.2),0_0_60px_rgba(255,0,85,0.1)] transition-transform hover:scale-[1.005]">
                       <div className="rounded-[29px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-8 py-7">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-center gap-4">
-                            <Avatar className="w-12 h-12 ring-2 ring-indigo-500/20">
+                            <Avatar className="w-12 h-12 ring-2 ring-orange-500/20">
                               <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
-                              <AvatarFallback className="bg-indigo-500">{post.user[0]}</AvatarFallback>
+                              <AvatarFallback className="bg-orange-500">{post.user[0]}</AvatarFallback>
                             </Avatar>
                             <div>
                               <div className="flex items-center gap-2">
@@ -419,7 +419,7 @@ export default function SocialPlatform() {
                               </div>
                             </div>
                           </div>
-                          <button className="text-[11px] font-black uppercase tracking-[0.16em] text-cyan-300 transition hover:text-pink-300">
+                          <button className="text-[11px] font-black uppercase tracking-[0.16em] text-orange-300 transition hover:text-pink-300">
                             Analyze Intel →
                           </button>
                         </div>
@@ -430,7 +430,7 @@ export default function SocialPlatform() {
 
                         {post.attachment && (
                           <div className="relative rounded-2xl border border-white/10 bg-black/40 p-4 mb-6 overflow-hidden">
-                            <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[9px] font-black text-cyan-300 uppercase tracking-widest">
+                            <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-[9px] font-black text-pink-300 uppercase tracking-widest">
                               DIAGNOSTIC CAPTURE: {post.attachment.symbol} CANDLESTICK
                             </div>
                             <MarketWatchChart 
@@ -450,13 +450,13 @@ export default function SocialPlatform() {
 
                         <div className="flex flex-wrap gap-2 mb-6">
                           {post.symbols?.map((s: string) => (
-                            <Badge key={s} variant="outline" className="text-[9px] font-black uppercase tracking-widest border-indigo-500/30 text-indigo-400 bg-indigo-500/5">{s}</Badge>
+                            <Badge key={s} variant="outline" className="text-[9px] font-black uppercase tracking-widest border-orange-500/30 text-orange-400 bg-orange-500/5">{s}</Badge>
                           ))}
                         </div>
 
                         <div className="flex items-center gap-8 text-white/50 border-t border-white/5 pt-6">
                           <button className="flex items-center gap-2 hover:text-red-500 transition-colors"><Heart className="w-5 h-5" /><span className="font-bold text-xs uppercase tracking-widest">Synchronize</span></button>
-                          <button className="flex items-center gap-2 hover:text-indigo-400 transition-colors"><MessageCircle className="w-5 h-5" /><span className="font-bold text-xs uppercase tracking-widest">Discuss</span></button>
+                          <button className="flex items-center gap-2 hover:text-orange-400 transition-colors"><MessageCircle className="w-5 h-5" /><span className="font-bold text-xs uppercase tracking-widest">Discuss</span></button>
                         </div>
                       </div>
                     </div>
@@ -471,7 +471,7 @@ export default function SocialPlatform() {
       {/* RIGHT SIDEBAR */}
       <aside className="w-[330px] border-l border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-6 flex items-center gap-3 border-b border-white/5 shrink-0">
-          <TrendingUp className="w-5 h-5 text-indigo-500" />
+          <TrendingUp className="w-5 h-5 text-orange-500" />
           <div className={`text-[12px] font-black tracking-[0.3em] uppercase ${spectralTitleClass}`}>Diagnostic Pacing</div>
         </div>
         <ScrollArea className="flex-1 min-h-0">
@@ -484,14 +484,14 @@ export default function SocialPlatform() {
                   { name: "Research Desk", status: "Macro Update", active: false, img: getImg("hub-research-desk") },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-4 p-2 rounded-xl hover:bg-white/5 transition-all cursor-pointer group">
-                    <div className="relative h-12 w-12 shrink-0 rounded-full bg-[linear-gradient(135deg,#59e7ff,#8a7dff,#ff4ba3)] p-[2px]">
+                    <div className="relative h-12 w-12 shrink-0 rounded-full bg-[linear-gradient(135deg,#ff8800,#ff0055,#6a5cff)] p-[2px]">
                       <div className="h-full w-full rounded-full overflow-hidden">
                         <img src={hub.img} className="w-full h-full object-cover" alt="" />
                       </div>
                       {hub.active && <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-slate-950 bg-green-400 shadow-[0_0_10px_rgba(74,222,128,0.8)]" />}
                     </div>
                     <div className="text-left">
-                      <div className="text-[14px] font-black text-white group-hover:text-indigo-400 transition-colors">{hub.name}</div>
+                      <div className="text-[14px] font-black text-white group-hover:text-orange-400 transition-colors">{hub.name}</div>
                       <div className="text-[10px] font-black text-white/30 uppercase tracking-widest">{hub.status}</div>
                     </div>
                   </div>
@@ -512,16 +512,16 @@ export default function SocialPlatform() {
                       <div className="relative h-10 w-10 shrink-0">
                         <Avatar className="h-full w-full border border-white/10">
                           <AvatarImage src={friend.img} />
-                          <AvatarFallback className="bg-indigo-500/20 text-indigo-400 text-xs font-black">{friend.name[0]}</AvatarFallback>
+                          <AvatarFallback className="bg-orange-500/20 text-orange-400 text-xs font-black">{friend.name[0]}</AvatarFallback>
                         </Avatar>
                         {friend.active && <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-slate-950 bg-emerald-400 shadow-[0_0_8px_#10b981]" />}
                       </div>
                       <div className="text-left">
-                        <div className="text-[13px] font-black text-white group-hover:text-cyan-400 transition-colors">{friend.name}</div>
+                        <div className="text-[13px] font-black text-white group-hover:text-orange-400 transition-colors">{friend.name}</div>
                         <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">{friend.status}</div>
                       </div>
                     </div>
-                    <MessageSquare className="w-3.5 h-3.5 text-white/10 group-hover:text-indigo-400 transition-colors" />
+                    <MessageSquare className="w-3.5 h-3.5 text-white/10 group-hover:text-orange-400 transition-colors" />
                   </div>
                 ))}
               </div>
@@ -530,7 +530,7 @@ export default function SocialPlatform() {
             <BorderWallCard title="Latest Events" maxHeight="none" useScrollArea={false}>
               <div className="space-y-4 text-[13px] text-left">
                 <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5">
-                  <span className="font-black text-cyan-300 uppercase tracking-widest text-[10px]">Macro Event</span>
+                  <span className="font-black text-orange-300 uppercase tracking-widest text-[10px]">Macro Event</span>
                   <div className="text-white/90 mt-1">Fed Interest Rate Decision in 2h</div>
                 </div>
                 <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/5">
@@ -545,11 +545,11 @@ export default function SocialPlatform() {
 
       {/* CHART MODAL */}
       <Dialog open={isChartModalOpen} onOpenChange={setIsChartModalOpen}>
-        <DialogContent className="max-w-4xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_100px_rgba(0,229,255,0.15)]">
+        <DialogContent className="max-w-4xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_100px_rgba(255,136,0,0.15)]">
           <div className="p-8 h-full flex flex-col">
             <DialogHeader className="mb-6">
               <DialogTitle className="text-2xl font-black uppercase tracking-[0.1em] flex items-center gap-3">
-                <BarChart2 className="w-6 h-6 text-cyan-400" />
+                <BarChart2 className="w-6 h-6 text-pink-400" />
                 Diagnostic Capture Module
               </DialogTitle>
             </DialogHeader>
@@ -557,20 +557,20 @@ export default function SocialPlatform() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2"><Globe className="w-3 h-3" /> Select Asset</label>
-                  <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-cyan-500/50" value={chartSearchQuery} onChange={(e) => setChartSearchQuery(e.target.value)} placeholder="Search Symbol..." />
+                  <input className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm outline-none focus:border-pink-500/50" value={chartSearchQuery} onChange={(e) => setChartSearchQuery(e.target.value)} placeholder="Search Symbol..." />
                   <div className="space-y-1 mt-3 max-h-[120px] overflow-auto pr-2 custom-scrollbar">
                     {filteredCatalog.map(item => (
-                      <button key={item.symbol} onClick={() => setSelectedChartSymbol(item.symbol)} className={`w-full text-left px-3 py-2 rounded-lg text-[11px] font-black transition-all uppercase tracking-widest ${selectedChartSymbol === item.symbol ? 'bg-cyan-500/20 text-cyan-300' : 'hover:bg-white/5 text-white/40'}`}>{item.display}</button>
+                      <button key={item.symbol} onClick={() => setSelectedChartSymbol(item.symbol)} className={`w-full text-left px-3 py-2 rounded-lg text-[11px] font-black transition-all uppercase tracking-widest ${selectedChartSymbol === item.symbol ? 'bg-pink-500/20 text-pink-300' : 'hover:bg-white/5 text-white/40'}`}>{item.display}</button>
                     ))}
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2"><Type className="w-3 h-3" /> Markup Annotation</label>
-                  <textarea className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-black uppercase outline-none focus:border-cyan-500/50 h-32 resize-none text-white" value={annotationText} onChange={(e) => setAnnotationText(e.target.value.toUpperCase())} placeholder="e.g. BREAKOUT IMMINENT" />
+                  <textarea className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-xs font-black uppercase outline-none focus:border-pink-500/50 h-32 resize-none text-white" value={annotationText} onChange={(e) => setAnnotationText(e.target.value.toUpperCase())} placeholder="e.g. BREAKOUT IMMINENT" />
                 </div>
               </div>
               <div className="relative rounded-2xl border border-white/5 bg-black/40 p-6 overflow-hidden min-h-[400px]">
-                <div className="absolute top-6 left-6 z-20 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-[9px] font-black text-cyan-300 uppercase tracking-widest">SNAPSHOT PREVIEW</div>
+                <div className="absolute top-6 left-6 z-20 px-3 py-1 rounded-full bg-pink-500/20 border border-pink-500/40 text-[9px] font-black text-pink-300 uppercase tracking-widest">SNAPSHOT PREVIEW</div>
                 <div className="flex-1 min-h-0 mt-8"><MarketWatchChart symbol={selectedChartSymbol} points={generateMockOhlc(selectedChartSymbol, 100)} height={340} /></div>
                 {annotationText && (
                   <div className="absolute bottom-16 right-12 z-30 transform rotate-[-2deg] animate-in zoom-in-95">
@@ -582,7 +582,7 @@ export default function SocialPlatform() {
             </div>
             <DialogFooter className="mt-8 pt-6 border-t border-white/5">
               <Button variant="ghost" onClick={() => setIsChartModalOpen(false)} className="uppercase text-[10px] font-black tracking-widest text-white/40">Cancel</Button>
-              <Button onClick={() => { setActiveAttachment({ symbol: selectedChartSymbol, annotation: annotationText }); setIsChartModalOpen(false); }} className="bg-cyan-500 hover:bg-cyan-400 text-black font-black uppercase text-[10px] tracking-widest px-8 h-11 rounded-xl">Map & Attach →</Button>
+              <Button onClick={() => { setActiveAttachment({ symbol: selectedChartSymbol, annotation: annotationText }); setIsChartModalOpen(false); }} className="bg-pink-500 hover:bg-pink-400 text-black font-black uppercase text-[10px] tracking-widest px-8 h-11 rounded-xl">Map & Attach →</Button>
             </DialogFooter>
           </div>
         </DialogContent>
