@@ -31,7 +31,9 @@ export default function PlatformConstitutionPage() {
 
       <main className="mx-auto max-w-4xl px-8 py-16 text-white/90">
         <header className="space-y-6 mb-12">
-          <h1 className="text-5xl font-black uppercase tracking-[0.1em]">Platform Constitution</h1>
+          <h1 className="text-5xl font-black uppercase tracking-[0.1em] bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_10px_rgba(106,92,255,0.3)]">
+            Platform Constitution
+          </h1>
           <div className="flex items-center gap-4">
             <div className="px-3 py-1 rounded-md bg-indigo-500/10 border border-indigo-500/20 text-[10px] font-black text-indigo-400 uppercase tracking-widest">
               Version v1.0

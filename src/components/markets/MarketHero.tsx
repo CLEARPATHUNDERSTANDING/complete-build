@@ -8,7 +8,7 @@ export default function MarketHero() {
           Clear Path Market Intelligence
         </div>
 
-        <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight text-white md:text-7xl uppercase tracking-tighter">
+        <h1 className="mt-8 max-w-4xl text-5xl font-black leading-tight md:text-7xl uppercase tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_15px_rgba(106,92,255,0.4)]">
           Universal Market Visualizer
         </h1>
 

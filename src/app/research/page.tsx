@@ -50,7 +50,9 @@ export default function ResearchPage() {
 
       <main className="mx-auto max-w-5xl px-8 py-16 text-white/90">
         <div className="mb-16">
-          <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8">Intelligence Lab</h1>
+          <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_10px_rgba(106,92,255,0.3)]">
+            Intelligence Lab
+          </h1>
           <p className="text-xl leading-relaxed text-white/60 font-medium italic border-l-2 border-indigo-500 pl-6 mb-12">
             Clear Path Intelligence is dedicated to reducing interface-driven strain through 
             evidence-informed design levers and cognition-aware sensory controls.
@@ -125,8 +127,8 @@ export default function ResearchPage() {
                                   <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
                                   {feat}
                                 </li>
-                              ))}
-                            </ul>
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>

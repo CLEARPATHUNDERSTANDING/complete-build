@@ -30,7 +30,9 @@ export default function TransparencyPage() {
       </header>
 
       <main className="mx-auto max-w-4xl px-8 py-16 text-white/90">
-        <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8">Transparency</h1>
+        <h1 className="text-5xl font-black uppercase tracking-[0.1em] mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_10px_rgba(106,92,255,0.3)]">
+          Transparency
+        </h1>
 
         <p className="text-xl leading-relaxed text-white/60 font-medium italic border-l-2 border-indigo-500 pl-6 mb-12">
           Transparency is a stability feature. This page explains what the platform is doing, what it is
