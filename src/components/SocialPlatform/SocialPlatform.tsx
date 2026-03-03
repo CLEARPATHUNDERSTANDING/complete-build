@@ -43,15 +43,19 @@ import { NON_ND_MODES } from "@/modes/nonNdModes";
  * High-intensity Fluid Border Wrapper
  * Colors: Fire Red (#ff003c), Neon Orange (#ff8a00), Neon Pink (#ff00d4)
  */
-function FluidSection({ children, title, className = "" }: { children: React.ReactNode, title: string, className?: string }) {
+function FluidSection({ children, title, className = "", maxHeight = "250px" }: { children: React.ReactNode, title: string, className?: string, maxHeight?: string }) {
   return (
     <div className={`p-[2px] rounded-2xl bg-gradient-to-br from-[#ff003c] via-[#ff8a00] to-[#ff00d4] shadow-[0_0_20px_rgba(255,0,60,0.15)] ${className}`}>
       <div className="bg-[#070b16] rounded-[14px] overflow-hidden flex flex-col h-full">
-        <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02]">
+        <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02] shrink-0">
           <div className="text-[10px] font-black tracking-[0.25em] text-white/60 uppercase">{title}</div>
         </div>
-        <div className="flex-1 min-h-0 relative">
-          {children}
+        <div className="flex-1 min-h-0 relative" style={{ height: maxHeight }}>
+          <ScrollArea className="h-full">
+            <div className="p-2">
+              {children}
+            </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
@@ -152,106 +156,94 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1 min-h-0">
           <div className="p-4 space-y-6 pb-8">
-            <FluidSection title="Workspace" className="h-48">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  <a href="/dashboard?mode=minimal" className={navItemClass}>
-                    <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
-                    <span className="text-[15px] font-semibold text-white/90">Standard Workspace</span>
-                  </a>
-                  <a href="/dashboard?mode=focus" className={navItemClass}>
-                    <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span>
-                  </a>
-                  <a href="/dashboard?mode=quad" className={navItemClass}>
-                    <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
-                  </a>
-                  <a href="/" className={navItemClass}>
-                    <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
-                    <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
-                  </a>
-                </div>
-              </ScrollArea>
+            <FluidSection title="Workspace" maxHeight="180px">
+              <div className="space-y-1">
+                <a href="/dashboard?mode=minimal" className={navItemClass}>
+                  <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Standard Workspace</span>
+                </a>
+                <a href="/dashboard?mode=focus" className={navItemClass}>
+                  <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span>
+                </a>
+                <a href="/dashboard?mode=quad" className={navItemClass}>
+                  <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
+                </a>
+                <a href="/community" className={navItemClass}>
+                  <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
+                </a>
+              </div>
             </FluidSection>
 
-            <FluidSection title="Standard Modes" className="h-64">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  {NON_ND_MODES.map((m) => (
-                    <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
-                      <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
-                    </a>
-                  ))}
-                </div>
-              </ScrollArea>
-            </FluidSection>
-
-            <FluidSection title="Neuro Profiles" className="h-64">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  {NEURO_PROFILES.map((p) => (
-                    <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
-                      <Brain className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-                      <span className="text-[14px] font-semibold text-white/80 group-hover:text-indigo-400">{p.label}</span>
-                    </a>
-                  ))}
-                </div>
-              </ScrollArea>
-            </FluidSection>
-
-            <FluidSection title="Tools" className="h-32">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  <a href="/dashboard" className={navItemClass}>
-                    <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
-                    <span className="text-[15px] font-semibold text-white/90">Charts Hub</span>
+            <FluidSection title="Standard Modes" maxHeight="250px">
+              <div className="space-y-1">
+                {NON_ND_MODES.map((m) => (
+                  <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
+                    <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
                   </a>
-                  <a href="/intelligence" className={navItemClass}>
-                    <TrendingUp className="w-5 h-5 text-white/70 group-hover:text-white" />
-                    <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
+                ))}
+              </div>
+            </FluidSection>
+
+            <FluidSection title="Neuro Profiles" maxHeight="250px">
+              <div className="space-y-1">
+                {NEURO_PROFILES.map((p) => (
+                  <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
+                    <Brain className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
+                    <span className="text-[14px] font-semibold text-white/80 group-hover:text-indigo-400">{p.label}</span>
                   </a>
-                </div>
-              </ScrollArea>
+                ))}
+              </div>
             </FluidSection>
 
-            <FluidSection title="Platform" className="h-48">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  <div className={navItemClass}>
-                    <Info className="w-5 h-5 text-white/70" />
-                    <span className="text-[15px] font-semibold text-white/90">Mission</span>
-                  </div>
-                  <div className={navItemClass}>
-                    <Eye className="w-5 h-5 text-white/70" />
-                    <span className="text-[15px] font-semibold text-white/90">Transparency</span>
-                  </div>
-                  <div className={navItemClass}>
-                    <Scale className="w-5 h-5 text-white/70" />
-                    <span className="text-[15px] font-semibold text-white/90">Governance</span>
-                  </div>
-                  <div className={navItemClass}>
-                    <FileText className="w-5 h-5 text-white/70" />
-                    <span className="text-[15px] font-semibold text-white/90">Constitution</span>
-                  </div>
-                </div>
-              </ScrollArea>
+            <FluidSection title="Tools" maxHeight="120px">
+              <div className="space-y-1">
+                <a href="/dashboard" className={navItemClass}>
+                  <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Charts Hub</span>
+                </a>
+                <a href="/intelligence" className={navItemClass}>
+                  <TrendingUp className="w-5 h-5 text-white/70 group-hover:text-white" />
+                  <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
+                </a>
+              </div>
             </FluidSection>
 
-            <FluidSection title="Legal" className="h-32">
-              <ScrollArea className="h-full">
-                <div className="p-2 space-y-1">
-                  <div className={navItemClass}>
-                    <ShieldAlert className="w-5 h-5 text-red-500" />
-                    <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
-                  </div>
-                  <div className={navItemClass}>
-                    <Lock className="w-5 h-5 text-white/70" />
-                    <span className="text-[15px] font-semibold text-white/90">Compliance</span>
-                  </div>
+            <FluidSection title="Platform" maxHeight="180px">
+              <div className="space-y-1">
+                <div className={navItemClass}>
+                  <Info className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Mission</span>
                 </div>
-              </ScrollArea>
+                <div className={navItemClass}>
+                  <Eye className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Transparency</span>
+                </div>
+                <div className={navItemClass}>
+                  <Scale className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Governance</span>
+                </div>
+                <div className={navItemClass}>
+                  <FileText className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Constitution</span>
+                </div>
+              </div>
+            </FluidSection>
+
+            <FluidSection title="Legal" maxHeight="120px">
+              <div className="space-y-1">
+                <div className={navItemClass}>
+                  <ShieldAlert className="w-5 h-5 text-red-500" />
+                  <span className="text-[15px] font-semibold text-red-400">Risk Disclosure</span>
+                </div>
+                <div className={navItemClass}>
+                  <Lock className="w-5 h-5 text-white/70" />
+                  <span className="text-[15px] font-semibold text-white/90">Compliance</span>
+                </div>
+              </div>
             </FluidSection>
           </div>
         </ScrollArea>
@@ -341,70 +333,55 @@ export default function SocialPlatform() {
 
       {/* Right Sidebar */}
       <div className="w-80 border-l border-white/10 flex flex-col bg-black/50 backdrop-blur-xl shrink-0 h-full">
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 p-4 space-y-6">
           
-          {/* Online Friends */}
-          <div className="flex-[1.2] flex flex-col min-h-0 border-b-2 border-white/10 p-4">
-            <FluidSection title="Online Friends" className="h-full">
-              <ScrollArea className="h-full">
-                <div className="p-4 space-y-6">
-                  {friends.map((friend, idx) => (
-                    <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
-                      <div className="relative">
-                        <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
-                          <AvatarImage src={friend.avatar} />
-                          <AvatarFallback>{friend.name[0]}</AvatarFallback>
-                        </Avatar>
-                        {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
-                      </div>
-                      <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
-                    </div>
-                  ))}
+          <FluidSection title="Online Friends" maxHeight="280px">
+            <div className="space-y-6">
+              {friends.map((friend, idx) => (
+                <div key={idx} className="flex items-center gap-4 group cursor-pointer text-left">
+                  <div className="relative">
+                    <Avatar className="w-10 h-10 border border-white/10 group-hover:border-primary/50 transition-colors">
+                      <AvatarImage src={friend.avatar} />
+                      <AvatarFallback>{friend.name[0]}</AvatarFallback>
+                    </Avatar>
+                    {friend.online && <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black" />}
+                  </div>
+                  <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{friend.name}</span>
                 </div>
-              </ScrollArea>
-            </FluidSection>
-          </div>
+              ))}
+            </div>
+          </FluidSection>
 
-          {/* Latest Updates */}
-          <div className="flex-1 flex flex-col min-h-0 border-b-2 border-white/10 p-4">
-            <FluidSection title="Latest Updates" className="h-full">
-              <ScrollArea className="h-full">
-                <div className="p-4 space-y-6 text-left">
-                  {updates.map((update, idx) => (
-                    <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
-                          {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
-                        </span>
-                      </div>
-                      <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
-                    </div>
-                  ))}
+          <FluidSection title="Latest Updates" maxHeight="220px">
+            <div className="space-y-6 text-left">
+              {updates.map((update, idx) => (
+                <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                    <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">
+                      {update.user} <span className="font-medium text-muted-foreground">{update.action}</span>
+                    </span>
+                  </div>
+                  <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{update.time}</span>
                 </div>
-              </ScrollArea>
-            </FluidSection>
-          </div>
+              ))}
+            </div>
+          </FluidSection>
 
-          {/* Trending Topics */}
-          <div className="flex-1 flex flex-col min-h-0 p-4">
-            <FluidSection title="Trending Topics" className="h-full">
-              <ScrollArea className="h-full">
-                <div className="p-4 space-y-6 text-left">
-                  {trends.map((trend, idx) => (
-                    <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
-                      <div className="flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                        <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
-                        {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
-                      </div>
-                      <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
-                    </div>
-                  ))}
+          <FluidSection title="Trending Topics" maxHeight="220px">
+            <div className="space-y-6 text-left">
+              {trends.map((trend, idx) => (
+                <div key={idx} className="flex flex-col gap-1 group cursor-pointer">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span className="text-sm font-bold text-white group-hover:text-primary transition-colors">{trend.tag}</span>
+                    {idx === 0 && <TrendingUp className="w-3 h-3 text-primary animate-bounce" />}
+                  </div>
+                  <span className="text-[9px] font-black text-muted-foreground uppercase ml-3.5 tracking-wider">{trend.count}</span>
                 </div>
-              </ScrollArea>
-            </FluidSection>
-          </div>
+              ))}
+            </div>
+          </FluidSection>
 
         </div>
       </div>
