@@ -1,15 +1,13 @@
-'use client';
-
 export type QuotePoint = {
   time: string;
   value: number;
 };
 
 export function computePct(series: number[]) {
-  if (series.length < 2) return 0;
+  if (!series || series.length < 2) return 0;
   const first = series[0];
   const last = series[series.length - 1];
-  if (!first || first === 0) return 0;
+  if (typeof first !== 'number' || typeof last !== 'number' || first === 0) return 0;
   return Number((((last - first) / first) * 100).toFixed(2));
 }
 
@@ -52,18 +50,18 @@ export async function getBestSeriesForSymbol(marketId: string, symbol: string) {
   try {
     if (["forex", "stocks", "etfs", "indices", "futures", "commodities", "bonds"].includes(marketId)) {
       const data = await getTwelveDataSeries(symbol);
-      if (data.length) return data;
+      if (data && data.length) return data;
     }
 
     if (marketId === "crypto") {
       const cryptoSymbol = symbol.includes(":") ? symbol : `BINANCE:${symbol.replace("/", "")}`;
       const data = await getFinnhubCryptoSeries(cryptoSymbol);
-      if (data.length) return data;
+      if (data && data.length) return data;
     }
 
     if (["economic-calendar", "macro", "funds-rates"].includes(marketId)) {
       const data = await getFredProxySeries(symbol);
-      if (data.length) return data;
+      if (data && data.length) return data;
     }
   } catch (e) {
     // fall through

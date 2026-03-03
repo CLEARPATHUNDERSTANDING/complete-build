@@ -1,5 +1,3 @@
-'use client';
-
 import { OhlcPoint } from "@/components/markets/apex/market-watch-types";
 
 /**

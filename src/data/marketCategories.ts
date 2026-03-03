@@ -1,4 +1,3 @@
-'use client';
 /**
  * @fileOverview Master definition of the 12 major market categories.
  */

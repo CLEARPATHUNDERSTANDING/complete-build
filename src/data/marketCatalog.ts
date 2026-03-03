@@ -1,4 +1,3 @@
-'use client';
 /**
  * @fileOverview Master catalog of all tradable markets, asset classes, and instruments.
  * This file serves as the single source of truth for the platform's "Trading Universe".
