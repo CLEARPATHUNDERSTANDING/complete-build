@@ -3,6 +3,8 @@ export interface ModeConfig {
   label: string;
   defaultSymbol: string;
   defaultTimeframe?: string;
+  defaultCharts?: number;
+  defaultLayout?: "grid" | "stack";
   tf?: {
     analysisTF: string;
   };

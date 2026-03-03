@@ -14,6 +14,12 @@ type OHLCPoint = {
   close: number;
 };
 
+type Props = {
+  mode: ModeConfig;
+  personality: ModeConfig["chart"];
+  data?: OHLCPoint[];
+};
+
 function clamp01(n: number) {
   return Math.max(0, Math.min(1, n));
 }
@@ -60,7 +66,7 @@ function sanitize(rows: OHLCPoint[]) {
     );
 }
 
-export default function ChartPanelApex({ mode, personality, data }: { mode: ModeConfig; personality: ModeConfig["chart"]; data?: OHLCPoint[] }) {
+export default function ChartPanelApex({ mode, personality, data }: Props) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
   const [width, setWidth] = useState(0);
@@ -166,6 +172,7 @@ export default function ChartPanelApex({ mode, personality, data }: { mode: Mode
     stroke: { width: 1 },
   };
 
+  // ✅ Force Apex to rebuild when personality changes
   const chartKey = [
     mode.id,
     personality.upCandle,
@@ -173,6 +180,9 @@ export default function ChartPanelApex({ mode, personality, data }: { mode: Mode
     personality.background,
     personality.gridVert,
     personality.crosshair,
+    personality.accent,
+    personality.density,
+    personality.glow,
     width,
   ].join("|");
 
@@ -185,11 +195,11 @@ export default function ChartPanelApex({ mode, personality, data }: { mode: Mode
         style={{ boxShadow: glowShadow }}
       >
         <div className="flex items-center justify-between px-2 py-2">
-          <div className="text-white/85 font-semibold text-sm">
+          <div className="text-white/85 font-semibold">
             {mode.label} • {mode.defaultSymbol} • {mode.tf?.analysisTF ?? mode.defaultTimeframe ?? ""}
           </div>
-          <div className="text-[10px] px-2 py-1 rounded-lg border border-white/10 font-bold uppercase tracking-widest" style={{ color: personality.accent }}>
-            Apex Engine
+          <div className="text-xs px-2 py-1 rounded-lg border border-white/10" style={{ color: personality.accent }}>
+            Apex
           </div>
         </div>
 
@@ -197,7 +207,7 @@ export default function ChartPanelApex({ mode, personality, data }: { mode: Mode
           <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
         ) : (
           <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex items-center justify-center">
-             <div className="animate-pulse text-white/20 text-[10px] font-black uppercase tracking-[0.3em]">Initializing Physics...</div>
+             <div className="animate-pulse text-[10px] font-black uppercase tracking-widest opacity-20">Initializing...</div>
           </div>
         )}
       </div>
