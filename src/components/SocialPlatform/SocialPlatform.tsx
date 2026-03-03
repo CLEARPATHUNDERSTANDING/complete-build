@@ -127,7 +127,6 @@ export default function SocialPlatform() {
   ];
 
   const navItemClass = "flex items-center gap-4 px-4 py-2.5 rounded-xl hover:bg-white/5 transition-all group cursor-pointer";
-  const sectionLabelClass = "text-[11px] font-black tracking-[0.25em] text-muted-foreground/40 mb-2 mt-6 px-4 uppercase text-left";
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white fade-in selection:bg-primary selection:text-white">
@@ -140,81 +139,89 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1 px-4 min-h-0">
           <div className="space-y-6 pb-8">
-            <div>
-              <div className={sectionLabelClass}>Workspace</div>
-              <div className="space-y-1">
-                <a href="/dashboard?mode=minimal" className={navItemClass}>
-                  <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
-                  <span className="text-[15px] font-semibold text-white/90">Standard Workspace</span>
-                </a>
-                <a href="/dashboard?mode=focus" className={navItemClass}>
-                  <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span>
-                </a>
-                <a href="/dashboard?mode=quad" className={navItemClass}>
-                  <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
-                </a>
-                <a href="/" className={navItemClass}>
-                  <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <div className={sectionLabelClass}>Standard Trading Modes</div>
-              <div className="space-y-1">
-                {NON_ND_MODES.slice(0, 10).map((m) => (
-                  <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
-                    <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                    <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
+            {/* Workspace Card */}
+            <div className="px-2">
+              <FluidSection title="Workspace">
+                <div className="p-2 space-y-1">
+                  <a href="/dashboard?mode=minimal" className={navItemClass}>
+                    <LayoutDashboard className="w-5 h-5 text-white/70 group-hover:text-white" />
+                    <span className="text-[15px] font-semibold text-white/90">Standard Workspace</span>
                   </a>
-                ))}
-                <details className="group/details px-4">
-                   <summary className="text-[11px] font-bold text-white/30 cursor-pointer hover:text-white transition-colors py-2 uppercase tracking-widest list-none flex items-center gap-2">
-                     <ChevronDown className="w-3 h-3 group-open/details:rotate-180 transition-transform" />
-                     More Modes
-                   </summary>
-                   <div className="pt-2 space-y-1">
-                      {NON_ND_MODES.slice(10).map((m) => (
-                        <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className="flex items-center gap-3 py-1.5 text-[13px] text-white/50 hover:text-cyan-400 transition-colors">
-                          <Zap className="w-3 h-3" /> {m.label}
-                        </a>
-                      ))}
-                   </div>
-                </details>
-              </div>
-            </div>
-
-            <div>
-              <div className={sectionLabelClass}>Neuro Profiles</div>
-              <div className="space-y-1">
-                {NEURO_PROFILES.map((p) => (
-                  <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
-                    <Brain className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
-                    <span className="text-[14px] font-semibold text-white/80 group-hover:text-indigo-400">{p.label}</span>
+                  <a href="/dashboard?mode=focus" className={navItemClass}>
+                    <Sparkles className="w-5 h-5 text-indigo-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-[15px] font-semibold text-indigo-400">Neuro Workspace</span>
                   </a>
-                ))}
-              </div>
+                  <a href="/dashboard?mode=quad" className={navItemClass}>
+                    <Grid2X2 className="w-5 h-5 text-cyan-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-[15px] font-semibold text-cyan-400">Multi-View Grid</span>
+                  </a>
+                  <a href="/" className={navItemClass}>
+                    <Users className="w-5 h-5 text-pink-500 group-hover:scale-110 transition-transform" />
+                    <span className="text-[15px] font-semibold text-pink-400">Community Feed</span>
+                  </a>
+                </div>
+              </FluidSection>
             </div>
 
-            <div>
-              <div className={sectionLabelClass}>Tools</div>
-              <div className="space-y-1">
-                <a href="/dashboard" className={navItemClass}>
-                  <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
-                  <span className="text-[15px] font-semibold text-white/90">Charts Hub</span>
-                </a>
-                <a href="/intelligence" className={navItemClass}>
-                  <TrendingUp className="w-5 h-5 text-white/70 group-hover:text-white" />
-                  <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
-                </a>
-              </div>
+            {/* Standard Trading Modes Card */}
+            <div className="px-2">
+              <FluidSection title="Standard Modes">
+                <div className="p-2 space-y-1">
+                  {NON_ND_MODES.slice(0, 8).map((m) => (
+                    <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className={navItemClass}>
+                      <Zap className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
+                      <span className="text-[14px] font-semibold text-white/80 group-hover:text-cyan-400">{m.label}</span>
+                    </a>
+                  ))}
+                  <details className="group/details px-4">
+                    <summary className="text-[11px] font-bold text-white/30 cursor-pointer hover:text-white transition-colors py-2 uppercase tracking-widest list-none flex items-center gap-2">
+                      <ChevronDown className="w-3 h-3 group-open/details:rotate-180 transition-transform" />
+                      More Modes
+                    </summary>
+                    <div className="pt-2 space-y-1">
+                        {NON_ND_MODES.slice(8).map((m) => (
+                          <a key={m.id} href={`/dashboard?mode=minimal&style=${m.id}`} className="flex items-center gap-3 py-1.5 text-[13px] text-white/50 hover:text-cyan-400 transition-colors">
+                            <Zap className="w-3 h-3" /> {m.label}
+                          </a>
+                        ))}
+                    </div>
+                  </details>
+                </div>
+              </FluidSection>
             </div>
 
-            {/* Platform Section with Fluid Outline */}
-            <div className="mt-8 px-2">
+            {/* Neuro Profiles Card */}
+            <div className="px-2">
+              <FluidSection title="Neuro Profiles">
+                <div className="p-2 space-y-1">
+                  {NEURO_PROFILES.map((p) => (
+                    <a key={p.id} href={`/dashboard?mode=focus&profile=${p.id}`} className={navItemClass}>
+                      <Brain className="w-4 h-4 text-indigo-400 group-hover:scale-110 transition-transform" />
+                      <span className="text-[14px] font-semibold text-white/80 group-hover:text-indigo-400">{p.label}</span>
+                    </a>
+                  ))}
+                </div>
+              </FluidSection>
+            </div>
+
+            {/* Tools Card */}
+            <div className="px-2">
+              <FluidSection title="Tools">
+                <div className="p-2 space-y-1">
+                  <a href="/dashboard" className={navItemClass}>
+                    <Navigation className="w-5 h-5 text-white/70 group-hover:text-white" />
+                    <span className="text-[15px] font-semibold text-white/90">Charts Hub</span>
+                  </a>
+                  <a href="/intelligence" className={navItemClass}>
+                    <TrendingUp className="w-5 h-5 text-white/70 group-hover:text-white" />
+                    <span className="text-[15px] font-semibold text-white/90">Markets Directory</span>
+                  </a>
+                </div>
+              </FluidSection>
+            </div>
+
+            {/* Platform Section */}
+            <div className="px-2">
               <FluidSection title="Platform">
                 <div className="p-2 space-y-1">
                   <div className={navItemClass}>
@@ -237,8 +244,8 @@ export default function SocialPlatform() {
               </FluidSection>
             </div>
 
-            {/* Legal Section with Fluid Outline */}
-            <div className="mt-6 px-2 mb-8">
+            {/* Legal Section */}
+            <div className="px-2 mb-8">
               <FluidSection title="Legal">
                 <div className="p-2 space-y-1">
                   <div className={navItemClass}>
