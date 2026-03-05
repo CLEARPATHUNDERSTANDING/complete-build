@@ -6,13 +6,22 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 export default function HomePage() {
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center">
-      <header className="topbar w-full absolute top-0">
+      <header className="topbar w-full absolute top-0 flex items-center justify-between px-10 py-8">
         <div className="brand-wrap">
           <div>
             <div className="brand-name text-white">AFTER PATENT</div>
             <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
           </div>
         </div>
+
+        <nav className="flex items-center gap-10">
+          <Link href="/patent-pending" className="text-[11px] font-black uppercase tracking-[0.3em] text-indigo-400 hover:text-white transition-all">
+            Patent Pending
+          </Link>
+          <Link href="/login" className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-white transition-all">
+            Identity Portal
+          </Link>
+        </nav>
       </header>
 
       <section className="max-w-5xl px-8 text-center space-y-12">
