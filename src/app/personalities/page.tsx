@@ -1,12 +1,12 @@
-
 'use client';
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Users, ShieldCheck, Radio, MessageSquare, Globe, ExternalLink } from "lucide-react";
+import { ArrowLeft, Users, ShieldCheck, Radio, MessageSquare, Globe, ExternalLink, Newspaper } from "lucide-react";
 import GradientBurstWrap from "@/components/GradientBurstWrap";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -39,24 +39,56 @@ const REPUBLICAN_LINKS: MediaLink[] = [
   { "name": "Seeking Alpha", "url": "https://seekingalpha.com", "type": "finance" }
 ];
 
+const DEMOCRAT_LINKS: MediaLink[] = [
+  { "name": "New York Times", "url": "https://www.nytimes.com", "type": "news" },
+  { "name": "Washington Post", "url": "https://www.washingtonpost.com", "type": "news" },
+  { "name": "CNN", "url": "https://www.cnn.com", "type": "news" },
+  { "name": "MSNBC", "url": "https://www.msnbc.com", "type": "news" },
+  { "name": "NPR", "url": "https://www.npr.org", "type": "news" },
+  { "name": "Politico", "url": "https://www.politico.com", "type": "politics" },
+  { "name": "Axios", "url": "https://www.axios.com", "type": "news" },
+  { "name": "Vox", "url": "https://www.vox.com", "type": "news" },
+  { "name": "ProPublica", "url": "https://www.propublica.org", "type": "investigative" },
+  { "name": "Guardian US", "url": "https://www.theguardian.com/us", "type": "news" },
+  { "name": "HuffPost", "url": "https://www.huffpost.com", "type": "news" },
+  { "name": "Daily Kos", "url": "https://www.dailykos.com", "type": "community" },
+  { "name": "Reddit Politics", "url": "https://www.reddit.com/r/politics", "type": "community" },
+  { "name": "YouTube", "url": "https://youtube.com", "type": "social" },
+  { "name": "Twitter/X", "url": "https://twitter.com", "type": "social" },
+  { "name": "TikTok", "url": "https://tiktok.com", "type": "social" },
+  { "name": "Bloomberg", "url": "https://www.bloomberg.com", "type": "finance" },
+  { "name": "Yahoo Finance", "url": "https://finance.yahoo.com", "type": "finance" },
+  { "name": "MarketWatch", "url": "https://www.marketwatch.com", "type": "finance" },
+  { "name": "Etsy", "url": "https://www.etsy.com", "type": "shopping" }
+];
+
 function PersonalityCard({ 
   title, 
   description, 
   icon: Icon, 
   members, 
-  links = [] 
+  links = [],
+  theme = "orange"
 }: { 
   title: string, 
   description: string, 
   icon: any, 
   members: string,
-  links?: MediaLink[]
+  links?: MediaLink[],
+  theme?: "orange" | "blue"
 }) {
+  const isBlue = theme === "blue";
+  
   return (
-    <GradientBurstWrap>
+    <GradientBurstWrap style={isBlue ? { background: 'linear-gradient(90deg, #00d4ff, #6a5cff)' } : undefined}>
       <div className="flex items-start justify-between mb-6">
-        <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 shadow-[0_0_15px_rgba(255,122,24,0.2)]">
-          <Icon className="w-6 h-6 text-orange-400" />
+        <div className={cn(
+          "p-3 rounded-xl border shadow-[0_0_15px_rgba(255,122,24,0.2)]",
+          isBlue 
+            ? "bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_15px_rgba(0,212,255,0.2)]" 
+            : "bg-orange-500/10 border-orange-500/20 shadow-[0_0_15px_rgba(255,122,24,0.2)]"
+        )}>
+          <Icon className={cn("w-6 h-6", isBlue ? "text-cyan-400" : "text-orange-400")} />
         </div>
         <div className="text-right">
           <div className="text-[9px] font-black text-white/30 uppercase tracking-widest">Active Members</div>
@@ -70,7 +102,7 @@ function PersonalityCard({
       {links.length > 0 && (
         <div className="mb-8 space-y-3">
           <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2">
-            <ShieldCheck className="w-3 h-3" /> Intelligence Sources
+            <ShieldCheck className={cn("w-3 h-3", isBlue ? "text-cyan-400" : "text-orange-400")} /> Intelligence Sources
           </div>
           <div className="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar scrollbar-hide">
             {links.map((link, idx) => (
@@ -79,12 +111,15 @@ function PersonalityCard({
                 href={link.url} 
                 target="_blank" 
                 rel="noreferrer"
-                className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/5 hover:border-orange-500/40 hover:bg-orange-500/10 transition-all group/link"
+                className={cn(
+                  "flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/5 transition-all group/link",
+                  isBlue ? "hover:border-cyan-500/40 hover:bg-cyan-500/10" : "hover:border-orange-500/40 hover:bg-orange-500/10"
+                )}
               >
                 <span className="text-[10px] font-bold text-white/50 group-hover/link:text-white truncate max-w-[100px]">
                   {link.name}
                 </span>
-                <ExternalLink className="w-2.5 h-2.5 text-white/10 group-hover/link:text-orange-400 shrink-0" />
+                <ExternalLink className={cn("w-2.5 h-2.5 text-white/10 shrink-0", isBlue ? "group-hover/link:text-cyan-400" : "group-hover/link:text-orange-400")} />
               </a>
             ))}
           </div>
@@ -92,7 +127,12 @@ function PersonalityCard({
       )}
 
       <div className="space-y-3">
-        <Button className="w-full bg-orange-500 hover:bg-orange-400 text-black font-black uppercase text-[10px] tracking-widest h-11 rounded-xl shadow-[0_0_20px_rgba(255,122,24,0.3)] transition-all">
+        <Button className={cn(
+          "w-full text-black font-black uppercase text-[10px] tracking-widest h-11 rounded-xl transition-all",
+          isBlue 
+            ? "bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_20px_rgba(0,212,255,0.3)]" 
+            : "bg-orange-500 hover:bg-orange-400 shadow-[0_0_20px_rgba(255,122,24,0.3)]"
+        )}>
           Synchronize Community
         </Button>
         <div className="flex items-center justify-between px-2">
@@ -158,12 +198,15 @@ export default function PersonalitiesPage() {
             icon={Radio}
             members="42.8K"
             links={REPUBLICAN_LINKS}
+            theme="orange"
           />
           <PersonalityCard 
             title="Democrat" 
             description="Live news, progressive intelligence communities, and digital media streams filtered for ideological synchronization."
             icon={Globe}
             members="39.2K"
+            links={DEMOCRAT_LINKS}
+            theme="blue"
           />
           <PersonalityCard 
             title="Independent" 
