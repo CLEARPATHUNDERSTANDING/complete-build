@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -153,11 +154,11 @@ function NavItem({
       ].join(" ")}
     >
       {Icon ? (
-        <Icon className={["w-5 h-5", active ? colorMap[color] : "text-white/70 group-hover:text-white group-hover:scale-110 transition-all"].join(" ")} />
+        <Icon className={cn("w-5 h-5 transition-all", active ? colorMap[color] : "text-white/70 group-hover:text-white group-hover:scale-110")} />
       ) : (
-        <span className={["text-lg", colorMap[color]].join(" ")}>✦</span>
+        <span className={cn("text-lg", colorMap[color])}>✦</span>
       )}
-      <span className={["text-[15px] font-semibold", active ? colorMap[color] : "text-white"].join(" ")}>{label}</span>
+      <span className={cn("text-[15px] font-semibold", active ? colorMap[color] : "text-white")}>{label}</span>
     </a>
   );
 }
@@ -345,13 +346,22 @@ export default function SocialPlatform() {
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
                 <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
                 <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
-                <NavItem label="Identity Hub" icon={Brain} href="/personalities" color="rose" />
-                <NavItem label="All Communities" icon={Compass} href="/communities" color="emerald" />
-                <NavItem label="Overall" icon={Users} href="/community" active color="orange" />
+                <NavItem label="Political Network" icon={Compass} href="/personalities" active color="orange" />
+                <NavItem label="All Communities" icon={Users} href="/communities" color="emerald" />
+                <NavItem label="Social Stream" icon={MessageCircle} href="/community" color="pink" />
               </div>
             </BorderWallCard>
 
-            <BorderWallCard title="Clinical Profiles" maxHeight="300px">
+            <BorderWallCard title="Intelligence Sectors" maxHeight="300px">
+              <div className="space-y-1">
+                <NavItem label="Republican" icon={Flag} href="/communities?hubId=republican-sector" color="orange" />
+                <NavItem label="Democrat" icon={Globe} href="/communities?hubId=democrat-sector" color="pink" />
+                <NavItem label="Independent" icon={Scale} href="/communities?hubId=independent-sector" color="amber" />
+                <NavItem label="Liberal" icon={HandMetal} href="/communities?hubId=liberal-sector" color="emerald" />
+              </div>
+            </BorderWallCard>
+
+            <BorderWallCard title="Neuro Profiles" maxHeight="300px">
               <div className="space-y-1">
                 {NEURO_PROFILES.map((p) => (
                   <NavItem 
@@ -362,19 +372,6 @@ export default function SocialPlatform() {
                     color="pink" 
                   />
                 ))}
-              </div>
-            </BorderWallCard>
-
-            <BorderWallCard title="Standard Modes" maxHeight="300px">
-              <div className="space-y-1">
-                <NavItem label="Stocks" href="/dashboard?mode=minimal&style=stocks" color="orange" />
-                <NavItem label="ETFs" href="/dashboard?mode=minimal&style=etfs" color="pink" />
-                <NavItem label="Bonds" href="/dashboard?mode=minimal&style=amber" color="amber" />
-                <NavItem label="Forex" href="/dashboard?mode=minimal&style=forex" color="emerald" />
-                <NavItem label="Futures" href="/dashboard?mode=minimal&style=futures" color="rose" />
-                <NavItem label="Crypto" href="/dashboard?mode=minimal&style=crypto" color="emerald" />
-                <NavItem label="Indices" href="/dashboard?mode=minimal&style=indices" color="orange" />
-                <NavItem label="World Economy" href="/dashboard?mode=minimal&style=economy" color="amber" />
               </div>
             </BorderWallCard>
           </div>
