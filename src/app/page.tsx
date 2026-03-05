@@ -13,7 +13,7 @@ export default function HomePage() {
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="After Patent Logo"
-              className="w-12 h-12 rounded-xl object-cover border-2 border-orange-500/40 shadow-[0_0_30px_rgba(255,136,0,0.8)] brightness-125 saturate-150"
+              className="w-12 h-12 rounded-xl object-cover border-2 border-indigo-500/40 shadow-[0_0_30px_rgba(106,92,255,0.6)] brightness-125 saturate-150"
             />
             <div>
               <div className="brand-name text-white">AFTER PATENT</div>
@@ -38,9 +38,9 @@ export default function HomePage() {
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path Logo"
-              className="w-48 h-48 rounded-[40px] object-cover border-2 border-orange-500/50 shadow-[0_0_80px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-700 group-hover:scale-105"
+              className="w-48 h-48 rounded-[40px] object-cover border-2 border-indigo-500/50 shadow-[0_0_100px_rgba(106,92,255,0.5),0_0_60px_rgba(0,245,255,0.3)] brightness-125 saturate-150 transition-all duration-700 group-hover:scale-105"
             />
-            <span className="absolute -bottom-4 -right-4 bg-orange-500 text-black px-3 py-1 rounded-lg text-[12px] font-black tracking-widest shadow-[0_0_20px_rgba(255,136,0,0.5)]">PRO</span>
+            <span className="absolute -bottom-4 -right-4 bg-indigo-600 text-white px-4 py-1.5 rounded-xl text-[12px] font-black tracking-widest shadow-[0_0_25px_rgba(106,92,255,0.8)] border border-white/20">PRO</span>
           </div>
         </div>
 
@@ -48,11 +48,11 @@ export default function HomePage() {
           <div className="eyebrow">Secure Diagnostic Interface</div>
           <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95]">
             Market intelligence <br /> 
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] to-[#ff4fd8]">designed for focus</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] to-[#ff00d4]">designed for focus</span>
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-white/60 leading-relaxed font-medium">
             Your interactive intelligence layer sits above a solid, distraction-free foundation 
-            with sharp neon styling and high-fidelity diagnostic anchors.
+            with sharp spectral styling and high-fidelity diagnostic anchors.
           </p>
         </div>
 

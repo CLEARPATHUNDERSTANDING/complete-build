@@ -11,15 +11,16 @@ type NeonBoardProps = {
  * High-intensity NeonBoard component acting as a true "Frame".
  * Uses CSS mask to ensure the interior is perfectly transparent
  * while the 10px border carries the high-intensity AFTER PATENT logo spectrum.
+ * UPDATED: Replaced gold tones with Cyan -> Indigo -> Pink burst.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
     <div className={`relative ${className}`}>
-      {/* The Border Layer - Full Logo Spectrum */}
+      {/* The Border Layer - Full Logo Spectrum (No Gold) */}
       <div
         className="absolute inset-0 rounded-[32px]"
         style={{
-          background: "linear-gradient(135deg, #00d4ff 0%, #6a5cff 33%, #ff4fd8 66%, #ff8a00 100%)",
+          background: "linear-gradient(135deg, #00f5ff 0%, #6a5cff 50%, #ff00d4 100%)",
           mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           maskComposite: "exclude",
@@ -28,11 +29,11 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
       
-      {/* The Shadow/Glow Layer - Multi-tone logo bloom */}
+      {/* The Shadow/Glow Layer - Multi-tone logo bloom (Cyan/Indigo/Pink) */}
       <div 
         className="absolute inset-0 rounded-[32px] pointer-events-none"
         style={{
-          boxShadow: "0 0 40px rgba(0,212,255,0.2), 0 0 60px rgba(106,92,255,0.15), 0 0 80px rgba(255,79,216,0.1)",
+          boxShadow: "0 0 40px rgba(0,245,255,0.2), 0 0 60px rgba(106,92,255,0.15), 0 0 80px rgba(255,0,212,0.1)",
         }}
       />
 

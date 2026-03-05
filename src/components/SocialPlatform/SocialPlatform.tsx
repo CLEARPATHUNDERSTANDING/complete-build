@@ -51,7 +51,7 @@ import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
 
-const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
+const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] to-[#ff00d4] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 function BorderWallCard({
   title,
@@ -78,8 +78,8 @@ function BorderWallCard({
       className={cn(
         "relative rounded-[26px] p-[3px] transition-all duration-500",
         isCool 
-          ? "bg-[linear-gradient(135deg,#00d4ff_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(0,212,255,0.3)]" 
-          : "bg-[linear-gradient(135deg,#ff4fd8_0%,#ff8a00_100%)] shadow-[0_0_25px_rgba(255,79,216,0.3)]",
+          ? "bg-[linear-gradient(135deg,#00f5ff_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(0,245,255,0.3)]" 
+          : "bg-[linear-gradient(135deg,#ff00d4_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(255,0,212,0.3)]",
         className
       )}
     >
@@ -97,7 +97,7 @@ function BorderWallCard({
           <div className="border-b border-white/8 px-5 py-4 shrink-0">
             <div className={cn(
               "text-[12px] font-black uppercase tracking-[0.28em]",
-              isCool ? "text-cyan-300" : "text-orange-300"
+              isCool ? "text-cyan-300" : "text-fuchsia-300"
             )}>
               {title}
             </div>
@@ -135,7 +135,7 @@ function NavItem({
 }) {
   const colorMap = {
     pink: "text-pink-400",
-    orange: "text-orange-300",
+    orange: "text-cyan-400",
     emerald: "text-emerald-400",
     amber: "text-amber-400",
     rose: "text-rose-400",
@@ -326,7 +326,7 @@ export default function SocialPlatform() {
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="After Patent Logo"
-                  className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-105"
+                  className="w-48 h-48 rounded-3xl object-cover border-2 border-indigo-500/40 shadow-[0_0_60px_rgba(106,92,255,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
               </div>
@@ -369,7 +369,7 @@ export default function SocialPlatform() {
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="After Patent Logo"
-                className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
+                className="w-48 h-48 rounded-3xl object-cover border-2 border-indigo-500/40 shadow-[0_0_60px_rgba(106,92,255,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
               />
               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
             </div>
@@ -401,13 +401,13 @@ export default function SocialPlatform() {
             </div>
 
             <div className="flex items-center gap-4 bg-white/5 border border-white/8 rounded-3xl px-6 py-3">
-              <Avatar className="w-14 h-14 ring-2 ring-orange-500/20">
+              <Avatar className="w-14 h-14 ring-2 ring-indigo-500/20">
                 <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                <AvatarFallback className="bg-orange-500 text-sm font-black">{user.displayName?.[0]}</AvatarFallback>
+                <AvatarFallback className="bg-indigo-500 text-sm font-black">{user.displayName?.[0]}</AvatarFallback>
               </Avatar>
               <div className="text-left leading-tight hidden lg:block">
                 <div className="text-lg font-black text-white">{user.displayName || "Trader"}</div>
-                <div className="text-[11px] font-black text-orange-400 uppercase tracking-widest">Authorized</div>
+                <div className="text-[11px] font-black text-indigo-400 uppercase tracking-widest">Authorized</div>
               </div>
             </div>
           </div>
@@ -471,19 +471,19 @@ export default function SocialPlatform() {
             <div className="space-y-12">
               {isInsightsLoading ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
-                  <Activity className="w-12 h-12 animate-pulse mb-6 text-orange-500" />
+                  <Activity className="w-12 h-12 animate-pulse mb-6 text-indigo-500" />
                   <span className="text-[11px] font-black uppercase tracking-[0.4em]">Synchronizing Data Stream...</span>
                 </div>
               ) : (
                 insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                   <div key={post.id} className="mx-auto w-full group">
-                    <div className="relative rounded-[40px] p-[4px] bg-[linear-gradient(135deg,rgba(255,136,0,1)_0%,rgba(255,0,85,1)_50%,rgba(255,138,0,1)_100%)] shadow-[0_0_30px_rgba(255,136,0,0.2)] transition-transform hover:scale-[1.005]">
+                    <div className="relative rounded-[40px] p-[4px] bg-[linear-gradient(135deg,#00f5ff_0%,#6a5cff_50%,#ff00d4_100%)] shadow-[0_0_30px_rgba(106,92,255,0.2)] transition-transform hover:scale-[1.005]">
                       <div className="rounded-[36px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-10 py-8">
                         <div className="flex items-start justify-between gap-6">
                           <div className="flex items-center gap-6">
-                            <Avatar className="w-16 h-16 ring-2 ring-orange-500/20">
+                            <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20">
                               <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
-                              <AvatarFallback className="bg-orange-500 text-lg">{post.user[0]}</AvatarFallback>
+                              <AvatarFallback className="bg-indigo-500 text-lg">{post.user[0]}</AvatarFallback>
                             </Avatar>
                             <div>
                               <div className="flex items-center gap-3">
@@ -503,7 +503,7 @@ export default function SocialPlatform() {
 
                         <div className="flex items-center gap-12 text-white/50 border-t border-white/5 pt-8">
                           <button className="flex items-center gap-3 hover:text-red-500 transition-colors"><Heart className="w-6 h-6" /><span className="font-bold text-sm uppercase tracking-widest">Synchronize</span></button>
-                          <button className="flex items-center gap-3 hover:text-orange-400 transition-colors"><MessageCircle className="w-6 h-6" /><span className="font-bold text-sm uppercase tracking-widest">Discuss</span></button>
+                          <button className="flex items-center gap-3 hover:text-indigo-400 transition-colors"><MessageCircle className="w-6 h-6" /><span className="font-bold text-sm uppercase tracking-widest">Discuss</span></button>
                         </div>
                       </div>
                     </div>
@@ -518,7 +518,7 @@ export default function SocialPlatform() {
       {/* RIGHT SIDEBAR */}
       <aside className="w-[380px] border-l border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-8 flex items-center gap-4 border-b border-white/5 shrink-0">
-          <TrendingUp className="w-6 h-6 text-orange-500" />
+          <TrendingUp className="w-6 h-6 text-indigo-500" />
           <div className={`text-[14px] font-black tracking-[0.3em] uppercase ${spectralTitleClass}`}>Environment</div>
         </div>
         <ScrollArea className="flex-1 min-h-0">
@@ -534,13 +534,13 @@ export default function SocialPlatform() {
                   { name: "Market Watch", status: "Session Review", active: true, img: getImg("hub-market-watch") },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-5 p-3 rounded-2xl hover:bg-white/5 transition-all cursor-pointer group">
-                    <div className="relative h-16 w-16 shrink-0 rounded-full bg-[linear-gradient(135deg,#ff8800,#ff0055,#ff4fd8)] p-[3px]">
+                    <div className="relative h-16 w-16 shrink-0 rounded-full bg-[linear-gradient(135deg,#00f5ff,#6a5cff,#ff00d4)] p-[3px]">
                       <div className="h-full w-full rounded-full overflow-hidden">
                         <img src={hub.img} className="w-full h-full object-cover" alt="" />
                       </div>
                     </div>
                     <div className="text-left">
-                      <div className="text-[16px] font-black text-white group-hover:text-orange-400 transition-colors">{hub.name}</div>
+                      <div className="text-[16px] font-black text-white group-hover:text-indigo-400 transition-colors">{hub.name}</div>
                       <div className="text-[11px] font-black text-white/30 uppercase tracking-widest">{hub.status}</div>
                     </div>
                   </div>
