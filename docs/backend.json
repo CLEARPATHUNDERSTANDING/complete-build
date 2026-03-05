@@ -2,10 +2,9 @@
 {
   "entities": {
     "UserProfile": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
-      "type": "object",
       "description": "Represents a user's core profile information and references to their personalized settings.",
+      "type": "object",
       "properties": {
         "id": {
           "type": "string",
@@ -17,200 +16,30 @@
         },
         "createdAt": {
           "type": "string",
-          "description": "Timestamp when the user profile was created.",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the user profile was created."
         },
         "lastSeen": {
           "type": "string",
-          "description": "Timestamp of the user's last activity.",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp of the user's last activity."
         },
         "defaultUserPreferenceId": {
           "type": "string",
-          "description": "Reference to the UserPreference entity representing the user's default preferences. (Relationship: UserProfile 1:1 UserPreference)"
-        },
-        "defaultUserLayoutId": {
-          "type": "string",
-          "description": "Reference to the UserLayout entity representing the user's default dashboard layout. (Relationship: UserProfile 1:1 UserLayout)"
-        },
-        "defaultModeId": {
-          "type": "string",
-          "description": "Identifier for the default mode the user is set to experience (e.g., 'MinimalMode', 'FocusMode')."
+          "description": "Reference to the UserPreference entity representing the user's default preferences."
         }
       },
       "required": [
         "id",
         "role",
         "createdAt",
-        "lastSeen",
-        "defaultUserPreferenceId",
-        "defaultUserLayoutId",
-        "defaultModeId"
-      ]
-    },
-    "UserPreference": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "UserPreference",
-      "type": "object",
-      "description": "Stores user-specific settings and preferences, linked to a specific user and potentially a specific mode.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the UserPreference entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the UserProfile entity this preference belongs to. (Relationship: UserProfile 1:N UserPreference)"
-        },
-        "schemaVersion": {
-          "type": "string",
-          "description": "Version of the schema used for this preference configuration, for migration purposes."
-        },
-        "lastMigratedAt": {
-          "type": "string",
-          "description": "Timestamp when this preference set was last migrated to a newer schema version.",
-          "format": "date-time"
-        },
-        "visualProfileId": {
-          "type": "string",
-          "description": "Reference to the VisualProfile entity defining visual settings for this preference. (Relationship: UserPreference 1:1 VisualProfile)"
-        },
-        "modeId": {
-          "type": "string",
-          "description": "Identifier of the application mode to which these preferences apply (e.g., 'MinimalMode')."
-        }
-      },
-      "required": [
-        "id",
-        "userId",
-        "schemaVersion",
-        "visualProfileId",
-        "modeId"
-      ]
-    },
-    "VisualProfile": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "VisualProfile",
-      "type": "object",
-      "description": "Defines a set of visual settings that can be applied to user preferences or layouts.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the VisualProfile entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "A user-friendly name for this visual profile (e.g., 'Default Calm Profile')."
-        },
-        "density": {
-          "type": "string",
-          "description": "Controls the UI information density (e.g., 'compact', 'comfortable')."
-        },
-        "motion": {
-          "type": "string",
-          "description": "Controls the level of UI animations and motion (e.g., 'reduced', 'full')."
-        },
-        "contrast": {
-          "type": "string",
-          "description": "Controls the UI contrast settings (e.g., 'standard', 'high')."
-        },
-        "fontScaling": {
-          "type": "string",
-          "description": "Controls the scaling of fonts in the UI (e.g., 'small', 'medium', 'large')."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "density",
-        "motion",
-        "contrast",
-        "fontScaling"
-      ]
-    },
-    "UserLayout": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "UserLayout",
-      "type": "object",
-      "description": "Stores a user's specific dashboard layout configuration for a given mode.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the UserLayout entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the UserProfile entity this layout belongs to. (Relationship: UserProfile 1:N UserLayout)"
-        },
-        "schemaVersion": {
-          "type": "string",
-          "description": "Version of the schema used for this layout configuration, for migration purposes."
-        },
-        "modeId": {
-          "type": "string",
-          "description": "Identifier of the application mode to which this layout applies (e.g., 'ProDeskMode')."
-        },
-        "layoutName": {
-          "type": "string",
-          "description": "A user-friendly name for this specific layout (e.g., 'My Market Watch')."
-        },
-        "gridConfiguration": {
-          "type": "string",
-          "description": "JSON string representing the grid structure and arrangement of panels within the layout."
-        },
-        "panelConfigurationIds": {
-          "type": "array",
-          "description": "References to PanelConfiguration entities included in this layout. (Relationship: UserLayout N:N PanelConfiguration)",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "userId",
-        "schemaVersion",
-        "modeId",
-        "layoutName",
-        "gridConfiguration",
-        "panelConfigurationIds"
-      ]
-    },
-    "PanelConfiguration": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "PanelConfiguration",
-      "type": "object",
-      "description": "Defines the specific configuration for a single data panel within a dashboard layout.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the PanelConfiguration entity."
-        },
-        "panelType": {
-          "type": "string",
-          "description": "The type of panel (e.g., 'chart', 'news', 'watchlist', 'calendar')."
-        },
-        "panelState": {
-          "type": "string",
-          "description": "JSON string representing the specific state and properties of the panel (e.g., chart symbol, time range, news filters)."
-        },
-        "stableId": {
-          "type": "string",
-          "description": "A stable identifier for the panel configuration instance, as per app requirements for schema versioning."
-        }
-      },
-      "required": [
-        "id",
-        "panelType",
-        "panelState",
-        "stableId"
+        "lastSeen"
       ]
     },
     "Insight": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Insight",
-      "type": "object",
       "description": "Represents a market insight shared by a user in the social stream.",
+      "type": "object",
       "properties": {
         "id": {
           "type": "string",
@@ -234,10 +63,10 @@
         },
         "symbols": {
           "type": "array",
-          "description": "List of market symbols linked to this insight.",
           "items": {
             "type": "string"
-          }
+          },
+          "description": "List of market symbols linked to this insight."
         },
         "isLive": {
           "type": "boolean",
@@ -245,16 +74,16 @@
         },
         "createdAt": {
           "type": "string",
-          "description": "Timestamp when the insight was created.",
-          "format": "date-time"
+          "format": "date-time",
+          "description": "Timestamp when the insight was created."
         },
         "attachment": {
           "type": "object",
-          "description": "Optional chart mapping associated with the insight.",
           "properties": {
             "symbol": { "type": "string" },
             "annotation": { "type": "string" }
-          }
+          },
+          "description": "Optional chart mapping associated with the insight."
         }
       },
       "required": [
@@ -265,55 +94,18 @@
       ]
     },
     "FeedbackItem": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "FeedbackItem",
+      "description": "Stores user-submitted feedback or bug reports.",
       "type": "object",
-      "description": "Stores user-submitted feedback, bug reports, or 'confusion points'.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the FeedbackItem entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the UserProfile entity who submitted the feedback. (Relationship: UserProfile 1:N FeedbackItem)"
-        },
-        "type": {
-          "type": "string",
-          "description": "The category of feedback (e.g., 'bug', 'suggestion', 'confusion_point', 'general')."
-        },
-        "description": {
-          "type": "string",
-          "description": "Detailed description of the feedback, issue, or confusion."
-        },
-        "screenshotUrl": {
-          "type": "string",
-          "description": "Optional URL to a screenshot or image supporting the feedback.",
-          "format": "uri"
-        },
-        "status": {
-          "type": "string",
-          "description": "Current status of the feedback item (e.g., 'new', 'in_review', 'resolved', 'closed')."
-        },
-        "createdAt": {
-          "type": "string",
-          "description": "Timestamp when the feedback item was submitted.",
-          "format": "date-time"
-        },
-        "resolvedAt": {
-          "type": "string",
-          "description": "Timestamp when the feedback item was resolved, if applicable.",
-          "format": "date-time"
-        }
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["bug", "suggestion", "confusion_point"] },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["new", "in_review", "resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": [
-        "id",
-        "userId",
-        "type",
-        "description",
-        "status",
-        "createdAt"
-      ]
+      "required": ["id", "userId", "type", "description", "status", "createdAt"]
     }
   },
   "auth": {
@@ -323,56 +115,23 @@
     ]
   },
   "firestore": {
-    "structure": [
-      {
-        "path": "/users/{userId}",
-        "definition": {
-          "entityName": "userProfile",
-          "schema": {
-            "$ref": "#/backend/entities/UserProfile"
-          },
-          "description": "Stores core profile information for each user. Access is restricted to the owning user.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
-            }
-          ]
-        }
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/backend/entities/UserProfile"
       },
-      {
-        "path": "/insights/{insightId}",
-        "definition": {
-          "entityName": "insight",
-          "schema": {
-            "$ref": "#/backend/entities/Insight"
-          },
-          "description": "Public stream of market insights. Any authenticated user can read; only the owner can write/delete.",
-          "params": [
-            {
-              "name": "insightId",
-              "description": "Unique identifier for the insight document."
-            }
-          ]
-        }
+      "description": "Stores core profile information for each user. Access is restricted to the owning user."
+    },
+    "/insights/{insightId}": {
+      "schema": {
+        "$ref": "#/backend/entities/Insight"
       },
-      {
-        "path": "/feedbackItems/{feedbackItemId}",
-        "definition": {
-          "entityName": "feedbackItem",
-          "schema": {
-            "$ref": "#/backend/entities/FeedbackItem"
-          },
-          "description": "Stores user-submitted feedback items.",
-          "params": [
-            {
-              "name": "feedbackItemId",
-              "description": "The unique identifier for a feedback item."
-            }
-          ]
-        }
-      }
-    ],
-    "reasoning": "The Firestore structure is updated to prioritize the public intelligence stream while maintaining private user profiles. The '/insights' collection is top-level to support global scanning by all authorized traders, following the Queryable Access Pattern (QAP) for the social platform features."
+      "description": "Public stream of market insights. Any authenticated user can read; only the owner can write/delete."
+    },
+    "/feedbackItems/{feedbackItemId}": {
+      "schema": {
+        "$ref": "#/backend/entities/FeedbackItem"
+      },
+      "description": "Stores user-submitted feedback items."
+    }
   }
 }
