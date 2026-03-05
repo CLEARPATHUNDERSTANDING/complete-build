@@ -6,6 +6,7 @@ import { ArrowLeft, Users, ShieldCheck, Radio, MessageSquare, Globe, ExternalLin
 import GradientBurstWrap from "@/components/GradientBurstWrap";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMounted } from "@/hooks/use-mounted";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -142,6 +143,8 @@ function PersonalityCard({
     ? { background: 'linear-gradient(90deg, #a855f7, #ff4fd8)' }
     : undefined;
 
+  const shieldColor = isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : isPurple ? "text-purple-400" : "text-orange-400";
+
   return (
     <GradientBurstWrap style={burstStyle}>
       <div className="flex items-start justify-between mb-6">
@@ -160,7 +163,7 @@ function PersonalityCard({
       {links.length > 0 && (
         <div className="mb-8 space-y-3">
           <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2">
-            <ShieldCheck className={cn("w-3 h-3", isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : isPurple ? "text-purple-400" : "text-orange-400")} /> Intelligence Sources
+            <ShieldCheck className={cn("w-3 h-3", shieldColor)} /> Intelligence Sources
           </div>
           <div className="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar scrollbar-hide">
             {links.map((link, idx) => (
@@ -199,7 +202,7 @@ function PersonalityCard({
           theme === "orange" && "bg-orange-500 hover:bg-orange-400 shadow-[0_0_20px_rgba(255,122,24,0.3)]",
           theme === "blue" && "bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_20px_rgba(0,212,255,0.3)]",
           theme === "gray" && "bg-slate-400 hover:bg-slate-300 shadow-[0_0_20px_rgba(148,163,184,0.3)]",
-          theme === "purple" && "bg-purple-500 hover:bg-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
+          theme === "purple" && "bg-purple-500 hover:bg-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]"
         )}>
           Synchronize Community
         </Button>
@@ -216,6 +219,8 @@ function PersonalityCard({
 }
 
 export default function PersonalitiesPage() {
+  const mounted = useMounted();
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-orange-500 font-body">
       <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-10 flex items-center justify-between">
@@ -259,40 +264,46 @@ export default function PersonalitiesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-          <PersonalityCard 
-            title="Republican" 
-            description="High-fidelity news, conservative intelligence communities, and traditional media feeds synchronized for rapid analysis."
-            icon={Radio}
-            members="42.8K"
-            links={REPUBLICAN_LINKS}
-            theme="orange"
-          />
-          <PersonalityCard 
-            title="Democrat" 
-            description="Live news, progressive intelligence communities, and digital media streams filtered for ideological synchronization."
-            icon={Globe}
-            members="39.2K"
-            links={DEMOCRAT_LINKS}
-            theme="blue"
-          />
-          <PersonalityCard 
-            title="Independent" 
-            description="Centrist news aggregators, neutral intelligence hubs, and cross-asset flow investigation centers."
-            icon={Zap}
-            members="12.5K"
-            links={INDEPENDENT_LINKS}
-            theme="gray"
-          />
-          <PersonalityCard 
-            title="Liberal" 
-            description="Reform-focused intelligence feeds, liberal communities, and globalist data layers for broad-spectrum observation."
-            icon={Sparkles}
-            members="28.9K"
-            links={LIBERAL_LINKS}
-            theme="purple"
-          />
-        </div>
+        {mounted ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 animate-in fade-in duration-700">
+            <PersonalityCard 
+              title="Republican" 
+              description="High-fidelity news, conservative intelligence communities, and traditional media feeds synchronized for rapid analysis."
+              icon={Radio}
+              members="42.8K"
+              links={REPUBLICAN_LINKS}
+              theme="orange"
+            />
+            <PersonalityCard 
+              title="Democrat" 
+              description="Live news, progressive intelligence communities, and digital media streams filtered for ideological synchronization."
+              icon={Globe}
+              members="39.2K"
+              links={DEMOCRAT_LINKS}
+              theme="blue"
+            />
+            <PersonalityCard 
+              title="Independent" 
+              description="Centrist news aggregators, neutral intelligence hubs, and cross-asset flow investigation centers."
+              icon={Zap}
+              members="12.5K"
+              links={INDEPENDENT_LINKS}
+              theme="gray"
+            />
+            <PersonalityCard 
+              title="Liberal" 
+              description="Reform-focused intelligence feeds, liberal communities, and globalist data layers for broad-spectrum observation."
+              icon={Sparkles}
+              members="28.9K"
+              links={LIBERAL_LINKS}
+              theme="purple"
+            />
+          </div>
+        ) : (
+          <div className="flex items-center justify-center py-20 opacity-20">
+            <Sparkles className="w-12 h-12 animate-pulse text-orange-500" />
+          </div>
+        )}
       </main>
 
       <footer className="py-16 border-t border-white/10 mt-20 bg-black/80 backdrop-blur-md">

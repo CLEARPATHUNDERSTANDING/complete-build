@@ -1,9 +1,8 @@
-
 "use client";
 
 import dynamic from "next/dynamic";
 import { type ApexOptions } from "apexcharts";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -13,9 +12,11 @@ type Props = {
 };
 
 export default function MarketDetailChart({ title, data }: Props) {
-  const seriesData = useMemo(() => {
-    // Convert line data to mock candlesticks for diagnostic consistency
-    return data.map((d, i) => {
+  const [seriesData, setSeriesData] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Generate mock candlesticks only on the client to avoid hydration errors
+    const pts = data.map((d, i) => {
       const open = d.value;
       const close = i < data.length - 1 ? data[i + 1].value : d.value + (Math.random() - 0.5);
       const high = Math.max(open, close) + Math.random() * 0.5;
@@ -25,6 +26,7 @@ export default function MarketDetailChart({ title, data }: Props) {
         y: [open, high, low, close]
       };
     });
+    setSeriesData(pts);
   }, [data]);
 
   const options: ApexOptions = {
@@ -61,6 +63,10 @@ export default function MarketDetailChart({ title, data }: Props) {
     }
   };
 
+  if (seriesData.length === 0) {
+    return <div className="h-[480px] rounded-[40px] bg-white/5 border border-white/10 animate-pulse" />;
+  }
+
   return (
     <div className="rounded-[40px] border border-white/10 bg-white/5 p-10 shadow-[0_0_60px_rgba(34,211,238,0.15)] backdrop-blur-xl relative">
       <div className="mb-8 flex items-center justify-between">
@@ -77,7 +83,7 @@ export default function MarketDetailChart({ title, data }: Props) {
           type="candlestick"
           height={480}
         />
-        {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
+        {/* Logo Overlay Lower Left */}
         <div className="absolute bottom-12 left-8 z-20 pointer-events-none group">
           <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
             <img 

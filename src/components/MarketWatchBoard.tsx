@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import NeonBoard from "./NeonBoard";
 import { MarketItem } from "@/data/marketCatalog";
 import { MarketWatchPanel } from "@/components/markets/MarketWatchPanel";
@@ -29,6 +29,17 @@ function symbolColor(item: MarketItem) {
 }
 
 export default function MarketWatchBoard({ items }: Props) {
+  const [randomChanges, setRandomChanges] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    // Generate random changes only on the client
+    const newChanges: Record<string, string> = {};
+    items.forEach(item => {
+      newChanges[item.symbol] = (Math.random() * 2).toFixed(2);
+    });
+    setRandomChanges(newChanges);
+  }, [items]);
+
   return (
     <NeonBoard className="w-full">
       <div className="px-5 py-5">
@@ -55,9 +66,11 @@ export default function MarketWatchBoard({ items }: Props) {
                 <div className="text-[18px] font-black text-white font-mono">
                   {fakePrice(item.symbol)}
                 </div>
-                <div className="text-[10px] font-black text-green-400 uppercase tracking-widest mt-0.5">
-                  +{(Math.random() * 2).toFixed(2)}%
-                </div>
+                {randomChanges[item.symbol] && (
+                  <div className="text-[10px] font-black text-green-400 uppercase tracking-widest mt-0.5">
+                    +{randomChanges[item.symbol]}%
+                  </div>
+                )}
               </div>
             </div>
           ))}

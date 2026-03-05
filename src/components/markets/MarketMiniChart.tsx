@@ -1,9 +1,8 @@
-
 "use client";
 
 import dynamic from "next/dynamic";
 import { type ApexOptions } from "apexcharts";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -17,9 +16,11 @@ type Props = {
  * Transforms simple series data into diagnostic candlesticks for the overview grid.
  */
 export default function MarketMiniChart({ series, positive }: Props) {
-  const candleData = useMemo(() => {
-    // Transform single-value series into mock OHLC points for candlestick rendering
-    return series.map((val, i) => {
+  const [candleData, setCandleData] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Generate mock OHLC points only on the client to avoid hydration errors
+    const data = series.map((val, i) => {
       const open = val;
       const close = i < series.length - 1 ? series[i + 1] : val + (Math.random() - 0.5);
       const high = Math.max(open, close) + Math.random() * (val * 0.01);
@@ -29,6 +30,7 @@ export default function MarketMiniChart({ series, positive }: Props) {
         y: [open, high, low, close]
       };
     });
+    setCandleData(data);
   }, [series]);
 
   const options: ApexOptions = {
@@ -68,6 +70,10 @@ export default function MarketMiniChart({ series, positive }: Props) {
     theme: { mode: "dark" }
   };
 
+  if (candleData.length === 0) {
+    return <div className="h-32 w-full rounded-2xl bg-black/30 border border-white/10 animate-pulse" />;
+  }
+
   return (
     <div className="h-32 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30 relative">
       <Chart
@@ -77,7 +83,7 @@ export default function MarketMiniChart({ series, positive }: Props) {
         height="100%"
         width="100%"
       />
-      {/* Micro Logo Overlay Lower Left - Enlarged 3x See-Through */}
+      {/* Micro Logo Overlay Lower Left */}
       <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
         <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
           <img 
