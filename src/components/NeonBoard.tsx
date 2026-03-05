@@ -8,31 +8,39 @@ type NeonBoardProps = {
 };
 
 /**
- * High-intensity NeonBoard component with a 10px thick Unified Blended Gradient Border.
- * This version uses a background-clip technique to ensure the interior is transparent/black
- * while the border carries the high-intensity gradient.
+ * High-intensity NeonBoard component acting as a true "Frame".
+ * Uses CSS mask to ensure the interior is perfectly transparent
+ * while the 10px border carries the high-intensity gradient.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
-    <div
-      className={`relative overflow-hidden rounded-[32px] ${className}`}
-      style={{
-        padding: "10px",
-        background: "linear-gradient(135deg, #ff8800 0%, #ff0055 50%, #ff4fd8 100%)",
-        boxShadow: "0 0 50px rgba(255,136,0,0.4), 0 0 80px rgba(255,0,85,0.2)",
-      }}
-    >
-      {/* Blended internal glow shadow */}
+    <div className={`relative ${className}`}>
+      {/* The Border Layer */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[32px]"
+        className="absolute inset-0 rounded-[32px]"
         style={{
-          boxShadow: "inset 0 0 24px rgba(255,255,255,0.06), inset 0 0 40px rgba(255,0,85,0.08)",
+          background: "linear-gradient(135deg, #ff8800 0%, #ff0055 50%, #ff4fd8 100%)",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "destination-out",
+          padding: "10px",
+        }}
+      />
+      
+      {/* The Shadow/Glow Layer */}
+      <div 
+        className="absolute inset-0 rounded-[32px] pointer-events-none"
+        style={{
+          boxShadow: "0 0 50px rgba(255,136,0,0.3), 0 0 80px rgba(255,0,85,0.15)",
         }}
       />
 
-      {/* inner panel: Set to black to match site background, creating the "Transparent Card" look */}
-      <div className="relative rounded-[22px] bg-black h-full overflow-hidden">
-        {children}
+      {/* Content Container */}
+      <div className="relative p-[10px] h-full">
+        <div className="h-full w-full rounded-[22px] bg-transparent overflow-hidden">
+          {children}
+        </div>
       </div>
     </div>
   );
