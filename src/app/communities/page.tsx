@@ -1,7 +1,9 @@
+
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { 
   ArrowLeft, 
   Users, 
@@ -13,7 +15,8 @@ import {
   ShieldCheck,
   Scale,
   Flag,
-  HandMetal
+  HandMetal,
+  Loader2
 } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -113,9 +116,11 @@ const CORE_HUBS: CommunityHub[] = [
 
 const ALL_COMMUNITIES = [...CORE_HUBS];
 
-export default function CommunitiesDiscoveryPage() {
+function CommunitiesDiscoveryContent() {
   const { firestore } = useFirebase();
   const { user, isUserLoading } = useUser();
+  const searchParams = useSearchParams();
+  const urlHubId = searchParams.get('hubId');
   
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState("discover");
@@ -137,6 +142,14 @@ export default function CommunitiesDiscoveryPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Handle direct sector sync from URL
+  useEffect(() => {
+    if (mounted && urlHubId && ALL_COMMUNITIES.some(c => c.id === urlHubId)) {
+      setSelectedHubId(urlHubId);
+      setActiveTab("chat");
+    }
+  }, [mounted, urlHubId]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -168,7 +181,16 @@ export default function CommunitiesDiscoveryPage() {
     setActiveTab("chat");
   };
 
-  if (!mounted || isUserLoading || !user) return null;
+  const handleSectorBack = () => {
+    setSelectedHubId(null);
+    setActiveTab("discover");
+  };
+
+  if (!mounted || isUserLoading || !user) return (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <Loader2 className="w-10 h-10 animate-spin text-indigo-500" />
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500 selection:text-white font-body overflow-hidden">
@@ -321,10 +343,10 @@ export default function CommunitiesDiscoveryPage() {
                     <div className="p-4 border-t border-white/5 bg-white/[0.01] space-y-3">
                       <div className="text-[9px] font-black uppercase tracking-widest text-white/20 mb-2">Independent Exit Nodes</div>
                       <div className="grid grid-cols-2 gap-2">
-                        <button onClick={() => setSelectedHubId(null)} className="px-2 py-2 rounded-lg border border-orange-500/20 bg-orange-500/5 text-[8px] font-black uppercase tracking-widest text-orange-400 hover:bg-orange-500/10 transition-all">Back: Rep</button>
-                        <button onClick={() => setSelectedHubId(null)} className="px-2 py-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 text-[8px] font-black uppercase tracking-widest text-cyan-400 hover:bg-cyan-500/10 transition-all">Back: Dem</button>
-                        <button onClick={() => setSelectedHubId(null)} className="px-2 py-2 rounded-lg border border-slate-500/20 bg-slate-500/5 text-[8px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-500/10 transition-all">Back: Ind</button>
-                        <button onClick={() => setSelectedHubId(null)} className="px-2 py-2 rounded-lg border border-purple-500/20 bg-purple-500/5 text-[8px] font-black uppercase tracking-widest text-purple-400 hover:bg-purple-500/10 transition-all">Back: Lib</button>
+                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-orange-500/20 bg-orange-500/5 text-[8px] font-black uppercase tracking-widest text-orange-400 hover:bg-orange-500/10 transition-all">Back: Rep</button>
+                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 text-[8px] font-black uppercase tracking-widest text-cyan-400 hover:bg-cyan-500/10 transition-all">Back: Dem</button>
+                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-slate-500/20 bg-slate-500/5 text-[8px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-500/10 transition-all">Back: Ind</button>
+                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-purple-500/20 bg-purple-500/5 text-[8px] font-black uppercase tracking-widest text-purple-400 hover:bg-purple-500/10 transition-all">Back: Lib</button>
                       </div>
                     </div>
                   </div>
@@ -341,7 +363,7 @@ export default function CommunitiesDiscoveryPage() {
                         <div className="px-6 py-4 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
                           <div className="flex items-center gap-4">
                             <button 
-                              onClick={() => setSelectedHubId(null)}
+                              onClick={handleSectorBack}
                               className="p-2 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
                               title="Back to Discovery"
                             >
@@ -453,5 +475,17 @@ export default function CommunitiesDiscoveryPage() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function CommunitiesDiscoveryPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-black flex items-center justify-center text-indigo-500">
+        <Loader2 className="w-10 h-10 animate-spin" />
+      </div>
+    }>
+      <CommunitiesDiscoveryContent />
+    </Suspense>
   );
 }
