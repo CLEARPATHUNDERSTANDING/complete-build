@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from "react";
@@ -217,7 +218,7 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
       <div className="space-y-3">
         <Link href={`/communities?hubId=${sector.id}`}>
           <Button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black uppercase text-[10px] tracking-widest h-11 rounded-xl transition-all shadow-2xl">
-            Synchronize Room →
+            Synchronize Sector →
           </Button>
         </Link>
         <div className="flex items-center justify-between px-2">
