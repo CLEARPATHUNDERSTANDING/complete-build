@@ -23,7 +23,8 @@ import {
   MessageSquare,
   AlertCircle,
   Volume2,
-  Bluetooth
+  Bluetooth,
+  Brain
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -51,6 +52,7 @@ import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
+import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -350,6 +352,20 @@ export default function SocialPlatform() {
                 <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
                 <NavItem label="All Communities" icon={Compass} href="/communities" color="emerald" />
                 <NavItem label="Overall" icon={Users} href="/community" active color="orange" />
+              </div>
+            </BorderWallCard>
+
+            <BorderWallCard title="Personalities" maxHeight="300px">
+              <div className="space-y-1">
+                {NEURO_PROFILES.map((p) => (
+                  <NavItem 
+                    key={p.id} 
+                    label={p.label} 
+                    icon={Brain}
+                    href={`/dashboard?mode=focus&profile=${p.id}`} 
+                    color="pink" 
+                  />
+                ))}
               </div>
             </BorderWallCard>
 
