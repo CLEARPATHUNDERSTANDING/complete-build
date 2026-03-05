@@ -17,8 +17,10 @@ import { Input } from "@/components/ui/input";
 import NeonBoard from "@/components/NeonBoard";
 import { useToast } from "@/hooks/use-toast";
 import { doc, serverTimestamp } from "firebase/firestore";
+import { useMounted } from "@/hooks/use-mounted";
 
 export default function LoginPage() {
+  const mounted = useMounted();
   const { auth, firestore, user, isUserLoading } = useFirebase();
   const router = useRouter();
   const { toast } = useToast();
@@ -29,7 +31,7 @@ export default function LoginPage() {
 
   // Sync user profile to database on first login
   useEffect(() => {
-    if (user && !isUserLoading && firestore) {
+    if (mounted && user && !isUserLoading && firestore) {
       const userRef = doc(firestore, "users", user.uid);
       setDocumentNonBlocking(userRef, {
         id: user.uid,
@@ -45,9 +47,10 @@ export default function LoginPage() {
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [user, isUserLoading, router, firestore]);
+  }, [user, isUserLoading, router, firestore, mounted]);
 
   useEffect(() => {
+    if (!mounted) return;
     const handleAuthError = (error: any) => {
       toast({
         variant: "destructive",
@@ -58,7 +61,7 @@ export default function LoginPage() {
 
     errorEmitter.on('auth-error', handleAuthError);
     return () => errorEmitter.off('auth-error', handleAuthError);
-  }, [toast]);
+  }, [toast, mounted]);
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +82,7 @@ export default function LoginPage() {
     }
   };
 
-  if (isUserLoading) {
+  if (!mounted || isUserLoading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <Loader2 className="w-10 h-10 animate-spin text-indigo-500" />

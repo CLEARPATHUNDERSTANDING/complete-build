@@ -163,13 +163,6 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
   const isGray = sector.theme === "gray";
   const isPurple = sector.theme === "purple";
 
-  const themeColors = {
-    orange: "from-[#ff8800] to-[#ff0055]",
-    blue: "from-[#00d4ff] to-[#6a5cff]",
-    gray: "from-[#94a3b8] to-[#334155]",
-    purple: "from-[#ff4fd8] to-[#6a5cff]"
-  };
-
   const iconColors = {
     orange: "text-orange-400 bg-orange-500/10 border-orange-500/20",
     blue: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20",
