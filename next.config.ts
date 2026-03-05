@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // This removes the CanaryOnlyError by NOT enabling PPR.
   experimental: {
     optimizePackageImports: [
       'lucide-react',
@@ -23,6 +24,9 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip'
     ],
   },
+  // This removes the "allowedDevOrigins" warning for Cloud Workstations
+  // and future-proofs dev asset loading.
+  allowedDevOrigins: ["*.cloudworkstations.dev"],
   images: {
     remotePatterns: [
       {
