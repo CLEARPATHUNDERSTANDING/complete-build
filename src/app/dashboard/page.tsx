@@ -41,6 +41,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useToast } from "@/hooks/use-toast"
 import type { ModeConfig } from "@/modes/types"
 
+const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
+
 function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -54,6 +56,7 @@ function DashboardContent() {
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
   const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
   const [selectedStyleId, setSelectedStyleId] = React.useState<string>(styleParam);
+  const [activeTf, setActiveTf] = React.useState<string>("15m");
 
   React.useEffect(() => {
     const p = searchParams.get('profile') as NeuroProfileId;
@@ -79,6 +82,7 @@ function DashboardContent() {
         defaultSymbol: symbolParam,
         defaultCharts: mode === 'quad' ? 4 : 1,
         defaultLayout: mode === 'quad' ? "grid" : "stack",
+        defaultTimeframe: activeTf,
         panels: {
           chart: true, watchlist: true, news: true, alerts: true, screener: false,
           calendar: false, journal: false, patterns: true, replay: false, research: false
@@ -104,8 +108,11 @@ function DashboardContent() {
       };
     }
     
-    return standardMode;
-  }, [mode, neuroProfile, standardMode, symbolParam]);
+    return {
+      ...standardMode,
+      defaultTimeframe: activeTf
+    };
+  }, [mode, neuroProfile, standardMode, symbolParam, activeTf]);
 
   const updateMode = (newMode: ViewMode) => {
     setMode(newMode);
@@ -329,7 +336,21 @@ function DashboardContent() {
                   </div>
                   <span className="text-[14px] font-black tracking-[0.3em] text-white uppercase">{activeModeConfig.defaultSymbol} VIEW</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-6">
+                   {/* Timeframes Bar */}
+                   <div className="flex gap-1 p-1 bg-black/40 rounded-lg border border-white/10">
+                      {TIMEFRAMES.map(tf => (
+                        <button 
+                          key={tf} 
+                          onClick={() => setActiveTf(tf)}
+                          className={`px-2.5 py-1 text-[9px] font-black uppercase tracking-widest transition-all rounded-md ${activeTf === tf ? 'bg-indigo-500 text-white shadow-[0_0_10px_rgba(99,102,241,0.5)]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+                        >
+                          {tf}
+                        </button>
+                      ))}
+                   </div>
+
+                   {/* Diagnostic Tools */}
                    <div className="flex gap-2 p-1 bg-black/40 rounded-lg border border-white/10">
                       {["Zoom", "Pan", "Reset", "Crosshair", "Trendline", "Rectangle"].map(btn => (
                         <button key={btn} className="px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all bg-white/5 rounded-md">
