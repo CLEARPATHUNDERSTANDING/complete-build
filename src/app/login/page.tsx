@@ -10,14 +10,16 @@ import {
 } from "lucide-react";
 import { useFirebase } from "@/firebase/provider";
 import { initiateEmailSignIn, initiateEmailSignUp } from "@/firebase/non-blocking-login";
+import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import NeonBoard from "@/components/NeonBoard";
 import { useToast } from "@/hooks/use-toast";
+import { doc, serverTimestamp } from "firebase/firestore";
 
 export default function LoginPage() {
-  const { auth, user, isUserLoading } = useFirebase();
+  const { auth, firestore, user, isUserLoading } = useFirebase();
   const router = useRouter();
   const { toast } = useToast();
   
@@ -25,12 +27,21 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
 
+  // Sync user profile to database on first login
   useEffect(() => {
-    if (user && !isUserLoading) {
-      // Redirect to the actual app dashboard once authenticated
+    if (user && !isUserLoading && firestore) {
+      const userRef = doc(firestore, "users", user.uid);
+      setDocumentNonBlocking(userRef, {
+        id: user.uid,
+        role: "standard",
+        lastSeen: serverTimestamp(),
+        email: user.email,
+        createdAt: serverTimestamp()
+      }, { merge: true });
+      
       router.push("/community");
     }
-  }, [user, isUserLoading, router]);
+  }, [user, isUserLoading, router, firestore]);
 
   useEffect(() => {
     const handleAuthError = (error: any) => {
@@ -91,7 +102,7 @@ export default function LoginPage() {
         </div>
 
         <NeonBoard className="w-full">
-          <form onSubmit={handleAuth} className="p-8 space-y-6">
+          <form onSubmit={handleAuth} className="p-8 space-y-6 bg-transparent">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">

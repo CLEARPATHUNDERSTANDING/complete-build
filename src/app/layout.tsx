@@ -5,12 +5,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { PWARegistration } from "@/components/PWARegistration";
 
 export const metadata: Metadata = {
-  title: "InsightFlow | Neuro-Divergent Intelligence",
-  description: "Advanced multi-market diagnostic dashboard optimized for neuro-divergent focus.",
+  title: "AFTER PATENT | Adaptive Market Intelligence",
+  description: "High-clarity neuro-divergent intelligence platform for universal asset analysis.",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'InsightFlow',
+    title: 'AFTER PATENT',
   },
   formatDetection: {
     telephone: false,
