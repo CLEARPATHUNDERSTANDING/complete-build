@@ -21,7 +21,7 @@ export function normalizeForApex(chartType: ApexChartType, points: OhlcPoint[]):
     };
   }
 
-  if (chartType === "line" || chartType === "area" || chartType === "scatter") {
+  if (chartType === "line" || chartType === "area" || chartType === "scatter" || chartType === "column") {
     return {
       kind: "xy",
       series: [{ name: "Close", data: sorted.map((p) => ({ x: p.t, y: n(p.c) })) }],
@@ -29,25 +29,34 @@ export function normalizeForApex(chartType: ApexChartType, points: OhlcPoint[]):
   }
 
   if (chartType === "bar") {
-    const hasVol = sorted.some((p) => typeof p.v === "number");
     return {
       kind: "xy",
+      series: [{ name: "Close", data: sorted.slice(-20).map((p) => ({ x: p.t, y: n(p.c) })) }],
+    };
+  }
+
+  if (chartType === "rangeArea") {
+    return {
+      kind: "rangeArea",
       series: [
         {
-          name: hasVol ? "Volume" : "Close",
-          data: sorted.map((p) => ({ x: p.t, y: n(hasVol ? p.v : p.c) })),
+          name: "High-Low Range",
+          data: sorted.map((p) => ({
+            x: p.t,
+            y: [n(p.l), n(p.h)],
+          })),
         },
       ],
     };
   }
 
-  if (chartType === "rangeBar") {
-    const fmt = (t: number) => new Date(t).toISOString().slice(0, 10);
+  if (chartType === "rangeBar" || chartType === "funnel") {
+    const fmt = (t: number) => new Date(t).toISOString().slice(11, 16);
     return {
       kind: "rangeBar",
       series: [
         {
-          data: sorted.map((p) => ({
+          data: sorted.slice(-15).map((p) => ({
             x: fmt(p.t),
             y: [n(p.l), n(p.h)],
           })),
@@ -59,23 +68,19 @@ export function normalizeForApex(chartType: ApexChartType, points: OhlcPoint[]):
   if (chartType === "heatmap") {
     const byDay = new Map<string, OhlcPoint[]>();
     for (const p of sorted) {
-      const day = new Date(p.t).toISOString().slice(0, 10);
+      const day = new Date(p.t).toISOString().slice(5, 10);
       byDay.set(day, [...(byDay.get(day) ?? []), p]);
     }
 
     const series = Array.from(byDay.entries())
-      .slice(-14)
+      .slice(-7)
       .map(([day, ps]) => {
-        const buckets = new Map<string, number>();
-        for (const pt of ps) {
-          const hr = String(new Date(pt.t).getUTCHours()).padStart(2, "0");
-          const key = `${hr}:00`;
-          const range = Math.abs(n(pt.h) - n(pt.l));
-          buckets.set(key, (buckets.get(key) ?? 0) + range);
-        }
         return {
           name: day,
-          data: Array.from(buckets.entries()).map(([x, y]) => ({ x, y: n(y) })),
+          data: ps.slice(-12).map((pt) => ({ 
+            x: new Date(pt.t).getHours() + ":00", 
+            y: Math.round(Math.abs(n(pt.c) - n(pt.o)) * 100) 
+          })),
         };
       });
 
@@ -84,51 +89,54 @@ export function normalizeForApex(chartType: ApexChartType, points: OhlcPoint[]):
 
   if (chartType === "treemap") {
     const items = sorted
-      .slice(-50)
+      .slice(-12)
       .map((p) => ({
-        x: new Date(p.t).toISOString().slice(5, 16).replace("T", " "),
-        y: Math.abs(n(p.c) - n(p.o)),
+        x: new Date(p.t).toISOString().slice(11, 16),
+        y: Math.round(n(p.c)),
       }))
-      .sort((a, b) => b.y - a.y)
-      .slice(0, 12);
+      .sort((a, b) => b.y - a.y);
 
     return { kind: "treemap", series: [{ data: items }] };
   }
 
   if (chartType === "pie" || chartType === "donut" || chartType === "radialBar") {
-    const recent = sorted.slice(-150);
-    let up = 0;
-    let down = 0;
-    let flat = 0;
+    const recent = sorted.slice(-50);
+    let up = 0, down = 0, flat = 0;
     for (const p of recent) {
       if (p.c > p.o) up++;
       else if (p.c < p.o) down++;
       else flat++;
     }
-    const labels = ["Up", "Down", "Flat"];
-    const series = [up, down, flat];
+    return { 
+      kind: chartType === "radialBar" ? "radial" : "pie", 
+      labels: ["Bullish", "Bearish", "Neutral"], 
+      series: [up, down, flat] 
+    };
+  }
 
-    if (chartType === "radialBar") return { kind: "radial", labels, series };
-    return { kind: "pie", labels, series };
+  if (chartType === "radar") {
+    const last = sorted.slice(-1)[0] || { o: 0, h: 0, l: 0, c: 0 };
+    return {
+      kind: "radar",
+      labels: ["Open", "High", "Low", "Close", "Volume Offset"],
+      series: [{ 
+        name: "Current Terminal", 
+        data: [n(last.o), n(last.h), n(last.l), n(last.c), 50] 
+      }]
+    };
   }
 
   if (chartType === "boxPlot") {
-    const window = 20;
-    const fmt = (t: number) => new Date(t).toISOString().slice(5, 10);
-    const data: Array<{ x: string; y: [number, number, number, number, number] }> = [];
+    const window = 10;
+    const fmt = (t: number) => new Date(t).toISOString().slice(11, 16);
+    const data: any[] = [];
 
     for (let i = window; i < sorted.length; i += window) {
-      const slice = sorted
-        .slice(i - window, i)
-        .map((p) => n(p.c))
-        .sort((a, b) => a - b);
-
-      const min = slice[0] ?? 0;
-      const max = slice[slice.length - 1] ?? 0;
-      const q1 = slice[Math.floor(slice.length * 0.25)] ?? min;
-      const med = slice[Math.floor(slice.length * 0.5)] ?? min;
-      const q3 = slice[Math.floor(slice.length * 0.75)] ?? max;
-
+      const slice = sorted.slice(i - window, i).map(p => n(p.c)).sort((a, b) => a - b);
+      const min = slice[0], max = slice[slice.length - 1];
+      const q1 = slice[Math.floor(slice.length * 0.25)];
+      const med = slice[Math.floor(slice.length * 0.5)];
+      const q3 = slice[Math.floor(slice.length * 0.75)];
       data.push({ x: fmt(sorted[i - 1].t), y: [min, q1, med, q3, max] });
     }
 

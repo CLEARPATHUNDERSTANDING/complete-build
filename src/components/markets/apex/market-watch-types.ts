@@ -2,29 +2,35 @@ export type ApexChartType =
   | "line"
   | "area"
   | "bar"
+  | "column"
   | "scatter"
   | "heatmap"
   | "treemap"
   | "pie"
   | "donut"
+  | "radar"
   | "radialBar"
   | "candlestick"
   | "rangeBar"
-  | "boxPlot";
+  | "rangeArea"
+  | "boxPlot"
+  | "funnel";
 
 export const CHART_TYPES: Array<{ type: ApexChartType; label: string }> = [
   { type: "candlestick", label: "Candlestick" },
-  { type: "line", label: "Line" },
-  { type: "area", label: "Area" },
-  { type: "bar", label: "Bar" },
-  { type: "rangeBar", label: "Range Bar" },
-  { type: "scatter", label: "Scatter" },
-  { type: "heatmap", label: "Heatmap" },
-  { type: "treemap", label: "Treemap" },
-  { type: "pie", label: "Pie" },
-  { type: "donut", label: "Donut" },
-  { type: "radialBar", label: "Radial Bar" },
-  { type: "boxPlot", label: "Box Plot" },
+  { type: "line", label: "Line Chart" },
+  { type: "area", label: "Area Chart" },
+  { type: "bar", label: "Bar Chart" },
+  { type: "column", label: "Column Chart" },
+  { type: "boxPlot", label: "BoxPlot" },
+  { type: "rangeBar", label: "Range Bar Chart" },
+  { type: "rangeArea", label: "Range Area Chart" },
+  { type: "heatmap", label: "Heat Map Chart" },
+  { type: "treemap", label: "Treemap Chart" },
+  { type: "funnel", label: "Funnel Chart" },
+  { type: "pie", label: "Pie / Donut" },
+  { type: "radar", label: "Radar" },
+  { type: "radialBar", label: "RadialBar / Circular Gauge" },
 ];
 
 export type OhlcPoint = {
@@ -40,8 +46,10 @@ export type MarketSeries =
   | { kind: "xy"; series: Array<{ name: string; data: Array<{ x: number; y: number }> }> }
   | { kind: "candle"; series: Array<{ data: Array<{ x: number; y: [number, number, number, number] }> }> }
   | { kind: "rangeBar"; series: Array<{ data: Array<{ x: string; y: [number, number] }> }> }
+  | { kind: "rangeArea"; series: Array<{ name: string; data: Array<{ x: number; y: [number, number] }> }> }
   | { kind: "pie"; labels: string[]; series: number[] }
   | { kind: "heatmap"; series: Array<{ name: string; data: Array<{ x: string; y: number }> }> }
   | { kind: "treemap"; series: Array<{ data: Array<{ x: string; y: number }> }> }
   | { kind: "radial"; labels: string[]; series: number[] }
+  | { kind: "radar"; series: Array<{ name: string; data: number[] }>; labels: string[] }
   | { kind: "boxPlot"; series: Array<{ data: Array<{ x: string; y: [number, number, number, number, number] }> }> };

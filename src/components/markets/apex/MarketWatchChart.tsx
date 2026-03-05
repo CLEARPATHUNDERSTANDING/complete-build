@@ -2,12 +2,18 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import type { ApexOptions } from "apexcharts";
-import { type OhlcPoint } from "./market-watch-types";
+import { type OhlcPoint, type ApexChartType, CHART_TYPES } from "./market-watch-types";
 import { normalizeForApex } from "./market-watch-normalize";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronDown } from "lucide-react";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
@@ -15,86 +21,119 @@ type Props = {
   symbol: string;
   points: OhlcPoint[];
   height?: number;
+  initialType?: ApexChartType;
 };
 
-export function MarketWatchChart({ symbol, points, height = 340 }: Props) {
-  // Locked to candlestick as per protocol requirements
-  const chartType = "candlestick";
-  const normalized = useMemo(() => normalizeForApex(chartType, points), [points]);
+export function MarketWatchChart({ symbol, points, height = 340, initialType = "candlestick" }: Props) {
+  const [chartType, setChartType] = useState<ApexChartType>(initialType);
+  const normalized = useMemo(() => normalizeForApex(chartType, points), [points, chartType]);
 
   const options: ApexOptions = useMemo(() => {
-    return {
+    const baseOptions: ApexOptions = {
       chart: {
         id: `mw-${symbol}`,
-        type: "candlestick",
+        type: chartType === "column" ? "bar" : chartType as any,
         toolbar: { show: true },
         zoom: { enabled: true },
         animations: { enabled: true },
         background: "transparent",
         foreColor: 'rgba(255,255,255,0.5)',
       },
-      title: { 
-        text: `${symbol} · DIAGNOSTIC CANDLESTICK`, 
-        style: { fontSize: "14px", color: '#00e5ff', fontWeight: 900 } 
-      },
-      dataLabels: { enabled: false },
-      stroke: { width: 1 },
-      xaxis: { 
-        type: "datetime",
-        axisBorder: { show: false },
-        axisTicks: { show: false },
-        labels: { style: { fontSize: '11px', fontWeight: 700 } }
-      },
-      yaxis: { 
-        labels: { style: { fontSize: '11px', fontWeight: 700 } }
-      },
-      tooltip: { theme: 'dark', shared: true },
-      grid: { borderColor: "rgba(255,255,255,0.08)" },
       theme: { mode: "dark" },
-      colors: ['#00e5ff', '#ff003c'],
-      plotOptions: {
+      grid: { borderColor: "rgba(255,255,255,0.08)" },
+      colors: ['#00e5ff', '#ff003c', '#ff8a00', '#6366f1'],
+      stroke: { width: chartType === "line" || chartType === "area" ? 2 : 1 },
+      tooltip: { theme: 'dark', shared: true },
+    };
+
+    if (chartType === "candlestick") {
+      baseOptions.plotOptions = {
         candlestick: {
           colors: { upward: '#00e5ff', downward: '#ff003c' },
           wick: { useFillColor: true }
         }
-      }
-    };
-  }, [symbol]);
+      };
+    }
+
+    if (chartType === "funnel") {
+      baseOptions.plotOptions = {
+        bar: { horizontal: true, barHeight: '80%', isFunnel: true }
+      };
+    }
+
+    if (chartType === "column") {
+      baseOptions.plotOptions = {
+        bar: { horizontal: false, columnWidth: '55%' }
+      };
+    }
+
+    if (chartType === "pie" || chartType === "donut") {
+      baseOptions.labels = (normalized as any).labels;
+    }
+
+    if (chartType === "radar") {
+      baseOptions.xaxis = { categories: (normalized as any).labels };
+    }
+
+    if (["line", "area", "candlestick", "scatter", "rangeArea"].includes(chartType)) {
+      baseOptions.xaxis = { type: "datetime" };
+    }
+
+    return baseOptions;
+  }, [symbol, chartType, normalized]);
 
   const series: any = useMemo(() => {
-    if (normalized.kind === "candle") return normalized.series;
+    if ('series' in normalized) return normalized.series;
     return [];
   }, [normalized]);
 
   return (
     <div className="w-full h-full flex flex-col relative">
-      <div className="mb-4 px-6 flex flex-wrap items-center gap-4">
-        <Link 
-          href="/" 
-          className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center gap-2"
-          title="Exit to Hub"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span className="text-[11px] font-black uppercase tracking-widest hidden sm:inline">Hub</span>
-        </Link>
-        <div className="h-8 w-px bg-white/10 mx-2" />
-        <div className="px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[11px] font-black uppercase tracking-widest text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.2)]">
-          CANDLESTICK VISUALIZER ACTIVE
+      <div className="mb-4 px-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Link 
+            href="/" 
+            className="p-2 rounded-xl bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all flex items-center gap-2"
+            title="Exit to Hub"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
+          <div className="h-8 w-px bg-white/10 mx-2" />
+          <div className="px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-[11px] font-black uppercase tracking-widest text-indigo-400">
+            {symbol} TERMINAL
+          </div>
         </div>
-        <span className="text-[11px] font-bold text-cyan-400/50 uppercase tracking-widest ml-auto">{points.length} Data Points</span>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger className="flex items-center gap-3 px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-cyan-400 hover:bg-white/10 transition-all outline-none">
+            Style: {CHART_TYPES.find(t => t.type === chartType)?.label}
+            <ChevronDown className="w-3 h-3" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="bg-[#0a0f18] border-white/10 text-white min-w-[200px]">
+            {CHART_TYPES.map((t) => (
+              <DropdownMenuItem 
+                key={t.type} 
+                onClick={() => setChartType(t.type)}
+                className="text-[10px] font-bold uppercase tracking-widest focus:bg-indigo-500 focus:text-white cursor-pointer"
+              >
+                {t.label}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       <div className="flex-1 min-h-[300px] relative">
-        <ApexChart options={options} series={series} type="candlestick" height="100%" width="100%" />
-        {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
-        <div className="absolute bottom-10 left-8 z-20 pointer-events-none group">
+        <ApexChart 
+          options={options} 
+          series={chartType === "pie" || chartType === "donut" || chartType === "radialBar" ? (normalized as any).series : series} 
+          type={chartType === "column" || chartType === "funnel" ? "bar" : chartType as any} 
+          height="100%" 
+          width="100%" 
+        />
+        <div className="absolute bottom-10 left-8 z-20 pointer-events-none opacity-20">
           <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path"
-              className="w-20 h-20 rounded-xl object-cover opacity-40 group-hover:opacity-80 transition-opacity"
-            />
-            <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
+            <img src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png" className="w-16 h-16 rounded-xl object-cover" alt="" />
           </div>
         </div>
       </div>
