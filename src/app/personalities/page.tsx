@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from "react";
@@ -6,18 +5,16 @@ import Link from "next/link";
 import { 
   ArrowLeft, 
   ShieldCheck, 
-  Zap, 
   ExternalLink, 
   Globe, 
   Scale, 
   Flag, 
-  HandMetal,
-  MessageCircle,
-  Loader2
+  HandMetal
 } from "lucide-react";
 import GradientBurstWrap from "@/components/GradientBurstWrap";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useMounted } from "@/hooks/use-mounted";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -197,7 +194,7 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
 
       <div className="mb-8 space-y-3">
         <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2 border-b border-white/5 pb-2">
-          <ShieldCheck className={cn("w-3 h-3", isOrange ? "text-orange-400" : isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : "text-pink-400")} /> Intelligence Sources
+          <ShieldCheck className={cn("w-3 h-3", isOrange ? "text-orange-400" : isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : "text-pink-400")} /> Media Sources
         </div>
         
         <div className="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar scrollbar-hide">
@@ -235,11 +232,7 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
 }
 
 export default function PersonalitiesPage() {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useMounted();
 
   if (!mounted) return null;
 

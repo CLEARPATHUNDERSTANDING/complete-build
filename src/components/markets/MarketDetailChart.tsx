@@ -2,9 +2,13 @@
 
 import dynamic from "next/dynamic";
 import { type ApexOptions } from "apexcharts";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { 
+  ssr: false,
+  loading: () => <div className="h-[480px] flex items-center justify-center bg-black/40 rounded-2xl opacity-20"><Loader2 className="w-8 h-8 animate-spin" /></div>
+});
 
 type Props = {
   title: string;
@@ -12,6 +16,12 @@ type Props = {
 };
 
 export default function MarketDetailChart({ title, data }: Props) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const seriesData = useMemo(() => {
     return data.map((d, i) => {
       const open = d.value;
@@ -69,17 +79,23 @@ export default function MarketDetailChart({ title, data }: Props) {
       </div>
 
       <div className="relative">
-        <Chart
-          options={options}
-          series={[{ name: title, data: seriesData }]}
-          type="candlestick"
-          height={480}
-        />
+        {mounted ? (
+          <Chart
+            options={options}
+            series={[{ name: title, data: seriesData }]}
+            type="candlestick"
+            height={480}
+          />
+        ) : (
+          <div className="h-[480px] flex items-center justify-center bg-black/40 rounded-2xl opacity-20">
+            <Loader2 className="w-8 h-8 animate-spin" />
+          </div>
+        )}
         <div className="absolute bottom-12 left-8 z-20 pointer-events-none">
           <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path"
+              alt="Logo"
               className="w-20 h-20 rounded-xl object-cover opacity-100"
             />
             <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>

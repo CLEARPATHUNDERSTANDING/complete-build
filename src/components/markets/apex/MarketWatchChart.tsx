@@ -1,12 +1,11 @@
-
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import type { ApexOptions } from "apexcharts";
 import { type OhlcPoint, type ApexChartType, CHART_TYPES } from "./market-watch-types";
 import { normalizeForApex } from "./market-watch-normalize";
-import { ArrowLeft, ChevronDown } from "lucide-react";
+import { ArrowLeft, ChevronDown, Loader2 } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -15,7 +14,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const ApexChart = dynamic(() => import("react-apexcharts"), { 
+  ssr: false,
+  loading: () => <div className="h-full flex items-center justify-center opacity-20"><Loader2 className="w-8 h-8 animate-spin" /></div>
+});
 
 type Props = {
   symbol: string;
@@ -26,6 +28,12 @@ type Props = {
 
 export function MarketWatchChart({ symbol, points, height = 340, initialType = "candlestick" }: Props) {
   const [chartType, setChartType] = useState<ApexChartType>(initialType);
+  const [mounted, setMounted] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const normalized = useMemo(() => normalizeForApex(chartType, points), [points, chartType]);
 
   const options: ApexOptions = useMemo(() => {
@@ -124,13 +132,20 @@ export function MarketWatchChart({ symbol, points, height = 340, initialType = "
       </div>
 
       <div className="flex-1 min-h-[300px] relative">
-        <ApexChart 
-          options={options} 
-          series={chartType === "pie" || chartType === "donut" || chartType === "radialBar" ? (normalized as any).series : series} 
-          type={chartType === "column" || chartType === "funnel" ? "bar" : chartType as any} 
-          height="100%" 
-          width="100%" 
-        />
+        {mounted ? (
+          <ApexChart 
+            options={options} 
+            series={chartType === "pie" || chartType === "donut" || chartType === "radialBar" ? (normalized as any).series : series} 
+            type={chartType === "column" || chartType === "funnel" ? "bar" : chartType as any} 
+            height="100%" 
+            width="100%" 
+          />
+        ) : (
+          <div className="h-full flex flex-col items-center justify-center opacity-20">
+            <Loader2 className="w-8 h-8 animate-spin mb-4" />
+            <span className="text-[10px] font-black uppercase tracking-widest">Loading View...</span>
+          </div>
+        )}
         <div className="absolute bottom-10 left-8 z-20 pointer-events-none opacity-20">
           <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
             <img src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png" className="w-16 h-16 rounded-xl object-cover" alt="" />

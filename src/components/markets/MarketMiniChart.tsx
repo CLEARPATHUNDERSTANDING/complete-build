@@ -3,8 +3,12 @@
 import dynamic from "next/dynamic";
 import { type ApexOptions } from "apexcharts";
 import { useMemo, useState, useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { 
+  ssr: false,
+  loading: () => <div className="h-full w-full bg-black/20 animate-pulse" />
+});
 
 type Props = {
   series: number[];
@@ -12,6 +16,12 @@ type Props = {
 };
 
 export default function MarketMiniChart({ series, positive }: Props) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const candleData = useMemo(() => {
     return series.map((val, i) => {
       const open = val;
@@ -64,18 +74,24 @@ export default function MarketMiniChart({ series, positive }: Props) {
 
   return (
     <div className="h-32 w-full overflow-hidden rounded-2xl border border-white/10 bg-black/30 relative">
-      <Chart
-        options={options}
-        series={[{ name: "Diagnostic", data: candleData }]}
-        type="candlestick"
-        height="100%"
-        width="100%"
-      />
+      {mounted ? (
+        <Chart
+          options={options}
+          series={[{ name: "Mini", data: candleData }]}
+          type="candlestick"
+          height="100%"
+          width="100%"
+        />
+      ) : (
+        <div className="h-full w-full flex items-center justify-center opacity-10">
+          <Loader2 className="w-4 h-4 animate-spin" />
+        </div>
+      )}
       <div className="absolute bottom-3 left-3 z-20 pointer-events-none">
         <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg p-1">
           <img 
             src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-            alt="Clear Path"
+            alt="Logo"
             className="w-12 h-12 rounded-md object-cover opacity-100"
           />
         </div>
