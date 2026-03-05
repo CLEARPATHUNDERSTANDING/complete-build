@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -160,13 +159,13 @@ function DashboardContent() {
       <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-16">
            <div className="flex items-center gap-8">
-             <div className="relative">
+             <div className="relative group">
                <img 
                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                  alt="Clear Path Logo"
-                 className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_40px_rgba(255,136,0,0.4)] opacity-60"
+                 className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.9)] brightness-110 saturate-125 transition-all duration-500 group-hover:scale-105"
                />
-               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
+               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
              </div>
              <div className="flex flex-col text-left">
                 <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>

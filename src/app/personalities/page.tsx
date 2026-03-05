@@ -51,13 +51,13 @@ export default function PersonalitiesPage() {
           </Link>
           <div className="h-12 w-px bg-white/10" />
           <div className="flex items-center gap-6">
-            <div className="relative">
+            <div className="relative group">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-32 h-32 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)] opacity-60"
+                className="w-32 h-32 rounded-2xl object-cover border-2 border-orange-500/40 shadow-[0_0_40px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-110"
               />
-              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white/60 select-none">©™</span>
+              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white shadow-black select-none">©™</span>
             </div>
             <div className="flex flex-col">
               <span className={`text-[24px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Network Hub</span>

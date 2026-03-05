@@ -91,13 +91,13 @@ export default function LoginPage() {
     <div className="min-h-screen bg-black flex items-center justify-center p-6 selection:bg-indigo-500 font-body">
       <div className="w-full max-w-[500px] space-y-10">
         <div className="flex flex-col items-center gap-10 text-center">
-          <div className="relative">
+          <div className="relative group">
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path Logo"
-              className="w-32 h-32 rounded-3xl object-cover border border-white/10 shadow-[0_0_50px_rgba(255,136,0,0.3)] opacity-60"
+              className="w-32 h-32 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-110"
             />
-            <span className="absolute bottom-2 right-2 text-[10px] font-bold text-white/60 select-none">©™</span>
+            <span className="absolute bottom-2 right-2 text-[10px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
           </div>
           <div className="space-y-4">
             <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-white">SECURE ACCESS</h1>

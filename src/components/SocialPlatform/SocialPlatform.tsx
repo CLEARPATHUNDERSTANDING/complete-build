@@ -323,14 +323,14 @@ export default function SocialPlatform() {
       <aside className="w-[350px] border-r border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-6 shrink-0">
           <NeonBoard className="w-full">
-            <div className="px-6 py-6 flex flex-col items-center justify-center gap-4 bg-transparent">
+            <div className="px-6 py-6 flex flex-col items-center justify-center gap-4 bg-transparent group">
               <div className="relative">
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="Clear Path Logo"
-                  className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)] opacity-60"
+                  className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_40px_rgba(255,136,0,0.8)] brightness-110 transition-transform duration-500 group-hover:scale-105"
                 />
-                <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
+                <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
               </div>
               <div className="text-[14px] font-black tracking-[0.25em] text-white uppercase text-center">
                 CLEAR PATH TRADER
@@ -386,13 +386,13 @@ export default function SocialPlatform() {
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-10">
-            <div className="relative">
+            <div className="relative group">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-48 h-48 rounded-3xl object-cover border border-white/10 shadow-[0_0_40px_rgba(255,136,0,0.4)] opacity-60"
+                className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_50px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
               />
-              <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white/60 select-none">©™</span>
+              <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
             </div>
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Global Network</span>
