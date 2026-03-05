@@ -1,9 +1,8 @@
-
 "use client";
 
 import React, { useMemo, useState } from "react";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
-import type { OhlcPoint, ApexChartType } from "@/components/markets/apex/market-watch-types";
+import type { OhlcPoint } from "@/components/markets/apex/market-watch-types";
 
 type Props = {
   initialSymbol?: string;
@@ -17,7 +16,7 @@ function useMockOhlc(symbol: string): OhlcPoint[] {
     let price = 100 + (seed % 200);
 
     for (let i = 120; i >= 0; i--) {
-      const t = now - i * 3600_000; // 1h candles
+      const t = now - i * 3600_000;
       const o = price;
       const delta = (Math.random() - 0.5) * (price * 0.05);
       const c = o + delta;

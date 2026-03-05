@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -55,9 +54,6 @@ import WeatherWidget from "@/components/WeatherWidget";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
-/**
- * High-Intensity Card with Unified Blended Gradients.
- */
 function BorderWallCard({
   title,
   children,
@@ -189,7 +185,7 @@ export default function SocialPlatform() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
-  // Firestore Data - Map to the "insights" collection defined in backend.json
+  // Firestore Data
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const { data: insightsData, isLoading: isInsightsLoading, error: insightsError } = useCollection(insightsRef);
 
@@ -349,13 +345,13 @@ export default function SocialPlatform() {
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
                 <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
                 <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
-                <NavItem label="Political Network" icon={Flag} href="/personalities" color="rose" />
+                <NavItem label="Identity Hub" icon={Brain} href="/personalities" color="rose" />
                 <NavItem label="All Communities" icon={Compass} href="/communities" color="emerald" />
                 <NavItem label="Overall" icon={Users} href="/community" active color="orange" />
               </div>
             </BorderWallCard>
 
-            <BorderWallCard title="Personalities" maxHeight="300px">
+            <BorderWallCard title="Clinical Profiles" maxHeight="300px">
               <div className="space-y-1">
                 {NEURO_PROFILES.map((p) => (
                   <NavItem 
@@ -533,7 +529,7 @@ export default function SocialPlatform() {
                   </div>
                   <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Diagnostic Stream Interrupted</span>
                   <p className="text-[13px] font-bold text-white/40 mt-4 uppercase tracking-widest leading-relaxed max-w-md">
-                    Failed to establish a secure link with Firestore. Ensure the database is initialized and the "insights" collection is provisioned in your console.
+                    Failed to establish a secure link with Firestore. Ensure the database is initialized.
                   </p>
                   <Button variant="outline" onClick={() => window.location.reload()} className="mt-8 border-white/10 hover:bg-white/5 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-11">
                     Attempt Resync

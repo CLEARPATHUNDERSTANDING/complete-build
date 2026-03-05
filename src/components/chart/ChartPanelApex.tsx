@@ -1,4 +1,3 @@
-
 "use client";
 
 import dynamic from "next/dynamic";
@@ -249,7 +248,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="Clear Path"
-                  className="w-24 h-24 rounded-xl object-cover opacity-40 group-hover:opacity-80 transition-opacity"
+                  className="w-24 h-24 rounded-xl object-cover opacity-100 transition-opacity"
                 />
                 <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
               </div>
