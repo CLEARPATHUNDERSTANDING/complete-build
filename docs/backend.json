@@ -93,6 +93,20 @@
         "createdAt"
       ]
     },
+    "CommunityMessage": {
+      "title": "CommunityMessage",
+      "description": "A real-time message within a specific community hub or sector.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "author": { "type": "string" },
+        "text": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "hubId": { "type": "string" }
+      },
+      "required": ["userId", "author", "text", "createdAt", "hubId"]
+    },
     "FeedbackItem": {
       "title": "FeedbackItem",
       "description": "Stores user-submitted feedback or bug reports.",
@@ -126,6 +140,12 @@
         "$ref": "#/backend/entities/Insight"
       },
       "description": "Public stream of market insights. Any authenticated user can read; only the owner can write/delete."
+    },
+    "/communities/{hubId}/messages/{messageId}": {
+      "schema": {
+        "$ref": "#/backend/entities/CommunityMessage"
+      },
+      "description": "Independent real-time chat room messages for a specific hub or sector."
     },
     "/feedbackItems/{feedbackItemId}": {
       "schema": {
