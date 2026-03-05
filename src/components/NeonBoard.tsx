@@ -8,10 +8,9 @@ type NeonBoardProps = {
 };
 
 /**
- * High-intensity NeonBoard component with a 10px thick Unified Blended Gradient.
- * Outer shell: rounded-[32px] | Padding: 10px | Inner panel: rounded-[22px]
- * Spectrum: Blended Orange-to-Magenta.
- * Background: Transparent.
+ * High-intensity NeonBoard component with a 10px thick Unified Blended Gradient Border.
+ * This version uses a background-clip technique to ensure the interior is transparent/black
+ * while the border carries the high-intensity gradient.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
@@ -31,8 +30,8 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
 
-      {/* inner panel: mathematically consistent radius (32 - 10 = 22) | Background set to transparent */}
-      <div className="relative rounded-[22px] bg-transparent h-full overflow-hidden">
+      {/* inner panel: Set to black to match site background, creating the "Transparent Card" look */}
+      <div className="relative rounded-[22px] bg-black h-full overflow-hidden">
         {children}
       </div>
     </div>

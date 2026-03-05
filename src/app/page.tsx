@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { ArrowRight, ShieldCheck, Zap, Activity } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -29,15 +30,15 @@ export default function HomePage() {
 
           <div className="hero-cta-row">
             <Link href="/login" className="primary-btn large">
-              Start Free
+              Get Started Free
             </Link>
 
             <Link href="/login" className="ghost-btn large">
-              Member Login
+              Member Portal
             </Link>
           </div>
 
-          <div className="bullet-grid">
+          <div className="bullet-grid mt-12">
             <div className="mini-stat">
               <span className="mini-label neon-indigo-text font-black">Adaptive Interface</span>
               <strong className="neon-fuchsia-text">Neuro-aware visual structure</strong>
@@ -56,48 +57,43 @@ export default function HomePage() {
         </div>
 
         <div className="hero-right">
+          {/* Replaced redundant login form with high-fidelity branding CTA */}
           <div className="glass-card neon-cyan login-card">
-            <div className="card-kicker">Secure Access</div>
-            <h2 className="text-white">Member Login</h2>
+            <div className="card-kicker">Identity Protocol</div>
+            <h2 className="text-white mb-6">Secure Intelligence Access</h2>
+            
+            <p className="text-white/60 mb-8 leading-relaxed">
+              Initialize your diagnostic profile to synchronize with global market truth layers and neuro-adaptive workspaces.
+            </p>
 
-            <form className="login-form">
-              <label>
-                <span className="text-white/60">Email</span>
-                <input type="email" placeholder="name@example.com" className="bg-white/5 border-white/10" />
-              </label>
+            <Link href="/login" className="primary-btn large full group">
+              Synchronize Session <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
 
-              <label>
-                <span className="text-white/60">Password</span>
-                <input type="password" placeholder="Enter your password" className="bg-white/5 border-white/10" />
-              </label>
-
-              <button type="button" className="primary-btn large full">
-                Log In
-              </button>
-
-              <div className="form-links">
-                <Link href="/login" className="text-white/40 hover:text-white">Forgot password?</Link>
-                <Link href="/login" className="text-white/40 hover:text-white">Create account</Link>
-              </div>
-            </form>
+            <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-3 text-white/20">
+              <ShieldCheck className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Data Truth Layer Active</span>
+            </div>
           </div>
 
           <div className="widget-grid">
             <div className="glass-card neon-green widget-card">
-              <div className="widget-label">Market Pulse</div>
+              <div className="widget-label flex items-center gap-2">
+                <Activity className="w-3 h-3" /> Market Pulse
+              </div>
               <div className="widget-value text-white">24 Active Feeds</div>
               <p className="text-white/60">
-                News, watchlists, scanners, dashboards, and intelligence surfaces
-                can live here.
+                Universal asset monitoring through high-fidelity diagnostic snapshots.
               </p>
             </div>
 
             <div className="glass-card neon-indigo widget-card">
-              <div className="widget-label">Mode Engine</div>
-              <div className="widget-value text-white">Personalized Views</div>
+              <div className="widget-label flex items-center gap-2">
+                <Zap className="w-3 h-3" /> Mode Engine
+              </div>
+              <div className="widget-value text-white">Neuro-Adaptive</div>
               <p className="text-white/60">
-                Different user types and front-end experiences can be routed from
-                this home layer.
+                16 medical-consultant-approved profiles for cognitive clarity.
               </p>
             </div>
           </div>
