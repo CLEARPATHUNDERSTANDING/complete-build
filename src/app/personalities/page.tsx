@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -9,7 +9,8 @@ import {
   Globe, 
   Scale, 
   Flag, 
-  HandMetal
+  HandMetal,
+  Loader2
 } from "lucide-react";
 import GradientBurstWrap from "@/components/GradientBurstWrap";
 import { Button } from "@/components/ui/button";
@@ -170,10 +171,17 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
     purple: "text-pink-400 bg-pink-500/10 border-pink-500/20"
   };
 
+  const gradients = {
+    orange: "linear-gradient(90deg, #ff8800, #ff0055)",
+    blue: "linear-gradient(90deg, #00d4ff, #6a5cff)",
+    gray: "linear-gradient(90deg, #94a3b8, #334155)",
+    purple: "linear-gradient(90deg, #ff4fd8, #6a5cff)"
+  };
+
   return (
-    <GradientBurstWrap style={{ background: `linear-gradient(90deg, ${isOrange ? '#ff8800' : isBlue ? '#00d4ff' : isGray ? '#94a3b8' : '#ff4fd8'}, ${isOrange ? '#ff0055' : isBlue ? '#6a5cff' : isGray ? '#334155' : '#6a5cff'})` }}>
+    <GradientBurstWrap style={{ background: gradients[sector.theme] }}>
       <div className="flex items-start justify-between mb-6">
-        <div className={cn("p-3 rounded-xl border shadow-2xl", iconColors[sector.theme])}>
+        <div className={cn("p-3 rounded-xl border shadow-2xl transition-all duration-500", iconColors[sector.theme])}>
           <sector.icon className="w-6 h-6" />
         </div>
         <div className="text-right">
@@ -227,7 +235,14 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
 export default function PersonalitiesPage() {
   const mounted = useMounted();
 
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500">
+        <Loader2 className="w-10 h-10 animate-spin mb-4" />
+        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Synchronizing Intelligence Nodes...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500 font-body">

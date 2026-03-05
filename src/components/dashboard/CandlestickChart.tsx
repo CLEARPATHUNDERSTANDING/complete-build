@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useState, useEffect } from "react";
@@ -8,9 +7,12 @@ import { chartPhysics } from "@/lib/neuro/chartPhysics";
 import { Loader2, Sparkles, Search, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useMounted } from "@/hooks/use-mounted";
 
-// Dynamically import ApexCharts to avoid SSR issues
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const Chart = dynamic(() => import("react-apexcharts"), { 
+  ssr: false,
+  loading: () => <div className="h-full w-full flex items-center justify-center bg-black/40 rounded-2xl opacity-20"><Loader2 className="w-6 h-6 animate-spin" /></div>
+});
 
 export type ApexCandlePoint = { 
   x: number; 
@@ -30,6 +32,7 @@ export function CandlestickChart({
   height = 350,
   data: externalData,
 }: CandlestickChartProps) {
+  const mounted = useMounted();
   const [analyzing, setAnalyzing] = useState(false);
   const [localSymbol, setLocalSymbol] = useState(title);
   
@@ -41,16 +44,16 @@ export function CandlestickChart({
     setLocalSymbol(title);
   }, [title]);
 
-  // Simulate analysis state on symbol change
   useEffect(() => {
+    if (!mounted) return;
     setAnalyzing(true);
     const timer = setTimeout(() => setAnalyzing(false), 800);
     return () => clearTimeout(timer);
-  }, [localSymbol]);
+  }, [localSymbol, mounted]);
 
-  // Fallback Mock Data generation based on localSymbol to make different charts look unique
   const chartData: ApexCandlePoint[] = useMemo(() => {
     if (externalData) return externalData;
+    if (!mounted) return [];
     
     const seed = localSymbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const mock: ApexCandlePoint[] = [];
@@ -68,7 +71,7 @@ export function CandlestickChart({
       });
     }
     return mock;
-  }, [localSymbol, externalData]);
+  }, [localSymbol, externalData, mounted]);
 
   const series = useMemo(() => [{ 
     name: localSymbol, 
@@ -90,9 +93,7 @@ export function CandlestickChart({
           enabled: physics.animationSpeed > 0,
           speed: physics.animationSpeed,
         },
-        toolbar: {
-          show: false
-        },
+        toolbar: { show: false },
       },
       theme: { mode: "dark" },
       grid: {
@@ -104,17 +105,10 @@ export function CandlestickChart({
       },
       plotOptions: {
         candlestick: {
-          colors: {
-            upward: p.upColor,
-            downward: p.downColor,
-          },
-          wick: {
-            useFillColor: false,
-          },
+          colors: { upward: p.upColor, downward: p.downColor },
+          wick: { useFillColor: false },
         },
-        bar: {
-          columnWidth: `${physics.candleWidth}%`,
-        },
+        bar: { columnWidth: `${physics.candleWidth}%` },
       },
       stroke: {
         show: true,
@@ -124,40 +118,32 @@ export function CandlestickChart({
       dataLabels: { enabled: false },
       xaxis: {
         type: "datetime",
-        labels: {
-          style: { colors: p.text },
-        },
+        labels: { style: { colors: p.text } },
         axisBorder: { color: p.grid },
         axisTicks: { color: p.grid },
         tickAmount: p.dataDensity === "Low" ? 4 : p.dataDensity === "High" ? 10 : 7,
       },
       yaxis: {
         tooltip: { enabled: true },
-        labels: {
-          style: { colors: p.text },
-        },
+        labels: { style: { colors: p.text } },
         tickAmount: physics.gridCount,
       },
       tooltip: { theme: "dark" },
       legend: { show: false },
-      states: {
-        hover: { filter: { type: "none" } },
-        active: { filter: { type: "none" } },
-      },
       _containerFilter: glowCss,
     };
   }, [p, physics]);
 
-  const wrapStyle: React.CSSProperties = {
-    height,
-    width: "100%",
-    borderRadius: 18,
-    background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`,
-    filter: options._containerFilter,
-  };
+  if (!mounted) {
+    return (
+      <div style={{ height, borderRadius: 18, background: profile.personality.bgTop }} className="flex items-center justify-center opacity-20">
+        <Loader2 className="w-6 h-6 animate-spin" />
+      </div>
+    );
+  }
 
   return (
-    <div style={wrapStyle} className="transition-all duration-700 relative group overflow-hidden">
+    <div style={{ height, width: "100%", borderRadius: 18, background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`, filter: options._containerFilter }} className="transition-all duration-700 relative group overflow-hidden">
       <div className="px-4 pt-3 flex items-center justify-between relative z-30">
          <div className="flex items-center gap-3 flex-1">
             <Link 
@@ -184,10 +170,7 @@ export function CandlestickChart({
       </div>
       
       {analyzing && (
-        <div className={cn(
-          "absolute inset-0 z-20 flex items-center justify-center bg-black/20 transition-all duration-300",
-          p.glow !== "Low" && "backdrop-blur-[1px]"
-        )}>
+        <div className={cn("absolute inset-0 z-20 flex items-center justify-center bg-black/20 backdrop-blur-[1px] transition-all duration-300")}>
           <div className="flex flex-col items-center gap-2 scale-in-center">
             <Sparkles className="w-6 h-6 animate-pulse" style={{ color: p.borderA }} />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse" style={{ color: p.text }}>Neuro-Syncing...</span>
@@ -197,21 +180,17 @@ export function CandlestickChart({
 
       <div className="relative z-10">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
-        {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
         <div className="absolute bottom-10 left-6 z-20 pointer-events-none group">
-          <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-1.5">
+          <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,136,0,0.3)]">
             <img 
               src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
               alt="Clear Path"
-              className="w-18 h-18 rounded-lg object-cover opacity-40 group-hover:opacity-80 transition-opacity"
+              className="w-18 h-18 rounded-lg object-cover opacity-80 brightness-110"
             />
             <span className="absolute bottom-0.5 right-0.5 text-[6px] font-bold text-white/40 select-none">©™</span>
           </div>
         </div>
       </div>
-      
-      {/* Interactive hover layer */}
-      <div className="absolute inset-0 pointer-events-none group-hover:bg-white/[0.02] transition-colors duration-500" />
     </div>
   );
 }

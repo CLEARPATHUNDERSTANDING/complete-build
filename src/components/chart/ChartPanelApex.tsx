@@ -5,8 +5,17 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { ModeConfig } from "@/modes/types";
 import Link from "next/link";
 import { ArrowLeft, Search, Loader2 } from "lucide-react";
+import { useMounted } from "@/hooks/use-mounted";
 
-const ReactApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
+const ReactApexChart = dynamic(() => import("react-apexcharts"), { 
+  ssr: false,
+  loading: () => (
+    <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex flex-col items-center justify-center opacity-20">
+      <Loader2 className="w-8 h-8 animate-spin mb-4" />
+      <span className="text-[10px] font-black uppercase tracking-widest">Loading Apex Engine...</span>
+    </div>
+  )
+});
 
 type OHLCPoint = {
   time: number; // unix seconds
@@ -71,19 +80,17 @@ function sanitize(rows: OHLCPoint[]) {
 
 export default function ChartPanelApex({ mode, personality, data }: Props) {
   const wrapRef = useRef<HTMLDivElement | null>(null);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
   const [width, setWidth] = useState(0);
   const [localSymbol, setLocalSymbol] = useState(mode.defaultSymbol);
   const [isSearching, setIsSearching] = useState(false);
-
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     setLocalSymbol(mode.defaultSymbol);
   }, [mode.defaultSymbol]);
 
   useEffect(() => {
-    if (!wrapRef.current) return;
+    if (!wrapRef.current || !mounted) return;
     const el = wrapRef.current;
 
     const ro = new ResizeObserver(() => {
@@ -96,7 +103,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
     if (initial > 0) setWidth(initial);
 
     return () => ro.disconnect();
-  }, []);
+  }, [mounted]);
 
   const bars = useMemo(() => sanitize(data?.length ? data : sampleData(localSymbol)), [data, localSymbol]);
 
@@ -201,14 +208,13 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
     const val = e.target.value.toUpperCase();
     setLocalSymbol(val);
     setIsSearching(true);
-    // Simulate network lookup
     setTimeout(() => setIsSearching(false), 400);
   };
 
   return (
     <div className="w-full" ref={wrapRef}>
       <div
-        className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 relative"
+        className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 relative transition-all duration-700"
         style={{ boxShadow: glowShadow }}
       >
         <div className="flex items-center justify-between px-2 py-2 gap-4">
@@ -234,7 +240,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
               {mode.label} • {mode.tf?.analysisTF ?? mode.defaultTimeframe ?? ""}
             </div>
           </div>
-          <div className="text-xs px-2 py-1 rounded-lg border border-white/10 shrink-0" style={{ color: personality.accent }}>
+          <div className="text-xs px-2 py-1 rounded-lg border border-white/10 shrink-0 font-bold uppercase tracking-widest" style={{ color: personality.accent }}>
             Apex Terminal
           </div>
         </div>
@@ -242,21 +248,21 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         {mounted && width > 50 ? (
           <div className="relative">
             <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
-            {/* Logo Overlay Lower Left - Enlarged 3x See-Through */}
             <div className="absolute bottom-12 left-6 z-20 pointer-events-none group">
-              <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
+              <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2 transition-all duration-500 shadow-[0_0_30px_rgba(255,136,0,0.4)]">
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="Clear Path"
-                  className="w-24 h-24 rounded-xl object-cover opacity-100 transition-opacity"
+                  className="w-24 h-24 rounded-xl object-cover opacity-100 brightness-125 saturate-125"
                 />
-                <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
+                <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
               </div>
             </div>
           </div>
         ) : (
-          <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex items-center justify-center">
-             <div className="animate-pulse text-[10px] font-black uppercase tracking-widest opacity-20">Calibrating Universal Feed...</div>
+          <div className="h-[520px] rounded-xl border border-white/10 bg-black/40 flex flex-col items-center justify-center opacity-20">
+             <Loader2 className="w-8 h-8 animate-spin mb-4" />
+             <div className="text-[10px] font-black uppercase tracking-widest">Synchronizing Feed...</div>
           </div>
         )}
       </div>
