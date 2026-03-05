@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -9,21 +8,21 @@ import { ArrowLeft, Activity } from "lucide-react";
 import * as React from "react";
 
 async function getCards() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:9002";
   try {
-    const res = await fetch(`${baseUrl}/api/market-overview`, {
+    // Use relative path for client-side fetch to work in Studio proxy
+    const res = await fetch(`/api/market-overview`, {
       cache: "no-store"
     });
 
     if (!res.ok) return { cards: [] };
     return res.json();
   } catch (e) {
+    console.error("Market overview fetch failed:", e);
     return { cards: [] };
   }
 }
 
 export default function MarketsPage() {
-  // Use client-side data fetching or pass as props in RSC
   const [data, setData] = React.useState({ cards: [] });
 
   React.useEffect(() => {

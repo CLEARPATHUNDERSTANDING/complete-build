@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -191,7 +190,7 @@ export default function SocialPlatform() {
 
   // Firestore Data
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
-  const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
+  const { data: insightsData, isLoading: isInsightsLoading, error: insightsError } = useCollection(insightsRef);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -511,7 +510,13 @@ export default function SocialPlatform() {
 
             {/* FEED */}
             <div className="space-y-12">
-              {isInsightsLoading ? (
+              {insightsError ? (
+                <div className="py-24 flex flex-col items-center">
+                  <AlertCircle className="w-12 h-12 mb-6 text-rose-500" />
+                  <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Database Connection Failure</span>
+                  <p className="text-[10px] font-bold text-white/30 mt-2 uppercase tracking-widest">Ensure Firestore is initialized in the project console.</p>
+                </div>
+              ) : isInsightsLoading ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
                   <Activity className="w-12 h-12 animate-pulse mb-6 text-orange-500" />
                   <span className="text-[11px] font-black uppercase tracking-[0.4em]">Calibrating Data Stream...</span>
