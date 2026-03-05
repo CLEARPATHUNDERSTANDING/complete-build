@@ -2,22 +2,22 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'InsightFlow Intelligence',
-    short_name: 'InsightFlow',
-    description: 'High-clarity neuro-divergent trading intelligence platform.',
+    name: 'AFTER PATENT Intelligence',
+    short_name: 'AFTER PATENT',
+    description: 'High-clarity neuro-divergent intelligence platform for universal asset analysis.',
     start_url: '/',
     display: 'standalone',
     background_color: '#000000',
-    theme_color: '#6366f1',
+    theme_color: '#6a5cff',
     icons: [
       {
-        src: 'https://picsum.photos/seed/insightflow/192/192',
+        src: 'https://picsum.photos/seed/afterpatent/192/192',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'maskable',
       },
       {
-        src: 'https://picsum.photos/seed/insightflow/512/512',
+        src: 'https://picsum.photos/seed/afterpatent/512/512',
         sizes: '512x512',
         type: 'image/png',
       },

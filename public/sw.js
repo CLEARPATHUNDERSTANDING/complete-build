@@ -1,13 +1,9 @@
-/**
- * InsightFlow Core Service Worker
- * Handles basic caching for offline stability and "App-like" performance.
- */
-
-const CACHE_NAME = 'insightflow-v1';
+const CACHE_NAME = 'after-patent-v1';
 const ASSETS_TO_CACHE = [
   '/',
+  '/login',
   '/manifest.webmanifest',
-  'https://public.codepenassets.com/css/normalize-5.0.0.min.css'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap'
 ];
 
 self.addEventListener('install', (event) => {
@@ -16,27 +12,53 @@ self.addEventListener('install', (event) => {
       return cache.addAll(ASSETS_TO_CACHE);
     })
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
       );
     })
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  // Use a Cache-First strategy for static assets, Network-First for others
+  // Only cache GET requests
+  if (event.request.method !== 'GET') return;
+
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
-        // Fallback for failed fetches (offline)
-        if (event.request.mode === 'navigate') {
-          return caches.match('/');
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        // Return cached version but fetch new version in background
+        fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, networkResponse);
+            });
+          }
+        });
+        return cachedResponse;
+      }
+
+      return fetch(event.request).then((response) => {
+        // Cache the newly fetched response
+        if (!response || response.status !== 200 || response.type !== 'basic') {
+          return response;
         }
+
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return response;
       });
     })
   );
