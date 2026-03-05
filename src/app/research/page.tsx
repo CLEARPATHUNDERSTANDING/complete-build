@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import Link from "next/link";
 import { 
@@ -165,7 +164,7 @@ export default function ResearchPage() {
                           {pillar.citations.map((cite, i) => (
                             <a key={i} href={cite.url} target="_blank" rel="noreferrer" className="flex items-center justify-between group p-4 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all">
                               <span className="text-xs font-bold text-white/70 group-hover:text-white flex items-center gap-3">
-                                < BookOpen className="w-4 h-4 text-indigo-400" />
+                                <BookOpen className="w-4 h-4 text-indigo-400" />
                                 {cite.label}
                               </span>
                               <ExternalLink className="w-3.5 h-3.5 text-white/20 group-hover:text-indigo-400" />

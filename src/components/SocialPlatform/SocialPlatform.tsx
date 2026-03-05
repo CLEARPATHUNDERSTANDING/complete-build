@@ -24,7 +24,8 @@ import {
   AlertCircle,
   Volume2,
   Bluetooth,
-  Brain
+  Brain,
+  Flag
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -39,11 +40,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert";
 import { marketCatalog } from "@/data/marketCatalog";
 import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
 import { generateMockOhlc } from "@/utils/mockData";
@@ -350,6 +346,7 @@ export default function SocialPlatform() {
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
                 <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
                 <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
+                <NavItem label="Political Network" icon={Flag} href="/personalities" color="rose" />
                 <NavItem label="All Communities" icon={Compass} href="/communities" color="emerald" />
                 <NavItem label="Overall" icon={Users} href="/community" active color="orange" />
               </div>
