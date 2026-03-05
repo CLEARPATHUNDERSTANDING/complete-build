@@ -40,7 +40,7 @@ html, body {
   overflow-x: hidden;
 }
 
-/* 16px Wide Reachability Scrollbars - MATCHING LOGO SPECTRUM (CYAN -> INDIGO -> PINK) */
+/* 16px Wide Reachability Scrollbars - FULL LOGO SPECTRUM (CYAN -> INDIGO -> PINK -> ORANGE) */
 ::-webkit-scrollbar {
   width: 16px;
   height: 16px;
@@ -51,10 +51,10 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00f5ff 0%, #6a5cff 50%, #ff00d4 100%);
+  background: linear-gradient(180deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%);
   border-radius: 8px;
   border: 3px solid #000000;
-  box-shadow: 0 0 15px rgba(106, 92, 255, 0.8);
+  box-shadow: 0 0 15px rgba(255, 138, 0, 0.8);
 }
 
 ::selection {
@@ -382,11 +382,11 @@ a {
 
 .primary-btn {
   color: white;
-  background: linear-gradient(135deg, #00f5ff, #6a5cff, #ff00d4);
+  background: linear-gradient(135deg, #00f5ff, #6a5cff, #ff00d4, #ff8a00);
   box-shadow:
     0 12px 34px rgba(0, 0, 0, 0.34),
     0 0 14px rgba(0, 245, 255, 0.2),
-    0 0 24px rgba(106, 92, 255, 0.15);
+    0 0 24px rgba(255, 138, 0, 0.15);
 }
 
 .ghost-btn {

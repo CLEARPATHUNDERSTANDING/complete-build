@@ -51,7 +51,7 @@ import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
 
-const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] to-[#ff00d4] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
+const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 function BorderWallCard({
   title,
@@ -79,7 +79,7 @@ function BorderWallCard({
         "relative rounded-[26px] p-[3px] transition-all duration-500",
         isCool 
           ? "bg-[linear-gradient(135deg,#00f5ff_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(0,245,255,0.3)]" 
-          : "bg-[linear-gradient(135deg,#ff00d4_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(255,0,212,0.3)]",
+          : "bg-[linear-gradient(135deg,#ff00d4_0%,#ff8a00_100%)] shadow-[0_0_25px_rgba(255,138,0,0.3)]",
         className
       )}
     >
@@ -97,7 +97,7 @@ function BorderWallCard({
           <div className="border-b border-white/8 px-5 py-4 shrink-0">
             <div className={cn(
               "text-[12px] font-black uppercase tracking-[0.28em]",
-              isCool ? "text-cyan-300" : "text-fuchsia-300"
+              isCool ? "text-cyan-300" : "text-orange-300"
             )}>
               {title}
             </div>
@@ -135,7 +135,7 @@ function NavItem({
 }) {
   const colorMap = {
     pink: "text-pink-400",
-    orange: "text-cyan-400",
+    orange: "text-orange-400",
     emerald: "text-emerald-400",
     amber: "text-amber-400",
     rose: "text-rose-400",
@@ -326,7 +326,7 @@ export default function SocialPlatform() {
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="After Patent Logo"
-                  className="w-48 h-48 rounded-3xl object-cover border-2 border-indigo-500/40 shadow-[0_0_60px_rgba(106,92,255,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-105"
+                  className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
               </div>
@@ -369,7 +369,7 @@ export default function SocialPlatform() {
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="After Patent Logo"
-                className="w-48 h-48 rounded-3xl object-cover border-2 border-indigo-500/40 shadow-[0_0_60px_rgba(106,92,255,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
+                className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
               />
               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
             </div>
@@ -534,7 +534,7 @@ export default function SocialPlatform() {
                   { name: "Market Watch", status: "Session Review", active: true, img: getImg("hub-market-watch") },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-5 p-3 rounded-2xl hover:bg-white/5 transition-all cursor-pointer group">
-                    <div className="relative h-16 w-16 shrink-0 rounded-full bg-[linear-gradient(135deg,#00f5ff,#6a5cff,#ff00d4)] p-[3px]">
+                    <div className="relative h-16 w-16 shrink-0 rounded-full bg-[linear-gradient(135deg,#00f5ff,#6a5cff,#ff00d4,#ff8a00)] p-[3px]">
                       <div className="h-full w-full rounded-full overflow-hidden">
                         <img src={hub.img} className="w-full h-full object-cover" alt="" />
                       </div>
