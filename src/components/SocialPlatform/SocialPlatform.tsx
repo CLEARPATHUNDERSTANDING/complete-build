@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -25,7 +26,8 @@ import {
   Volume2,
   Bluetooth,
   Brain,
-  Flag
+  Flag,
+  CloudSun
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -49,6 +51,7 @@ import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
+import WeatherWidget from "@/components/WeatherWidget";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -624,6 +627,11 @@ export default function SocialPlatform() {
         </div>
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-6 py-8 space-y-10">
+            {/* ENVIRONMENTAL INTELLIGENCE */}
+            <BorderWallCard title="Atmospheric Data" maxHeight="none" useScrollArea={false} variant="cool">
+              <WeatherWidget />
+            </BorderWallCard>
+
             <BorderWallCard title="Live Hubs" maxHeight="none" useScrollArea={false}>
               <div className="space-y-6">
                 {[
