@@ -2,12 +2,23 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe, Loader2 } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
+import { useMounted } from "@/hooks/use-mounted";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 export default function PatentPendingPage() {
+  const mounted = useMounted();
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <Loader2 className="w-10 h-10 animate-spin text-indigo-500" />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500 font-body">
       <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md sticky top-0 z-50 px-10 flex items-center justify-between">
@@ -18,16 +29,16 @@ export default function PatentPendingPage() {
           </Link>
           <div className="h-12 w-px bg-white/10" />
           <div className="flex items-center gap-6">
-            <div className="relative">
+            <div className="relative group">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-32 h-32 rounded-2xl object-cover border border-white/10 shadow-[0_0_30px_rgba(255,136,0,0.4)] opacity-60"
+                className="w-32 h-32 rounded-2xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-110"
               />
-              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white/60 select-none">©™</span>
+              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white shadow-black select-none">©™</span>
             </div>
-            <div className="flex flex-col">
-              <span className="text-[20px] font-black tracking-[0.2em] uppercase leading-none">IP Registry</span>
+            <div className="flex flex-col text-left">
+              <span className={`text-[20px] font-black tracking-[0.2em] uppercase leading-none ${spectralTitleClass}`}>IP Registry</span>
               <span className="text-[16px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
             </div>
           </div>
@@ -53,7 +64,7 @@ export default function PatentPendingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
           <NeonBoard>
-            <div className="p-10 space-y-6 bg-transparent h-full">
+            <div className="p-10 space-y-6 bg-[#070b16] h-full">
               <div className="flex items-center gap-4 text-cyan-400">
                 <Cpu className="w-8 h-8" />
                 <h3 className="text-xl font-black uppercase tracking-widest">Neuro-Physics Engine</h3>
@@ -70,7 +81,7 @@ export default function PatentPendingPage() {
           </NeonBoard>
 
           <NeonBoard>
-            <div className="p-10 space-y-6 bg-transparent h-full">
+            <div className="p-10 space-y-6 bg-[#070b16] h-full">
               <div className="flex items-center gap-4 text-pink-400">
                 <Globe className="w-8 h-8" />
                 <h3 className="text-xl font-black uppercase tracking-widest">Universal Truth Layer</h3>
@@ -92,12 +103,12 @@ export default function PatentPendingPage() {
             <h2 className="text-2xl font-black uppercase tracking-widest">Legal Notice</h2>
           </div>
           
-          <div className="space-y-8">
+          <div className="space-y-8 text-left">
             <div className="grid gap-4">
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-400">Status</div>
               <p className="text-lg font-bold text-white/80">
                 The AFTER PATENT system is protected under multiple pending applications. 
-                Unauthorized replication of the "Neuro-Board" visual framing or the "Spectral Title" 
+                Unauthorized replication of the "Neon-Board" visual framing or the "Spectral Title" 
                 rendering logic is strictly prohibited.
               </p>
             </div>
