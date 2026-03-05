@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import { useMounted } from "@/hooks/use-mounted";
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false);
+  const mounted = useMounted();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  // The base header classes must be identical on server and client to avoid hydration errors.
+  const headerClasses = "topbar w-full absolute top-0 flex items-center justify-between px-10 py-8 z-50";
 
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
-      <header className="topbar w-full absolute top-0 flex items-center justify-between px-10 py-8 z-50">
+      <header className={headerClasses}>
         <div className="brand-wrap">
           <div>
             <div className="brand-name text-white">AFTER PATENT</div>
@@ -31,8 +31,10 @@ export default function HomePage() {
         </nav>
       </header>
 
-      {mounted && (
-        <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
+      {/* Hero content only renders after mount to ensure the client-side interactive 
+          elements match the server's initial placeholder state if necessary. */}
+      {mounted ? (
+        <section className="max-w-5xl px-8 text-center space-y-12 relative z-10 animate-in fade-in duration-700">
           <div className="space-y-6">
             <div className="eyebrow">Secure Diagnostic Interface</div>
             <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95]">
@@ -76,6 +78,11 @@ export default function HomePage() {
             <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Data Truth Layer Active</span>
           </div>
         </section>
+      ) : (
+        <div className="flex flex-col items-center justify-center text-indigo-500/20">
+          <div className="w-12 h-12 rounded-full border-2 border-current border-t-transparent animate-spin mb-4" />
+          <span className="text-[10px] font-black uppercase tracking-[0.3em]">Initializing AFTER PATENT...</span>
+        </div>
       )}
     </main>
   );

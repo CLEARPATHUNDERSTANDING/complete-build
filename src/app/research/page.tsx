@@ -1,4 +1,6 @@
-import type { Metadata } from "next";
+'use client';
+
+import React from "react";
 import Link from "next/link";
 import { 
   ArrowLeft, 
@@ -21,12 +23,10 @@ import {
 import { evidencePillars, CLEAR_PATH_NON_MEDICAL_DEVICE_DISCLAIMER } from "@/docs/evidenceRegistry";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata: Metadata = {
-  title: "On-Going Research | Clear Path Intelligence",
-  description:
-    "Active research initiatives: neuro-physics calibration, clinical rationale, and citation-backed design pillars.",
-};
-
+/**
+ * On-Going Research | Intelligence Lab
+ * Marks the citation-backed design pillars and clinical rationale.
+ */
 export default function ResearchPage() {
   return (
     <div className="min-h-screen bg-black text-white selection:bg-indigo-500">
@@ -116,8 +116,10 @@ export default function ResearchPage() {
                           <div>
                             <div className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-3">Implementation Controls</div>
                             <div className="flex flex-wrap gap-2">
-                              {pillar.designLevers.map(lever => (
-                                <Badge key={lever} variant="outline" className="bg-white/5 border-white/10 text-[9px] uppercase font-black text-white/50">{lever.replace(/_/g, ' ')}</Badge>
+                              {pillar.designLevers.map((lever) => (
+                                <Badge key={lever} variant="outline" className="bg-white/5 border-white/10 text-[9px] uppercase font-black text-white/50">
+                                  {lever.replaceAll('_', ' ')}
+                                </Badge>
                               ))}
                             </div>
                           </div>
@@ -127,7 +129,7 @@ export default function ResearchPage() {
                               {pillar.whatItSupports.map((feat, i) => (
                                 <li key={i} className="flex items-start gap-2 text-xs font-medium text-white/70">
                                   <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
-                                  {feat}
+                                  <span>{feat}</span>
                                 </li>
                               ))}
                             </ul>
