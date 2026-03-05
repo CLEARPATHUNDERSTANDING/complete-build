@@ -66,7 +66,6 @@ export default function ResearchPage() {
         </div>
 
         <div className="grid gap-12">
-          {/* Clinical Registry Header */}
           <section className="space-y-8">
             <div className="flex items-center gap-4 border-b border-white/10 pb-4">
               <div className="p-3 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
@@ -78,7 +77,6 @@ export default function ResearchPage() {
               </div>
             </div>
 
-            {/* Non-Medical Disclaimer */}
             <div className="bg-indigo-500/5 border border-indigo-500/20 p-8 rounded-[32px] relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                 <ShieldCheck className="w-32 h-32 text-indigo-400" />
@@ -94,7 +92,6 @@ export default function ResearchPage() {
               </div>
             </div>
 
-            {/* Evidence Pillars Accordion */}
             <div className="space-y-6">
               <h3 className="text-sm font-black uppercase tracking-[0.3em] text-white/40">The 10 Core Pillars</h3>
               <Accordion type="single" collapsible className="w-full space-y-4">
@@ -133,10 +130,11 @@ export default function ResearchPage() {
                                   <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
                                   {feat}
                                 </li>
-                              </ul>
-                            </div>
+                              ))}
+                            </ul>
                           </div>
                         </div>
+                      </div>
 
                       <div className="grid md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
                         <div className="space-y-4">
