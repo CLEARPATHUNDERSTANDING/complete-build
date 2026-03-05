@@ -195,7 +195,7 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
 
       <div className="mb-8 space-y-3">
         <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2 border-b border-white/5 pb-2">
-          <ShieldCheck className={cn("w-3 h-3", isOrange ? "text-orange-400" : isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : "text-pink-400")} /> Media Sources
+          <ShieldCheck className={cn("w-3 h-3", isOrange ? "text-orange-400" : isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : "text-pink-400")} /> Intelligence Media Nodes
         </div>
         
         <div className="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar scrollbar-hide">
@@ -217,7 +217,7 @@ function SectorCard({ sector }: { sector: PoliticalSector }) {
       <div className="space-y-3">
         <Link href={`/communities?hubId=${sector.id}`}>
           <Button className="w-full bg-white/5 hover:bg-white/10 border border-white/10 text-white font-black uppercase text-[10px] tracking-widest h-11 rounded-xl transition-all shadow-2xl">
-            Synchronize Sector →
+            Synchronize Room →
           </Button>
         </Link>
         <div className="flex items-center justify-between px-2">
@@ -279,11 +279,11 @@ export default function PersonalitiesPage() {
       <main className="max-w-7xl mx-auto py-20 px-10">
         <div className="mb-16">
           <h1 className={`text-5xl font-black uppercase tracking-tighter mb-6 ${spectralTitleClass}`}>
-            Sector Personalities
+            Sector Media Personalities
           </h1>
           <p className="max-w-2xl text-lg text-white/60 leading-relaxed font-medium italic border-l-2 border-indigo-500 pl-8">
             Access ideological intelligence sectors calibrated for high-clarity network investigation. 
-            Each sector synchronizes 20 high-fidelity media nodes into a unified diagnostic grid.
+            Each sector synchronizes 20 high-fidelity media nodes into a unified intelligence grid.
           </p>
         </div>
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -25,9 +24,9 @@ import {
   AlertCircle,
   Volume2,
   Bluetooth,
-  Brain,
   Flag,
-  CloudSun
+  Scale,
+  HandMetal
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -50,7 +49,6 @@ import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
-import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import WeatherWidget from "@/components/WeatherWidget";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
@@ -345,33 +343,18 @@ export default function SocialPlatform() {
               <div className="space-y-1">
                 <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
                 <NavItem label="Universal Workspace" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
-                <NavItem label="Neuro Workspace" icon={Sparkles} href="/dashboard?mode=focus" color="pink" />
                 <NavItem label="Political Network" icon={Compass} href="/personalities" active color="orange" />
                 <NavItem label="All Communities" icon={Users} href="/communities" color="emerald" />
                 <NavItem label="Social Stream" icon={MessageCircle} href="/community" color="pink" />
               </div>
             </BorderWallCard>
 
-            <BorderWallCard title="Intelligence Sectors" maxHeight="300px">
+            <BorderWallCard title="Ideological Sectors" maxHeight="300px">
               <div className="space-y-1">
                 <NavItem label="Republican" icon={Flag} href="/communities?hubId=republican-sector" color="orange" />
                 <NavItem label="Democrat" icon={Globe} href="/communities?hubId=democrat-sector" color="pink" />
                 <NavItem label="Independent" icon={Scale} href="/communities?hubId=independent-sector" color="amber" />
                 <NavItem label="Liberal" icon={HandMetal} href="/communities?hubId=liberal-sector" color="emerald" />
-              </div>
-            </BorderWallCard>
-
-            <BorderWallCard title="Neuro Profiles" maxHeight="300px">
-              <div className="space-y-1">
-                {NEURO_PROFILES.map((p) => (
-                  <NavItem 
-                    key={p.id} 
-                    label={p.label} 
-                    icon={Brain}
-                    href={`/dashboard?mode=focus&profile=${p.id}`} 
-                    color="pink" 
-                  />
-                ))}
               </div>
             </BorderWallCard>
           </div>
@@ -446,7 +429,7 @@ export default function SocialPlatform() {
                     />
                     <div className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 rounded-full bg-rose-500/80 backdrop-blur-md border border-white/20 animate-pulse">
                       <Radio className="w-4 h-4 text-white" />
-                      <span className="text-[11px] font-black text-white uppercase tracking-widest">LIVE DIAGNOSTIC</span>
+                      <span className="text-[11px] font-black text-white uppercase tracking-widest">LIVE BROADCAST</span>
                     </div>
                     {hasCameraPermission === false && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/80 backdrop-blur-xl p-10 text-center">
@@ -478,7 +461,7 @@ export default function SocialPlatform() {
                   <div className="flex-1">
                     <textarea 
                       className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-lg font-medium text-white outline-none focus:border-cyan-500/50 transition-all resize-none min-h-[160px] placeholder:text-white/20"
-                      placeholder="Broadcast diagnostic thesis or network observation..."
+                      placeholder="Broadcast ideological thesis or network observation..."
                       value={postText}
                       onChange={(e) => setPostText(e.target.value)}
                     />
@@ -524,7 +507,7 @@ export default function SocialPlatform() {
                   <div className="p-6 rounded-full bg-rose-500/10 border border-rose-500/20 mb-6">
                     <AlertCircle className="w-12 h-12 text-rose-500" />
                   </div>
-                  <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Diagnostic Stream Interrupted</span>
+                  <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Network Stream Interrupted</span>
                   <p className="text-[13px] font-bold text-white/40 mt-4 uppercase tracking-widest leading-relaxed max-w-md">
                     Failed to establish a secure link with Firestore. Ensure the database is initialized.
                   </p>
@@ -535,7 +518,7 @@ export default function SocialPlatform() {
               ) : isInsightsLoading ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
                   <Activity className="w-12 h-12 animate-pulse mb-6 text-orange-500" />
-                  <span className="text-[11px] font-black uppercase tracking-[0.4em]">Calibrating Data Stream...</span>
+                  <span className="text-[11px] font-black uppercase tracking-[0.4em]">Synchronizing Data Stream...</span>
                 </div>
               ) : insightsData?.length === 0 ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
@@ -575,7 +558,7 @@ export default function SocialPlatform() {
                         {post.attachment && (
                           <div className="relative rounded-3xl border border-white/10 bg-black/40 p-6 mb-8 overflow-hidden">
                             <div className="absolute top-6 left-6 z-20 px-4 py-1.5 rounded-full bg-pink-500/20 border border-pink-500/40 text-[10px] font-black text-pink-300 uppercase tracking-widest">
-                              DIAGNOSTIC CAPTURE: {post.attachment.symbol} CANDLESTICK
+                              SNAPSHOT CAPTURE: {post.attachment.symbol}
                             </div>
                             <MarketWatchChart 
                               symbol={post.attachment.symbol} 
@@ -616,11 +599,11 @@ export default function SocialPlatform() {
       <aside className="w-[380px] border-l border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-8 flex items-center gap-4 border-b border-white/5 shrink-0">
           <TrendingUp className="w-6 h-6 text-orange-500" />
-          <div className={`text-[14px] font-black tracking-[0.3em] uppercase ${spectralTitleClass}`}>Diagnostic Pacing</div>
+          <div className={`text-[14px] font-black tracking-[0.3em] uppercase ${spectralTitleClass}`}>Network Pacing</div>
         </div>
         <ScrollArea className="flex-1 min-h-0">
           <div className="px-6 py-8 space-y-10">
-            {/* ENVIRONMENTAL INTELLIGENCE */}
+            {/* ATMOSPHERIC INTELLIGENCE */}
             <BorderWallCard title="Atmospheric Data" maxHeight="none" useScrollArea={false} variant="cool">
               <WeatherWidget />
             </BorderWallCard>
@@ -679,14 +662,14 @@ export default function SocialPlatform() {
         </ScrollArea>
       </aside>
 
-      {/* CHART MODAL */}
+      {/* SNAPSHOT MODAL */}
       <Dialog open={isChartModalOpen} onOpenChange={setIsChartModalOpen}>
         <DialogContent className="max-w-5xl bg-[#070b16] border-white/10 text-white rounded-[40px] overflow-hidden p-0 shadow-[0_0_100px_rgba(255,136,0,0.15)]">
           <div className="p-10 h-full flex flex-col">
             <DialogHeader className="mb-8">
               <DialogTitle className="text-3xl font-black uppercase tracking-[0.1em] flex items-center gap-4">
                 <BarChart2 className="w-8 h-8 text-pink-400" />
-                Diagnostic Capture Module
+                Intelligence Capture Module
               </DialogTitle>
             </DialogHeader>
             <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-10 flex-1">
@@ -702,11 +685,11 @@ export default function SocialPlatform() {
                 </div>
                 <div className="space-y-3">
                   <label className="text-[11px] font-black uppercase tracking-widest text-white/40 flex items-center gap-3"><Type className="w-4 h-4" /> Markup Annotation</label>
-                  <textarea className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm font-black uppercase outline-none focus:border-pink-500/50 h-40 resize-none text-white" value={annotationText} onChange={(e) => setAnnotationText(e.target.value.toUpperCase())} placeholder="e.g. BREAKOUT IMMINENT" />
+                  <textarea className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-sm font-black uppercase outline-none focus:border-pink-500/50 h-40 resize-none text-white" value={annotationText} onChange={(e) => setAnnotationText(e.target.value.toUpperCase())} placeholder="e.g. BREAKOUT OBSERVED" />
                 </div>
               </div>
               <div className="relative rounded-3xl border border-white/5 bg-black/40 p-10 overflow-hidden min-h-[500px]">
-                <div className="absolute top-8 left-8 z-20 px-4 py-2 rounded-full bg-pink-500/20 border border-pink-500/40 text-[11px] font-black text-pink-300 uppercase tracking-widest">SNAPSHOT PREVIEW</div>
+                <div className="absolute top-8 left-8 z-20 px-4 py-2 rounded-full bg-pink-500/20 border border-pink-500/40 text-[11px] font-black text-pink-300 uppercase tracking-widest">CAPTURE PREVIEW</div>
                 <div className="flex-1 min-h-0 mt-12"><MarketWatchChart symbol={selectedChartSymbol} points={generateMockOhlc(selectedChartSymbol, 100)} height={440} /></div>
                 {annotationText && (
                   <div className="absolute bottom-20 right-16 z-30 transform rotate-[-2deg] animate-in zoom-in-95">

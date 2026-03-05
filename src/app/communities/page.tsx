@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -7,31 +6,24 @@ import {
   ArrowLeft, 
   Users, 
   TrendingUp, 
-  BarChart2, 
   Zap, 
   Globe, 
-  Hash, 
   MessageCircle, 
   Send, 
   ShieldCheck,
-  Brain,
   Scale,
   Flag,
-  HandMetal,
-  XCircle,
-  LayoutDashboard
+  HandMetal
 } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp, orderBy, query, limit } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import { cn } from "@/lib/utils";
 
 // --- Types ---
@@ -45,7 +37,7 @@ interface CommunityHub {
   icon: any;
   color: string;
   bg: string;
-  category: "thematic" | "political" | "diagnostic";
+  category: "ideological" | "thematic";
 }
 
 // --- Dynamic Data ---
@@ -60,7 +52,7 @@ const CORE_HUBS: CommunityHub[] = [
     icon: Flag,
     color: "text-orange-500",
     bg: "bg-orange-500/10",
-    category: "political"
+    category: "ideological"
   },
   {
     id: "democrat-sector",
@@ -71,7 +63,7 @@ const CORE_HUBS: CommunityHub[] = [
     icon: Globe,
     color: "text-cyan-400",
     bg: "bg-cyan-500/10",
-    category: "political"
+    category: "ideological"
   },
   {
     id: "independent-sector",
@@ -82,7 +74,7 @@ const CORE_HUBS: CommunityHub[] = [
     icon: Scale,
     color: "text-slate-400",
     bg: "bg-slate-500/10",
-    category: "political"
+    category: "ideological"
   },
   {
     id: "liberal-sector",
@@ -93,7 +85,7 @@ const CORE_HUBS: CommunityHub[] = [
     icon: HandMetal,
     color: "text-purple-400",
     bg: "bg-purple-500/10",
-    category: "political"
+    category: "ideological"
   },
   {
     id: "crypto-quant",
@@ -109,7 +101,7 @@ const CORE_HUBS: CommunityHub[] = [
   {
     id: "bond-yields",
     title: "Bonds & Yields",
-    description: "Fixed income diagnostics and sovereign debt cycle investigation.",
+    description: "Fixed income monitoring and sovereign debt cycle investigation.",
     members: "5.1K",
     activity: "Steady",
     icon: TrendingUp,
@@ -119,19 +111,7 @@ const CORE_HUBS: CommunityHub[] = [
   }
 ];
 
-const DIAGNOSTIC_HUBS: CommunityHub[] = NEURO_PROFILES.map(p => ({
-  id: `diag-${p.id}`,
-  title: p.label,
-  description: p.tagline,
-  members: "1.2K",
-  activity: "Stable",
-  icon: Brain,
-  color: "text-pink-400",
-  bg: "bg-pink-500/10",
-  category: "diagnostic"
-}));
-
-const ALL_COMMUNITIES = [...CORE_HUBS, ...DIAGNOSTIC_HUBS];
+const ALL_COMMUNITIES = [...CORE_HUBS];
 
 export default function CommunitiesDiscoveryPage() {
   const { firestore } = useFirebase();
@@ -256,7 +236,7 @@ export default function CommunitiesDiscoveryPage() {
                       Universal Hubs
                     </h1>
                     <p className="max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]">
-                      Connect with isolated ideological and diagnostic intelligence sectors to synchronize truth layers.
+                      Connect with isolated ideological intelligence sectors to synchronize truth layers.
                     </p>
                   </div>
                   <Link href="/community" className="flex items-center gap-2 text-[10px] font-black tracking-widest text-white/30 hover:text-white uppercase transition-colors">
@@ -289,7 +269,7 @@ export default function CommunitiesDiscoveryPage() {
                         <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
                           <div className="flex flex-col">
                             <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Sector</span>
-                            <span className={`text-[11px] font-black uppercase tracking-wider ${hub.category === 'political' ? 'text-orange-400' : 'text-cyan-400'}`}>{hub.category}</span>
+                            <span className={`text-[11px] font-black uppercase tracking-wider ${hub.category === 'ideological' ? 'text-orange-400' : 'text-cyan-400'}`}>{hub.category}</span>
                           </div>
                           <Button 
                             onClick={() => handleJoinHub(hub.id)}
@@ -442,7 +422,7 @@ export default function CommunitiesDiscoveryPage() {
                         </div>
                         <h2 className="text-xl font-black uppercase tracking-[0.3em] text-white/60 mb-2">Select Hub Room</h2>
                         <p className="max-w-sm text-sm font-bold uppercase tracking-widest opacity-30 leading-loose">
-                          Pick a community or diagnostic hub from the left panel to open the communication stream.
+                          Pick a community hub from the left panel to open the communication stream.
                         </p>
                         <div className="mt-12 flex flex-col items-center gap-4">
                           <div className="text-[10px] font-black uppercase tracking-widest text-white/20">Independent Sector Terminals</div>

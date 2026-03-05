@@ -11,14 +11,11 @@ import {
   Menu,
   Loader2,
   Info,
-  BookOpen,
   ShieldCheck,
   ExternalLink,
   Brain,
   CheckCircle2
 } from "lucide-react"
-import { NEURO_PROFILES, NeuroProfileId, getProfile } from "@/lib/neuro/profiles"
-import { getRationale } from "@/lib/neuro/clinical-rationale"
 import { NON_ND_MODES } from "@/modes/nonNdModes"
 import {
   Select,
@@ -27,18 +24,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
-} from "@/components/ui/dialog"
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
-import { Badge } from "@/components/ui/badge"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { useToast } from "@/hooks/use-toast"
 import type { ModeConfig } from "@/modes/types"
+import { useMounted } from "@/hooks/use-mounted"
 
 const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
 
@@ -46,72 +35,29 @@ function DashboardContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
+  const mounted = useMounted();
   
   const initialMode = (searchParams.get('mode') as ViewMode) || 'minimal';
-  const profileParam = searchParams.get('profile') as NeuroProfileId;
   const symbolParam = searchParams.get('symbol') || 'AAPL';
   const styleParam = searchParams.get('style') || 'stocks';
   
   const [mode, setMode] = React.useState<ViewMode>(initialMode);
-  const [selectedProfileId, setSelectedProfileId] = React.useState<NeuroProfileId>(profileParam || "calm_focus");
   const [selectedStyleId, setSelectedStyleId] = React.useState<string>(styleParam);
   const [activeTf, setActiveTf] = React.useState<string>("15m");
 
   React.useEffect(() => {
-    const p = searchParams.get('profile') as NeuroProfileId;
-    if (p && p !== selectedProfileId) setSelectedProfileId(p);
-    
     const s = searchParams.get('style');
     if (s && s !== selectedStyleId) setSelectedStyleId(s);
-  }, [searchParams, selectedProfileId, selectedStyleId]);
+  }, [searchParams, selectedStyleId]);
 
-  const neuroProfile = React.useMemo(() => getProfile(selectedProfileId), [selectedProfileId]);
-  const rationale = React.useMemo(() => getRationale(selectedProfileId), [selectedProfileId]);
   const standardMode = React.useMemo(() => NON_ND_MODES.find(m => m.id === selectedStyleId) || NON_ND_MODES[0], [selectedStyleId]);
 
   const activeModeConfig = React.useMemo<ModeConfig>(() => {
-    if (mode === 'focus') {
-      const p = neuroProfile.personality;
-      return {
-        kind: "nd",
-        id: neuroProfile.id,
-        label: neuroProfile.label,
-        description: neuroProfile.tagline,
-        marketScope: "all",
-        defaultSymbol: symbolParam,
-        defaultCharts: mode === 'quad' ? 4 : 1,
-        defaultLayout: mode === 'quad' ? "grid" : "stack",
-        defaultTimeframe: activeTf,
-        panels: {
-          chart: true, watchlist: true, news: true, alerts: true, screener: false,
-          calendar: false, journal: false, patterns: true, replay: false, research: false
-        },
-        chart: {
-          background: p.bgTop,
-          text: p.text,
-          gridVert: p.grid,
-          gridHorz: p.grid,
-          crosshair: p.borderA,
-          priceLine: p.outlineColor,
-          upCandle: p.upColor,
-          downCandle: p.downColor,
-          upWick: p.wickColor,
-          downWick: p.wickColor,
-          borderUp: p.outlineColor,
-          borderDown: p.outlineColor,
-          accent: p.borderA,
-          density: p.dataDensity === 'High' ? 'tight' : p.dataDensity === 'Low' ? 'airy' : 'normal',
-          glow: p.glow === 'High' ? 1 : p.glow === 'Medium' ? 0.5 : 0,
-        },
-        complianceLine: "Neuro-Divergent focus interface. Evidence-informed controls."
-      };
-    }
-    
     return {
       ...standardMode,
       defaultTimeframe: activeTf
     };
-  }, [mode, neuroProfile, standardMode, symbolParam, activeTf]);
+  }, [standardMode, activeTf]);
 
   const updateMode = (newMode: ViewMode) => {
     setMode(newMode);
@@ -133,7 +79,7 @@ function DashboardContent() {
     try {
       toast({
         title: "Bluetooth Initializing",
-        description: "Scanning for neuro-peripherals and diagnostic hardware...",
+        description: "Scanning for authorized network peripherals...",
       });
       
       const device = await navigator.bluetooth.requestDevice({
@@ -153,6 +99,8 @@ function DashboardContent() {
       });
     }
   };
+
+  if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
@@ -175,16 +123,9 @@ function DashboardContent() {
 
            <div className="flex bg-white/5 rounded-full p-1.5 border border-white/10">
               <button 
-                className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${mode === 'minimal' || mode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/40 hover:text-white'}`}
-                onClick={() => updateMode('minimal')}
+                className="px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]"
               >
-                Standard
-              </button>
-              <button 
-                className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${mode === 'focus' ? 'bg-pink-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.5)]' : 'text-white/40 hover:text-white'}`}
-                onClick={() => updateMode('focus')}
-              >
-                Neurodivergent
+                Standard Terminal
               </button>
            </div>
 
@@ -206,115 +147,27 @@ function DashboardContent() {
            <div className="flex items-center gap-6">
               <div className="flex items-center gap-3">
                 <span className="text-[11px] font-black tracking-widest text-white/40 uppercase">
-                  {mode === 'focus' ? 'Neuro Profile' : 'Trading Style'}
+                  Trading Style
                 </span>
-                {mode === 'focus' && (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button className="p-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 hover:bg-indigo-500/20 transition-all group">
-                        <Brain className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-2xl bg-[#070b16] border-white/10 text-white rounded-[32px] overflow-hidden p-0 shadow-[0_0_80px_rgba(99,102,241,0.2)]">
-                      <ScrollArea className="max-h-[85vh]">
-                        <div className="p-8">
-                          <DialogHeader className="mb-6">
-                            <DialogTitle className="text-2xl font-black uppercase tracking-[0.1em] flex items-center gap-3">
-                              <BookOpen className="w-6 h-6 text-indigo-400" />
-                              Clinical Rationale
-                            </DialogTitle>
-                          </DialogHeader>
-                          
-                          <div className="space-y-8">
-                            <div className="bg-indigo-500/5 border border-indigo-500/20 p-6 rounded-2xl">
-                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">VC-Safe Claim</div>
-                              <div className="text-lg font-bold text-indigo-300 leading-snug">"{rationale.goal}"</div>
-                            </div>
-
-                            <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5">
-                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Behavioral Logic</div>
-                              <p className="text-[14px] leading-relaxed text-white/80">{rationale.summary}</p>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              <div>
-                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Design Rules</div>
-                                <ul className="space-y-2">
-                                  {rationale.designRules.map((rule, i) => (
-                                    <li key={i} className="flex items-start gap-2 text-[12px] font-medium text-white/60">
-                                      <CheckCircle2 className="w-3 h-3 text-indigo-500 mt-0.5 shrink-0" />
-                                      {rule}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div>
-                                <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Evidence Domains</div>
-                                <div className="flex flex-wrap gap-2">
-                                  {rationale.evidenceTags.map((tag, i) => (
-                                    <Badge key={i} variant="outline" className="bg-indigo-500/5 border-indigo-500/30 text-indigo-400 text-[9px] uppercase tracking-widest">{tag}</Badge>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-
-                            <div className="pt-6 border-t border-white/5">
-                              <div className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-4">Scientific Citations</div>
-                              <div className="space-y-3">
-                                {rationale.citations.map((cite, i) => (
-                                  <a key={i} href={cite.url} target="_blank" rel="noreferrer" className="flex items-center justify-between group p-3 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all">
-                                    <span className="text-[11px] font-bold text-white/70 group-hover:text-white flex items-center gap-3">
-                                      <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
-                                      {cite.text}
-                                    </span>
-                                    <ExternalLink className="w-3.5 h-3.5 text-white/20 group-hover:text-indigo-400" />
-                                  </a>
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="pt-6 border-t border-white/5 flex items-center gap-3 text-white/30">
-                              <ShieldCheck className="w-4 h-4" />
-                              <span className="text-[9px] font-bold uppercase tracking-widest">Non-Medical Claim Boundary Active</span>
-                            </div>
-                          </div>
-                        </div>
-                      </ScrollArea>
-                    </DialogContent>
-                  </Dialog>
-                )}
               </div>
               <Select 
-                value={mode === 'focus' ? selectedProfileId : selectedStyleId} 
+                value={selectedStyleId} 
                 onValueChange={(v) => {
                   const params = new URLSearchParams(searchParams.toString());
-                  if (mode === 'focus') {
-                    setSelectedProfileId(v as NeuroProfileId);
-                    params.set('profile', v);
-                  } else {
-                    setSelectedStyleId(v);
-                    params.set('style', v);
-                  }
+                  setSelectedStyleId(v);
+                  params.set('style', v);
                   router.replace(`/dashboard?${params.toString()}`, { scroll: false });
                 }}
               >
                 <SelectTrigger className="w-[220px] bg-white/5 border-white/10 rounded-xl h-12 uppercase text-[11px] font-black tracking-widest">
-                  <SelectValue placeholder="Select Profile" />
+                  <SelectValue placeholder="Select Style" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#0a0f18] border-white/10">
-                  {mode === 'focus' ? (
-                    NEURO_PROFILES.map((p) => (
-                      <SelectItem key={p.id} value={p.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-pink-500">
-                        {p.label}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    NON_ND_MODES.map((m) => (
-                      <SelectItem key={m.id} value={m.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-indigo-500">
-                        {m.label}
-                      </SelectItem>
-                    ))
-                  )}
+                  {NON_ND_MODES.map((m) => (
+                    <SelectItem key={m.id} value={m.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-indigo-500">
+                      {m.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
            </div>
@@ -323,7 +176,7 @@ function DashboardContent() {
 
       <main className="flex-1 p-8 overflow-hidden">
         <div className="max-w-7xl mx-auto h-full flex flex-col gap-8">
-          <NeuroGlowCard neuroModeId={mode === 'focus' ? selectedProfileId : "calm_focus"} className="flex-1">
+          <NeuroGlowCard neuroModeId="corporate_open" className="flex-1">
             <div className="flex flex-col h-full">
               <div className="px-6 py-4 flex items-center justify-between border-b border-white/5">
                 <div className="flex items-center gap-3">
@@ -349,7 +202,7 @@ function DashboardContent() {
                       ))}
                    </div>
 
-                   {/* Diagnostic Tools */}
+                   {/* Tools */}
                    <div className="flex gap-2 p-1 bg-black/40 rounded-lg border border-white/10">
                       {["Zoom", "Pan", "Reset", "Crosshair", "Trendline", "Rectangle"].map(btn => (
                         <button key={btn} className="px-3 py-1 text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-all bg-white/5 rounded-md">
