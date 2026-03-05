@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useRef } from "react";
@@ -79,8 +78,8 @@ function BorderWallCard({
       className={cn(
         "relative rounded-[26px] p-[3px] transition-all duration-500",
         isCool 
-          ? "bg-[linear-gradient(135deg,#6366f1_0%,#00e5ff_50%,#ff4fd8_100%)] shadow-[0_0_25px_rgba(99,102,241,0.3)]" 
-          : "bg-[linear-gradient(135deg,#ff8800_0%,#ff0055_50%,#ff4fd8_100%)] shadow-[0_0_25px_rgba(255,136,0,0.3)]",
+          ? "bg-[linear-gradient(135deg,#00d4ff_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(0,212,255,0.3)]" 
+          : "bg-[linear-gradient(135deg,#ff4fd8_0%,#ff8a00_100%)] shadow-[0_0_25px_rgba(255,79,216,0.3)]",
         className
       )}
     >
@@ -98,7 +97,7 @@ function BorderWallCard({
           <div className="border-b border-white/8 px-5 py-4 shrink-0">
             <div className={cn(
               "text-[12px] font-black uppercase tracking-[0.28em]",
-              isCool ? "text-indigo-300" : "text-white/70"
+              isCool ? "text-cyan-300" : "text-orange-300"
             )}>
               {title}
             </div>

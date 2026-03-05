@@ -1,9 +1,11 @@
-/* Gradient Burst Frame — reusable wrapper for cards/panels
-   Orange → Hot Pink, with soft glow and glass interior */
+/* Gradient Burst Frame — MATCHING AFTER PATENT LOGO SPECTRUM
+   Cyan → Indigo → Hot Pink → Vibrant Orange */
 
 :root {
-  --gb-orange: #ff7a18;
-  --gb-pink: #ff2ea6;
+  --gb-cyan: #00d4ff;
+  --gb-indigo: #6a5cff;
+  --gb-pink: #ff4fd8;
+  --gb-orange: #ff8a00;
   --gb-inner: rgba(10, 12, 16, 0.86);
   --gb-stroke: rgba(255, 255, 255, 0.10);
   --gb-text: rgba(235, 245, 255, 0.92);
@@ -14,11 +16,11 @@
   position: relative;
   border-radius: 26px;
   padding: 1px; /* thickness of gradient frame */
-  background: linear-gradient(90deg, var(--gb-orange), var(--gb-pink));
+  background: linear-gradient(90deg, var(--gb-cyan), var(--gb-indigo), var(--gb-pink), var(--gb-orange));
   box-shadow:
     0 12px 40px rgba(0,0,0,0.55),
-    0 0 18px rgba(255, 122, 24, 0.18),
-    0 0 26px rgba(255, 46, 166, 0.14);
+    0 0 18px rgba(0, 212, 255, 0.18),
+    0 0 26px rgba(255, 79, 216, 0.14);
   overflow: hidden;
 }
 
@@ -27,8 +29,8 @@
   position: absolute;
   inset: -45%;
   background: radial-gradient(circle at 30% 20%,
-    rgba(255, 122, 24, 0.32),
-    rgba(255, 46, 166, 0.20),
+    rgba(0, 212, 255, 0.32),
+    rgba(255, 79, 216, 0.20),
     transparent 60%);
   filter: blur(14px);
   opacity: 0.9;
@@ -55,8 +57,8 @@
 .gb-wrap:hover {
   box-shadow:
     0 14px 48px rgba(0,0,0,0.62),
-    0 0 22px rgba(255, 122, 24, 0.24),
-    0 0 34px rgba(255, 46, 166, 0.20);
+    0 0 22px rgba(0, 212, 255, 0.24),
+    0 0 34px rgba(255, 79, 216, 0.20);
   transform: translateY(-1px);
   transition: transform .14s ease, box-shadow .14s ease;
 }
