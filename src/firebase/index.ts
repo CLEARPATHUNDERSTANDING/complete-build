@@ -6,33 +6,28 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
 
 /**
- * Initializes the Firebase SDKs with robust environment fallback.
- * Prioritizes explicit configuration in development/Studio environments.
+ * Initializes the Firebase SDKs with high-fidelity production configuration.
+ * Prioritizes explicit configuration to ensure the Studio Proxy connects correctly.
  */
 export function initializeFirebase() {
-  if (!getApps().length) {
-    let firebaseApp;
-    try {
-      // In development or if explicitly configured, use the provided config object.
-      // This is the most reliable way to ensure the Studio Proxy connects to your project.
-      firebaseApp = initializeApp(firebaseConfig);
-    } catch (e) {
-      // Robust fallback for production hosting environments
-      firebaseApp = initializeApp();
-    }
+  let app: FirebaseApp;
 
-    return getSdks(firebaseApp);
+  if (!getApps().length) {
+    // Force use of the explicit config for AFTER PATENT project
+    try {
+      app = initializeApp(firebaseConfig);
+    } catch (e) {
+      console.warn("Standard initialization failed, attempting fallback...", e);
+      app = initializeApp();
+    }
+  } else {
+    app = getApp();
   }
 
-  // If already initialized, return the SDKs with the already initialized App instance
-  return getSdks(getApp());
-}
-
-export function getSdks(firebaseApp: FirebaseApp) {
   return {
-    firebaseApp,
-    auth: getAuth(firebaseApp),
-    firestore: getFirestore(firebaseApp)
+    firebaseApp: app,
+    auth: getAuth(app),
+    firestore: getFirestore(app)
   };
 }
 

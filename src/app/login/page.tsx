@@ -39,7 +39,11 @@ export default function LoginPage() {
         createdAt: serverTimestamp()
       }, { merge: true });
       
-      router.push("/community");
+      // Allow profile broadcast to initialize before navigation
+      const timer = setTimeout(() => {
+        router.push("/community");
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [user, isUserLoading, router, firestore]);
 
@@ -58,7 +62,7 @@ export default function LoginPage() {
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !password) return;
+    if (!email || !password || !auth) return;
 
     if (isSignUp) {
       initiateEmailSignUp(auth, email, password);
