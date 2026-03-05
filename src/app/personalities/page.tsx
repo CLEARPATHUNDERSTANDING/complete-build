@@ -2,10 +2,9 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Users, ShieldCheck, Radio, MessageSquare, Globe, ExternalLink, Newspaper } from "lucide-react";
+import { ArrowLeft, Users, ShieldCheck, Radio, MessageSquare, Globe, ExternalLink, Newspaper, Zap, Sparkles } from "lucide-react";
 import GradientBurstWrap from "@/components/GradientBurstWrap";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
@@ -62,6 +61,52 @@ const DEMOCRAT_LINKS: MediaLink[] = [
   { "name": "Etsy", "url": "https://www.etsy.com", "type": "shopping" }
 ];
 
+const INDEPENDENT_LINKS: MediaLink[] = [
+  { "name": "Reuters", "url": "https://www.reuters.com", "type": "news" },
+  { "name": "Associated Press", "url": "https://apnews.com", "type": "news" },
+  { "name": "BBC News", "url": "https://www.bbc.com/news", "type": "news" },
+  { "name": "RealClearPolitics", "url": "https://www.realclearpolitics.com", "type": "politics" },
+  { "name": "The Hill", "url": "https://thehill.com", "type": "politics" },
+  { "name": "Reason Magazine", "url": "https://reason.com", "type": "news" },
+  { "name": "Substack", "url": "https://substack.com", "type": "community" },
+  { "name": "Quora", "url": "https://quora.com", "type": "community" },
+  { "name": "Reddit", "url": "https://reddit.com", "type": "community" },
+  { "name": "YouTube", "url": "https://youtube.com", "type": "social" },
+  { "name": "Twitter/X", "url": "https://twitter.com", "type": "social" },
+  { "name": "LinkedIn", "url": "https://linkedin.com", "type": "social" },
+  { "name": "Investing.com", "url": "https://www.investing.com", "type": "finance" },
+  { "name": "Seeking Alpha", "url": "https://seekingalpha.com", "type": "finance" },
+  { "name": "Morningstar", "url": "https://www.morningstar.com", "type": "finance" },
+  { "name": "Yahoo Finance", "url": "https://finance.yahoo.com", "type": "finance" },
+  { "name": "ZeroHedge", "url": "https://www.zerohedge.com", "type": "finance" },
+  { "name": "DraftKings", "url": "https://www.draftkings.com", "type": "betting" },
+  { "name": "FanDuel", "url": "https://www.fanduel.com", "type": "betting" },
+  { "name": "eBay", "url": "https://www.ebay.com", "type": "shopping" }
+];
+
+const LIBERAL_LINKS: MediaLink[] = [
+  { "name": "The Guardian", "url": "https://www.theguardian.com", "type": "news" },
+  { "name": "Mother Jones", "url": "https://www.motherjones.com", "type": "news" },
+  { "name": "The Intercept", "url": "https://theintercept.com", "type": "news" },
+  { "name": "Democracy Now", "url": "https://www.democracynow.org", "type": "news" },
+  { "name": "Common Dreams", "url": "https://www.commondreams.org", "type": "news" },
+  { "name": "Slate", "url": "https://slate.com", "type": "news" },
+  { "name": "Jacobin", "url": "https://jacobin.com", "type": "news" },
+  { "name": "Teen Vogue Politics", "url": "https://www.teenvogue.com", "type": "news" },
+  { "name": "Vice", "url": "https://www.vice.com", "type": "culture" },
+  { "name": "Reddit Liberal", "url": "https://www.reddit.com/r/liberal", "type": "community" },
+  { "name": "Reddit Politics", "url": "https://www.reddit.com/r/politics", "type": "community" },
+  { "name": "YouTube", "url": "https://youtube.com", "type": "social" },
+  { "name": "Twitter/X", "url": "https://twitter.com", "type": "social" },
+  { "name": "TikTok", "url": "https://tiktok.com", "type": "social" },
+  { "name": "Bloomberg Green", "url": "https://www.bloomberg.com/green", "type": "finance" },
+  { "name": "Yahoo Finance ESG", "url": "https://finance.yahoo.com", "type": "finance" },
+  { "name": "Patagonia", "url": "https://www.patagonia.com", "type": "shopping" },
+  { "name": "REI", "url": "https://www.rei.com", "type": "shopping" },
+  { "name": "Etsy", "url": "https://www.etsy.com", "type": "shopping" },
+  { "name": "Kickstarter", "url": "https://www.kickstarter.com", "type": "startup" }
+];
+
 function PersonalityCard({ 
   title, 
   description, 
@@ -75,20 +120,33 @@ function PersonalityCard({
   icon: any, 
   members: string,
   links?: MediaLink[],
-  theme?: "orange" | "blue"
+  theme?: "orange" | "blue" | "gray" | "purple"
 }) {
   const isBlue = theme === "blue";
+  const isGray = theme === "gray";
+  const isPurple = theme === "purple";
   
+  const themeClasses = cn(
+    "p-3 rounded-xl border transition-all duration-500",
+    theme === "orange" && "bg-orange-500/10 border-orange-500/20 shadow-[0_0_15px_rgba(255,122,24,0.2)] text-orange-400",
+    theme === "blue" && "bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_15px_rgba(0,212,255,0.2)] text-cyan-400",
+    theme === "gray" && "bg-slate-500/10 border-slate-500/20 shadow-[0_0_15px_rgba(148,163,184,0.2)] text-slate-300",
+    theme === "purple" && "bg-purple-500/10 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.2)] text-purple-400"
+  );
+
+  const burstStyle = theme === "blue" 
+    ? { background: 'linear-gradient(90deg, #00d4ff, #6a5cff)' }
+    : theme === "gray"
+    ? { background: 'linear-gradient(90deg, #94a3b8, #475569)' }
+    : theme === "purple"
+    ? { background: 'linear-gradient(90deg, #a855f7, #ff4fd8)' }
+    : undefined;
+
   return (
-    <GradientBurstWrap style={isBlue ? { background: 'linear-gradient(90deg, #00d4ff, #6a5cff)' } : undefined}>
+    <GradientBurstWrap style={burstStyle}>
       <div className="flex items-start justify-between mb-6">
-        <div className={cn(
-          "p-3 rounded-xl border shadow-[0_0_15px_rgba(255,122,24,0.2)]",
-          isBlue 
-            ? "bg-cyan-500/10 border-cyan-500/20 shadow-[0_0_15px_rgba(0,212,255,0.2)]" 
-            : "bg-orange-500/10 border-orange-500/20 shadow-[0_0_15px_rgba(255,122,24,0.2)]"
-        )}>
-          <Icon className={cn("w-6 h-6", isBlue ? "text-cyan-400" : "text-orange-400")} />
+        <div className={themeClasses}>
+          <Icon className="w-6 h-6" />
         </div>
         <div className="text-right">
           <div className="text-[9px] font-black text-white/30 uppercase tracking-widest">Active Members</div>
@@ -102,7 +160,7 @@ function PersonalityCard({
       {links.length > 0 && (
         <div className="mb-8 space-y-3">
           <div className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2">
-            <ShieldCheck className={cn("w-3 h-3", isBlue ? "text-cyan-400" : "text-orange-400")} /> Intelligence Sources
+            <ShieldCheck className={cn("w-3 h-3", isBlue ? "text-cyan-400" : isGray ? "text-slate-400" : isPurple ? "text-purple-400" : "text-orange-400")} /> Intelligence Sources
           </div>
           <div className="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-2 custom-scrollbar scrollbar-hide">
             {links.map((link, idx) => (
@@ -113,13 +171,22 @@ function PersonalityCard({
                 rel="noreferrer"
                 className={cn(
                   "flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.03] border border-white/5 transition-all group/link",
-                  isBlue ? "hover:border-cyan-500/40 hover:bg-cyan-500/10" : "hover:border-orange-500/40 hover:bg-orange-500/10"
+                  theme === "orange" && "hover:border-orange-500/40 hover:bg-orange-500/10",
+                  theme === "blue" && "hover:border-cyan-500/40 hover:bg-cyan-500/10",
+                  theme === "gray" && "hover:border-slate-500/40 hover:bg-slate-500/10",
+                  theme === "purple" && "hover:border-purple-500/40 hover:bg-purple-500/10"
                 )}
               >
                 <span className="text-[10px] font-bold text-white/50 group-hover/link:text-white truncate max-w-[100px]">
                   {link.name}
                 </span>
-                <ExternalLink className={cn("w-2.5 h-2.5 text-white/10 shrink-0", isBlue ? "group-hover/link:text-cyan-400" : "group-hover/link:text-orange-400")} />
+                <ExternalLink className={cn(
+                  "w-2.5 h-2.5 text-white/10 shrink-0 transition-colors",
+                  theme === "orange" && "group-hover/link:text-orange-400",
+                  theme === "blue" && "group-hover/link:text-cyan-400",
+                  theme === "gray" && "group-hover/link:text-slate-400",
+                  theme === "purple" && "group-hover/link:text-purple-400"
+                )} />
               </a>
             ))}
           </div>
@@ -129,9 +196,10 @@ function PersonalityCard({
       <div className="space-y-3">
         <Button className={cn(
           "w-full text-black font-black uppercase text-[10px] tracking-widest h-11 rounded-xl transition-all",
-          isBlue 
-            ? "bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_20px_rgba(0,212,255,0.3)]" 
-            : "bg-orange-500 hover:bg-orange-400 shadow-[0_0_20px_rgba(255,122,24,0.3)]"
+          theme === "orange" && "bg-orange-500 hover:bg-orange-400 shadow-[0_0_20px_rgba(255,122,24,0.3)]",
+          theme === "blue" && "bg-cyan-500 hover:bg-cyan-400 shadow-[0_0_20px_rgba(0,212,255,0.3)]",
+          theme === "gray" && "bg-slate-400 hover:bg-slate-300 shadow-[0_0_20px_rgba(148,163,184,0.3)]",
+          theme === "purple" && "bg-purple-500 hover:bg-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
         )}>
           Synchronize Community
         </Button>
@@ -211,21 +279,25 @@ export default function PersonalitiesPage() {
           <PersonalityCard 
             title="Independent" 
             description="Centrist news aggregators, neutral intelligence hubs, and cross-asset flow investigation centers."
-            icon={Users}
+            icon={Zap}
             members="12.5K"
+            links={INDEPENDENT_LINKS}
+            theme="gray"
           />
           <PersonalityCard 
             title="Liberal" 
             description="Reform-focused intelligence feeds, liberal communities, and globalist data layers for broad-spectrum observation."
-            icon={MessageSquare}
+            icon={Sparkles}
             members="28.9K"
+            links={LIBERAL_LINKS}
+            theme="purple"
           />
         </div>
       </main>
 
       <footer className="py-16 border-t border-white/10 mt-20 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-10 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
-          <span>Alignment-Protocol v1.0.0</span>
+          <span>Alignment-Protocol v1.0.0 • 80+ Synchronized Nodes</span>
           <span>© 2026 AFTER PATENT • Universal Political Interface</span>
         </div>
       </footer>
