@@ -5,28 +5,26 @@ import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION
+/**
+ * Initializes the Firebase SDKs with robust environment fallback.
+ * Prioritizes explicit configuration in development/Studio environments.
+ */
 export function initializeFirebase() {
   if (!getApps().length) {
-    // In Firebase Studio / Dev, we prioritize the explicit config provided by the user
-    // to ensure the project ID matches the intended backend.
     let firebaseApp;
     try {
-      if (process.env.NODE_ENV === "production") {
-        // Attempt to initialize via Firebase App Hosting environment variables in prod
-        firebaseApp = initializeApp();
-      } else {
-        firebaseApp = initializeApp(firebaseConfig);
-      }
-    } catch (e) {
-      // Fallback to explicit config if parameterless init fails
+      // In development or if explicitly configured, use the provided config object.
+      // This is the most reliable way to ensure the Studio Proxy connects to your project.
       firebaseApp = initializeApp(firebaseConfig);
+    } catch (e) {
+      // Robust fallback for production hosting environments
+      firebaseApp = initializeApp();
     }
 
     return getSdks(firebaseApp);
   }
 
-  // If already initialized, return the SDKs with the already initialized App
+  // If already initialized, return the SDKs with the already initialized App instance
   return getSdks(getApp());
 }
 

@@ -188,7 +188,7 @@ export default function SocialPlatform() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
-  // Firestore Data
+  // Firestore Data - Map to the "insights" collection defined in backend.json
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const { data: insightsData, isLoading: isInsightsLoading, error: insightsError } = useCollection(insightsRef);
 
@@ -325,7 +325,7 @@ export default function SocialPlatform() {
       <aside className="w-[350px] border-r border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-6 shrink-0">
           <NeonBoard className="w-full">
-            <div className="px-6 py-6 flex flex-col items-center justify-center gap-4">
+            <div className="px-6 py-6 flex flex-col items-center justify-center gap-4 bg-transparent">
               <div className="relative">
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
@@ -511,10 +511,17 @@ export default function SocialPlatform() {
             {/* FEED */}
             <div className="space-y-12">
               {insightsError ? (
-                <div className="py-24 flex flex-col items-center">
-                  <AlertCircle className="w-12 h-12 mb-6 text-rose-500" />
-                  <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Database Connection Failure</span>
-                  <p className="text-[10px] font-bold text-white/30 mt-2 uppercase tracking-widest">Ensure Firestore is initialized in the project console.</p>
+                <div className="py-24 flex flex-col items-center text-center">
+                  <div className="p-6 rounded-full bg-rose-500/10 border border-rose-500/20 mb-6">
+                    <AlertCircle className="w-12 h-12 text-rose-500" />
+                  </div>
+                  <span className="text-[11px] font-black uppercase tracking-[0.4em] text-rose-400">Diagnostic Stream Interrupted</span>
+                  <p className="text-[13px] font-bold text-white/40 mt-4 uppercase tracking-widest leading-relaxed max-w-md">
+                    Failed to establish a secure link with Firestore. Ensure the database is initialized and the "insights" collection is provisioned in your console.
+                  </p>
+                  <Button variant="outline" onClick={() => window.location.reload()} className="mt-8 border-white/10 hover:bg-white/5 text-[10px] font-black uppercase tracking-widest px-8 rounded-xl h-11">
+                    Attempt Resync
+                  </Button>
                 </div>
               ) : isInsightsLoading ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
