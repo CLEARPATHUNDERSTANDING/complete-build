@@ -264,7 +264,7 @@ export default function PersonalitiesPage() {
             </NeonBoard>
             <div className="flex flex-col">
               <span className={`text-[24px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence Node</span>
-              <span className="text-[18px] font-bold tracking-[0.1em] text-white/40 uppercase">Political Media Network</span>
+              <span className="text-[18px] font-bold tracking-[0.1em] text-white/40 uppercase">Media Network</span>
             </div>
           </div>
         </div>

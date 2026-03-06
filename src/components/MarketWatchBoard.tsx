@@ -32,7 +32,7 @@ export default function MarketWatchBoard({ items }: Props) {
   const [randomChanges, setRandomChanges] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    // Generate random changes only on the client
+    // Generate random changes only on the client to avoid hydration mismatch
     const newChanges: Record<string, string> = {};
     items.forEach(item => {
       newChanges[item.symbol] = (Math.random() * 2).toFixed(2);
