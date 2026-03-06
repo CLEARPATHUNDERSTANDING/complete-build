@@ -9,9 +9,9 @@ interface AfterPatentLogoProps {
 }
 
 /**
- * MANDATORY BRANDING COMPONENT
- * Locked-in version of the AFTER PATENT identity using the high-fidelity source image.
- * Includes the spectral border and PRO badge as baked into the original diagnostic asset.
+ * MANDATORY BRANDING COMPONENT - LOCKED VERSION
+ * Uses only the definitive original image provided by the user.
+ * Size map handles responsive scaling for headers, heroes, and chart corners.
  */
 export default function AfterPatentLogo({ 
   className = "", 
@@ -35,7 +35,7 @@ export default function AfterPatentLogo({
   };
 
   return (
-    <div className={cn("relative inline-block overflow-hidden shadow-[0_0_30px_rgba(106,92,255,0.3)]", sizeClasses[size], borderRadius[size], className)}>
+    <div className={cn("relative inline-block overflow-hidden", sizeClasses[size], borderRadius[size], className)}>
       <img 
         src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
         alt="After Patent Logo"

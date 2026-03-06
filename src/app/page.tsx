@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import AfterPatentLogo from "@/components/AfterPatentLogo";
+import NeonBoard from "@/components/NeonBoard";
 
 export default function HomePage() {
   return (
@@ -31,7 +32,9 @@ export default function HomePage() {
 
       <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
         <div className="flex flex-col items-center gap-10 mb-8">
-          <AfterPatentLogo size="xl" />
+          <NeonBoard className="w-64 h-64">
+            <AfterPatentLogo size="xl" className="w-full h-full" />
+          </NeonBoard>
         </div>
 
         <div className="space-y-6">

@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { doc, serverTimestamp } from "firebase/firestore";
 import { useMounted } from "@/hooks/use-mounted";
 import AfterPatentLogo from "@/components/AfterPatentLogo";
+import NeonBoard from "@/components/NeonBoard";
 
 export default function LoginPage() {
   const mounted = useMounted();
@@ -92,7 +93,9 @@ export default function LoginPage() {
     <div className="min-h-screen bg-black flex items-center justify-center p-6 selection:bg-indigo-500 font-body">
       <div className="w-full max-w-[500px] space-y-10">
         <div className="flex flex-col items-center gap-10 text-center">
-          <AfterPatentLogo size="lg" />
+          <NeonBoard className="w-48 h-48">
+            <AfterPatentLogo size="lg" className="w-full h-full" />
+          </NeonBoard>
           <div className="space-y-4">
             <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-white">SECURE ACCESS</h1>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Diagnostic Identity Protocol v2.5.0</p>
