@@ -4,6 +4,7 @@ import "../styles/gradientBurst.css";
 import { FirebaseClientProvider } from "@/firebase/client-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { PWARegistration } from "@/components/PWARegistration";
+import DiagnosticMonitor from "@/components/DiagnosticMonitor";
 
 export const metadata: Metadata = {
   title: "Adaptive Market Intelligence",
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="antialiased">
         <FirebaseClientProvider>
           <PWARegistration />
+          <DiagnosticMonitor />
           {children}
           <Toaster />
         </FirebaseClientProvider>

@@ -11,8 +11,7 @@ import {
   LayoutGrid,
   Square,
   Activity,
-  ShieldCheck,
-  Brain
+  ShieldCheck
 } from "lucide-react"
 import { NEURO_PROFILES, getProfile, type NeuroProfileId } from "@/lib/neuro/profiles"
 import { NON_ND_MODES } from "@/modes/nonNdModes"
@@ -26,9 +25,8 @@ import {
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
 import { useToast } from "@/hooks/use-toast"
 import { useMounted } from "@/hooks/use-mounted"
-import AfterPatentLogo from "@/components/AfterPatentLogo"
+import DiagnosticLogo from "@/components/DiagnosticLogo"
 import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
-import Icon from "@/components/icons/Icon"
 
 const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
 
@@ -69,14 +67,13 @@ function DashboardContent() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
-      {/* RESTORED HIGH-INTENSITY HEADER */}
       <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-10 sticky top-0 z-50">
         <div className="flex items-center gap-16">
            <div className="flex items-center gap-8">
-             <AfterPatentLogo size="md" />
+             <DiagnosticLogo size="md" />
              <div className="flex flex-col text-left">
-                <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
-                <span className="text-[24px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1.5px_#ff0000]">Intelligence Board</span>
+                <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">INTELLIGENCE TRADER</span>
+                <span className="text-[24px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1.5px_#ff0000]">Diagnostic Board</span>
              </div>
            </div>
 
@@ -156,7 +153,6 @@ function DashboardContent() {
         <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-10">
           <NeuroGlowCard neuroModeId={neuroId} className="flex-1">
             <div className="flex flex-col h-full bg-[#070b16]/40 backdrop-blur-3xl">
-              {/* Internal Controls */}
               <div className="px-8 py-5 flex items-center justify-between border-b border-white/5 bg-black/20">
                 <div className="flex items-center gap-4">
                   <div className="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
@@ -186,13 +182,13 @@ function DashboardContent() {
                    <div className="flex items-center gap-3 bg-white/5 p-1 rounded-xl border border-white/10">
                       <button 
                         onClick={() => setViewMode('minimal')}
-                        className={`p-2 rounded-lg transition-all ${viewMode === 'minimal' ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
+                        className={`p-2 rounded-lg transition-all ${viewMode === 'minimal' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
                       >
                         <Square className="w-4 h-4" />
                       </button>
                       <button 
                         onClick={() => setViewMode('quad')}
-                        className={`p-2 rounded-lg transition-all ${viewMode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
+                        className={`p-2 rounded-lg transition-all ${viewMode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
                       >
                         <LayoutGrid className="w-4 h-4" />
                       </button>
@@ -200,7 +196,6 @@ function DashboardContent() {
                 </div>
               </div>
 
-              {/* RESTORED QUAD-STREAM LAYOUT */}
               <div className="flex-1 p-8 overflow-auto">
                 {viewMode === 'quad' ? (
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
@@ -231,7 +226,7 @@ function DashboardContent() {
             <ShieldCheck className="w-3 h-3 text-emerald-400" />
             <span>Diagnostic Mode: Stable</span>
           </div>
-          <span>CLEAR PATH TRADER • IP-RESTORED v1.5.0</span>
+          <span>IP-RESTORED v1.5.0</span>
         </div>
       </footer>
     </div>
