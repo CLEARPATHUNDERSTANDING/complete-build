@@ -1,4 +1,4 @@
-'use server';
+'use client';
 /**
  * @fileOverview A safe icon wrapper component that prevents crashes from missing imports.
  * - name: The name of the Lucide icon to render.
