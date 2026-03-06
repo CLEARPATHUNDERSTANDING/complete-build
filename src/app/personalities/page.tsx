@@ -258,7 +258,7 @@ export default function PersonalitiesPage() {
             <NeonBoard className="w-32 h-32 transition-transform duration-500 hover:scale-110">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="After Patent Logo"
+                alt="Logo"
                 className="w-full h-full object-cover brightness-125 saturate-150"
               />
             </NeonBoard>
@@ -297,7 +297,7 @@ export default function PersonalitiesPage() {
       <footer className="py-16 border-t border-white/10 mt-20 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-10 flex justify-between items-center text-[10px] font-black uppercase tracking-[0.2em] text-white/30">
           <span>Ideological Protocol v2.5.0 • 80 Intelligence Anchors</span>
-          <span>© 2026 AFTER PATENT • Universal Intelligence Interface</span>
+          <span>© 2026 Universal Intelligence Interface</span>
         </div>
       </footer>
     </div>

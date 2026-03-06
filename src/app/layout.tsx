@@ -6,12 +6,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { PWARegistration } from "@/components/PWARegistration";
 
 export const metadata: Metadata = {
-  title: "AFTER PATENT | Adaptive Market Intelligence",
+  title: "Adaptive Market Intelligence",
   description: "High-clarity neuro-divergent intelligence platform for universal asset analysis.",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'AFTER PATENT',
+    title: 'Intelligence Hub',
   },
   formatDetection: {
     telephone: false,

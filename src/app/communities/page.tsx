@@ -465,7 +465,7 @@ function CommunitiesDiscoveryContent() {
 
       <footer className="py-8 border-t border-white/10 mt-auto shrink-0 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 flex justify-between items-center">
-          <span>AFTER PATENT • Global Communication Protocol</span>
+          <span>Global Communication Protocol</span>
           <div className="flex items-center gap-6">
             <Link href="/community" className="hover:text-indigo-400 transition-colors">BACK TO COMMUNITY HUB</Link>
             <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Synchronized</span>

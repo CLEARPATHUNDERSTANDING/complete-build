@@ -14,7 +14,6 @@ export default function HomePage() {
           <div className="flex items-center gap-4">
             <AfterPatentLogo size="xs" />
             <div>
-              <div className="brand-name text-white uppercase tracking-widest">AFTER PATENT</div>
               <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
             </div>
           </div>

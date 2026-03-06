@@ -63,7 +63,7 @@ export default function AfterPatentLogo({
       <div className={cn("relative p-[10px] h-full w-full overflow-hidden bg-black", borderRadius[size])}>
         <img 
           src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-          alt="After Patent Logo"
+          alt="Logo"
           className="w-full h-full object-cover"
         />
       </div>

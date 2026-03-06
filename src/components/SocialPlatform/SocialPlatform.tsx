@@ -191,9 +191,6 @@ export default function SocialPlatform() {
           <NeonBoard className="w-32 h-32">
             <AfterPatentLogo size="md" className="w-full h-full" />
           </NeonBoard>
-          <div className="text-[14px] font-black tracking-[0.25em] text-white uppercase text-center">
-            AFTER PATENT
-          </div>
         </div>
 
         <ScrollArea className="flex-1 min-h-0">

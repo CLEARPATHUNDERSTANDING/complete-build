@@ -53,7 +53,7 @@ export default function PatentPendingPage() {
             Patent Pending
           </h1>
           <p className="text-xl md:text-2xl leading-relaxed text-white/60 font-medium italic border-l-2 border-indigo-500 pl-10">
-            The AFTER PATENT diagnostic architecture, encompassing neuro-aware visual physics 
+            The diagnostic architecture, encompassing neuro-aware visual physics 
             and universal data truth layers, is currently under intellectual property review.
           </p>
         </div>
@@ -69,7 +69,7 @@ export default function PatentPendingPage() {
             <div className="relative w-full aspect-video bg-[#070b16]">
               <img 
                 src="https://i.postimg.cc/cHsvYBkX/RRRRRRRRREPI.jpg"
-                alt="After Patent Intelligence Schematic"
+                alt="Intelligence Schematic"
                 className="w-full h-full object-cover brightness-110 contrast-110 saturate-125 transition-transform duration-700 hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -131,7 +131,7 @@ export default function PatentPendingPage() {
             <div className="grid gap-4">
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-400">Status</div>
               <p className="text-lg font-bold text-white/80">
-                The AFTER PATENT system is protected under multiple pending applications. 
+                The system is protected under multiple pending applications. 
                 Unauthorized replication of the "Neon-Board" visual framing or the "Spectral Title" 
                 rendering logic is strictly prohibited.
               </p>
@@ -152,7 +152,7 @@ export default function PatentPendingPage() {
       <footer className="py-16 border-t border-white/10 mt-20">
         <div className="max-w-5xl mx-auto px-10 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
           <span>IP-PROTOCOL v1.5.0</span>
-          <span>© 2026 AFTER PATENT • All Rights Reserved</span>
+          <span>© 2026 All Rights Reserved</span>
         </div>
       </footer>
     </div>

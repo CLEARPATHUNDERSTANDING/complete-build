@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'AFTER PATENT Intelligence',
-    short_name: 'AFTER PATENT',
+    name: 'Adaptive Intelligence',
+    short_name: 'Intelligence',
     description: 'High-clarity neuro-divergent intelligence platform for universal asset analysis.',
     start_url: '/',
     display: 'standalone',

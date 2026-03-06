@@ -5,7 +5,7 @@ import AfterPatentLogo from "./AfterPatentLogo";
 
 /**
  * SAFE MotionBlurSlider
- * Updated to use the definitive brand asset image instead of SVG paths.
+ * Updated to focus on Clear Path and Focus Mode branding.
  */
 type Slide = { title: string; body: string; bgClass: string };
 
