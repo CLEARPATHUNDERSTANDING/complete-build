@@ -2,6 +2,10 @@ export type GlowLevel = "Low" | "Medium" | "High";
 export type Spacing = "Tight" | "Normal" | "Wide";
 export type DataDensity = "Low" | "Medium" | "High";
 
+/**
+ * MASTER PROFILE ENGINE: 16 Medical-Consultant-Approved Personalities.
+ * RESTORED: All 16 profiles required for patent demonstration.
+ */
 export type NeuroProfileId =
   | "calm_focus"
   | "low_stim_emergency"

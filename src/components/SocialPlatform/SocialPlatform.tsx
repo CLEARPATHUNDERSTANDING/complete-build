@@ -3,29 +3,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  Search,
-  LayoutDashboard,
-  MessageCircle,
-  Heart,
-  TrendingUp,
-  Users,
-  Compass,
   BarChart2,
-  X,
   Radio,
   Activity,
   Volume2,
   Bluetooth,
-  Flag,
-  Scale,
-  HandMetal,
   Loader2,
-  Globe,
   ShieldCheck,
-  Zap,
-  User,
-  Brain,
-  ArrowLeft
+  TrendingUp,
+  Heart,
+  MessageCircle
 } from "lucide-react";
 import Icon from "@/components/icons/Icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

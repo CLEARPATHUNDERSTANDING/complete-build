@@ -10,8 +10,8 @@ interface AfterPatentLogoProps {
 
 /**
  * MANDATORY BRANDING COMPONENT - DEFINITIVE VERSION
- * Uses only the high-fidelity original image provided by the user.
- * Size map handles responsive scaling for headers, heroes, and chart corners.
+ * RESTORED: Uses the high-fidelity original image provided for patent demonstration.
+ * Locked into the 10px spectral frame logic.
  */
 export default function AfterPatentLogo({ 
   className = "", 
@@ -35,12 +35,14 @@ export default function AfterPatentLogo({
   };
 
   return (
-    <div className={cn("relative inline-block overflow-hidden", sizeClasses[size], borderRadius[size], className)}>
-      <img 
-        src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-        alt="After Patent Logo"
-        className="w-full h-full object-cover"
-      />
+    <div className={cn("relative inline-block p-[2px] overflow-hidden bg-gradient-to-br from-[#00f5ff] via-[#6a5cff] via-[#ff00d4] to-[#ff8a00] shadow-[0_0_30px_rgba(106,92,255,0.3)]", sizeClasses[size], borderRadius[size], className)}>
+      <div className={cn("w-full h-full overflow-hidden bg-black", borderRadius[size])}>
+        <img 
+          src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+          alt="After Patent Logo"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
   );
 }

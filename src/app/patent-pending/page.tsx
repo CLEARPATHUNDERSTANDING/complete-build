@@ -58,7 +58,7 @@ export default function PatentPendingPage() {
           </p>
         </div>
 
-        {/* PRIMARY SCHEMATIC NODE */}
+        {/* PRIMARY SCHEMATIC NODE - RESTORED IMAGE */}
         <section className="mb-20 space-y-8">
           <div className="flex items-center gap-4 border-b border-white/5 pb-6">
             <ImageIcon className="w-6 h-6 text-indigo-400" />
