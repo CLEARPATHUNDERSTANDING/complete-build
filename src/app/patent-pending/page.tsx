@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe, Loader2 } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
+import PatentPendingBackdrop from "@/components/PatentPendingBackdrop";
 import { useMounted } from "@/hooks/use-mounted";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
@@ -63,38 +64,40 @@ export default function PatentPendingPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-          <NeonBoard>
-            <div className="p-10 space-y-6 bg-[#070b16] h-full">
+          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 backdrop-blur min-h-[400px]">
+            <PatentPendingBackdrop />
+            <div className="relative z-10 p-10 space-y-6 h-full flex flex-col">
               <div className="flex items-center gap-4 text-cyan-400">
                 <Cpu className="w-8 h-8" />
                 <h3 className="text-xl font-black uppercase tracking-widest">Neuro-Physics Engine</h3>
               </div>
-              <p className="text-sm text-white/50 leading-relaxed font-medium">
+              <p className="text-sm text-white/80 leading-relaxed font-medium">
                 Our proprietary algorithm for calibrating chart density and motion damping based on 
-                specific neuro-divergent profiles. This includes the high-intensity neon border 
+                specific user profiles. This includes the high-intensity neon border 
                 system and specialized luminescence control.
               </p>
-              <div className="pt-4 flex items-center gap-2 text-[10px] font-black text-cyan-500 uppercase tracking-widest">
+              <div className="mt-auto pt-4 flex items-center gap-2 text-[10px] font-black text-cyan-500 uppercase tracking-widest">
                 <ShieldCheck className="w-4 h-4" /> Priority Filing Active
               </div>
             </div>
-          </NeonBoard>
+          </div>
 
-          <NeonBoard>
-            <div className="p-10 space-y-6 bg-[#070b16] h-full">
+          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 backdrop-blur min-h-[400px]">
+            <PatentPendingBackdrop />
+            <div className="relative z-10 p-10 space-y-6 h-full flex flex-col">
               <div className="flex items-center gap-4 text-pink-400">
                 <Globe className="w-8 h-8" />
                 <h3 className="text-xl font-black uppercase tracking-widest">Universal Truth Layer</h3>
               </div>
-              <p className="text-sm text-white/50 leading-relaxed font-medium">
+              <p className="text-sm text-white/80 leading-relaxed font-medium">
                 A decentralized synchronization protocol for cross-referencing multi-asset market data 
                 with social intelligence in real-time, optimized for low-latency diagnostic displays.
               </p>
-              <div className="pt-4 flex items-center gap-2 text-[10px] font-black text-pink-500 uppercase tracking-widest">
+              <div className="mt-auto pt-4 flex items-center gap-2 text-[10px] font-black text-pink-500 uppercase tracking-widest">
                 <ShieldCheck className="w-4 h-4" /> Global Utility Claims
               </div>
             </div>
-          </NeonBoard>
+          </div>
         </div>
 
         <section className="rounded-[40px] border border-white/10 bg-white/[0.02] p-12 space-y-10 backdrop-blur-xl">
@@ -117,7 +120,7 @@ export default function PatentPendingPage() {
               <div className="text-[11px] font-black uppercase tracking-[0.2em] text-indigo-400">Scope</div>
               <p className="text-sm text-white/40 leading-relaxed">
                 Claims include but are not limited to: automated UI theme calibration based on 
-                neuro-profile metadata, real-time diagnostic overlay techniques, and 
+                metadata, real-time diagnostic overlay techniques, and 
                 integrated PWA market synchronization workers.
               </p>
             </div>

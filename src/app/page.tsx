@@ -68,7 +68,7 @@ export default function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
             <span className="mini-label neon-indigo-text font-black mb-2">Adaptive Interface</span>
-            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Neuro-aware visual structure</strong>
+            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Intelligent visual structure</strong>
           </div>
 
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
