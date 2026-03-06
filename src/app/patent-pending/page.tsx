@@ -2,10 +2,11 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe, Loader2 } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe, Loader2, Image as ImageIcon } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
 import PatentPendingBackdrop from "@/components/PatentPendingBackdrop";
 import { useMounted } from "@/hooks/use-mounted";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -30,14 +31,7 @@ export default function PatentPendingPage() {
           </Link>
           <div className="h-12 w-px bg-white/10" />
           <div className="flex items-center gap-6">
-            <div className="relative group">
-              <img 
-                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="Clear Path Logo"
-                className="w-32 h-32 rounded-2xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-110"
-              />
-              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white shadow-black select-none">©™</span>
-            </div>
+            <AfterPatentLogo size="md" />
             <div className="flex flex-col text-left">
               <span className={`text-[20px] font-black tracking-[0.2em] uppercase leading-none ${spectralTitleClass}`}>IP Registry</span>
               <span className="text-[16px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>
@@ -62,6 +56,32 @@ export default function PatentPendingPage() {
             and universal data truth layers, is currently under intellectual property review.
           </p>
         </div>
+
+        {/* PRIMARY SCHEMATIC NODE */}
+        <section className="mb-20 space-y-8">
+          <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+            <ImageIcon className="w-6 h-6 text-indigo-400" />
+            <h2 className="text-2xl font-black uppercase tracking-widest">Sector Intelligence Schematic</h2>
+          </div>
+          
+          <NeonBoard className="w-full aspect-video overflow-hidden group">
+            <div className="relative w-full h-full bg-[#070b16]">
+              <img 
+                src="https://i.postimg.cc/cHsvYBkX/RRRRRRRRREPI.jpg"
+                alt="After Patent Intelligence Schematic"
+                className="w-full h-full object-cover brightness-110 contrast-110 saturate-125 transition-transform duration-700 group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+              
+              <div className="absolute bottom-8 left-8 flex items-center gap-4">
+                <div className="px-4 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-3">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Visualization v1.0</span>
+                </div>
+              </div>
+            </div>
+          </NeonBoard>
+        </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
           <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 backdrop-blur min-h-[400px]">
