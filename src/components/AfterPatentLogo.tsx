@@ -9,8 +9,8 @@ interface AfterPatentLogoProps {
 }
 
 /**
- * MANDATORY BRANDING COMPONENT - LOCKED VERSION
- * Uses only the definitive original image provided by the user.
+ * MANDATORY BRANDING COMPONENT - DEFINITIVE VERSION
+ * Uses only the high-fidelity original image provided by the user.
  * Size map handles responsive scaling for headers, heroes, and chart corners.
  */
 export default function AfterPatentLogo({ 

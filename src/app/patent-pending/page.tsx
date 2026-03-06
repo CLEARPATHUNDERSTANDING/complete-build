@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowLeft, ShieldCheck, Gavel, Cpu, Globe, Loader2, Image as ImageIcon } from "lucide-react";
 import NeonBoard from "@/components/NeonBoard";
+import NeonCard from "@/components/ui/NeonCard";
 import PatentPendingBackdrop from "@/components/PatentPendingBackdrop";
 import { useMounted } from "@/hooks/use-mounted";
 import AfterPatentLogo from "@/components/AfterPatentLogo";
@@ -64,27 +65,27 @@ export default function PatentPendingPage() {
             <h2 className="text-2xl font-black uppercase tracking-widest">Sector Intelligence Schematic</h2>
           </div>
           
-          <NeonBoard className="w-full aspect-video overflow-hidden group">
-            <div className="relative w-full h-full bg-[#070b16]">
+          <NeonCard badgeText="SCHEMATIC V1.0" paddingClassName="p-0">
+            <div className="relative w-full aspect-video bg-[#070b16]">
               <img 
                 src="https://i.postimg.cc/cHsvYBkX/RRRRRRRRREPI.jpg"
                 alt="After Patent Intelligence Schematic"
-                className="w-full h-full object-cover brightness-110 contrast-110 saturate-125 transition-transform duration-700 group-hover:scale-[1.02]"
+                className="w-full h-full object-cover brightness-110 contrast-110 saturate-125 transition-transform duration-700 hover:scale-[1.02]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
               
               <div className="absolute bottom-8 left-8 flex items-center gap-4">
                 <div className="px-4 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center gap-3">
                   <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                  <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Visualization v1.0</span>
+                  <span className="text-[10px] font-black text-white uppercase tracking-widest">Protocol Visualization Active</span>
                 </div>
               </div>
             </div>
-          </NeonBoard>
+          </NeonCard>
         </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 backdrop-blur min-h-[400px]">
+          <NeonCard badgeText="PRO" className="min-h-[400px]" paddingClassName="p-0">
             <PatentPendingBackdrop />
             <div className="relative z-10 p-10 space-y-6 h-full flex flex-col">
               <div className="flex items-center gap-4 text-cyan-400">
@@ -100,9 +101,9 @@ export default function PatentPendingPage() {
                 <ShieldCheck className="w-4 h-4" /> Priority Filing Active
               </div>
             </div>
-          </div>
+          </NeonCard>
 
-          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-black/40 backdrop-blur min-h-[400px]">
+          <NeonCard badgeText="PRO" className="min-h-[400px]" paddingClassName="p-0">
             <PatentPendingBackdrop />
             <div className="relative z-10 p-10 space-y-6 h-full flex flex-col">
               <div className="flex items-center gap-4 text-pink-400">
@@ -117,7 +118,7 @@ export default function PatentPendingPage() {
                 <ShieldCheck className="w-4 h-4" /> Global Utility Claims
               </div>
             </div>
-          </div>
+          </NeonCard>
         </div>
 
         <section className="rounded-[40px] border border-white/10 bg-white/[0.02] p-12 space-y-10 backdrop-blur-xl">
