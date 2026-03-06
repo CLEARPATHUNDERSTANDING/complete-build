@@ -19,7 +19,8 @@ import {
   Flag,
   Scale,
   HandMetal,
-  Loader2
+  Loader2,
+  Globe
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
