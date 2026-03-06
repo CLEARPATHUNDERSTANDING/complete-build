@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from "react";
@@ -14,6 +13,7 @@ import {
   Loader2
 } from "lucide-react";
 import GradientBurstWrap from "@/components/GradientBurstWrap";
+import NeonBoard from "@/components/NeonBoard";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useMounted } from "@/hooks/use-mounted";
@@ -255,14 +255,13 @@ export default function PersonalitiesPage() {
           </Link>
           <div className="h-12 w-px bg-white/10" />
           <div className="flex items-center gap-6">
-            <div className="relative group">
+            <NeonBoard className="w-32 h-32 transition-transform duration-500 hover:scale-110">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="Clear Path Logo"
-                className="w-32 h-32 rounded-2xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-110"
+                alt="After Patent Logo"
+                className="w-full h-full object-cover brightness-125 saturate-150"
               />
-              <span className="absolute bottom-1.5 right-1.5 text-[8px] font-bold text-white shadow-black select-none">©™</span>
-            </div>
+            </NeonBoard>
             <div className="flex flex-col">
               <span className={`text-[24px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence Node</span>
               <span className="text-[18px] font-bold tracking-[0.1em] text-white/40 uppercase">Political Media Network</span>

@@ -119,7 +119,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@intelligence.com"
-                  className="bg-white/5 border-white/10 h-12 rounded-xl focus:border-indigo-500/50 text-white"
+                  className="bg-white/5 border-white/10 h-12 rounded-xl focus:border-indigo-500/50 text-white placeholder:text-white/20"
                   required
                 />
               </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="bg-white/5 border-white/10 h-12 rounded-xl focus:border-indigo-500/50 text-white"
+                  className="bg-white/5 border-white/10 h-12 rounded-xl focus:border-indigo-500/50 text-white placeholder:text-white/20"
                   required
                 />
               </div>

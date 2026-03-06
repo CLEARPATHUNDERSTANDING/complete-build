@@ -19,7 +19,7 @@ export default function HomePage() {
               />
             </NeonBoard>
             <div>
-              <div className="brand-name text-white">AFTER PATENT</div>
+              <div className="brand-name text-white uppercase tracking-widest">AFTER PATENT</div>
               <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
             </div>
           </div>
@@ -38,10 +38,10 @@ export default function HomePage() {
       <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
         <div className="flex flex-col items-center gap-10 mb-8">
           <div className="relative group">
-            <NeonBoard className="w-56 h-56 group-hover:scale-105 transition-transform duration-700">
+            <NeonBoard className="w-56 h-56 transition-transform duration-700 group-hover:scale-105">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="Clear Path Logo"
+                alt="After Patent Logo"
                 className="w-full h-full object-cover brightness-125 saturate-150"
               />
             </NeonBoard>
