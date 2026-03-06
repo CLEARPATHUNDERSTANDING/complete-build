@@ -10,7 +10,7 @@ interface AfterPatentLogoProps {
 
 /**
  * MANDATORY BRANDING COMPONENT - DEFINITIVE VERSION
- * RESTORED: Uses the high-fidelity original image provided for patent demonstration.
+ * Uses the high-fidelity original image provided for patent demonstration.
  * Locked into the 10px spectral frame logic.
  */
 export default function AfterPatentLogo({ 
@@ -35,8 +35,32 @@ export default function AfterPatentLogo({
   };
 
   return (
-    <div className={cn("relative inline-block p-[2px] overflow-hidden bg-gradient-to-br from-[#00f5ff] via-[#6a5cff] via-[#ff00d4] to-[#ff8a00] shadow-[0_0_30px_rgba(106,92,255,0.3)]", sizeClasses[size], borderRadius[size], className)}>
-      <div className={cn("w-full h-full overflow-hidden bg-black", borderRadius[size])}>
+    <div className={cn("relative inline-block", sizeClasses[size], className)}>
+      {/* 10px Spectral Border Layer */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: "linear-gradient(135deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%)",
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMaskComposite: "destination-out",
+          padding: "10px",
+          borderRadius: "inherit",
+        }}
+      />
+      
+      {/* Spectral Shadow - No generic gold/orange haze */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          boxShadow: "0 0 30px rgba(0,245,255,0.25), 0 0 50px rgba(106,92,255,0.2), 0 0 70px rgba(255,0,212,0.15)",
+          borderRadius: "inherit",
+        }}
+      />
+
+      {/* Content Container */}
+      <div className={cn("relative p-[10px] h-full w-full overflow-hidden bg-black", borderRadius[size])}>
         <img 
           src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
           alt="After Patent Logo"
