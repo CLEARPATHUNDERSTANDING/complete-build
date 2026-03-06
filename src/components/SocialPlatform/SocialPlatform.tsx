@@ -8,48 +8,32 @@ import {
   MessageCircle,
   Heart,
   TrendingUp,
-  Sparkles,
   Users,
   Compass,
-  Zap,
   BarChart2,
   X,
-  MousePointer2,
-  Type,
-  Globe,
-  Loader2,
   Radio,
   Activity,
-  MessageSquare,
-  AlertCircle,
   Volume2,
   Bluetooth,
   Flag,
   Scale,
-  HandMetal
+  HandMetal,
+  Loader2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import NeonBoard from "@/components/NeonBoard";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { marketCatalog } from "@/data/marketCatalog";
-import { MarketWatchChart } from "@/components/markets/apex/MarketWatchChart";
-import { generateMockOhlc } from "@/utils/mockData";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -174,19 +158,14 @@ export default function SocialPlatform() {
   const [postText, setPostText] = useState("");
   const [attachedSymbols, setAttachedSymbols] = useState<string[]>([]);
   const [isLive, setIsLive] = useState(false);
-  const [isChartModalOpen, setIsChartModalOpen] = useState(false);
-  const [chartSearchQuery, setChartSearchQuery] = useState("");
-  const [selectedChartSymbol, setSelectedChartSymbol] = useState("BTCUSD");
-  const [annotationText, setAnnotationText] = useState("");
   const [activeAttachment, setActiveAttachment] = useState<any>(null);
 
   // Camera State
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
   // Firestore Data
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
-  const { data: insightsData, isLoading: isInsightsLoading, error: insightsError } = useCollection(insightsRef);
+  const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -202,13 +181,11 @@ export default function SocialPlatform() {
       if (isLive) {
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          setHasCameraPermission(true);
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
           }
         } catch (error) {
           console.error('Error accessing camera:', error);
-          setHasCameraPermission(false);
           setIsLive(false);
           toast({
             variant: "destructive",
@@ -220,7 +197,6 @@ export default function SocialPlatform() {
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
         }
-        setHasCameraPermission(null);
       }
     };
 
@@ -267,14 +243,6 @@ export default function SocialPlatform() {
     }
   };
 
-  const filteredCatalog = useMemo(() => {
-    const q = chartSearchQuery.toLowerCase();
-    return marketCatalog.filter(item => 
-      item.symbol.toLowerCase().includes(q) || 
-      item.display.toLowerCase().includes(q)
-    ).slice(0, 5);
-  }, [chartSearchQuery]);
-
   const getImg = (id: string) => placeholderData.placeholderImages.find(img => img.id === id)?.imageUrl || "";
 
   if (!mounted || isUserLoading || !user) {
@@ -306,7 +274,6 @@ export default function SocialPlatform() {
     setPostText("");
     setAttachedSymbols([]);
     setActiveAttachment(null);
-    setAnnotationText("");
     setIsLive(false);
 
     toast({
@@ -319,22 +286,11 @@ export default function SocialPlatform() {
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
       {/* LEFT SIDEBAR */}
       <aside className="w-[350px] border-r border-white/8 bg-black shrink-0 h-full flex flex-col">
-        <div className="p-6 shrink-0">
-          <NeonBoard className="w-full">
-            <div className="px-6 py-6 flex flex-col items-center justify-center gap-4 bg-transparent group">
-              <div className="relative">
-                <img 
-                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                  alt="After Patent Logo"
-                  className="w-48 h-48 rounded-3xl object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
-              </div>
-              <div className="text-[14px] font-black tracking-[0.25em] text-white uppercase text-center">
-                AFTER PATENT
-              </div>
-            </div>
-          </NeonBoard>
+        <div className="p-6 shrink-0 flex flex-col items-center gap-6">
+          <AfterPatentLogo size="md" />
+          <div className="text-[14px] font-black tracking-[0.25em] text-white uppercase text-center">
+            AFTER PATENT
+          </div>
         </div>
 
         <ScrollArea className="flex-1 min-h-0">
@@ -365,13 +321,7 @@ export default function SocialPlatform() {
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-10">
-            <NeonBoard className="w-40 h-40 group hover:scale-105 transition-transform duration-500">
-              <img 
-                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="After Patent Logo"
-                className="w-full h-full object-cover transition-all duration-500"
-              />
-            </NeonBoard>
+            <AfterPatentLogo size="md" />
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence</span>
               <span className="text-[24px] font-bold tracking-[0.1em] text-white/40 uppercase">Global Stream</span>
@@ -453,7 +403,7 @@ export default function SocialPlatform() {
 
               <div className="flex items-center justify-between mt-10 pt-6 border-t border-white/5">
                 <div className="flex items-center gap-10">
-                  <button onClick={() => setIsChartModalOpen(true)} className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors ${activeAttachment ? 'text-cyan-400' : 'text-white/40 hover:text-cyan-400'}`}>
+                  <button className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors text-white/40 hover:text-cyan-400`}>
                     <BarChart2 className="w-5 h-5" /> Attach Mapped Chart
                   </button>
                   <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>

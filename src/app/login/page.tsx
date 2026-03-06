@@ -14,10 +14,10 @@ import { setDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { errorEmitter } from "@/firebase/error-emitter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import NeonBoard from "@/components/NeonBoard";
 import { useToast } from "@/hooks/use-toast";
 import { doc, serverTimestamp } from "firebase/firestore";
 import { useMounted } from "@/hooks/use-mounted";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 export default function LoginPage() {
   const mounted = useMounted();
@@ -29,7 +29,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
 
-  // Sync user profile to database on first login
   useEffect(() => {
     if (mounted && user && !isUserLoading && firestore) {
       const userRef = doc(firestore, "users", user.uid);
@@ -41,7 +40,6 @@ export default function LoginPage() {
         createdAt: serverTimestamp()
       }, { merge: true });
       
-      // Allow profile broadcast to initialize before navigation
       const timer = setTimeout(() => {
         router.push("/community");
       }, 500);
@@ -94,21 +92,15 @@ export default function LoginPage() {
     <div className="min-h-screen bg-black flex items-center justify-center p-6 selection:bg-indigo-500 font-body">
       <div className="w-full max-w-[500px] space-y-10">
         <div className="flex flex-col items-center gap-10 text-center">
-          <NeonBoard className="w-40 h-40 group hover:scale-110 transition-transform duration-500">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path Logo"
-              className="w-full h-full object-cover brightness-125 saturate-150"
-            />
-          </NeonBoard>
+          <AfterPatentLogo size="lg" />
           <div className="space-y-4">
             <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-white">SECURE ACCESS</h1>
             <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Diagnostic Identity Protocol v2.5.0</p>
           </div>
         </div>
 
-        <NeonBoard className="w-full">
-          <form onSubmit={handleAuth} className="p-8 space-y-6 bg-transparent">
+        <div className="w-full p-8 space-y-6 bg-white/[0.02] border border-white/10 rounded-[32px] backdrop-blur-xl">
+          <form onSubmit={handleAuth} className="space-y-6 bg-transparent">
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
@@ -161,7 +153,7 @@ export default function LoginPage() {
               </div>
             </div>
           </form>
-        </NeonBoard>
+        </div>
       </div>
     </div>
   );

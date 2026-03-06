@@ -5,6 +5,7 @@ import { type ApexOptions } from "apexcharts";
 import { useMemo, useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { useMounted } from "@/hooks/use-mounted";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const Chart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -84,15 +85,8 @@ export default function MarketDetailChart({ title, data }: Props) {
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
         )}
-        <div className="absolute bottom-12 left-8 z-20 pointer-events-none transition-all duration-500 shadow-[0_0_40px_rgba(255,136,0,0.5)] rounded-2xl">
-          <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Logo"
-              className="w-20 h-20 rounded-xl object-cover opacity-100 brightness-125 saturate-125"
-            />
-            <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/40 select-none">©™</span>
-          </div>
+        <div className="absolute bottom-12 left-8 z-20 pointer-events-none">
+          <AfterPatentLogo size="sm" />
         </div>
       </div>
     </div>

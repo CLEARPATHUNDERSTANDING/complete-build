@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -143,10 +144,8 @@ export function MarketWatchChart({ symbol, points, height = 340, initialType = "
             <span className="text-[10px] font-black uppercase tracking-widest">Loading View...</span>
           </div>
         )}
-        <div className="absolute bottom-10 left-8 z-20 pointer-events-none opacity-40 shadow-[0_0_20px_rgba(255,136,0,0.3)] rounded-2xl">
-          <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2">
-            <img src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png" className="w-16 h-16 rounded-xl object-cover brightness-110" alt="" />
-          </div>
+        <div className="absolute bottom-10 left-8 z-20 pointer-events-none">
+          <AfterPatentLogo size="xs" />
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ import { Loader2, Sparkles, Search, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useMounted } from "@/hooks/use-mounted";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const Chart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -180,15 +181,8 @@ export function CandlestickChart({
 
       <div className="relative z-10">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
-        <div className="absolute bottom-10 left-6 z-20 pointer-events-none group">
-          <div className="relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-1.5 shadow-[0_0_20px_rgba(255,136,0,0.3)]">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path"
-              className="w-18 h-18 rounded-lg object-cover opacity-80 brightness-110"
-            />
-            <span className="absolute bottom-0.5 right-0.5 text-[6px] font-bold text-white/40 select-none">©™</span>
-          </div>
+        <div className="absolute bottom-10 left-6 z-20 pointer-events-none">
+          <AfterPatentLogo size="xs" />
         </div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import type { ModeConfig } from "@/modes/types";
 import Link from "next/link";
 import { ArrowLeft, Search, Loader2 } from "lucide-react";
 import { useMounted } from "@/hooks/use-mounted";
+import AfterPatentLogo from "@/components/AfterPatentLogo";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -248,15 +249,8 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         {mounted && width > 50 ? (
           <div className="relative">
             <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
-            <div className="absolute bottom-12 left-6 z-20 pointer-events-none group">
-              <div className="relative bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-2 transition-all duration-500 shadow-[0_0_30px_rgba(255,136,0,0.4)]">
-                <img 
-                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                  alt="Clear Path"
-                  className="w-24 h-24 rounded-xl object-cover opacity-100 brightness-125 saturate-125"
-                />
-                <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white/60 select-none">©™</span>
-              </div>
+            <div className="absolute bottom-12 left-6 z-20 pointer-events-none">
+              <AfterPatentLogo size="xs" />
             </div>
           </div>
         ) : (
