@@ -29,11 +29,11 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
       
-      {/* The Shadow/Glow Layer - Multi-tone logo bloom */}
+      {/* Recalibrated Spectral Shadow - Purged "Ugly Gold" focus */}
       <div 
         className="absolute inset-0 rounded-[32px] pointer-events-none"
         style={{
-          boxShadow: "0 0 40px rgba(0,245,255,0.2), 0 0 60px rgba(106,92,255,0.15), 0 0 80px rgba(255,138,0,0.15)",
+          boxShadow: "0 0 30px rgba(0,245,255,0.25), 0 0 50px rgba(106,92,255,0.2), 0 0 70px rgba(255,0,212,0.15)",
         }}
       />
 

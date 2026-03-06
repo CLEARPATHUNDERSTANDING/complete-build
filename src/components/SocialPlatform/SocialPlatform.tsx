@@ -20,7 +20,12 @@ import {
   Scale,
   HandMetal,
   Loader2,
-  Globe
+  Globe,
+  ShieldCheck,
+  Zap,
+  User,
+  Brain,
+  ArrowLeft
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
