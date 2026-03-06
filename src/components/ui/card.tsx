@@ -1,5 +1,6 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import NeonCard from "@/components/ui/NeonCard"
 
 /**
  * ENFORCED NEON CARD ARCHITECTURE
@@ -9,35 +10,16 @@ const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & { badgeText?: string; square?: boolean }
 >(({ className, children, badgeText, square, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "relative group",
-      square ? "aspect-square" : "",
-      className
-    )}
-    {...props}
+  <NeonCard 
+    className={className} 
+    badgeText={badgeText} 
+    square={square} 
+    paddingClassName=""
   >
-    {/* Gradient border frame */}
-    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400 via-fuchsia-500 to-orange-400 opacity-90 blur-[0.2px]" />
-
-    {/* Glow */}
-    <div className="absolute -inset-2 rounded-[28px] bg-gradient-to-br from-cyan-400 via-fuchsia-500 to-orange-400 opacity-25 blur-2xl group-hover:opacity-40 transition-opacity duration-500" />
-
-    {/* Inner card */}
-    <div className="relative h-full w-full rounded-3xl bg-black/70 backdrop-blur-xl border border-white/10 overflow-hidden">
+    <div ref={ref} {...props}>
       {children}
     </div>
-
-    {/* Optional badge (PRO pill) */}
-    {badgeText ? (
-      <div className="absolute bottom-4 right-4 z-20">
-        <span className="px-3 py-1.5 rounded-full border border-white/15 bg-black/60 backdrop-blur text-white/90 text-[10px] font-black uppercase tracking-widest shadow-2xl">
-          {badgeText}
-        </span>
-      </div>
-    ) : null}
-  </div>
+  </NeonCard>
 ))
 Card.displayName = "Card"
 
@@ -60,7 +42,7 @@ const CardTitle = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-2xl font-black uppercase tracking-widest leading-none",
       className
     )}
     {...props}
@@ -74,7 +56,7 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-sm font-medium text-white/40 uppercase tracking-widest", className)}
     {...props}
   />
 ))
@@ -94,7 +76,7 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn("flex items-center p-6 pt-0 border-t border-white/5 mt-4", className)}
     {...props}
   />
 ))

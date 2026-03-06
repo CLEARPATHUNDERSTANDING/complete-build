@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { 
   Search,
@@ -27,12 +27,12 @@ import {
   Brain,
   ArrowLeft
 } from "lucide-react";
+import Icon from "@/components/icons/Icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
-import { marketCatalog } from "@/data/marketCatalog";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
@@ -40,6 +40,7 @@ import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
 import AfterPatentLogo from "@/components/AfterPatentLogo";
+import NeonBoard from "@/components/NeonBoard";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -60,65 +61,39 @@ function BorderWallCard({
   useScrollArea?: boolean;
   variant?: "warm" | "cool";
 }) {
-  const isCool = variant === "cool";
-  
   return (
-    <div
-      id={id}
-      className={cn(
-        "relative rounded-[26px] p-[3px] transition-all duration-500",
-        isCool 
-          ? "bg-[linear-gradient(135deg,#00f5ff_0%,#6a5cff_100%)] shadow-[0_0_25px_rgba(0,245,255,0.3)]" 
-          : "bg-[linear-gradient(135deg,#ff00d4_0%,#ff8a00_100%)] shadow-[0_0_25px_rgba(255,138,0,0.3)]",
-        className
-      )}
-    >
-      <div
-        className="
-          h-full w-full
-          rounded-[23px]
-          bg-[radial-gradient(circle_at_top,rgba(17,24,54,0.95)_0%,rgba(3,8,24,0.98)_48%,rgba(0,0,0,1)_100%)]
-          backdrop-blur-xl
-          border border-white/5
-          flex flex-col overflow-hidden
-        "
-      >
-        {title ? (
-          <div className="border-b border-white/8 px-5 py-4 shrink-0">
-            <div className={cn(
-              "text-[12px] font-black uppercase tracking-[0.28em]",
-              isCool ? "text-cyan-300" : "text-orange-300"
-            )}>
-              {title}
-            </div>
-          </div>
-        ) : null}
-
-        <div className="flex-1 min-0 relative">
-          {useScrollArea ? (
-            <ScrollArea className="h-full">
-              <div className="p-5" style={{ maxHeight: maxHeight }}>{children}</div>
-            </ScrollArea>
-          ) : (
-            <div className="p-5 h-full overflow-hidden" style={{ maxHeight: maxHeight }}>
-              {children}
+    <div className={cn("relative rounded-[32px] p-[2px] bg-white/10", className)}>
+      <NeonBoard className="h-full">
+        <div className="flex flex-col h-full bg-[#070b16]">
+          {title && (
+            <div className="px-6 py-4 border-b border-white/5 bg-white/[0.02]">
+              <div className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60">{title}</div>
             </div>
           )}
+          <div className="flex-1 min-h-0">
+            {useScrollArea ? (
+              <ScrollArea className="h-full">
+                <div className="p-6" style={{ maxHeight }}>{children}</div>
+              </ScrollArea>
+            ) : (
+              <div className="p-6" style={{ maxHeight }}>{children}</div>
+            )}
+          </div>
         </div>
-      </div>
+      </NeonBoard>
     </div>
   );
 }
 
 function NavItem({
   label,
-  icon: Icon,
+  iconName,
   href = "#",
   active = false,
   color = "orange",
 }: {
   label: string;
-  icon?: any;
+  iconName: string;
   href?: string;
   active?: boolean;
   color?: "pink" | "orange" | "emerald" | "amber" | "rose";
@@ -141,11 +116,7 @@ function NavItem({
           : "hover:bg-white/[0.03]",
       ].join(" ")}
     >
-      {Icon ? (
-        <Icon className={cn("w-5 h-5 transition-all", active ? colorMap[color] : "text-white/70 group-hover:text-white group-hover:scale-110")} />
-      ) : (
-        <span className={cn("text-lg", colorMap[color])}>✦</span>
-      )}
+      <Icon name={iconName} className={cn("w-5 h-5 transition-all", active ? colorMap[color] : "text-white/70 group-hover:text-white group-hover:scale-110")} />
       <span className={cn("text-[15px] font-semibold", active ? colorMap[color] : "text-white")}>{label}</span>
     </a>
   );
@@ -159,17 +130,10 @@ export default function SocialPlatform() {
   
   const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // Dispatch State
   const [postText, setPostText] = useState("");
-  const [attachedSymbols, setAttachedSymbols] = useState<string[]>([]);
   const [isLive, setIsLive] = useState(false);
-  const [activeAttachment, setActiveAttachment] = useState<any>(null);
-
-  // Camera State
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Firestore Data
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsRef);
 
@@ -179,74 +143,31 @@ export default function SocialPlatform() {
     if (!isUserLoading && !user && mounted) router.push("/login");
   }, [user, isUserLoading, mounted, router]);
 
-  // Handle Camera Permission
   useEffect(() => {
     let stream: MediaStream | null = null;
-
-    const getCameraPermission = async () => {
+    const getCamera = async () => {
       if (isLive) {
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
+          if (videoRef.current) videoRef.current.srcObject = stream;
         } catch (error) {
-          console.error('Error accessing camera:', error);
           setIsLive(false);
-          toast({
-            variant: "destructive",
-            title: "Camera Access Denied",
-            description: "Please enable camera permissions in your browser settings to use this feature.",
-          });
+          toast({ variant: "destructive", title: "Camera Error", description: "Protocol link failed." });
         }
-      } else {
-        if (stream) {
-          stream.getTracks().forEach(track => track.stop());
-        }
+      } else if (stream) {
+        stream.getTracks().forEach(t => t.stop());
       }
     };
-
-    getCameraPermission();
-
-    return () => {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
+    getCamera();
+    return () => stream?.getTracks().forEach(t => t.stop());
   }, [isLive, toast]);
 
   const handleBluetooth = async () => {
     if (!navigator.bluetooth) {
-      toast({
-        variant: "destructive",
-        title: "Protocol Unsupported",
-        description: "Bluetooth synchronization is not supported by your current browser engine.",
-      });
+      toast({ variant: "destructive", title: "Protocol Unsupported", description: "Bluetooth sync disabled." });
       return;
     }
-
-    try {
-      toast({
-        title: "Bluetooth Initializing",
-        description: "Scanning for unauthorized neural peripherals...",
-      });
-      
-      const device = await navigator.bluetooth.requestDevice({
-        acceptAllDevices: true,
-      });
-
-      toast({
-        title: "Device Synchronized",
-        description: `Linked to: ${device.name || 'Unknown Peripheral'}`,
-      });
-    } catch (error: any) {
-      if (error.name === 'NotFoundError') return;
-      toast({
-        variant: "destructive",
-        title: "Sync Failure",
-        description: "Failed to establish a secure link with the peripheral.",
-      });
-    }
+    toast({ title: "Bluetooth Scanning", description: "Establishing neural link..." });
   };
 
   const getImg = (id: string) => placeholderData.placeholderImages.find(img => img.id === id)?.imageUrl || "";
@@ -255,45 +176,34 @@ export default function SocialPlatform() {
     return (
       <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500">
         <Loader2 className="w-10 h-10 animate-spin mb-4" />
-        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Synchronizing Network Profile...</span>
+        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Synchronizing...</span>
       </div>
     );
   }
 
   const handleDispatch = () => {
-    if (!postText.trim()) return;
-    if (!user || !insightsRef) return;
-
-    const insightData = {
+    if (!postText.trim() || !user || !insightsRef) return;
+    addDocumentNonBlocking(insightsRef, {
       userId: user.uid,
       user: user.displayName || user.email?.split("@")[0] || "Trader",
       avatar: user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`,
-      time: "Just now",
       createdAt: serverTimestamp(),
       text: postText,
-      symbols: attachedSymbols,
-      attachment: activeAttachment ? { ...activeAttachment } : null,
       isLive
-    };
-
-    addDocumentNonBlocking(insightsRef, insightData);
-    setPostText("");
-    setAttachedSymbols([]);
-    setActiveAttachment(null);
-    setIsLive(false);
-
-    toast({
-      title: "Insight Dispatched",
-      description: "Your ideological thesis has been broadcast to the network.",
     });
+    setPostText("");
+    setIsLive(false);
+    toast({ title: "Insight Dispatched", description: "Observation broadcasted." });
   };
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
       {/* LEFT SIDEBAR */}
       <aside className="w-[350px] border-r border-white/8 bg-black shrink-0 h-full flex flex-col">
-        <div className="p-6 shrink-0 flex flex-col items-center gap-6">
-          <AfterPatentLogo size="md" />
+        <div className="p-8 shrink-0 flex flex-col items-center gap-6">
+          <NeonBoard className="w-32 h-32">
+            <AfterPatentLogo size="md" className="w-full h-full" />
+          </NeonBoard>
           <div className="text-[14px] font-black tracking-[0.25em] text-white uppercase text-center">
             AFTER PATENT
           </div>
@@ -303,20 +213,20 @@ export default function SocialPlatform() {
           <div className="px-6 pb-8 space-y-8">
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
-                <NavItem label="Market Overview" icon={Globe} href="/markets" color="emerald" />
-                <NavItem label="Universal Terminal" icon={LayoutDashboard} href="/dashboard?mode=minimal" color="amber" />
-                <NavItem label="Political Network" icon={Compass} href="/personalities" active color="orange" />
-                <NavItem label="Network Hubs" icon={Users} href="/communities" color="emerald" />
-                <NavItem label="Social Stream" icon={MessageCircle} href="/community" color="pink" />
+                <NavItem label="Market Overview" iconName="Globe" href="/markets" color="emerald" />
+                <NavItem label="Universal Terminal" iconName="LayoutDashboard" href="/dashboard?mode=minimal" color="amber" />
+                <NavItem label="Political Network" iconName="Compass" href="/personalities" active color="orange" />
+                <NavItem label="Network Hubs" iconName="Users" href="/communities" color="emerald" />
+                <NavItem label="Social Stream" iconName="MessageCircle" href="/community" color="pink" />
               </div>
             </BorderWallCard>
 
             <BorderWallCard title="Political Sectors" maxHeight="300px">
               <div className="space-y-1">
-                <NavItem label="Republican" icon={Flag} href="/communities?hubId=republican-sector" color="orange" />
-                <NavItem label="Democrat" icon={Globe} href="/communities?hubId=democrat-sector" color="pink" />
-                <NavItem label="Independent" icon={Scale} href="/communities?hubId=independent-sector" color="amber" />
-                <NavItem label="Liberal" icon={HandMetal} href="/communities?hubId=liberal-sector" color="emerald" />
+                <NavItem label="Republican" iconName="Flag" href="/communities?hubId=republican-sector" color="orange" />
+                <NavItem label="Democrat" iconName="Globe" href="/communities?hubId=democrat-sector" color="pink" />
+                <NavItem label="Independent" iconName="Scale" href="/communities?hubId=independent-sector" color="amber" />
+                <NavItem label="Liberal" iconName="HandMetal" href="/communities?hubId=liberal-sector" color="emerald" />
               </div>
             </BorderWallCard>
           </div>
@@ -327,7 +237,9 @@ export default function SocialPlatform() {
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-10">
-            <AfterPatentLogo size="md" />
+            <NeonBoard className="w-32 h-32">
+              <AfterPatentLogo size="md" className="w-full h-full" />
+            </NeonBoard>
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence</span>
               <span className="text-[24px] font-bold tracking-[0.1em] text-white/40 uppercase">Global Stream</span>
@@ -336,10 +248,10 @@ export default function SocialPlatform() {
           
           <div className="flex-1 max-w-xl mx-12">
             <div className="relative">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30" />
+              <Icon name="Search" className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30" />
               <input
                 className="w-full bg-white/5 border border-white/10 rounded-2xl pl-16 pr-6 py-5 text-lg focus:border-indigo-500/50 transition-all outline-none"
-                placeholder="Search ideological network..."
+                placeholder="Search network..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -349,16 +261,12 @@ export default function SocialPlatform() {
           <div className="flex items-center gap-10">
             <div className="hidden lg:flex items-center gap-6 text-white/30 border-r border-white/10 pr-10">
               <Volume2 className="w-6 h-6 hover:text-indigo-400 cursor-pointer transition-colors" />
-              <Bluetooth 
-                onClick={handleBluetooth}
-                className="w-6 h-6 hover:text-indigo-400 cursor-pointer transition-colors" 
-              />
+              <Bluetooth onClick={handleBluetooth} className="w-6 h-6 hover:text-indigo-400 cursor-pointer transition-colors" />
             </div>
-
             <div className="flex items-center gap-4 bg-white/5 border border-white/8 rounded-3xl px-6 py-3">
               <Avatar className="w-14 h-14 ring-2 ring-indigo-500/20">
                 <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                <AvatarFallback className="bg-indigo-500 text-sm font-black">{user.displayName?.[0]}</AvatarFallback>
+                <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
               </Avatar>
               <div className="text-left leading-tight hidden lg:block">
                 <div className="text-lg font-black text-white">{user.displayName || "Trader"}</div>
@@ -370,98 +278,79 @@ export default function SocialPlatform() {
 
         <ScrollArea className="flex-1">
           <div className="max-w-4xl mx-auto px-10 py-12 space-y-12 pb-32">
-            {/* DISPATCH MODULE */}
             <BorderWallCard title="Dispatch" maxHeight="none" useScrollArea={false} variant="cool">
               <div className="flex flex-col gap-8">
-                {/* Live Camera Preview */}
                 {isLive && (
-                  <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 bg-black shadow-2xl">
-                    <video 
-                      ref={videoRef} 
-                      className="w-full h-full object-cover transition-all duration-700" 
-                      autoPlay 
-                      muted 
-                    />
-                    <div className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 rounded-full bg-rose-500/80 backdrop-blur-md border border-white/20 animate-pulse">
+                  <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 bg-black">
+                    <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted />
+                    <div className="absolute top-6 right-6 flex items-center gap-3 px-4 py-2 rounded-full bg-rose-500/80 animate-pulse">
                       <Radio className="w-4 h-4 text-white" />
                       <span className="text-[11px] font-black text-white uppercase tracking-widest">LIVE</span>
                     </div>
                   </div>
                 )}
-
                 <div className="flex items-start gap-6">
-                  <div className="flex flex-col items-center gap-3">
-                    <Avatar className="w-16 h-16 border border-white/10 ring-2 ring-indigo-500/20">
-                      <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                      <AvatarFallback className="bg-indigo-500 text-lg">{user.displayName?.[0]}</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  <div className="flex-1">
-                    <textarea 
-                      className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-lg font-medium text-white outline-none focus:border-cyan-500/50 transition-all resize-none min-h-[160px] placeholder:text-white/20"
-                      placeholder="Broadcast ideological thesis or network observation..."
-                      value={postText}
-                      onChange={(e) => setPostText(e.target.value)}
-                    />
-                  </div>
+                  <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20">
+                    <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
+                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
+                  </Avatar>
+                  <textarea 
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-lg font-medium text-white outline-none focus:border-cyan-500/50 min-h-[160px]"
+                    placeholder="Broadcast observation..."
+                    value={postText}
+                    onChange={(e) => setPostText(e.target.value)}
+                  />
                 </div>
               </div>
-
               <div className="flex items-center justify-between mt-10 pt-6 border-t border-white/5">
                 <div className="flex items-center gap-10">
-                  <button className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors text-white/40 hover:text-cyan-400`}>
-                    <BarChart2 className="w-5 h-5" /> Attach Mapped Chart
+                  <button className="flex items-center gap-3 text-[11px] font-black text-white/40 hover:text-cyan-400">
+                    <BarChart2 className="w-5 h-5" /> Attach Chart
                   </button>
-                  <button onClick={() => setIsLive(!isLive)} className={`flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors ${isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400'}`}>
+                  <button onClick={() => setIsLive(!isLive)} className={cn("flex items-center gap-3 text-[11px] font-black uppercase tracking-widest transition-colors", isLive ? 'text-rose-400' : 'text-white/40 hover:text-rose-400')}>
                     <Radio className="w-5 h-5" /> Live Sync
                   </button>
                 </div>
-                <Button onClick={handleDispatch} className="bg-indigo-600 hover:bg-indigo-500 text-white font-black uppercase text-[11px] tracking-widest px-10 h-12 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.4)] transition-all">
+                <Button onClick={handleDispatch} className="bg-indigo-600 hover:bg-indigo-500 px-10 h-12 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.4)]">
                   Dispatch →
                 </Button>
               </div>
             </BorderWallCard>
 
-            {/* FEED */}
             <div className="space-y-12">
               {isInsightsLoading ? (
                 <div className="py-24 flex flex-col items-center opacity-20">
                   <Activity className="w-12 h-12 animate-pulse mb-6 text-indigo-500" />
-                  <span className="text-[11px] font-black uppercase tracking-[0.4em]">Synchronizing Data Stream...</span>
+                  <span className="text-[11px] font-black uppercase tracking-[0.4em]">Synchronizing...</span>
                 </div>
               ) : (
                 insightsData?.sort((a: any, b: any) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).map((post: any) => (
                   <div key={post.id} className="mx-auto w-full group">
-                    <div className="relative rounded-[40px] p-[4px] bg-[linear-gradient(135deg,#00f5ff_0%,#6a5cff_50%,#ff00d4_100%)] shadow-[0_0_30px_rgba(106,92,255,0.2)] transition-transform hover:scale-[1.005]">
-                      <div className="rounded-[36px] bg-[radial-gradient(circle_at_top,rgba(10,18,48,0.94)_0%,rgba(2,6,23,0.98)_58%,rgba(1,4,15,1)_100%)] px-10 py-8">
-                        <div className="flex items-start justify-between gap-6">
-                          <div className="flex items-center gap-6">
-                            <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20">
-                              <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
-                              <AvatarFallback className="bg-indigo-500 text-lg">{post.user[0]}</AvatarFallback>
-                            </Avatar>
-                            <div>
-                              <div className="flex items-center gap-3">
-                                <div className="text-[22px] font-black text-white">{post.user}</div>
-                                {post.isLive && <Badge className="bg-rose-500 text-[10px] font-black px-2 py-1 h-5 uppercase tracking-widest">LIVE</Badge>}
-                              </div>
-                              <div className="text-[12px] font-bold uppercase tracking-[0.18em] text-white/40">
-                                {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : post.time}
-                              </div>
+                    <NeonBoard>
+                      <div className="rounded-[36px] bg-[#070b16] px-10 py-8">
+                        <div className="flex items-center gap-6">
+                          <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20">
+                            <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
+                            <AvatarFallback className="bg-indigo-500">{post.user[0]}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <div className="flex items-center gap-3">
+                              <div className="text-[22px] font-black text-white">{post.user}</div>
+                              {post.isLive && <Badge className="bg-rose-500 text-[10px] font-black">LIVE</Badge>}
+                            </div>
+                            <div className="text-[12px] font-bold text-white/40 uppercase tracking-widest">
+                              {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : "Just now"}
                             </div>
                           </div>
                         </div>
-
                         <div className="my-8 h-px bg-white/8" />
-
                         <p className="text-[20px] leading-relaxed text-white/90 mb-8">{post.text}</p>
-
                         <div className="flex items-center gap-12 text-white/50 border-t border-white/5 pt-8">
                           <button className="flex items-center gap-3 hover:text-red-500 transition-colors"><Heart className="w-6 h-6" /><span className="font-bold text-sm uppercase tracking-widest">Synchronize</span></button>
                           <button className="flex items-center gap-3 hover:text-indigo-400 transition-colors"><MessageCircle className="w-6 h-6" /><span className="font-bold text-sm uppercase tracking-widest">Discuss</span></button>
                         </div>
                       </div>
-                    </div>
+                    </NeonBoard>
                   </div>
                 ))
               )}
@@ -481,7 +370,6 @@ export default function SocialPlatform() {
             <BorderWallCard title="Atmospheric Data" maxHeight="none" useScrollArea={false} variant="cool">
               <WeatherWidget />
             </BorderWallCard>
-
             <BorderWallCard title="Live Hubs" maxHeight="none" useScrollArea={false}>
               <div className="space-y-6">
                 {[

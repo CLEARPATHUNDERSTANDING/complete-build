@@ -18,7 +18,7 @@ type NeonCardProps = {
 
 /**
  * MANDATORY WRAPPER COMPONENT
- * Features a high-intensity gradient frame, atmospheric glow, and glass-morphism.
+ * Features a high-intensity triple-tone gradient frame, 2XL atmospheric glow, and glass-morphism.
  */
 export default function NeonCard({
   children,
