@@ -10,13 +10,13 @@ type NeonBoardProps = {
 /**
  * High-intensity NeonBoard component acting as a true "Frame".
  * Uses CSS mask to ensure the interior is perfectly transparent
- * while the 10px border carries the high-intensity AFTER PATENT logo spectrum.
- * RESTORED: Cyan -> Indigo -> Pink -> Orange burst.
+ * while the 10px border carries the high-intensity diagnostic spectrum.
+ * Spectrum: Cyan -> Indigo -> Pink -> Orange burst.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
     <div className={`relative ${className}`}>
-      {/* The Border Layer - Full Logo Spectrum */}
+      {/* The Border Layer - Full Spectral Spectrum */}
       <div
         className="absolute inset-0 rounded-[32px]"
         style={{
@@ -29,7 +29,7 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
       
-      {/* Recalibrated Spectral Shadow - Purged "Ugly Gold" focus */}
+      {/* Recalibrated Spectral Shadow */}
       <div 
         className="absolute inset-0 rounded-[32px] pointer-events-none"
         style={{

@@ -6,9 +6,15 @@ import { ArrowRight, ShieldCheck } from "lucide-react";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
+/**
+ * Platform Landing Node
+ * Scrubbed of all legacy brand artifacts.
+ * Anchored by the definitive DiagnosticLogo and mandatory NeonBoard frames.
+ */
 export default function HomePage() {
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Top Protocol Bar */}
       <header className="topbar w-full absolute top-0 flex items-center justify-between px-10 py-8 z-50">
         <div className="brand-wrap">
           <div className="flex items-center gap-4">
@@ -29,6 +35,7 @@ export default function HomePage() {
         </nav>
       </header>
 
+      {/* Hero Diagnostic Node */}
       <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
         <div className="flex flex-col items-center gap-10 mb-8">
           <NeonBoard className="w-64 h-64">
@@ -57,6 +64,7 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/* Feature Anchors */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
             <span className="mini-label neon-indigo-text font-black mb-2">Adaptive Interface</span>
@@ -74,6 +82,7 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Security Status */}
         <div className="pt-12 flex items-center justify-center gap-3 text-white/20">
           <ShieldCheck className="w-5 h-5" />
           <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Data Truth Layer Active</span>
