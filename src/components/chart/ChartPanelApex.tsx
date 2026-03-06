@@ -6,7 +6,7 @@ import type { ModeConfig } from "@/modes/types";
 import Link from "next/link";
 import { ArrowLeft, Search, Loader2 } from "lucide-react";
 import { useMounted } from "@/hooks/use-mounted";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -250,7 +250,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
           <div className="relative">
             <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
             <div className="absolute bottom-12 left-6 z-20 pointer-events-none">
-              <AfterPatentLogo size="xs" />
+              <DiagnosticLogo size="xs" />
             </div>
           </div>
         ) : (

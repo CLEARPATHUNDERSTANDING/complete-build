@@ -5,7 +5,7 @@ import { type ApexOptions } from "apexcharts";
 import { useMemo, useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { useMounted } from "@/hooks/use-mounted";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 
 const Chart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -86,7 +86,7 @@ export default function MarketDetailChart({ title, data }: Props) {
           </div>
         )}
         <div className="absolute bottom-12 left-8 z-20 pointer-events-none">
-          <AfterPatentLogo size="sm" />
+          <DiagnosticLogo size="sm" />
         </div>
       </div>
     </div>

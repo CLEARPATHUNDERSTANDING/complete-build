@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
 export default function HomePage() {
@@ -12,7 +12,7 @@ export default function HomePage() {
       <header className="topbar w-full absolute top-0 flex items-center justify-between px-10 py-8 z-50">
         <div className="brand-wrap">
           <div className="flex items-center gap-4">
-            <AfterPatentLogo size="xs" />
+            <DiagnosticLogo size="xs" />
             <div>
               <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
             </div>
@@ -32,7 +32,7 @@ export default function HomePage() {
       <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
         <div className="flex flex-col items-center gap-10 mb-8">
           <NeonBoard className="w-64 h-64">
-            <AfterPatentLogo size="xl" className="w-full h-full" />
+            <DiagnosticLogo size="xl" className="w-full h-full" />
           </NeonBoard>
         </div>
 

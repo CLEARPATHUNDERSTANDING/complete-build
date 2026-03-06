@@ -8,7 +8,7 @@ import { Loader2, Sparkles, Search, ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useMounted } from "@/hooks/use-mounted";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 
 const Chart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -56,6 +56,7 @@ export function CandlestickChart({
     if (externalData) return externalData;
     if (!mounted) return [];
     
+    // Stable seed for consistent mock data across renders
     const seed = localSymbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const mock: ApexCandlePoint[] = [];
     let currentPrice = seed % 500 + 1000;
@@ -182,7 +183,7 @@ export function CandlestickChart({
       <div className="relative z-10">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
         <div className="absolute bottom-10 left-6 z-20 pointer-events-none">
-          <AfterPatentLogo size="xs" />
+          <DiagnosticLogo size="xs" />
         </div>
       </div>
     </div>

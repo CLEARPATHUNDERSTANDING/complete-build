@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 
 const ApexChart = dynamic(() => import("react-apexcharts"), { 
   ssr: false,
@@ -145,7 +145,7 @@ export function MarketWatchChart({ symbol, points, height = 340, initialType = "
           </div>
         )}
         <div className="absolute bottom-10 left-8 z-20 pointer-events-none">
-          <AfterPatentLogo size="xs" />
+          <DiagnosticLogo size="xs" />
         </div>
       </div>
     </div>

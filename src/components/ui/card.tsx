@@ -4,7 +4,7 @@ import NeonCard from "@/components/ui/NeonCard"
 
 /**
  * ENFORCED NEON CARD ARCHITECTURE
- * RE-LINKED TO CORE IP: Replaces standard shadcn card logic with the mandatory After Patent branding.
+ * RE-LINKED TO CORE IP: Replaces standard shadcn card logic with the mandatory branding.
  */
 const Card = React.forwardRef<
   HTMLDivElement,

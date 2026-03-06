@@ -26,7 +26,7 @@ import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
@@ -189,7 +189,7 @@ export default function SocialPlatform() {
       <aside className="w-[350px] border-r border-white/8 bg-black shrink-0 h-full flex flex-col">
         <div className="p-8 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32">
-            <AfterPatentLogo size="md" className="w-full h-full" />
+            <DiagnosticLogo size="md" className="w-full h-full" />
           </NeonBoard>
         </div>
 
@@ -222,7 +222,7 @@ export default function SocialPlatform() {
         <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-10">
             <NeonBoard className="w-32 h-32">
-              <AfterPatentLogo size="md" className="w-full h-full" />
+              <DiagnosticLogo size="md" className="w-full h-full" />
             </NeonBoard>
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence</span>
