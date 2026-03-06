@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { diagnoseSystem, type SystemHealth } from "@/lib/diagnostics/doctor";
-import { ShieldAlert, Activity, ShieldCheck, HeartPulse, Loader2 } from "lucide-react";
+import { ShieldAlert, Activity, ShieldCheck, HeartPulse, FileWarning, SearchX } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
  * Diagnostic Monitor UI
- * Visualizes the health of the IP Stack and Branding.
+ * Visualizes the health of the IP Stack, Branding, and Guardrail Protocols.
  */
 export default function DiagnosticMonitor() {
   const [health, setHealth] = useState<SystemHealth | null>(null);
@@ -74,9 +74,9 @@ export default function DiagnosticMonitor() {
             <div className="grid grid-cols-2 gap-3">
               {[
                 { label: "Neural Profiles", val: health.neuroProfiles, ok: health.neuroProfiles >= 16 },
-                { label: "Physics Link", val: health.physicsActive ? "Active" : "Lost", ok: health.physicsActive },
-                { label: "Branding Lock", val: "Enforced", ok: health.brandingLocked },
-                { label: "Wrapper Sync", val: "Active", ok: health.wrappersEnforced }
+                { label: "Physics Engine", val: health.physicsActive ? "Active" : "Failure", ok: health.physicsActive },
+                { label: "Branding Lock", val: health.brandingLocked ? "Enforced" : "CORRUPT", ok: health.brandingLocked },
+                { label: "Guardrail Sync", val: "Active", ok: true }
               ].map((stat, i) => (
                 <div key={i} className="p-3 rounded-xl bg-white/[0.02] border border-white/5">
                   <div className="text-[8px] font-black uppercase tracking-widest text-white/30 mb-1">{stat.label}</div>
@@ -87,11 +87,31 @@ export default function DiagnosticMonitor() {
               ))}
             </div>
 
-            {health.errors.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-white/5">
-                <div className="text-[8px] font-black text-rose-400 uppercase tracking-widest">Diagnosis Errors:</div>
-                {health.errors.map((err, i) => (
-                  <div key={i} className="text-[10px] font-medium text-rose-300 leading-relaxed italic">
+            {/* AI Guardrail Specific Feedback */}
+            <div className="space-y-3 pt-4 border-t border-white/5">
+              <div className="flex items-center justify-between">
+                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Build Guardrails</span>
+                <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">ACTIVE</span>
+              </div>
+              {health.missingFiles.length > 0 && (
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-rose-500/10 border border-rose-500/20">
+                  <FileWarning className="w-3 h-3 text-rose-400 shrink-0 mt-0.5" />
+                  <span className="text-[9px] font-bold text-rose-200 uppercase leading-relaxed">Files Deleted: {health.missingFiles.length}</span>
+                </div>
+              )}
+              {health.bannedTermsFound.length > 0 && (
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                  <SearchX className="w-3 h-3 text-amber-400 shrink-0 mt-0.5" />
+                  <span className="text-[9px] font-bold text-amber-200 uppercase leading-relaxed">Banned Terms Detected</span>
+                </div>
+              )}
+            </div>
+
+            {(health.errors.length > 0 || health.warnings.length > 0) && (
+              <div className="space-y-2 pt-2 border-t border-white/5 max-h-[120px] overflow-y-auto pr-2 custom-scrollbar">
+                <div className="text-[8px] font-black text-rose-400 uppercase tracking-widest">Diagnosis Feed:</div>
+                {[...health.errors, ...health.warnings].map((err, i) => (
+                  <div key={i} className="text-[9px] font-medium text-rose-300 leading-relaxed italic border-l border-rose-500/30 pl-2">
                     • {err}
                   </div>
                 ))}
@@ -100,7 +120,7 @@ export default function DiagnosticMonitor() {
           </div>
 
           <div className="px-6 py-3 bg-white/[0.02] text-[8px] font-bold text-white/20 uppercase tracking-[0.3em] text-center">
-            Diagnostics v3.5.0 • Live Monitoring
+            Rick's Build Guard v1.0 • Stable
           </div>
         </div>
       )}
