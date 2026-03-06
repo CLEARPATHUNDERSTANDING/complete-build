@@ -202,14 +202,13 @@ function CommunitiesDiscoveryContent() {
           </Link>
           <div className="h-8 w-px bg-white/10" />
           <div className="flex items-center gap-4">
-            <div className="relative">
+            <NeonBoard className="w-40 h-40">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="Clear Path Logo"
-                className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_20px_rgba(255,136,0,0.4)]"
+                className="w-full h-full object-cover"
               />
-              <span className="absolute bottom-1 right-1 text-[8px] font-bold text-white shadow-black select-none">©™</span>
-            </div>
+            </NeonBoard>
             <div className="flex flex-col">
               <span className="text-[24px] font-black tracking-[0.3em] uppercase leading-none">Intelligence</span>
               <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Network Hubs</span>

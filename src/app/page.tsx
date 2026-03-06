@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck } from "lucide-react";
+import NeonBoard from "@/components/NeonBoard";
 
 export default function HomePage() {
   return (
@@ -10,11 +11,13 @@ export default function HomePage() {
       <header className="topbar w-full absolute top-0 flex items-center justify-between px-10 py-8 z-50">
         <div className="brand-wrap">
           <div className="flex items-center gap-4">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="After Patent Logo"
-              className="w-12 h-12 rounded-xl object-cover border-2 border-orange-500/40 shadow-[0_0_30px_rgba(255,136,0,0.6)] brightness-125 saturate-150"
-            />
+            <NeonBoard className="w-16 h-16">
+              <img 
+                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                alt="After Patent Logo"
+                className="w-full h-full object-cover brightness-125 saturate-150"
+              />
+            </NeonBoard>
             <div>
               <div className="brand-name text-white">AFTER PATENT</div>
               <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
@@ -35,12 +38,14 @@ export default function HomePage() {
       <section className="max-w-5xl px-8 text-center space-y-12 relative z-10">
         <div className="flex flex-col items-center gap-10 mb-8">
           <div className="relative group">
-            <img 
-              src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-              alt="Clear Path Logo"
-              className="w-48 h-48 rounded-[40px] object-cover border-2 border-orange-500/50 shadow-[0_0_100px_rgba(255,136,0,0.5),0_0_60px_rgba(0,245,255,0.3)] brightness-125 saturate-150 transition-all duration-700 group-hover:scale-105"
-            />
-            <span className="absolute -bottom-4 -right-4 bg-orange-600 text-white px-4 py-1.5 rounded-xl text-[12px] font-black tracking-widest shadow-[0_0_25px_rgba(255,136,0,0.8)] border border-white/20">PRO</span>
+            <NeonBoard className="w-56 h-56 group-hover:scale-105 transition-transform duration-700">
+              <img 
+                src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
+                alt="Clear Path Logo"
+                className="w-full h-full object-cover brightness-125 saturate-150"
+              />
+            </NeonBoard>
+            <span className="absolute -bottom-4 -right-4 bg-orange-600 text-white px-4 py-1.5 rounded-xl text-[12px] font-black tracking-widest shadow-[0_0_25px_rgba(255,136,0,0.8)] border border-white/20 z-20">PRO</span>
           </div>
         </div>
 
@@ -48,7 +53,7 @@ export default function HomePage() {
           <div className="eyebrow">Secure Diagnostic Interface</div>
           <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95]">
             Market intelligence <br /> 
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff00d4] to-[#ff8a00]">designed for focus</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00]">designed for focus</span>
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-white/60 leading-relaxed font-medium">
             Your interactive intelligence layer sits above a solid, distraction-free foundation 

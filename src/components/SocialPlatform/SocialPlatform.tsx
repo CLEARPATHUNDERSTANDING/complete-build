@@ -326,7 +326,7 @@ export default function SocialPlatform() {
                 <img 
                   src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                   alt="After Patent Logo"
-                  className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-transform duration-500 group-hover:scale-105"
+                  className="w-48 h-48 rounded-3xl object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
               </div>
@@ -365,14 +365,13 @@ export default function SocialPlatform() {
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-56 border-b border-white/10 bg-black/40 backdrop-blur-md px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-10">
-            <div className="relative group">
+            <NeonBoard className="w-40 h-40 group hover:scale-105 transition-transform duration-500">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                 alt="After Patent Logo"
-                className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.8)] brightness-125 saturate-150 transition-all duration-500 group-hover:scale-105"
+                className="w-full h-full object-cover transition-all duration-500"
               />
-              <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
-            </div>
+            </NeonBoard>
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence</span>
               <span className="text-[24px] font-bold tracking-[0.1em] text-white/40 uppercase">Global Stream</span>

@@ -28,6 +28,7 @@ import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
 import { useToast } from "@/hooks/use-toast"
 import type { ModeConfig } from "@/modes/types"
 import { useMounted } from "@/hooks/use-mounted"
+import NeonBoard from "@/components/NeonBoard"
 
 const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
 
@@ -107,14 +108,13 @@ function DashboardContent() {
       <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-16">
            <div className="flex items-center gap-8">
-             <div className="relative group">
+             <NeonBoard className="w-40 h-40 group hover:scale-105 transition-transform duration-500">
                <img 
                  src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
                  alt="Clear Path Logo"
-                 className="w-48 h-48 rounded-3xl object-cover border-2 border-orange-500/40 shadow-[0_0_60px_rgba(255,136,0,0.9)] brightness-110 saturate-125 transition-all duration-500 group-hover:scale-105"
+                 className="w-full h-full object-cover brightness-110 saturate-125 transition-all duration-500"
                />
-               <span className="absolute bottom-2 right-2 text-[12px] font-bold text-white shadow-black drop-shadow-md select-none">©™</span>
-             </div>
+             </NeonBoard>
              <div className="flex flex-col text-left">
                 <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">CLEAR PATH TRADER</span>
                 <span className="text-[24px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1.5px_#ff0000]">Intelligence Board</span>
