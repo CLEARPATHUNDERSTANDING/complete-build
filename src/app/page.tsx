@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Zap } from "lucide-react";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
@@ -10,6 +10,12 @@ import NeonBoard from "@/components/NeonBoard";
  * Platform Landing Node
  */
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
       {/* Top Protocol Bar */}
@@ -26,7 +32,7 @@ export default function HomePage() {
             Patent Pending
           </Link>
           <Link href="/login" className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-white transition-all">
-            Login
+            Log In
           </Link>
         </nav>
       </header>
@@ -54,7 +60,7 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/login" className="primary-btn large px-12 group">
-              Log In <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {mounted ? "Log In" : "Log In"} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link href="/login" className="ghost-btn large px-12">
               Sign Up

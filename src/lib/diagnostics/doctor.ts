@@ -17,6 +17,7 @@ export interface SystemHealth {
   missingFiles: string[];
   errors: string[];
   warnings: string[];
+  bannedTermsFound: string[];
 }
 
 export const MANDATORY_LOGO_URL =
@@ -29,6 +30,8 @@ const REQUIRED_FILES = [
   "src/components/SocialPlatform/SocialPlatform.tsx",
 ];
 
+const BANNED_TERMS = ["after patent", "replit", "netlify"];
+
 /**
  * Diagnostic logic - Environment aware to prevent browser crashes.
  */
@@ -38,6 +41,7 @@ export function diagnoseSystem(): SystemHealth {
   const warnings: string[] = [];
   let missingFiles: string[] = [];
   let brandingLocked = true;
+  let bannedTermsFound: string[] = [];
 
   if (isServer) {
     try {
@@ -59,7 +63,17 @@ export function diagnoseSystem(): SystemHealth {
       ];
       brandingLocked = brandingFiles.every(file => {
         const p = path.join(root, file);
-        return fs.existsSync(p) && fs.readFileSync(p, "utf8").includes(MANDATORY_LOGO_URL);
+        if (!fs.existsSync(p)) return false;
+        const content = fs.readFileSync(p, "utf8");
+        
+        // Scan for banned terms while we are at it
+        BANNED_TERMS.forEach(term => {
+          if (content.toLowerCase().includes(term)) {
+            if (!bannedTermsFound.includes(term)) bannedTermsFound.push(term);
+          }
+        });
+
+        return content.includes(MANDATORY_LOGO_URL);
       });
 
     } catch (e) {
@@ -83,7 +97,7 @@ export function diagnoseSystem(): SystemHealth {
   } catch (e) {}
 
   let status: VitalSign = "Healthy";
-  if (warnings.length > 0 || errors.length > 0) status = "Degraded";
+  if (warnings.length > 0 || errors.length > 0 || bannedTermsFound.length > 0) status = "Degraded";
   if (profileCount === 0 || !physicsActive) {
     status = "Critical";
   }
@@ -97,5 +111,6 @@ export function diagnoseSystem(): SystemHealth {
     missingFiles,
     errors,
     warnings,
+    bannedTermsFound,
   };
 }
