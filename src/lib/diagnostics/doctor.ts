@@ -20,7 +20,7 @@ if (isServer) {
     fs = require('fs');
     path = require('path');
   } catch (e) {
-    console.warn("Node FS/Path modules unavailable in this environment.");
+    // Fail silently on server if modules aren't available, warnings handled in diagnosis
   }
 }
 
