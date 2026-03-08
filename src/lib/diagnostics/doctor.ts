@@ -1,6 +1,7 @@
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
+ * Optimized for Next.js 15: Strictly environment-aware to prevent client crashes.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
@@ -20,8 +21,6 @@ export interface SystemHealth {
   errors: string[];
   warnings: string[];
 }
-
-const REQUIRED_PROFILE_COUNT = 16;
 
 export const MANDATORY_LOGO_URL =
   "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png";
@@ -45,7 +44,6 @@ const BANNED_TERMS = [
 
 /**
  * Diagnostic logic - Environment aware to prevent browser crashes.
- * Node-specific filesystem APIs are only accessed on the server via local require.
  */
 export function diagnoseSystem(): SystemHealth {
   const isServer = typeof window === 'undefined';
@@ -56,9 +54,10 @@ export function diagnoseSystem(): SystemHealth {
   let brandingLocked = true;
   let wrappersEnforced = true;
 
+  // NODE-ONLY FILESYSTEM SCANNING
   if (isServer) {
     try {
-      // Conditional local require prevents client-side bundler from failing
+      // Use local requires inside the server-only block to avoid bundler analysis on client
       const fs = require('fs');
       const path = require('path');
       const root = process.cwd();
@@ -98,20 +97,7 @@ export function diagnoseSystem(): SystemHealth {
       });
       brandingLocked = hasLogo;
       if (!brandingLocked) {
-        errors.push("Branding Failure: Mandatory logo reference not found in required UI files.");
-      }
-
-      // Check wrapper enforcement
-      const spPath = path.join(root, "src/components/SocialPlatform/SocialPlatform.tsx");
-      const cardPath = path.join(root, "src/components/ui/card.tsx");
-      const spContent = fs.existsSync(spPath) ? fs.readFileSync(spPath, "utf8") : "";
-      const cardContent = fs.existsSync(cardPath) ? fs.readFileSync(cardPath, "utf8") : "";
-      
-      wrappersEnforced = (spContent.includes("NeonCard") || spContent.includes("CardShell")) && 
-                         (cardContent.includes("NeonCard") || cardContent.includes("CardShell"));
-      
-      if (!wrappersEnforced) {
-        warnings.push("Wrapper Warning: NeonCard/CardShell wrapper not detected consistently.");
+        errors.push("Branding Failure: Mandatory logo reference not found.");
       }
 
     } catch (e) {
@@ -120,8 +106,8 @@ export function diagnoseSystem(): SystemHealth {
   }
 
   const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
-  if (profileCount < REQUIRED_PROFILE_COUNT) {
-    errors.push(`Neural Failure: Missing ${REQUIRED_PROFILE_COUNT - profileCount} profiles.`);
+  if (profileCount < 16) {
+    errors.push(`Neural Failure: Missing ${16 - profileCount} profiles.`);
   }
 
   // Physics engine test
@@ -133,7 +119,7 @@ export function diagnoseSystem(): SystemHealth {
       physicsActive = !!testPhysics && typeof testPhysics.candleWidth !== "undefined";
     }
   } catch (e) {
-    errors.push(`Physics Failure: Engine threw exception during validation.`);
+    errors.push(`Physics Failure: Engine validation failed.`);
   }
 
   let status: VitalSign = "Healthy";

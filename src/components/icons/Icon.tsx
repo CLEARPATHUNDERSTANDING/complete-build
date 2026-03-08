@@ -1,7 +1,7 @@
 'use client';
 /**
  * @fileOverview A safe icon wrapper component that prevents crashes from missing imports.
- * Optimized for React 19 / Next.js 15.
+ * Optimized for Next.js 15: Added robust validation for resolved components.
  */
 
 import React from "react";
@@ -24,12 +24,12 @@ export default function Icon({
   const Lucide = LucideIcons as any;
   const Cmp = Lucide[name];
 
-  // If icon name is wrong/missing, or not a component, render a safe fallback (no crash)
+  // CRITICAL: Verify the resolved object is a valid React component function
   if (!Cmp || typeof Cmp !== 'function') {
     return (
       <span
         className={className}
-        style={{ display: "inline-flex", width: size, height: size }}
+        style={{ display: "inline-flex", width: size, height: size, alignItems: "center", justifyContent: "center" }}
         aria-hidden="true"
         title={`Missing icon: ${name}`}
       >

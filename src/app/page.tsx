@@ -8,9 +8,8 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * Platform Landing Node
- * Scrubbed of all legacy brand artifacts.
- * Anchored by the definitive DiagnosticLogo and mandatory NeonBoard frames.
- * Features: High-intensity "Bypass Intelligence Verification" node.
+ * SCRUBBED: All legacy branding and conflicting build artifacts purged.
+ * Anchored by the definitive DiagnosticLogo.
  */
 export default function HomePage() {
   return (
@@ -20,9 +19,7 @@ export default function HomePage() {
         <div className="brand-wrap">
           <div className="flex items-center gap-4">
             <DiagnosticLogo size="xs" />
-            <div>
-              <div className="brand-sub uppercase tracking-[0.2em] text-white/40">Adaptive Market Intelligence</div>
-            </div>
+            <div className="brand-sub uppercase font-black tracking-[0.2em] text-white/40">Adaptive Intelligence</div>
           </div>
         </div>
 
@@ -66,7 +63,7 @@ export default function HomePage() {
             </Link>
           </div>
           
-          {/* BYPASS ACCESS NODE */}
+          {/* BYPASS ACCESS NODE - fallback entry point */}
           <Link 
             href="/community" 
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 hover:text-white transition-all border border-cyan-500/20 px-6 py-2 rounded-full bg-cyan-500/5 backdrop-blur-sm"
