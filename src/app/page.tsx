@@ -8,8 +8,6 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * Platform Landing Node
- * SCRUBBED: All legacy branding and conflicting build artifacts purged.
- * Anchored by the definitive DiagnosticLogo.
  */
 export default function HomePage() {
   return (
@@ -28,7 +26,7 @@ export default function HomePage() {
             Patent Pending
           </Link>
           <Link href="/login" className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-white transition-all">
-            Identity Portal
+            Login
           </Link>
         </nav>
       </header>
@@ -56,19 +54,18 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/login" className="primary-btn large px-12 group">
-              Synchronize Session <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link href="/login" className="ghost-btn large px-12">
-              Identity Portal
+              Login
             </Link>
           </div>
           
-          {/* BYPASS ACCESS NODE - fallback entry point */}
           <Link 
             href="/community" 
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 hover:text-white transition-all border border-cyan-500/20 px-6 py-2 rounded-full bg-cyan-500/5 backdrop-blur-sm"
           >
-            <Zap className="w-3 h-3" /> Bypass Intelligence Verification →
+            <Zap className="w-3 h-3" /> Continue as Guest →
           </Link>
         </div>
 
@@ -81,19 +78,19 @@ export default function HomePage() {
 
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
             <span className="mini-label text-indigo-400 font-black mb-2 uppercase tracking-widest text-[10px]">Live Overlay</span>
-            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Login and widgets on top</strong>
+            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Easy access widgets</strong>
           </div>
 
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
             <span className="mini-label text-indigo-400 font-black mb-2 uppercase tracking-widest text-[10px]">Deployment</span>
-            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Stable public front page</strong>
+            <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Stable performance</strong>
           </div>
         </div>
 
         {/* Security Status */}
         <div className="pt-12 flex items-center justify-center gap-3 text-white/20">
           <ShieldCheck className="w-5 h-5" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Data Truth Layer Active</span>
+          <span className="text-[10px] font-black uppercase tracking-widest">Secure Data Layer Active</span>
         </div>
       </section>
     </main>

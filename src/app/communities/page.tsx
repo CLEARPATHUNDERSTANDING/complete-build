@@ -88,28 +88,6 @@ const CORE_HUBS: CommunityHub[] = [
     color: "text-purple-400",
     bg: "bg-purple-500/10",
     category: "ideological"
-  },
-  {
-    id: "crypto-quant",
-    title: "Crypto Quant",
-    description: "Algorithmic analysis and sentiment tracking for digital asset universes.",
-    members: "8.2K",
-    activity: "Critical",
-    icon: Zap,
-    color: "text-cyan-400",
-    bg: "bg-cyan-500/10",
-    category: "thematic"
-  },
-  {
-    id: "bond-yields",
-    title: "Bonds & Yields",
-    description: "Fixed income monitoring and sovereign debt cycle investigation.",
-    members: "5.1K",
-    activity: "Steady",
-    icon: TrendingUp,
-    color: "text-violet-400",
-    bg: "bg-violet-500/10",
-    category: "thematic"
   }
 ];
 
@@ -166,7 +144,7 @@ function CommunitiesDiscoveryContent() {
 
     addDocumentNonBlocking(messagesRef, {
       userId: user.uid,
-      author: user.displayName || user.email?.split("@")[0] || "Trader",
+      author: user.displayName || user.email?.split("@")[0] || "User",
       text: messageInput.trim(),
       createdAt: serverTimestamp(),
       hubId: selectedHubId
@@ -198,20 +176,20 @@ function CommunitiesDiscoveryContent() {
         <div className="flex items-center gap-6">
           <Link href="/community" className="flex items-center gap-4 bg-indigo-500/10 border border-indigo-500/30 px-6 py-3 rounded-2xl text-[12px] font-black tracking-[0.2em] text-indigo-400 uppercase hover:bg-indigo-500/20 transition-all shadow-[0_0_20px_rgba(99,102,241,0.2)] group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            RETURN TO COMMUNITY HUB
+            BACK TO HUB
           </Link>
           <div className="h-8 w-px bg-white/10" />
           <div className="flex items-center gap-4">
             <NeonBoard className="w-40 h-40">
               <img 
                 src="https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png"
-                alt="Clear Path Logo"
+                alt="Logo"
                 className="w-full h-full object-cover"
               />
             </NeonBoard>
             <div className="flex flex-col">
-              <span className="text-[24px] font-black tracking-[0.3em] uppercase leading-none">Intelligence</span>
-              <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Network Hubs</span>
+              <span className="text-[24px] font-black tracking-[0.3em] uppercase leading-none">Hubs</span>
+              <span className="text-[20px] font-bold tracking-[0.1em] text-white/40 uppercase">Network</span>
             </div>
           </div>
         </div>
@@ -219,9 +197,9 @@ function CommunitiesDiscoveryContent() {
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-1.5">
             <Avatar className="w-6 h-6">
-              <AvatarFallback className="text-[8px] bg-indigo-500">{user.displayName?.[0] || 'T'}</AvatarFallback>
+              <AvatarFallback className="text-[8px] bg-indigo-500">{user.displayName?.[0] || 'U'}</AvatarFallback>
             </Avatar>
-            <span className="text-[11px] font-black uppercase tracking-widest text-white/80">{user.displayName || "Trader"}</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-white/80">{user.displayName || "User"}</span>
           </div>
         </div>
       </header>
@@ -234,14 +212,14 @@ function CommunitiesDiscoveryContent() {
                 Discover
               </TabsTrigger>
               <TabsTrigger value="chat" className="rounded-xl px-8 text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-cyan-500 data-[state=active]:text-white">
-                Independent Chat
+                Chat
               </TabsTrigger>
             </TabsList>
 
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-3">
                 <ShieldCheck className="w-4 h-4 text-emerald-400 opacity-50" />
-                <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">Sector Isolation: ACTIVE</span>
+                <span className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">Connection: Secure</span>
               </div>
             </div>
           </div>
@@ -253,14 +231,14 @@ function CommunitiesDiscoveryContent() {
                 <div className="mb-12 flex items-end justify-between">
                   <div>
                     <h1 className="text-4xl font-black uppercase tracking-[0.1em] mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125">
-                      Universal Hubs
+                      Network Hubs
                     </h1>
                     <p className="max-w-2xl text-sm font-bold uppercase tracking-widest leading-relaxed text-indigo-400 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)]">
-                      Connect with isolated ideological intelligence sectors to synchronize truth layers.
+                      Connect with sectors to share and analyze market trends.
                     </p>
                   </div>
                   <Link href="/community" className="flex items-center gap-2 text-[10px] font-black tracking-widest text-white/30 hover:text-white uppercase transition-colors">
-                    <ArrowLeft className="w-3 h-3" /> Back to Social Hub
+                    <ArrowLeft className="w-3 h-3" /> Back to Feed
                   </Link>
                 </div>
 
@@ -288,14 +266,14 @@ function CommunitiesDiscoveryContent() {
 
                         <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
                           <div className="flex flex-col">
-                            <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Sector</span>
+                            <span className="text-[9px] font-black text-white/30 uppercase tracking-widest">Type</span>
                             <span className={`text-[11px] font-black uppercase tracking-wider ${hub.category === 'ideological' ? 'text-orange-400' : 'text-cyan-400'}`}>{hub.category}</span>
                           </div>
                           <Button 
                             onClick={() => handleJoinHub(hub.id)}
                             className="bg-indigo-500 hover:bg-indigo-400 text-white font-black uppercase text-[10px] tracking-widest px-6 h-10 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
                           >
-                            Synchronize Room →
+                            Join Room →
                           </Button>
                         </div>
                       </div>
@@ -314,7 +292,7 @@ function CommunitiesDiscoveryContent() {
                 <NeonBoard className="h-full">
                   <div className="flex flex-col h-full bg-[#070b16]">
                     <div className="p-5 border-b border-white/5 bg-white/[0.02]">
-                      <div className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Sectors</div>
+                      <div className="text-[11px] font-black uppercase tracking-[0.2em] text-white/60">Rooms</div>
                     </div>
                     
                     <ScrollArea className="flex-1">
@@ -330,21 +308,18 @@ function CommunitiesDiscoveryContent() {
                             </div>
                             <div className="text-left">
                               <div className={`text-[12px] font-black uppercase tracking-tight ${selectedHubId === hub.id ? 'text-indigo-400' : 'text-white/80'}`}>{hub.title}</div>
-                              <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">{hub.activity} Sync</div>
+                              <div className="text-[9px] font-bold text-white/30 uppercase tracking-widest">{hub.activity} Activity</div>
                             </div>
                           </button>
                         ))}
                       </div>
                     </ScrollArea>
 
-                    {/* Sector Exit Anchors (4 INDEPENDENT BACK BUTTONS) */}
                     <div className="p-4 border-t border-white/5 bg-white/[0.01] space-y-3">
-                      <div className="text-[9px] font-black uppercase tracking-widest text-white/20 mb-2">Independent Exit Nodes</div>
+                      <div className="text-[9px] font-black uppercase tracking-widest text-white/20 mb-2">Navigation</div>
                       <div className="grid grid-cols-2 gap-2">
-                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-orange-500/20 bg-orange-500/5 text-[8px] font-black uppercase tracking-widest text-orange-400 hover:bg-orange-500/10 transition-all">Back: Rep</button>
-                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-cyan-500/20 bg-cyan-500/5 text-[8px] font-black uppercase tracking-widest text-cyan-400 hover:bg-cyan-500/10 transition-all">Back: Dem</button>
-                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-slate-500/20 bg-slate-500/5 text-[8px] font-black uppercase tracking-widest text-slate-400 hover:bg-slate-500/10 transition-all">Back: Ind</button>
-                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-purple-500/20 bg-purple-500/5 text-[8px] font-black uppercase tracking-widest text-purple-400 hover:bg-purple-500/10 transition-all">Back: Lib</button>
+                        <button onClick={handleSectorBack} className="px-2 py-2 rounded-lg border border-white/10 bg-white/5 text-[8px] font-black uppercase tracking-widest text-white/60 hover:bg-white/10 transition-all">Back to List</button>
+                        <Link href="/community" className="px-2 py-2 rounded-lg border border-indigo-500/20 bg-indigo-500/5 text-[8px] font-black uppercase tracking-widest text-indigo-400 hover:bg-indigo-500/10 transition-all text-center">Feed</Link>
                       </div>
                     </div>
                   </div>
@@ -363,7 +338,7 @@ function CommunitiesDiscoveryContent() {
                             <button 
                               onClick={handleSectorBack}
                               className="p-2 rounded-lg bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10 transition-all"
-                              title="Back to Discovery"
+                              title="Back"
                             >
                               <ArrowLeft className="w-4 h-4" />
                             </button>
@@ -373,17 +348,17 @@ function CommunitiesDiscoveryContent() {
                               </div>
                               <div>
                                 <div className="text-[14px] font-black uppercase tracking-widest text-white">
-                                  {selectedHub?.title} Room
+                                  {selectedHub?.title}
                                 </div>
                                 <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest">
-                                  Sector Path: /communities/{selectedHubId}
+                                  Path: /rooms/{selectedHubId}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="flex items-center gap-4">
                             <div className="flex flex-col items-end">
-                              <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest animate-pulse">Synchronized</span>
+                              <span className="text-[9px] font-black text-emerald-400 uppercase tracking-widest">Connected</span>
                               <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Protocol v2.5.0</span>
                             </div>
                           </div>
@@ -393,13 +368,13 @@ function CommunitiesDiscoveryContent() {
                         <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide">
                           {isMessagesLoading ? (
                             <div className="h-full flex flex-col items-center justify-center text-white/20">
-                              <TrendingUp className="w-12 h-12 mb-4 animate-pulse opacity-10" />
-                              <div className="text-[10px] font-black uppercase tracking-[0.3em]">Opening Communication Channel...</div>
+                              <Loader2 className="w-12 h-12 mb-4 animate-spin opacity-10" />
+                              <div className="text-[10px] font-black uppercase tracking-[0.3em]">Connecting to channel...</div>
                             </div>
                           ) : hubMessages?.length === 0 ? (
                             <div className="h-full flex flex-col items-center justify-center text-white/20">
                               <MessageCircle className="w-12 h-12 mb-4 opacity-10" />
-                              <div className="text-[10px] font-black uppercase tracking-[0.3em]">Channel Initialized. Dispatch observation.</div>
+                              <div className="text-[10px] font-black uppercase tracking-[0.3em]">No messages yet. Say hi!</div>
                             </div>
                           ) : (
                             hubMessages?.map((msg) => (
@@ -440,16 +415,15 @@ function CommunitiesDiscoveryContent() {
                         <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
                           <ShieldCheck className="w-10 h-10 opacity-30" />
                         </div>
-                        <h2 className="text-xl font-black uppercase tracking-[0.3em] text-white/60 mb-2">Select Hub Room</h2>
+                        <h2 className="text-xl font-black uppercase tracking-[0.3em] text-white/60 mb-2">Select a Room</h2>
                         <p className="max-w-sm text-sm font-bold uppercase tracking-widest opacity-30 leading-loose">
-                          Pick a community hub from the left panel to open the communication stream.
+                          Pick a community hub from the left panel to join the chat.
                         </p>
                         <div className="mt-12 flex flex-col items-center gap-4">
-                          <div className="text-[10px] font-black uppercase tracking-widest text-white/20">Independent Sector Terminals</div>
                           <div className="flex gap-4">
-                            <Button variant="outline" onClick={() => setActiveTab("discover")} className="border-white/10 text-[10px] font-black uppercase tracking-widest h-11 px-8 rounded-xl">Back to Discovery</Button>
+                            <Button variant="outline" onClick={() => setActiveTab("discover")} className="border-white/10 text-[10px] font-black uppercase tracking-widest h-11 px-8 rounded-xl">Discover</Button>
                             <Link href="/community">
-                              <Button className="bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[10px] font-black uppercase tracking-widest h-11 px-8 rounded-xl">Return to Social Hub</Button>
+                              <Button className="bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-[10px] font-black uppercase tracking-widest h-11 px-8 rounded-xl">Social Feed</Button>
                             </Link>
                           </div>
                         </div>
@@ -465,10 +439,10 @@ function CommunitiesDiscoveryContent() {
 
       <footer className="py-8 border-t border-white/10 mt-auto shrink-0 bg-black/80 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-8 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 flex justify-between items-center">
-          <span>Global Communication Protocol</span>
+          <span>Communication Hub</span>
           <div className="flex items-center gap-6">
-            <Link href="/community" className="hover:text-indigo-400 transition-colors">BACK TO COMMUNITY HUB</Link>
-            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Synchronized</span>
+            <Link href="/community" className="hover:text-indigo-400 transition-colors">BACK TO FEED</Link>
+            <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Connected</span>
           </div>
         </div>
       </footer>

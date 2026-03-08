@@ -53,8 +53,8 @@ export default function LoginPage() {
     const handleAuthError = (error: any) => {
       toast({
         variant: "destructive",
-        title: "Security Protocol Failure",
-        description: error.message || "Failed to synchronize with the Intelligence Hub.",
+        title: "Login Error",
+        description: error.message || "Could not access the hub.",
       });
     };
 
@@ -69,14 +69,14 @@ export default function LoginPage() {
     if (isSignUp) {
       initiateEmailSignUp(auth, email, password);
       toast({
-        title: "Initializing Identity",
-        description: "Your diagnostic profile is being broadcast to the network...",
+        title: "Creating Profile",
+        description: "Your identity is being set up...",
       });
     } else {
       initiateEmailSignIn(auth, email, password);
       toast({
-        title: "Synchronizing Data",
-        description: "Establishing a secure link to the Intelligence Hub...",
+        title: "Logging In",
+        description: "Connecting to the hub...",
       });
     }
   };
@@ -98,7 +98,7 @@ export default function LoginPage() {
           </NeonBoard>
           <div className="space-y-4">
             <h1 className="text-3xl font-black uppercase tracking-[0.3em] text-white">SECURE ACCESS</h1>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">Diagnostic Identity Protocol v2.5.0</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">SECURE LOGIN SYSTEM V2.5.0</p>
           </div>
         </div>
 
@@ -107,13 +107,13 @@ export default function LoginPage() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
-                  <Mail className="w-3 h-3 text-indigo-400" /> Network Identifier
+                  <Mail className="w-3 h-3 text-indigo-400" /> EMAIL ADDRESS
                 </label>
                 <Input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@intelligence.com"
+                  placeholder="name@example.com"
                   className="bg-white/5 border-white/10 h-12 rounded-xl focus:border-indigo-500/50 text-white placeholder:text-white/20"
                   required
                 />
@@ -121,7 +121,7 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-white/40 flex items-center gap-2">
-                  <Lock className="w-3 h-3 text-pink-400" /> Secure Key
+                  <Lock className="w-3 h-3 text-pink-400" /> PASSWORD
                 </label>
                 <Input
                   type="password"
@@ -138,21 +138,21 @@ export default function LoginPage() {
               type="submit" 
               className="w-full h-14 bg-indigo-500 hover:bg-indigo-400 text-white font-black uppercase text-[11px] tracking-widest rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.3)] transition-all"
             >
-              {isSignUp ? "Authorize Profile →" : "Synchronize Session →"}
+              {isSignUp ? "CREATE ACCOUNT →" : "LOG IN →"}
             </Button>
 
-            <div className="pt-4 border-t border-white/5 flex flex-col gap-4">
+            <div className="pt-4 border-t border-white/5 flex flex-col gap-4 text-center">
               <button 
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
                 className="text-[10px] font-black uppercase tracking-widest text-indigo-400 hover:text-white transition-colors"
               >
-                {isSignUp ? "Already have a profile? Synchronize" : "Need a diagnostic identifier? Create Profile"}
+                {isSignUp ? "Already have an account? Log In" : "Don't have an account? Sign Up"}
               </button>
               
-              <div className="flex items-center gap-3 text-white/20">
+              <div className="flex items-center justify-center gap-3 text-white/20">
                 <ShieldCheck className="w-4 h-4" />
-                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Encrypted Data Truth Layer Active</span>
+                <span className="text-[9px] font-bold uppercase tracking-widest leading-none">Encrypted Connection Active</span>
               </div>
             </div>
           </form>
