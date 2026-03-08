@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from "react";
@@ -7,7 +8,7 @@ import NeonBoard from "@/components/NeonBoard";
 import NeonCard from "@/components/ui/NeonCard";
 import PatentPendingBackdrop from "@/components/PatentPendingBackdrop";
 import { useMounted } from "@/hooks/use-mounted";
-import AfterPatentLogo from "@/components/AfterPatentLogo";
+import DiagnosticLogo from "@/components/DiagnosticLogo";
 
 const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
@@ -32,7 +33,7 @@ export default function PatentPendingPage() {
           </Link>
           <div className="h-12 w-px bg-white/10" />
           <div className="flex items-center gap-6">
-            <AfterPatentLogo size="md" />
+            <DiagnosticLogo size="md" />
             <div className="flex flex-col text-left">
               <span className={`text-[20px] font-black tracking-[0.2em] uppercase leading-none ${spectralTitleClass}`}>IP Registry</span>
               <span className="text-[16px] font-bold tracking-[0.1em] text-white/40 uppercase">Intelligence</span>

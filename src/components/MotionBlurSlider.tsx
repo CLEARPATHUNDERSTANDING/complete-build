@@ -1,7 +1,8 @@
+
 'use client';
 
 import React, { useMemo, useEffect, useState } from "react";
-import AfterPatentLogo from "./AfterPatentLogo";
+import DiagnosticLogo from "./DiagnosticLogo";
 
 /**
  * SAFE MotionBlurSlider
@@ -84,7 +85,7 @@ export default function MotionBlurSlider() {
         >
           {/* Authentic Brand Overlay */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-40">
-            <AfterPatentLogo size="xl" className="opacity-60 grayscale brightness-200" />
+            <DiagnosticLogo size="xl" className="opacity-60 grayscale brightness-200" />
           </div>
 
           {/* Foreground text */}

@@ -1,3 +1,4 @@
+
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
@@ -124,6 +125,7 @@ function checkBrandingLock(projectRoot: string): boolean {
   const filesToCheck = [
     "src/components/SocialPlatform/SocialPlatform.tsx",
     "src/app/page.tsx",
+    "src/components/DiagnosticLogo.tsx"
   ];
 
   for (const filePath of filesToCheck) {
