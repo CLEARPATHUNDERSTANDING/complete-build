@@ -57,7 +57,7 @@ export function diagnoseSystem(): SystemHealth {
   // NODE-ONLY FILESYSTEM SCANNING
   if (isServer) {
     try {
-      // Dynamic require ensures the bundler doesn't try to resolve these for the client
+      // Use local require to avoid bundler analysis on the client
       const fs = require('fs');
       const path = require('path');
       const root = process.cwd();
