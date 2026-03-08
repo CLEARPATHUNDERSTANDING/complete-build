@@ -8,15 +8,14 @@ type NeonBoardProps = {
 };
 
 /**
- * High-intensity NeonBoard component acting as a true "Frame".
- * Uses CSS mask to ensure the interior is perfectly transparent
- * while the 10px border carries the high-intensity diagnostic spectrum.
+ * DOUBLE GLASS NEONBOARD
+ * Features high-intensity refractive frames and deep glass translucency.
  * Spectrum: Cyan -> Indigo -> Pink -> Orange burst.
  */
 export default function NeonBoard({ children, className = "" }: NeonBoardProps) {
   return (
     <div className={`relative ${className}`}>
-      {/* The Border Layer - Full Spectral Spectrum */}
+      {/* The 10px Spectral Border Layer */}
       <div
         className="absolute inset-0 rounded-[32px]"
         style={{
@@ -29,7 +28,7 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
       
-      {/* Recalibrated Spectral Shadow */}
+      {/* Spectral Atmospheric Bloom */}
       <div 
         className="absolute inset-0 rounded-[32px] pointer-events-none"
         style={{
@@ -37,10 +36,14 @@ export default function NeonBoard({ children, className = "" }: NeonBoardProps) 
         }}
       />
 
-      {/* Content Container */}
+      {/* Inner Glass Material - Double Finish */}
       <div className="relative p-[10px] h-full">
-        <div className="h-full w-full rounded-[22px] bg-transparent overflow-hidden">
-          {children}
+        <div className="h-full w-full rounded-[22px] bg-black/40 backdrop-blur-3xl overflow-hidden border border-white/5 shadow-inner">
+          {/* Surface Gloss Highlight */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent pointer-events-none" />
+          <div className="relative h-full w-full">
+            {children}
+          </div>
         </div>
       </div>
     </div>
