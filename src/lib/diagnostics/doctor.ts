@@ -57,7 +57,7 @@ export function diagnoseSystem(): SystemHealth {
   // NODE-ONLY FILESYSTEM SCANNING
   if (isServer) {
     try {
-      // Use local requires inside the server-only block to avoid bundler analysis on client
+      // Dynamic require ensures the bundler doesn't try to resolve these for the client
       const fs = require('fs');
       const path = require('path');
       const root = process.cwd();
@@ -101,7 +101,7 @@ export function diagnoseSystem(): SystemHealth {
       }
 
     } catch (e) {
-      console.error("Diagnostic engine error:", e);
+      // Diagnostic engine silently fails if environment is restrictive
     }
   }
 
