@@ -1,125 +1,329 @@
-
 {
   "entities": {
     "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
-      "description": "Represents a user's core profile information and references to their personalized settings.",
       "type": "object",
+      "description": "Stores core profile information for a user in the InsightFlow application, excluding authentication credentials.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the UserProfile entity."
+          "description": "Unique identifier for the UserProfile entity. (Primary Key)"
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address, primarily for display and identification. Not used for authentication.",
+          "format": "email"
         },
         "role": {
           "type": "string",
-          "description": "The user's role within the application (e.g., 'standard', 'admin')."
+          "description": "The user's role within the application, e.g., 'standard', 'admin'."
         },
         "createdAt": {
           "type": "string",
-          "format": "date-time",
-          "description": "Timestamp when the user profile was created."
+          "description": "Timestamp when the user profile was created.",
+          "format": "date-time"
         },
         "lastSeen": {
           "type": "string",
-          "format": "date-time",
-          "description": "Timestamp of the user's last activity."
+          "description": "Timestamp of the user's last activity or login.",
+          "format": "date-time"
         },
-        "defaultUserPreferenceId": {
+        "defaultModeId": {
           "type": "string",
-          "description": "Reference to the UserPreference entity representing the user's default preferences."
+          "description": "Reference to the default Mode entity for this user. (Relationship: Mode 1:N UserProfile)"
         }
       },
       "required": [
         "id",
+        "email",
         "role",
         "createdAt",
-        "lastSeen"
+        "lastSeen",
+        "defaultModeId"
       ]
     },
-    "Insight": {
-      "title": "Insight",
-      "description": "Represents a market insight shared by a user in the social stream.",
+    "UserPreference": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserPreference",
       "type": "object",
+      "description": "Stores user-specific display and interaction preferences, including visual settings and schema versioning for migrations.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the insight."
+          "description": "Unique identifier for the UserPreference entity. (Primary Key)"
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the UserProfile entity who created this insight."
+          "description": "Reference to the UserProfile entity this preference belongs to. (Relationship: UserProfile 1:N UserPreference)"
         },
-        "user": {
+        "schemaVersion": {
           "type": "string",
-          "description": "Display name of the user."
+          "description": "Version of the user preference schema, used for migration logic during updates."
         },
-        "avatar": {
+        "density": {
           "type": "string",
-          "description": "URL to the user's avatar image."
+          "description": "Preference for UI element density, e.g., 'compact', 'standard'."
         },
-        "text": {
+        "motion": {
           "type": "string",
-          "description": "The content of the insight."
+          "description": "Preference for UI animations and motion, e.g., 'full', 'reduced'."
         },
-        "symbols": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of market symbols linked to this insight."
-        },
-        "isLive": {
-          "type": "boolean",
-          "description": "Whether the insight was shared during a live broadcast."
-        },
-        "createdAt": {
+        "contrast": {
           "type": "string",
-          "format": "date-time",
-          "description": "Timestamp when the insight was created."
+          "description": "Preference for UI contrast levels, e.g., 'standard', 'high'."
         },
-        "attachment": {
-          "type": "object",
-          "properties": {
-            "symbol": { "type": "string" },
-            "annotation": { "type": "string" }
-          },
-          "description": "Optional chart mapping associated with the insight."
+        "fontScaling": {
+          "type": "number",
+          "description": "Scaling factor for fonts in the UI, e.g., 1.0, 1.2."
         }
       },
       "required": [
+        "id",
         "userId",
-        "user",
-        "text",
+        "schemaVersion",
+        "density",
+        "motion",
+        "contrast",
+        "fontScaling"
+      ]
+    },
+    "UserLayout": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserLayout",
+      "type": "object",
+      "description": "Defines a user's personalized dashboard layout for a specific mode, including panel configurations and grid settings.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserLayout entity. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity this layout belongs to. (Relationship: UserProfile 1:N UserLayout)"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "Version of the layout schema, used for migration logic during updates."
+        },
+        "modeId": {
+          "type": "string",
+          "description": "Reference to the Mode entity this layout is associated with. (Relationship: Mode 1:N UserLayout)"
+        },
+        "lastMigratedAt": {
+          "type": "string",
+          "description": "Timestamp of the last time this layout's schema was migrated.",
+          "format": "date-time"
+        },
+        "gridConfigurationJson": {
+          "type": "string",
+          "description": "JSON string representing the grid layout configuration for panels within this layout."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "schemaVersion",
+        "modeId",
+        "lastMigratedAt",
+        "gridConfigurationJson"
+      ]
+    },
+    "PanelConfiguration": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PanelConfiguration",
+      "type": "object",
+      "description": "Defines the specific settings for a single panel within a user's dashboard layout.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PanelConfiguration entity. (Primary Key)"
+        },
+        "userLayoutId": {
+          "type": "string",
+          "description": "Reference to the UserLayout entity this panel configuration belongs to. (Relationship: UserLayout 1:N PanelConfiguration)"
+        },
+        "stableIdentifier": {
+          "type": "string",
+          "description": "A stable, programmatic ID for the panel, used for consistent referencing across layout updates (e.g., 'primary_chart_01')."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of panel, e.g., 'chart', 'news', 'watchlist', 'calendar'."
+        },
+        "detailsJson": {
+          "type": "string",
+          "description": "JSON string containing detailed configuration specific to the panel's type (e.g., symbol for a chart, feed source for news)."
+        }
+      },
+      "required": [
+        "id",
+        "userLayoutId",
+        "stableIdentifier",
+        "type",
+        "detailsJson"
+      ]
+    },
+    "Mode": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Mode",
+      "type": "object",
+      "description": "Defines the application's pre-configured display modes (e.g., Focus Mode, Minimal Mode, Pro Desk Mode) and their default characteristics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Mode entity. (Primary Key)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the mode, e.g., 'Focus Mode'."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief explanation of the mode's purpose and features."
+        },
+        "maxCharts": {
+          "type": "number",
+          "description": "The maximum number of charts allowed in layouts for this mode."
+        },
+        "guidedOverlayEnabled": {
+          "type": "boolean",
+          "description": "Indicates if a guided overlay should be enabled by default for this mode."
+        },
+        "reducedMotion": {
+          "type": "boolean",
+          "description": "Indicates if reduced motion settings are preferred for this mode."
+        },
+        "reducedVisualNoise": {
+          "type": "boolean",
+          "description": "Indicates if visual noise should be reduced by default for this mode."
+        },
+        "defaultOrder": {
+          "type": "number",
+          "description": "The default order in which this mode should appear in lists, used for steering users."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "maxCharts",
+        "guidedOverlayEnabled",
+        "reducedMotion",
+        "reducedVisualNoise",
+        "defaultOrder"
+      ]
+    },
+    "ExperimentAssignment": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ExperimentAssignment",
+      "type": "object",
+      "description": "Records a user's assignment to an A/B test or experiment variant.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ExperimentAssignment entity. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity assigned to this experiment. (Relationship: UserProfile 1:N ExperimentAssignment)"
+        },
+        "experimentName": {
+          "type": "string",
+          "description": "The name or identifier of the experiment."
+        },
+        "assignmentVariant": {
+          "type": "string",
+          "description": "The specific variant (e.g., 'control', 'variant_A') assigned to the user."
+        },
+        "assignedAt": {
+          "type": "string",
+          "description": "Timestamp when the user was assigned to this experiment variant.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "experimentName",
+        "assignmentVariant",
+        "assignedAt"
+      ]
+    },
+    "Feedback": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Feedback",
+      "type": "object",
+      "description": "Stores user-submitted feedback, issues, 'confusion points', or structured reports.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Feedback entity. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity who provided the feedback. (Relationship: UserProfile 1:N Feedback)"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of feedback, e.g., 'issue', 'confusion_point', 'suggestion', 'bug_report'."
+        },
+        "message": {
+          "type": "string",
+          "description": "The detailed message or description of the feedback."
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "Timestamp when the feedback was submitted.",
+          "format": "date-time"
+        },
+        "contextJson": {
+          "type": "string",
+          "description": "Optional JSON string representing the application context or UI state when feedback was provided."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "type",
+        "message",
         "createdAt"
       ]
     },
-    "CommunityMessage": {
-      "title": "CommunityMessage",
-      "description": "A real-time message within a specific community hub or sector.",
+    "UserEvent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserEvent",
       "type": "object",
+      "description": "Logs significant user interactions or application events for analytics and tracking purposes.",
       "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "author": { "type": "string" },
-        "text": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "hubId": { "type": "string" }
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserEvent entity. (Primary Key)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile entity associated with this event. (Relationship: UserProfile 1:N UserEvent)"
+        },
+        "eventType": {
+          "type": "string",
+          "description": "The category or type of event, e.g., 'onboarding_complete', 'mode_selected', 'dashboard_viewed'."
+        },
+        "eventDetailsJson": {
+          "type": "string",
+          "description": "Optional JSON string containing additional details specific to the event (e.g., selected mode ID, panel interacted with)."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Timestamp when the event occurred.",
+          "format": "date-time"
+        }
       },
-      "required": ["userId", "author", "text", "createdAt", "hubId"]
-    },
-    "FeedbackItem": {
-      "title": "FeedbackItem",
-      "description": "Stores user-submitted feedback or bug reports.",
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "type": { "type": "string", "enum": ["bug", "suggestion", "confusion_point"] },
-        "description": { "type": "string" },
-        "status": { "type": "string", "enum": ["new", "in_review", "resolved"] },
-        "createdAt": { "type": "string", "format": "date-time" }
-      },
-      "required": ["id", "userId", "type", "description", "status", "createdAt"]
+      "required": [
+        "id",
+        "userId",
+        "eventType",
+        "timestamp"
+      ]
     }
   },
   "auth": {
@@ -129,29 +333,158 @@
     ]
   },
   "firestore": {
-    "/users/{userId}": {
-      "schema": {
-        "$ref": "#/backend/entities/UserProfile"
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores core profile information for a user. The document ID `{userId}` must match `request.auth.uid` from Firebase Authentication. Includes denormalized 'role' field for DBAC."
+        }
       },
-      "description": "Stores core profile information for each user. Access is restricted to the owning user."
-    },
-    "/insights/{insightId}": {
-      "schema": {
-        "$ref": "#/backend/entities/Insight"
+      {
+        "path": "/users/{userId}/preferences/{preferenceId}",
+        "definition": {
+          "entityName": "UserPreference",
+          "schema": {
+            "$ref": "#/backend/entities/UserPreference"
+          },
+          "description": "Stores user-specific display and interaction preferences. The parent `{userId}` must match `request.auth.uid`. For a single main preferences document, `preferenceId` can be 'main'.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "preferenceId",
+              "description": "The unique identifier for a specific user preference document (e.g., 'main')."
+            }
+          ]
+        }
       },
-      "description": "Public stream of market insights. Any authenticated user can read; only the owner can write/delete."
-    },
-    "/communities/{hubId}/messages/{messageId}": {
-      "schema": {
-        "$ref": "#/backend/entities/CommunityMessage"
+      {
+        "path": "/users/{userId}/layouts/{layoutId}",
+        "definition": {
+          "entityName": "UserLayout",
+          "schema": {
+            "$ref": "#/backend/entities/UserLayout"
+          },
+          "description": "Defines a user's personalized dashboard layout for a specific mode. The parent `{userId}` must match `request.auth.uid`. Includes `modeId` for context.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "layoutId",
+              "description": "The unique identifier for a specific user layout."
+            }
+          ]
+        }
       },
-      "description": "Independent real-time chat room messages for a specific hub or sector."
-    },
-    "/feedbackItems/{feedbackItemId}": {
-      "schema": {
-        "$ref": "#/backend/entities/FeedbackItem"
+      {
+        "path": "/users/{userId}/layouts/{layoutId}/panelConfigurations/{panelConfigurationId}",
+        "definition": {
+          "entityName": "PanelConfiguration",
+          "schema": {
+            "$ref": "#/backend/entities/PanelConfiguration"
+          },
+          "description": "Defines the specific settings for a single panel within a user's dashboard layout. Ownership is inherited from the parent `UserLayout` and `UserProfile` via the path, ensuring authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "layoutId",
+              "description": "The unique identifier for the parent user layout."
+            },
+            {
+              "name": "panelConfigurationId",
+              "description": "The unique identifier for a specific panel configuration."
+            }
+          ]
+        }
       },
-      "description": "Stores user-submitted feedback items."
-    }
+      {
+        "path": "/modes/{modeId}",
+        "definition": {
+          "entityName": "Mode",
+          "schema": {
+            "$ref": "#/backend/entities/Mode"
+          },
+          "description": "Stores global, read-only definitions for application display modes (e.g., Focus Mode, Minimal Mode). Accessible by all authenticated users.",
+          "params": [
+            {
+              "name": "modeId",
+              "description": "The unique identifier for a specific application mode."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/experimentAssignments/{assignmentId}",
+        "definition": {
+          "entityName": "ExperimentAssignment",
+          "schema": {
+            "$ref": "#/backend/entities/ExperimentAssignment"
+          },
+          "description": "Records a user's assignment to an A/B test or experiment variant. The parent `{userId}` must match `request.auth.uid`.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "assignmentId",
+              "description": "The unique identifier for a specific experiment assignment."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/feedback/{feedbackId}",
+        "definition": {
+          "entityName": "Feedback",
+          "schema": {
+            "$ref": "#/backend/entities/Feedback"
+          },
+          "description": "Stores user-submitted feedback. The parent `{userId}` must match `request.auth.uid`. This data is primarily owned by the user but may be readable by administrators.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "feedbackId",
+              "description": "The unique identifier for a specific feedback submission."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/userEvents/{eventId}",
+        "definition": {
+          "entityName": "UserEvent",
+          "schema": {
+            "$ref": "#/backend/entities/UserEvent"
+          },
+          "description": "Logs significant user interactions or application events for analytics. The parent `{userId}` must match `request.auth.uid`. These events are typically write-only for the user.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user (matching Firebase Authentication UID)."
+            },
+            {
+              "name": "eventId",
+              "description": "The unique identifier for a specific user event."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure for InsightFlow prioritizes security, scalability, and debuggability by adhering to the core design principles, especially Authorization Independence and Structural Segregation.\n\n**Authorization Independence (CRITICAL):** The design primarily achieves authorization independence by leveraging path-based ownership for all user-specific data. Every user's personal data (profile, preferences, layouts, experiment assignments, feedback, and events) is stored under a root collection `/users/{userId}/...`. The `{userId}` wildcard in the path *must* directly match `request.auth.uid` from Firebase Authentication. This means that security rules can authorize access to these documents by simply checking `request.auth.uid == userId` (where `userId` is the path segment), without needing any `get()` operations to fetch parent documents or external authorization contexts. For example, a user's preferences at `/users/{userId}/preferences/{preferenceId}` are authorized directly by the `{userId}` in the path. This eliminates complex hierarchical authorization dependencies, making rules atomic, robust, and easy to debug. \n\nFor global roles (e.g., an 'admin' role that allows access to all feedback), the `role` field within the `UserProfile` document (`/users/{userId}`) is used. While the strictest interpretation of 'Authorization Independence' might forbid *any* `get()` call, a single `get()` to retrieve the requesting user's *own* `UserProfile` (`get(/users/$(request.auth.uid))`) for a global role check is considered an acceptable, controlled exception. This is because it queries a property of the *principal* (the authenticated user) rather than a hierarchical dependency of the *resource* being accessed. This approach respects DBAC (Database Access Control) without relying on Firebase Custom Claims.\n\n**Clarity of Intent (Debuggability) and Structural Segregation (Homogeneous Security Posture):**\n\n1.  **Private User Data:** All personal and user-specific configurations are segregated under `/users/{userId}`. This includes subcollections for `/preferences`, `/layouts`, `/experimentAssignments`, `/feedback`, and `/userEvents`. All documents within these subcollections inherently share the same ownership-based security posture (`request.auth.uid == userId`), making rules simple (e.g., `allow read, write: if request.auth.uid == userId;`). This ensures no mixing of data with different access requirements.\n2.  **Global Read-Only Data:** Application-wide configurations, such as the predefined `Mode` entities, are stored in a top-level collection `/modes/{modeId}`. These documents are public and read-only for all authenticated users, allowing for straightforward rules like `allow read: if request.auth.uid != null;`.\n\n**QAPs (Rules are not Filters):** By enforcing strict path-based ownership for user data and segregating global data, the structure inherently supports Queryable Authorization Patterns (QAPs). Queries on `/users/{userId}/layouts` will only return layouts owned by `request.auth.uid` because the rules will only allow access to that specific path. Similarly, listing all available `modes` (`/modes`) is a simple authorized public read. There is no need for complex `where` clauses in security rules that attempt to filter data, as the data's location already defines its access context.\n\n**Invariants and Predictable Schema:** The structure uses descriptive wildcards (e.g., `{userId}`, `{layoutId}`) and mandates `schemaVersion` and `lastMigratedAt` fields within `UserPreference` and `UserLayout` to manage schema evolution. Denormalization is achieved by having `userId` explicitly in all relevant paths for user-owned data, making ownership explicit and rule evaluation independent.\n\n**App Requirements Alignment:** The structure explicitly supports the 'Correct Build' spec, including versioned personalization schemas and clear segregation of user-specific data. It also allows for granular control over user preferences and layout configurations required by the dynamic dashboards and UI modes features."
   }
 }

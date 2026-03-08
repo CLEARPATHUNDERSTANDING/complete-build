@@ -1,49 +1,157 @@
-
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- GLOBAL HELPER FUNCTIONS ---
+    /**
+     * InsightFlow Security Rules
+     * 
+     * Philosophy:
+     * This ruleset implements a strict Path-Based Ownership model. All user-specific data is 
+     * nested under `/users/{userId}`, ensuring that authorization is primarily derived from 
+     * the path itself (Authorization Independence). This approach minimizes costly `get()` calls 
+     * and ensures that security logic is atomic and easy to debug.
+     * 
+     * Data Structure:
+     * - /users/{userId}: Root user profiles.
+     * - /users/{userId}/[subcollections]: Private user data (preferences, layouts, feedback, etc.).
+     * - /modes/{modeId}: Public, read-only application configuration.
+     * 
+     * Key Security Decisions:
+     * - Ownership: Access to `/users/{userId}/**` is restricted to the user whose UID matches {userId}.
+     * - Admin Access: High-level roles (e.g., 'admin') are stored on the UserProfile. Access for 
+     *   admins to feedback/events is supported via a lookup of the requester's role.
+     * - Prototyping Mode: Rules enforce strict authorization (WHO can access) but are flexible 
+     *   on data schema (WHAT is written) to facilitate rapid development.
+     * - Immutability: Relational fields (like userId) are enforced as immutable during updates 
+     *   to maintain relational integrity.
+     */
 
+    // --- Helper Functions ---
+
+    /** @description Checks if the requester is authenticated. */
     function isSignedIn() {
       return request.auth != null;
     }
 
+    /** @description Checks if the requester's UID matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // --- COLLECTION RULES ---
+    /** @description Checks if the requester is an owner and the document exists. */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
 
+    /** @description Checks if the requester has the 'admin' role in their profile. */
+    function isAdmin() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for the UserProfile entity. Users manage their own profile.
+     * @path /users/{userId}
+     * @allow (get/list/create/update) if request.auth.uid == userId
+     * @deny (update) if userId is changed or requester is not the owner.
+     * @principle Path-based ownership and relational integrity.
+     */
     match /users/{userId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if false; // Profiles are typically not deleted by users in this app.
 
-      match /events/{eventId} {
-        allow read, write: if isOwner(userId);
+      /**
+       * @description User-specific display and interaction preferences.
+       * @path /users/{userId}/preferences/{preferenceId}
+       * @allow (read/write) if requester is the path owner.
+       * @principle Authorization Independence via path.
+       */
+      match /preferences/{preferenceId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+      }
+
+      /**
+       * @description Dashboard layouts for specific modes.
+       * @path /users/{userId}/layouts/{layoutId}
+       * @allow (read/write) if requester is the path owner.
+       * @principle Path-based isolation.
+       */
+      match /layouts/{layoutId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
+
+        /**
+         * @description Specific settings for panels within a layout.
+         * @path /users/{userId}/layouts/{layoutId}/panelConfigurations/{panelConfigurationId}
+         * @allow (read/write) if requester is the path owner.
+         * @principle Deeply nested path-based ownership.
+         */
+        match /panelConfigurations/{panelConfigurationId} {
+          allow get, list: if isOwner(userId);
+          allow create: if isOwner(userId);
+          allow update: if isExistingOwner(userId);
+          allow delete: if isExistingOwner(userId);
+        }
+      }
+
+      /**
+       * @description Records of user assignments to A/B tests.
+       * @path /users/{userId}/experimentAssignments/{assignmentId}
+       * @allow (read) if requester is the path owner.
+       * @deny (write) Users generally should not create/edit their own experiment assignments.
+       * @principle Owner-read, System-write (simulated by denying user writes).
+       */
+      match /experimentAssignments/{assignmentId} {
+        allow get, list: if isOwner(userId);
+        allow create, update, delete: if false; // Assignments handled by backend/system.
+      }
+
+      /**
+       * @description User-submitted feedback and bug reports.
+       * @path /users/{userId}/feedback/{feedbackId}
+       * @allow (read) if requester is the owner OR an admin.
+       * @allow (create) if requester is the owner.
+       * @principle Shared access for admins; owner-only creation.
+       */
+      match /feedback/{feedbackId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if false; // Feedback is typically immutable once sent.
+        allow delete: if isAdmin(); // Only admins can clean up feedback.
+      }
+
+      /**
+       * @description Analytics events logged by the user.
+       * @path /users/{userId}/userEvents/{eventId}
+       * @allow (create) if requester is the owner.
+       * @allow (read) if requester is an admin (for analytics).
+       * @principle Write-only for users; Read-only for admins.
+       */
+      match /userEvents/{eventId} {
+        allow get, list: if isAdmin();
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update, delete: if false; // Events are immutable audit logs.
       }
     }
 
-    // Insights are public to read for authenticated users, but writeable only by owner
-    match /insights/{insightId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
-    }
-
-    // Independent Community Chat Rooms
-    match /communities/{hubId}/messages/{messageId} {
-      allow read: if isSignedIn();
-      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
-    }
-
-    match /feedbackItems/{feedbackItemId} {
-      allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
-      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+    /**
+     * @description Predefined application display modes.
+     * @path /modes/{modeId}
+     * @allow (read) for any authenticated user.
+     * @deny (write) System-level configuration.
+     * @principle Public read for authenticated users.
+     */
+    match /modes/{modeId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false; // Read-only global config.
     }
   }
 }
