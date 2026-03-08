@@ -87,6 +87,7 @@ export function validateGeminiOutput(output: string): {
     "block trading",
     "purple blur",
     "orchid glow",
+    "after patent"
   ];
 
   for (const pattern of bannedPatterns) {

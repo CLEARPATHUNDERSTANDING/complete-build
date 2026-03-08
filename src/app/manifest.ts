@@ -11,13 +11,13 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: '#6a5cff',
     icons: [
       {
-        src: 'https://picsum.photos/seed/afterpatent/192/192',
+        src: 'https://picsum.photos/seed/adaptiveintel/192/192',
         sizes: '192x192',
         type: 'image/png',
         purpose: 'maskable',
       },
       {
-        src: 'https://picsum.photos/seed/afterpatent/512/512',
+        src: 'https://picsum.photos/seed/adaptiveintel/512/512',
         sizes: '512x512',
         type: 'image/png',
       },

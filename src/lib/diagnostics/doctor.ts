@@ -7,10 +7,19 @@
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
 
-// Environment-aware Node imports to prevent client-side crashes
+// Environment-aware Node imports to prevent client-side crashes in Turbopack
 const isServer = typeof window === 'undefined';
-const fs = isServer ? require('node:fs') : null;
-const path = isServer ? require('node:path') : null;
+let fs: any = null;
+let path: any = null;
+
+if (isServer) {
+  try {
+    fs = require('node:fs');
+    path = require('node:path');
+  } catch (e) {
+    console.warn("Node FS/Path modules unavailable in this environment.");
+  }
+}
 
 export type VitalSign = "Healthy" | "Degraded" | "Critical";
 
@@ -46,6 +55,7 @@ const BANNED_TERMS = [
   "default orchid",
   "tradingview widget",
   "block trading",
+  "after patent"
 ];
 
 function safeResolve(projectRoot: string, filePath: string): string {
@@ -54,12 +64,12 @@ function safeResolve(projectRoot: string, filePath: string): string {
 }
 
 function fileExists(projectRoot: string, filePath: string): boolean {
-  if (!fs) return true; // Assume true on client to avoid false alarms
+  if (!fs || !path) return true; // Assume true on client to avoid false alarms
   return fs.existsSync(safeResolve(projectRoot, filePath));
 }
 
 function readFileSafe(projectRoot: string, filePath: string): string {
-  if (!fs) return ""; 
+  if (!fs || !path) return ""; 
   try {
     return fs.readFileSync(safeResolve(projectRoot, filePath), "utf8");
   } catch {
@@ -68,7 +78,7 @@ function readFileSafe(projectRoot: string, filePath: string): string {
 }
 
 function scanForBannedTerms(projectRoot: string, filePaths: string[]): string[] {
-  if (!fs) return [];
+  if (!fs || !path) return [];
   const hits: string[] = [];
 
   for (const filePath of filePaths) {
@@ -86,7 +96,7 @@ function scanForBannedTerms(projectRoot: string, filePaths: string[]): string[] 
 }
 
 function checkWrapperUsage(projectRoot: string): boolean {
-  if (!fs) return true;
+  if (!fs || !path) return true;
   const socialPlatformPath = "src/components/SocialPlatform/SocialPlatform.tsx";
   const cardFilePath = "src/components/ui/card.tsx";
 
@@ -107,7 +117,7 @@ function checkWrapperUsage(projectRoot: string): boolean {
 }
 
 function checkBrandingLock(projectRoot: string): boolean {
-  if (!fs) return true;
+  if (!fs || !path) return true;
   const filesToCheck = [
     "src/components/SocialPlatform/SocialPlatform.tsx",
     "src/app/page.tsx",
