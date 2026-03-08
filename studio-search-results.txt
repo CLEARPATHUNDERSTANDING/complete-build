@@ -1,0 +1,30 @@
+]633;E;echo '===== GEMINI / VERTEX SEARCH =====';1719a9c6-e8d2-47b7-a5ce-b0f1b99aa220]633;C===== GEMINI / VERTEX SEARCH =====
+./public/quantum/index.html:168:          vertexShader: `
+./public/quantum/index.html:278:          vertexShader: `
+./public/quantum/index.html:315:          vertexColors: true, transparent: true, opacity: 0.28, blending: THREE.AdditiveBlending
+./package.json:16:    "@genkit-ai/google-genai": "^1.28.0",
+./src/ai/genkit.ts:2:import {googleAI} from '@genkit-ai/google-genai';
+./src/lib/ai/geminiExecutor.ts:2: * @fileOverview Gemini Executor - Execution and Retry logic for Guarded Prompts.
+./src/lib/ai/geminiExecutor.ts:5:import { buildGuardedGeminiPrompt, validateGeminiOutput } from "./geminiGuard";
+./src/lib/ai/geminiExecutor.ts:7:export interface GeminiExecutorOptions {
+./src/lib/ai/geminiExecutor.ts:14:export async function runGuardedGeminiTask({
+./src/lib/ai/geminiExecutor.ts:19:}: GeminiExecutorOptions): Promise<{
+./src/lib/ai/geminiExecutor.ts:32:    const guardedPrompt = buildGuardedGeminiPrompt({
+./src/lib/ai/geminiExecutor.ts:40:    const validation = validateGeminiOutput(output);
+./src/lib/ai/geminiGuard.ts:2: * @fileOverview Gemini Guard - Prompt and Output validation for Rick's build environment.
+./src/lib/ai/geminiGuard.ts:65:export function buildGuardedGeminiPrompt(options: GuardedPromptOptions): string {
+./src/lib/ai/geminiGuard.ts:76:export function validateGeminiOutput(output: string): {
+./package-lock.json:11:        "@genkit-ai/google-genai": "^1.28.0",
+./package-lock.json:1341:    "node_modules/@genkit-ai/google-genai": {
+./package-lock.json:1343:      "resolved": "https://registry.npmjs.org/@genkit-ai/google-genai/-/google-genai-1.28.0.tgz",
+
+===== BUILD ERROR SEARCH =====
+./src/lib/diagnostics/doctor.ts:20:    fs = require('node:fs');
+./src/lib/diagnostics/doctor.ts:21:    path = require('node:path');
+./src/app/layout.tsx:7:import DiagnosticMonitor from "@/components/DiagnosticMonitor";
+./src/app/layout.tsx:37:          <DiagnosticMonitor />
+./src/components/DiagnosticMonitor.tsx:12:export default function DiagnosticMonitor() {
+
+===== DIRECT FILE FIND =====
+./src/lib/diagnostics/doctor.ts
+./src/components/DiagnosticMonitor.tsx
