@@ -2,6 +2,8 @@
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
  * Verifies 16 Neuro Profiles, Physics Engine, and Mandatory Logo integrity.
+ * 
+ * ENVIRONMENT NOTE: Uses dynamic requirements to prevent client-side build crashes.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
@@ -14,6 +16,7 @@ let path: any = null;
 
 if (isServer) {
   try {
+    // Using require instead of import to hide from client-side bundlers
     fs = require('node:fs');
     path = require('node:path');
   } catch (e) {
@@ -64,7 +67,7 @@ function safeResolve(projectRoot: string, filePath: string): string {
 }
 
 function fileExists(projectRoot: string, filePath: string): boolean {
-  if (!fs || !path) return true; // Assume true on client to avoid false alarms
+  if (!fs || !path) return true; 
   return fs.existsSync(safeResolve(projectRoot, filePath));
 }
 
