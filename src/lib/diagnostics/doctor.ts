@@ -16,9 +16,9 @@ let path: any = null;
 
 if (isServer) {
   try {
-    // Using require instead of import to hide from client-side bundlers
-    fs = require('node:fs');
-    path = require('node:path');
+    // Using standard 'fs' and 'path' as requested via patch
+    fs = require('fs');
+    path = require('path');
   } catch (e) {
     console.warn("Node FS/Path modules unavailable in this environment.");
   }
