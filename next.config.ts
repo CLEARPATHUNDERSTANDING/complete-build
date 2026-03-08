@@ -1,4 +1,3 @@
-
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -8,7 +7,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  // This removes the CanaryOnlyError by NOT enabling PPR.
   experimental: {
     optimizePackageImports: [
       'lucide-react',

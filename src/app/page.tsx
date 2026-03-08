@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap } from "lucide-react";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
@@ -10,6 +10,7 @@ import NeonBoard from "@/components/NeonBoard";
  * Platform Landing Node
  * Scrubbed of all legacy brand artifacts.
  * Anchored by the definitive DiagnosticLogo and mandatory NeonBoard frames.
+ * Updated: Included "Bypass Diagnostic" node for rapid investigation.
  */
 export default function HomePage() {
   return (
@@ -55,12 +56,22 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6">
-          <Link href="/login" className="primary-btn large px-12 group">
-            Synchronize Session <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <Link href="/login" className="ghost-btn large px-12">
-            Identity Portal
+        <div className="flex flex-col items-center gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/login" className="primary-btn large px-12 group">
+              Synchronize Session <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link href="/login" className="ghost-btn large px-12">
+              Identity Portal
+            </Link>
+          </div>
+          
+          {/* INVESTIGATION BYPASS LINK */}
+          <Link 
+            href="/community" 
+            className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 hover:text-white transition-all border border-cyan-500/20 px-6 py-2 rounded-full bg-cyan-500/5 backdrop-blur-sm"
+          >
+            <Zap className="w-3 h-3" /> Bypass Intelligence Verification →
           </Link>
         </div>
 

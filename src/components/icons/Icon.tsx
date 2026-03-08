@@ -1,4 +1,3 @@
-
 'use client';
 /**
  * @fileOverview A safe icon wrapper component that prevents crashes from missing imports.

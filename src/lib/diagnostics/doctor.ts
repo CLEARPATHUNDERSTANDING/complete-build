@@ -1,8 +1,6 @@
-
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
- * Verifies 16 Neuro Profiles, Physics Engine, and Mandatory Logo integrity.
  * 
  * ENVIRONMENT NOTE: Uses local require within server guards to prevent client-side build crashes.
  */
@@ -49,9 +47,9 @@ const BANNED_TERMS = [
 
 /**
  * Diagnostic logic - Environment aware to prevent browser crashes.
- * Node-specific filesystem APIs are only accessed on the server.
+ * Node-specific filesystem APIs are only accessed on the server via local require.
  */
-export function diagnoseSystem(projectRoot: string = ""): SystemHealth {
+export function diagnoseSystem(): SystemHealth {
   const isServer = typeof window === 'undefined';
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -62,9 +60,10 @@ export function diagnoseSystem(projectRoot: string = ""): SystemHealth {
 
   if (isServer) {
     try {
+      // Conditional local require prevents client-side bundler from failing
       const fs = require('fs');
       const path = require('path');
-      const root = projectRoot || process.cwd();
+      const root = process.cwd();
 
       // Check for missing files
       missingFiles = REQUIRED_FILES.filter(file => !fs.existsSync(path.join(root, file)));
