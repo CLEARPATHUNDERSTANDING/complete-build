@@ -8,14 +8,7 @@ service cloud.firestore {
      * Philosophy:
      * This ruleset implements a strict Path-Based Ownership model. All user-specific data is 
      * nested under `/users/{userId}`, ensuring that authorization is primarily derived from 
-     * the path itself (Authorization Independence). This approach minimizes costly `get()` calls 
-     * and ensures that security logic is atomic and easy to debug.
-     * 
-     * Data Structure:
-     * - /users/{userId}: Root user profiles.
-     * - /users/{userId}/[subcollections]: Private user data (preferences, layouts, feedback, etc.).
-     * - /insights/{insightId}: Global social intelligence stream.
-     * - /modes/{modeId}: Public, read-only application configuration.
+     * the path itself.
      */
 
     // --- Helper Functions ---
@@ -74,37 +67,18 @@ service cloud.firestore {
         allow create: if isOwner(userId) && request.resource.data.userId == userId;
         allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
         allow delete: if isExistingOwner(userId);
-
-        match /panelConfigurations/{panelConfigurationId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId);
-          allow update: if isExistingOwner(userId);
-          allow delete: if isExistingOwner(userId);
-        }
-      }
-
-      match /experimentAssignments/{assignmentId} {
-        allow get, list: if isOwner(userId);
-        allow create, update, delete: if false;
-      }
-
-      match /feedback/{feedbackId} {
-        allow get, list: if isOwner(userId) || isAdmin();
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if false;
-        allow delete: if isAdmin();
-      }
-
-      match /userEvents/{eventId} {
-        allow get, list: if isAdmin();
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update, delete: if false;
       }
     }
 
     match /modes/{modeId} {
       allow get, list: if isSignedIn();
       allow create, update, delete: if false;
+    }
+    
+    // Support for the specific communities path used in the discovery page
+    match /communities/{hubId}/messages/{msgId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
   }
 }

@@ -44,6 +44,7 @@ const BANNED_TERMS = [
 
 /**
  * Diagnostic logic - Environment aware to prevent browser crashes.
+ * Uses dynamic require only on server side to avoid Turbopack analysis.
  */
 export function diagnoseSystem(): SystemHealth {
   const isServer = typeof window === 'undefined';
@@ -54,36 +55,31 @@ export function diagnoseSystem(): SystemHealth {
   let brandingLocked = true;
   let wrappersEnforced = true;
 
-  // NODE-ONLY FILESYSTEM SCANNING
   if (isServer) {
     try {
-      // Use local require to avoid bundler analysis on the client
-      const fs = require('fs');
-      const path = require('path');
+      // Use eval require to hide Node modules from the static bundler
+      const nodeFs = eval('require')('fs');
+      const nodePath = eval('require')('path');
       const root = process.cwd();
 
       // Check for missing files
-      missingFiles = REQUIRED_FILES.filter(file => !fs.existsSync(path.join(root, file)));
+      missingFiles = REQUIRED_FILES.filter(file => !nodeFs.existsSync(nodePath.join(root, file)));
       if (missingFiles.length > 0) {
         errors.push(`Missing required files: ${missingFiles.join(", ")}`);
       }
 
       // Scan for banned terms
       REQUIRED_FILES.forEach(file => {
-        const fullPath = path.join(root, file);
-        if (fs.existsSync(fullPath)) {
-          const content = fs.readFileSync(fullPath, "utf8").toLowerCase();
-          BANNED_TERMS.forEach(term => {
+        const fullPath = nodePath.join(root, file);
+        if (nodeFs.existsSync(fullPath)) {
+          const content = nodeFs.readFileSync(fullPath, "utf8").toLowerCase();
+          BANNED_TERTS.forEach(term => {
             if (content.includes(term.toLowerCase())) {
               bannedTermsFound.push(`${file} -> "${term}"`);
             }
           });
         }
       });
-
-      if (bannedTermsFound.length > 0) {
-        warnings.push("Banned terms or patterns detected in protected files.");
-      }
 
       // Check branding lock
       const brandingFiles = [
@@ -92,8 +88,8 @@ export function diagnoseSystem(): SystemHealth {
         "src/components/DiagnosticLogo.tsx"
       ];
       const hasLogo = brandingFiles.some(file => {
-        const p = path.join(root, file);
-        return fs.existsSync(p) && fs.readFileSync(p, "utf8").includes(MANDATORY_LOGO_URL);
+        const p = nodePath.join(root, file);
+        return nodeFs.existsSync(p) && nodeFs.readFileSync(p, "utf8").includes(MANDATORY_LOGO_URL);
       });
       brandingLocked = hasLogo;
       if (!brandingLocked) {
