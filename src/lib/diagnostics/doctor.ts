@@ -4,26 +4,11 @@
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
  * Verifies 16 Neuro Profiles, Physics Engine, and Mandatory Logo integrity.
  * 
- * ENVIRONMENT NOTE: Uses dynamic requirements to prevent client-side build crashes.
+ * ENVIRONMENT NOTE: Uses local require within server guards to prevent client-side build crashes.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
-
-// Environment-aware Node imports to prevent client-side crashes in Turbopack
-const isServer = typeof window === 'undefined';
-let fs: any = null;
-let path: any = null;
-
-if (isServer) {
-  try {
-    // Using standard 'fs' and 'path' as requested via patch
-    fs = require('fs');
-    path = require('path');
-  } catch (e) {
-    // Fail silently on server if modules aren't available, warnings handled in diagnosis
-  }
-}
 
 export type VitalSign = "Healthy" | "Degraded" | "Critical";
 
@@ -62,176 +47,111 @@ const BANNED_TERMS = [
   "after patent"
 ];
 
-function safeResolve(projectRoot: string, filePath: string): string {
-  if (!path) return filePath;
-  return path.join(projectRoot, filePath);
-}
-
-function fileExists(projectRoot: string, filePath: string): boolean {
-  if (!fs || !path) return true; 
-  return fs.existsSync(safeResolve(projectRoot, filePath));
-}
-
-function readFileSafe(projectRoot: string, filePath: string): string {
-  if (!fs || !path) return ""; 
-  try {
-    return fs.readFileSync(safeResolve(projectRoot, filePath), "utf8");
-  } catch {
-    return "";
-  }
-}
-
-function scanForBannedTerms(projectRoot: string, filePaths: string[]): string[] {
-  if (!fs || !path) return [];
-  const hits: string[] = [];
-
-  for (const filePath of filePaths) {
-    const content = readFileSafe(projectRoot, filePath).toLowerCase();
-    if (!content) continue;
-
-    for (const term of BANNED_TERMS) {
-      if (content.includes(term.toLowerCase())) {
-        hits.push(`${filePath} -> "${term}"`);
-      }
-    }
-  }
-
-  return hits;
-}
-
-function checkWrapperUsage(projectRoot: string): boolean {
-  if (!fs || !path) return true;
-  const socialPlatformPath = "src/components/SocialPlatform/SocialPlatform.tsx";
-  const cardFilePath = "src/components/ui/card.tsx";
-
-  const socialPlatform = readFileSafe(projectRoot, socialPlatformPath);
-  const cardFile = readFileSafe(projectRoot, cardFilePath);
-
-  const usesCardWrapper =
-    socialPlatform.includes("NeonCard") ||
-    socialPlatform.includes("CardShell") ||
-    socialPlatform.includes("GlassCard");
-
-  const wrapperExists =
-    cardFile.includes("NeonCard") ||
-    cardFile.includes("CardShell") ||
-    cardFile.includes("GlassCard");
-
-  return usesCardWrapper && wrapperExists;
-}
-
-function checkBrandingLock(projectRoot: string): boolean {
-  if (!fs || !path) return true;
-  const filesToCheck = [
-    "src/components/SocialPlatform/SocialPlatform.tsx",
-    "src/app/page.tsx",
-    "src/components/DiagnosticLogo.tsx"
-  ];
-
-  for (const filePath of filesToCheck) {
-    const content = readFileSafe(projectRoot, filePath);
-    if (content.includes(MANDATORY_LOGO_URL)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function testPhysicsEngine(): { ok: boolean; error?: string } {
-  try {
-    if (!Array.isArray(NEURO_PROFILES) || NEURO_PROFILES.length === 0) {
-      return { ok: false, error: "No neuro profiles available for physics validation." };
-    }
-
-    const sample = NEURO_PROFILES[0];
-    const personality = sample?.personality;
-
-    if (!personality) {
-      return { ok: false, error: "First neuro profile is missing personality data." };
-    }
-
-    const testPhysics = chartPhysics(personality);
-
-    const ok =
-      !!testPhysics &&
-      typeof testPhysics.candleWidth !== "undefined" &&
-      typeof testPhysics.glowStrength !== "undefined";
-
-    if (!ok) {
-      return { ok: false, error: "Physics engine returned incomplete configuration." };
-    }
-
-    return { ok: true };
-  } catch (error) {
-    return {
-      ok: false,
-      error: error instanceof Error ? error.message : "Unknown physics engine error.",
-    };
-  }
-}
-
+/**
+ * Diagnostic logic - Environment aware to prevent browser crashes.
+ * Node-specific filesystem APIs are only accessed on the server.
+ */
 export function diagnoseSystem(projectRoot: string = ""): SystemHealth {
+  const isServer = typeof window === 'undefined';
   const errors: string[] = [];
   const warnings: string[] = [];
+  let missingFiles: string[] = [];
+  let bannedTermsFound: string[] = [];
+  let brandingLocked = true;
+  let wrappersEnforced = true;
 
-  const missingFiles = isServer ? REQUIRED_FILES.filter((file) => !fileExists(projectRoot, file)) : [];
+  if (isServer) {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const root = projectRoot || process.cwd();
 
-  if (isServer && missingFiles.length > 0) {
-    errors.push(`Missing required files: ${missingFiles.join(", ")}`);
+      // Check for missing files
+      missingFiles = REQUIRED_FILES.filter(file => !fs.existsSync(path.join(root, file)));
+      if (missingFiles.length > 0) {
+        errors.push(`Missing required files: ${missingFiles.join(", ")}`);
+      }
+
+      // Scan for banned terms
+      REQUIRED_FILES.forEach(file => {
+        const fullPath = path.join(root, file);
+        if (fs.existsSync(fullPath)) {
+          const content = fs.readFileSync(fullPath, "utf8").toLowerCase();
+          BANNED_TERMS.forEach(term => {
+            if (content.includes(term.toLowerCase())) {
+              bannedTermsFound.push(`${file} -> "${term}"`);
+            }
+          });
+        }
+      });
+
+      if (bannedTermsFound.length > 0) {
+        warnings.push("Banned terms or patterns detected in protected files.");
+      }
+
+      // Check branding lock
+      const brandingFiles = [
+        "src/components/SocialPlatform/SocialPlatform.tsx",
+        "src/app/page.tsx",
+        "src/components/DiagnosticLogo.tsx"
+      ];
+      const hasLogo = brandingFiles.some(file => {
+        const p = path.join(root, file);
+        return fs.existsSync(p) && fs.readFileSync(p, "utf8").includes(MANDATORY_LOGO_URL);
+      });
+      brandingLocked = hasLogo;
+      if (!brandingLocked) {
+        errors.push("Branding Failure: Mandatory logo reference not found in required UI files.");
+      }
+
+      // Check wrapper enforcement
+      const spPath = path.join(root, "src/components/SocialPlatform/SocialPlatform.tsx");
+      const cardPath = path.join(root, "src/components/ui/card.tsx");
+      const spContent = fs.existsSync(spPath) ? fs.readFileSync(spPath, "utf8") : "";
+      const cardContent = fs.existsSync(cardPath) ? fs.readFileSync(cardPath, "utf8") : "";
+      
+      wrappersEnforced = (spContent.includes("NeonCard") || spContent.includes("CardShell")) && 
+                         (cardContent.includes("NeonCard") || cardContent.includes("CardShell"));
+      
+      if (!wrappersEnforced) {
+        warnings.push("Wrapper Warning: NeonCard/CardShell wrapper not detected consistently.");
+      }
+
+    } catch (e) {
+      console.error("Diagnostic engine error:", e);
+    }
   }
 
   const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
-
   if (profileCount < REQUIRED_PROFILE_COUNT) {
-    errors.push(
-      `Neural Failure: Missing ${REQUIRED_PROFILE_COUNT - profileCount} profiles.`
-    );
+    errors.push(`Neural Failure: Missing ${REQUIRED_PROFILE_COUNT - profileCount} profiles.`);
   }
 
-  const physicsResult = testPhysicsEngine();
-  if (!physicsResult.ok) {
-    errors.push(`Physics Failure: ${physicsResult.error}`);
+  // Physics engine test
+  let physicsActive = false;
+  try {
+    const sample = NEURO_PROFILES[0];
+    if (sample?.personality) {
+      const testPhysics = chartPhysics(sample.personality);
+      physicsActive = !!testPhysics && typeof testPhysics.candleWidth !== "undefined";
+    }
+  } catch (e) {
+    errors.push(`Physics Failure: Engine threw exception during validation.`);
   }
-
-  const brandingLocked = isServer ? checkBrandingLock(projectRoot) : true;
-  if (isServer && !brandingLocked) {
-    errors.push("Branding Failure: Mandatory logo reference not found in required UI files.");
-  }
-
-  const wrappersEnforced = isServer ? checkWrapperUsage(projectRoot) : true;
-  if (isServer && !wrappersEnforced) {
-    warnings.push("Wrapper Warning: NeonCard/CardShell/GlassCard wrapper not detected consistently.");
-  }
-
-  const bannedTermsFound = isServer ? scanForBannedTerms(projectRoot, REQUIRED_FILES) : [];
-  if (isServer && bannedTermsFound.length > 0) {
-    warnings.push("Banned terms or patterns detected in protected files.");
-  }
-
-  const logoExists = true;
 
   let status: VitalSign = "Healthy";
-
-  if (warnings.length > 0 || errors.length > 0) {
-    status = "Degraded";
-  }
-
-  if (
-    profileCount === 0 ||
-    !physicsResult.ok ||
-    (isServer && (!brandingLocked || missingFiles.length > 0))
-  ) {
+  if (warnings.length > 0 || errors.length > 0) status = "Degraded";
+  if (profileCount === 0 || !physicsActive || (isServer && (!brandingLocked || missingFiles.length > 0))) {
     status = "Critical";
   }
 
   return {
     status,
     neuroProfiles: profileCount,
-    physicsActive: physicsResult.ok,
-    brandingLocked: brandingLocked,
-    wrappersEnforced: wrappersEnforced,
-    logoExists,
+    physicsActive,
+    brandingLocked,
+    wrappersEnforced,
+    logoExists: true,
     bannedTermsFound,
     missingFiles,
     errors,

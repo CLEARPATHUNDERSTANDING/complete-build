@@ -1,16 +1,12 @@
+
 'use client';
 /**
  * @fileOverview A safe icon wrapper component that prevents crashes from missing imports.
- * - name: The name of the Lucide icon to render.
- * - className: Optional Tailwind classes.
- * - size: Icon dimensions.
+ * Optimized for React 19 / Next.js 15.
  */
 
 import React from "react";
-import dynamic from "next/dynamic";
-
-// Lazy-load ALL lucide icons (prevents "X is not defined" crashes)
-const Lucide = dynamic(() => import("lucide-react"), { ssr: false }) as any;
+import * as LucideIcons from "lucide-react";
 
 type IconProps = {
   name: string; // e.g. "Globe", "ShieldCheck", "Zap"
@@ -25,7 +21,9 @@ export default function Icon({
   size = 18,
   strokeWidth = 2,
 }: IconProps) {
-  const Cmp = Lucide?.[name];
+  // Use a typed lookup to safely resolve the icon component
+  const Lucide = LucideIcons as any;
+  const Cmp = Lucide[name];
 
   // If icon name is wrong/missing, render a safe fallback (no crash)
   if (!Cmp) {

@@ -23,9 +23,11 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip'
     ],
   },
-  // This removes the "allowedDevOrigins" warning for Cloud Workstations
-  // and future-proofs dev asset loading.
-  allowedDevOrigins: ["*.cloudworkstations.dev"],
+  // Configured allowedDevOrigins to prevent cross-origin resource blocking in workstation environments.
+  allowedDevOrigins: [
+    "*.cloudworkstations.dev",
+    "6000-firebase-clear-path332026-1772579050611.cluster-2ywkqesibzdhuvybgxpusl4nj2.cloudworkstations.dev"
+  ],
   images: {
     remotePatterns: [
       {
