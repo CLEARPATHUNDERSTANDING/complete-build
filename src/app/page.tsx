@@ -54,10 +54,10 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/login" className="primary-btn large px-12 group">
-              Get Started <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              Log In <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link href="/login" className="ghost-btn large px-12">
-              Login
+              Sign Up
             </Link>
           </div>
           
