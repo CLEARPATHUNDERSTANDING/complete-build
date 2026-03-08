@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   experimental: {
+    allowedDevOrigins: [
+      "*.cloudworkstations.dev",
+      "*.hosted.app"
+    ],
     optimizePackageImports: [
       'lucide-react',
       'apexcharts',
@@ -21,11 +25,6 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip'
     ],
   },
-  // Broadened allowedDevOrigins to prevent cross-origin resource blocking in all workstation environments.
-  allowedDevOrigins: [
-    "*.cloudworkstations.dev",
-    "*.hosted.app"
-  ],
   images: {
     remotePatterns: [
       {

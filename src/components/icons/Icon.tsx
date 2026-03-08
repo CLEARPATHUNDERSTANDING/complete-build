@@ -24,8 +24,8 @@ export default function Icon({
   const Lucide = LucideIcons as any;
   const Cmp = Lucide[name];
 
-  // If icon name is wrong/missing, render a safe fallback (no crash)
-  if (!Cmp) {
+  // If icon name is wrong/missing, or not a component, render a safe fallback (no crash)
+  if (!Cmp || typeof Cmp !== 'function') {
     return (
       <span
         className={className}

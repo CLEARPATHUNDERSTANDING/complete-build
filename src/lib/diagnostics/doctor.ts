@@ -1,8 +1,6 @@
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
- * 
- * ENVIRONMENT NOTE: Uses local require within server guards to prevent client-side build crashes.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
