@@ -21,10 +21,10 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-tooltip'
     ],
   },
-  // Configured allowedDevOrigins to prevent cross-origin resource blocking in workstation environments.
+  // Broadened allowedDevOrigins to prevent cross-origin resource blocking in all workstation environments.
   allowedDevOrigins: [
     "*.cloudworkstations.dev",
-    "6000-firebase-clear-path332026-1772579050611.cluster-2ywkqesibzdhuvybgxpusl4nj2.cloudworkstations.dev"
+    "*.hosted.app"
   ],
   images: {
     remotePatterns: [

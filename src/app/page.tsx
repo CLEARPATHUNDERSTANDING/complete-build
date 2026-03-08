@@ -10,7 +10,7 @@ import NeonBoard from "@/components/NeonBoard";
  * Platform Landing Node
  * Scrubbed of all legacy brand artifacts.
  * Anchored by the definitive DiagnosticLogo and mandatory NeonBoard frames.
- * Updated: Included "Bypass Diagnostic" node for rapid investigation.
+ * Features: High-intensity "Bypass Intelligence Verification" node.
  */
 export default function HomePage() {
   return (
@@ -66,7 +66,7 @@ export default function HomePage() {
             </Link>
           </div>
           
-          {/* INVESTIGATION BYPASS LINK */}
+          {/* BYPASS ACCESS NODE */}
           <Link 
             href="/community" 
             className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-400 hover:text-white transition-all border border-cyan-500/20 px-6 py-2 rounded-full bg-cyan-500/5 backdrop-blur-sm"
@@ -78,17 +78,17 @@ export default function HomePage() {
         {/* Feature Anchors */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-12">
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
-            <span className="mini-label neon-indigo-text font-black mb-2">Adaptive Interface</span>
+            <span className="mini-label text-indigo-400 font-black mb-2 uppercase tracking-widest text-[10px]">Adaptive Interface</span>
             <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Intelligent visual structure</strong>
           </div>
 
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
-            <span className="mini-label neon-indigo-text font-black mb-2">Live Overlay</span>
+            <span className="mini-label text-indigo-400 font-black mb-2 uppercase tracking-widest text-[10px]">Live Overlay</span>
             <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Login and widgets on top</strong>
           </div>
 
           <div className="p-8 rounded-[32px] border border-white/5 bg-white/[0.02] backdrop-blur-md flex flex-col items-center">
-            <span className="mini-label neon-indigo-text font-black mb-2">Deployment</span>
+            <span className="mini-label text-indigo-400 font-black mb-2 uppercase tracking-widest text-[10px]">Deployment</span>
             <strong className="text-sm uppercase tracking-widest text-white/80 text-center">Stable public front page</strong>
           </div>
         </div>

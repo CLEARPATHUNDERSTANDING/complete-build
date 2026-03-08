@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -59,8 +58,8 @@ export default function LoginPage() {
       });
     };
 
-    errorEmitter.on('auth-error', handleAuthError);
-    return () => errorEmitter.off('auth-error', handleAuthError);
+    errorEmitter.on('auth-error', handleAuthError as any);
+    return () => errorEmitter.off('auth-error', handleAuthError as any);
   }, [toast, mounted]);
 
   const handleAuth = (e: React.FormEvent) => {
