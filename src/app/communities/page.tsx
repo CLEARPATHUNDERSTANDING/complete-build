@@ -143,7 +143,8 @@ function CommunitiesDiscoveryContent() {
     if (!messageInput.trim() || !user || !messagesRef) return;
 
     // BULLETPROOF AUTHOR: Safe split and fallback
-    const emailPrefix = user.email ? user.email.split("@")[0] : null;
+    const emailStr = user.email || "";
+    const emailPrefix = emailStr.includes("@") ? emailStr.split("@")[0] : null;
     const safeAuthor = user.displayName || emailPrefix || "User";
 
     addDocumentNonBlocking(messagesRef, {

@@ -23,7 +23,6 @@ import {
   Scale,
   HandMetal
 } from "lucide-react";
-import Icon from "@/components/icons/Icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -44,8 +43,6 @@ import { cn } from "@/lib/utils";
 import WeatherWidget from "@/components/WeatherWidget";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
-
-const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] to-[#ff4fd8] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 function BorderWallCard({
   title,
@@ -188,8 +185,9 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    // BULLETPROOF IDENTITY: Safe split and fallback
-    const emailPrefix = user.email ? user.email.split("@")[0] : null;
+    // BULLETPROOF AUTHOR: Safe split and fallback
+    const emailStr = user.email || "";
+    const emailPrefix = emailStr.includes("@") ? emailStr.split("@")[0] : null;
     const safeUser = user.displayName || emailPrefix || "User";
 
     addDocumentNonBlocking(insightsRef, {
@@ -394,7 +392,7 @@ export default function SocialPlatform() {
             </div>
           </div>
         </ScrollArea>
-      </aside>
+      </section>
 
       {/* RIGHT SIDEBAR (Desktop) */}
       <aside className="w-[380px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden xl:flex">
