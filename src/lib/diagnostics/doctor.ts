@@ -1,7 +1,7 @@
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
- * Optimized for browser compatibility: No filesystem access.
+ * Optimized for browser compatibility: Zero Node.js dependencies.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
@@ -21,24 +21,25 @@ export interface SystemHealth {
   bannedTermsFound: string[];
 }
 
-export const MANDATORY_LOGO_URL =
-  "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png";
+export const MANDATORY_LOGO_URL = "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-Feb-26-2026-02-20-36-PM.png";
 
 /**
- * Diagnostic logic - Environment aware and safe for client bundle.
- * Filesystem checks are disabled to prevent bundler crashes.
+ * Diagnostic logic - 100% Browser safe.
+ * No String.repeat() or negative count math allowed.
  */
 export function diagnoseSystem(): SystemHealth {
   const errors: string[] = [];
   const warnings: string[] = [];
   const bannedTermsFound: string[] = [];
 
+  // NEURO PROFILE INTEGRITY
   const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
   if (profileCount < 16) {
-    errors.push(`Neural Failure: Missing ${16 - profileCount} profiles.`);
+    const diff = Math.max(0, 16 - profileCount);
+    errors.push(`Neural Failure: Missing ${diff} profiles.`);
   }
 
-  // Physics engine test
+  // PHYSICS ENGINE INTEGRITY
   let physicsActive = false;
   try {
     const sample = NEURO_PROFILES[0];
@@ -50,17 +51,19 @@ export function diagnoseSystem(): SystemHealth {
     errors.push("Physics Engine: Calibration failure.");
   }
 
+  // STATUS RESOLUTION
   let status: VitalSign = "Healthy";
-  if (warnings.length > 0 || errors.length > 0 || bannedTermsFound.length > 0) status = "Degraded";
-  if (profileCount === 0 || !physicsActive) {
+  if (errors.length > 0) {
     status = "Critical";
+  } else if (warnings.length > 0 || bannedTermsFound.length > 0) {
+    status = "Degraded";
   }
 
   return {
     status,
     neuroProfiles: profileCount,
     physicsActive,
-    brandingLocked: true, // Asset verification happens via source control
+    brandingLocked: true,
     logoExists: true,
     missingFiles: [],
     errors,

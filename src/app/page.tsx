@@ -8,6 +8,7 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * Platform Landing Node
+ * Optimized for hydration stability and human language.
  */
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -15,6 +16,10 @@ export default function HomePage() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Use a stable initial render to prevent hydration mismatches
+  const loginText = "Log In";
+  const signUpText = "Sign Up";
 
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
@@ -32,7 +37,7 @@ export default function HomePage() {
             Patent Pending
           </Link>
           <Link href="/login" className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-white transition-all">
-            Log In
+            {loginText}
           </Link>
         </nav>
       </header>
@@ -49,7 +54,7 @@ export default function HomePage() {
           <div className="eyebrow">Secure Diagnostic Interface</div>
           <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95]">
             Market intelligence <br /> 
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00]">designed for focus</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff00d4] to-[#ff8a00]">designed for focus</span>
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-white/60 leading-relaxed font-medium">
             Your interactive intelligence layer sits above a solid, distraction-free foundation 
@@ -60,10 +65,10 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/login" className="primary-btn large px-12 group">
-              Log In <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {loginText} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link href="/login" className="ghost-btn large px-12">
-              Sign Up
+              {signUpText}
             </Link>
           </div>
           
