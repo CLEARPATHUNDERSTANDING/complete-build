@@ -373,7 +373,7 @@ function CommunitiesDiscoveryContent() {
                         <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-hide">
                           {isMessagesLoading ? (
                             <div className="h-full flex flex-col items-center justify-center text-white/20">
-                              <Loader2 className="w-12 h-12 mb-4 animate-spin opacity-10" />
+                              <MessageCircle className="w-12 h-12 mb-4 animate-spin opacity-10" />
                               <div className="text-[10px] font-black uppercase tracking-[0.3em]">Connecting to channel...</div>
                             </div>
                           ) : hubMessages?.length === 0 ? (
