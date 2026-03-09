@@ -4,6 +4,7 @@ import "../styles/gradientBurst.css";
 import { FirebaseClientProvider } from "@/firebase/client-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { PWARegistration } from "@/components/PWARegistration";
+import RuntimeDoctor from "@/components/RuntimeDoctor";
 
 export const metadata: Metadata = {
   title: "Adaptive Market Intelligence",
@@ -30,8 +31,15 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+        />
+      </head>
       <body className="antialiased">
         <FirebaseClientProvider>
+          <RuntimeDoctor />
           <PWARegistration />
           {children}
           <Toaster />
