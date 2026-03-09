@@ -25,7 +25,7 @@ export const MANDATORY_LOGO_URL = "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-
 
 /**
  * Diagnostic logic - 100% Browser safe.
- * Hard-capped count logic to prevent RangeErrors (negative repeat values).
+ * Hard-capped count logic to prevent RangeErrors.
  */
 export function diagnoseSystem(): SystemHealth {
   const errors: string[] = [];
