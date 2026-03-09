@@ -49,7 +49,6 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * IDENTITY GUARD: Safe username extraction for anonymous or guest profiles.
- * Prevents .split() crashes identifying in the runtime doctor.
  */
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
@@ -221,9 +220,9 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR (Visible on md+) */}
-      <aside className="w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden md:flex transition-all">
-        <div className="p-6 xl:p-10 shrink-0 flex flex-col items-center gap-6">
+      {/* LEFT SIDEBAR - Responsive Lockdown */}
+      <aside className="hidden lg:flex w-[300px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
+        <div className="p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
             <DiagnosticLogo size="md" className="w-full h-full" />
           </NeonBoard>
@@ -234,7 +233,7 @@ export default function SocialPlatform() {
         </div>
 
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-4 xl:px-8 pb-12 space-y-8">
+          <div className="px-6 xl:px-8 pb-12 space-y-8">
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
                 <NavItem label="Markets" icon={Globe} href="/markets" color="emerald" />
@@ -265,14 +264,14 @@ export default function SocialPlatform() {
 
       {/* CENTER SECTION */}
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
-        <header className="h-20 lg:h-48 border-b border-white/10 bg-black/60 backdrop-blur-2xl px-6 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
+        <header className="h-24 lg:h-48 border-b border-white/10 bg-black/60 backdrop-blur-2xl px-6 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-4 lg:gap-8">
             <Sheet>
               <SheetTrigger asChild>
-                <button className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10">
+                <button className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/10">
                   <Menu className="w-6 h-6 text-white" />
                 </button>
-              </SheetTrigger>
+              </Trigger>
               <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px]">
                 <SheetHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
                   <div className="flex items-center gap-4">
@@ -306,7 +305,7 @@ export default function SocialPlatform() {
             </div>
           </div>
           
-          <div className="flex-1 max-w-2xl mx-10 hidden md:block">
+          <div className="flex-1 max-w-2xl mx-10 hidden lg:block">
             <div className="relative group">
               <div className="absolute -inset-1 bg-indigo-500/20 rounded-2xl blur-lg opacity-0 group-focus-within:opacity-100 transition-opacity" />
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30 z-10" />
@@ -441,9 +440,9 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR (Visible on lg+) */}
-      <aside className="w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
-        <div className="p-6 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
+      {/* RIGHT SIDEBAR - High Density Diagnostic */}
+      <aside className="hidden xl:flex w-[320px] 2xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
+        <div className="p-8 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
             <TrendingUp className="w-6 h-6 text-indigo-500" />
             <div className="text-[14px] font-black tracking-[0.3em] uppercase text-white/80">Diagnostic</div>
@@ -451,7 +450,7 @@ export default function SocialPlatform() {
           <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest opacity-50">Local</Badge>
         </div>
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-6 xl:px-10 py-10 space-y-12">
+          <div className="px-8 xl:px-10 py-10 space-y-12">
             <BorderWallCard title="Node Environment" maxHeight="none" useScrollArea={false}>
               <WeatherWidget />
             </BorderWallCard>
