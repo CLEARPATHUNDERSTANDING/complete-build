@@ -1,28 +1,36 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const data = [
-    {
-      id: '1',
-      title: 'Global Markets React to Fed Statements',
-      summary: 'Central bank signals potential rate shifts in late Q4.',
-      content: 'The Federal Reserve recently issued a statement suggesting that inflation targets are nearing levels that could warrant a shift in monetary policy. Market participants are split on the timing...',
-      url: 'https://example.com/news/1',
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: '2',
-      title: 'Tech Stocks Surge Amid AI Breakthroughs',
-      summary: 'Renewed interest in semiconductor manufacturing drives index higher.',
-      content: 'A major breakthrough in AI chip efficiency has propelled several leading tech companies to all-time highs today. Analysts suggest this could be the start of a broader sector rotation...',
-      url: 'https://example.com/news/2',
-      timestamp: new Date().toISOString(),
-    },
-  ];
+  const apiKey = process.env.NEWSDATA_API_KEY;
 
-  return NextResponse.json(data, {
-    headers: {
-      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
-    },
-  });
+  if (!apiKey || apiKey.startsWith('sk-abc')) {
+    return NextResponse.json([
+      {
+        id: '1',
+        title: 'Global Markets React to Fed Statements',
+        summary: 'Central bank signals potential rate shifts in late Q4.',
+        content: 'Full intelligence content locked.',
+        url: '#',
+        timestamp: new Date().toISOString(),
+      }
+    ]);
+  }
+
+  try {
+    const res = await fetch(`https://newsdata.io/api/1/news?apikey=${apiKey}&q=finance,crypto&language=en`);
+    const data = await res.json();
+
+    const articles = (data.results || []).map((item: any, idx: number) => ({
+      id: item.article_id || String(idx),
+      title: item.title,
+      summary: item.description || "No description available.",
+      content: item.content || item.description,
+      url: item.link,
+      timestamp: item.pubDate,
+    }));
+
+    return NextResponse.json(articles);
+  } catch (error) {
+    return NextResponse.json({ error: "News Sync Failed" }, { status: 500 });
+  }
 }
