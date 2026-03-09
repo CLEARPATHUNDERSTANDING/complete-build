@@ -10,7 +10,9 @@ const nextConfig: NextConfig = {
   experimental: {
     allowedDevOrigins: [
       "*.cloudworkstations.dev",
-      "*.hosted.app"
+      "*.hosted.app",
+      "localhost:9002",
+      "localhost:6000"
     ],
     optimizePackageImports: [
       'lucide-react',
