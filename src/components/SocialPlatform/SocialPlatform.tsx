@@ -185,7 +185,7 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    // BULLETPROOF AUTHOR: Safe split and fallback
+    // BULLETPROOF AUTHOR: Safe split and fallback for anonymous profiles
     const emailStr = user.email || "";
     const emailPrefix = emailStr.includes("@") ? emailStr.split("@")[0] : null;
     const safeUser = user.displayName || emailPrefix || "User";

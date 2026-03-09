@@ -142,7 +142,7 @@ function CommunitiesDiscoveryContent() {
     e.preventDefault();
     if (!messageInput.trim() || !user || !messagesRef) return;
 
-    // BULLETPROOF AUTHOR: Safe split and fallback
+    // BULLETPROOF AUTHOR: Safe fallback for anonymous profiles
     const emailStr = user.email || "";
     const emailPrefix = emailStr.includes("@") ? emailStr.split("@")[0] : null;
     const safeAuthor = user.displayName || emailPrefix || "User";

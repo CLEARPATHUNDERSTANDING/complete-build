@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 /**
  * RESTORED: High-Fidelity Social Feed
- * Stabilized with Suspense and route-level error boundaries.
+ * Stabilized with Suspense and internal safety guards.
  */
 export default function CommunityPage() {
   return (
