@@ -54,7 +54,7 @@ function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
   if (user.displayName) return user.displayName;
   const email = (user.email || "").toString();
-  if (email.includes("@")) {
+  if (email && email.includes("@")) {
     return email.split("@")[0];
   }
   return "Protocol User";
@@ -220,9 +220,9 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR (Desktop) */}
-      <aside className="w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden md:flex transition-all">
-        <div className="p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
+      {/* LEFT SIDEBAR (Desktop - Visible from md up) */}
+      <aside className="w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden md:flex transition-all">
+        <div className="p-6 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
             <DiagnosticLogo size="md" className="w-full h-full" />
           </NeonBoard>
@@ -233,7 +233,7 @@ export default function SocialPlatform() {
         </div>
 
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-6 xl:px-8 pb-12 space-y-8">
+          <div className="px-4 xl:px-8 pb-12 space-y-8">
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
                 <NavItem label="Markets" icon={Globe} href="/markets" color="emerald" />
@@ -438,9 +438,9 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR (Desktop) */}
-      <aside className="w-[350px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
-        <div className="p-8 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
+      {/* RIGHT SIDEBAR (Desktop - Visible from lg up) */}
+      <aside className="w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
+        <div className="p-6 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
             <TrendingUp className="w-6 h-6 text-indigo-500" />
             <div className="text-[14px] font-black tracking-[0.3em] uppercase text-white/80">Diagnostic</div>
@@ -448,7 +448,7 @@ export default function SocialPlatform() {
           <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest opacity-50">Local</Badge>
         </div>
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-8 xl:px-10 py-10 space-y-12">
+          <div className="px-6 xl:px-10 py-10 space-y-12">
             <BorderWallCard title="Node Environment" maxHeight="none" useScrollArea={false}>
               <WeatherWidget />
             </BorderWallCard>
@@ -461,7 +461,7 @@ export default function SocialPlatform() {
                   { name: "Global Intel", status: "Synchronized", img: getImg("hub-research-desk"), color: "from-emerald-500 to-teal-500" },
                 ].map((hub, i) => (
                   <div key={i} className="flex items-center gap-6 p-4 rounded-[24px] hover:bg-white/5 cursor-pointer group transition-all">
-                    <div className={cn("relative h-14 w-14 xl:h-16 xl:w-16 shrink-0 rounded-full bg-gradient-to-br p-[2px]", hub.color)}>
+                    <div className={cn("relative h-12 w-12 xl:h-16 xl:w-16 shrink-0 rounded-full bg-gradient-to-br p-[2px]", hub.color)}>
                       <div className="h-full w-full rounded-full overflow-hidden border border-black/40">
                         <img src={hub.img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
                       </div>
