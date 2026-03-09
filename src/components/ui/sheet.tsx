@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -65,9 +64,12 @@ const SheetContent = React.forwardRef<
       className={cn(sheetVariants({ side }), className)}
       {...props}
     >
-      {/* ACCESSIBILITY: Visually hidden description to satisfy Radix warnings */}
+      {/* ACCESSIBILITY: Visually hidden title and description to satisfy Radix warnings */}
+      <SheetPrimitive.Title className="sr-only">
+        Navigation Menu
+      </SheetPrimitive.Title>
       <SheetPrimitive.Description className="sr-only">
-        Global navigation and terminal settings.
+        System navigation and terminal settings.
       </SheetPrimitive.Description>
 
       {children}

@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -44,9 +43,12 @@ const DialogContent = React.forwardRef<
       )}
       {...props}
     >
-      {/* ACCESSIBILITY: Visually hidden description to satisfy Radix warnings */}
+      {/* ACCESSIBILITY: Visually hidden title and description to satisfy Radix warnings */}
+      <DialogPrimitive.Title className="sr-only">
+        Secure Dialog
+      </DialogPrimitive.Title>
       <DialogPrimitive.Description className="sr-only">
-        Secure terminal dialog content.
+        Diagnostic interaction panel.
       </DialogPrimitive.Description>
       
       {children}
