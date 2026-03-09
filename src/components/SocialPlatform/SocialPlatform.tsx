@@ -53,7 +53,7 @@ import NeonBoard from "@/components/NeonBoard";
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
   if (user.displayName) return user.displayName;
-  const email = user.email || "";
+  const email = (user.email || "").toString();
   if (email.includes("@")) {
     return email.split("@")[0];
   }
@@ -439,7 +439,7 @@ export default function SocialPlatform() {
       </section>
 
       {/* RIGHT SIDEBAR (Desktop) */}
-      <aside className="w-[350px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden xl:flex">
+      <aside className="w-[350px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
         <div className="p-8 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
             <TrendingUp className="w-6 h-6 text-indigo-500" />
