@@ -221,19 +221,19 @@ export default function SocialPlatform() {
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
       {/* LEFT SIDEBAR - Responsive Lockdown */}
-      <aside className="hidden lg:flex w-[300px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
-        <div className="p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
-          <NeonBoard className="w-32 h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
+      <aside className="hidden md:flex w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
+        <div className="p-6 lg:p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
+          <NeonBoard className="w-28 h-28 lg:w-32 lg:h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
             <DiagnosticLogo size="md" className="w-full h-full" />
           </NeonBoard>
           <div className="text-center">
-            <div className="text-[14px] font-black tracking-[0.3em] uppercase text-white">Protocol Hub</div>
-            <div className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Intelligence Node v2.5</div>
+            <div className="text-[12px] lg:text-[14px] font-black tracking-[0.3em] uppercase text-white">Protocol Hub</div>
+            <div className="text-[9px] lg:text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Intelligence Node v2.5</div>
           </div>
         </div>
 
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-6 xl:px-8 pb-12 space-y-8">
+          <div className="px-4 lg:px-6 xl:px-8 pb-12 space-y-8">
             <BorderWallCard title="Workspace" maxHeight="none" useScrollArea={false}>
               <div className="space-y-1">
                 <NavItem label="Markets" icon={Globe} href="/markets" color="emerald" />
@@ -264,11 +264,11 @@ export default function SocialPlatform() {
 
       {/* CENTER SECTION */}
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
-        <header className="h-24 lg:h-48 border-b border-white/10 bg-black/60 backdrop-blur-2xl px-6 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
+        <header className="h-20 lg:h-48 border-b border-white/10 bg-black/60 backdrop-blur-2xl px-6 lg:px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
           <div className="flex items-center gap-4 lg:gap-8">
             <Sheet>
               <SheetTrigger asChild>
-                <button className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/10">
+                <button className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10">
                   <Menu className="w-6 h-6 text-white" />
                 </button>
               </Trigger>
@@ -300,7 +300,7 @@ export default function SocialPlatform() {
               </SheetContent>
             </Sheet>
             <div className="flex flex-col text-left">
-              <span className="text-2xl lg:text-[40px] font-black tracking-[0.2em] lg:tracking-[0.3em] uppercase leading-none bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] to-[#ff4fd8] drop-shadow-[0_0_15px_rgba(106,92,255,0.4)]">Feed</span>
+              <span className="text-xl lg:text-[40px] font-black tracking-[0.2em] lg:tracking-[0.3em] uppercase leading-none bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] to-[#ff4fd8] drop-shadow-[0_0_15px_rgba(106,92,255,0.4)]">Feed</span>
               <span className="text-[10px] lg:text-[20px] font-bold tracking-[0.15em] text-white/40 uppercase hidden sm:block">Global Intel Stream</span>
             </div>
           </div>
@@ -324,13 +324,13 @@ export default function SocialPlatform() {
               <Bluetooth onClick={handleBluetooth} className="w-6 h-6 hover:text-indigo-400 cursor-pointer transition-colors" />
             </div>
             <div className="flex items-center gap-4 bg-white/10 border border-white/15 rounded-3xl px-4 py-2 lg:px-6 lg:py-3 backdrop-blur-xl">
-              <Avatar className="w-10 h-10 lg:w-14 h-14 ring-2 ring-indigo-500/40">
+              <Avatar className="w-8 h-8 lg:w-14 h-14 ring-2 ring-indigo-500/40">
                 <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
                 <AvatarFallback className="bg-indigo-500">{user.displayName?.[0] || 'U'}</AvatarFallback>
               </Avatar>
               <div className="text-left leading-tight hidden xl:block">
-                <div className="text-[16px] font-black text-white">{getSafeAuthor(user)}</div>
-                <div className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Protocol Active</div>
+                <div className="text-[14px] lg:text-[16px] font-black text-white">{getSafeAuthor(user)}</div>
+                <div className="text-[9px] lg:text-[10px] font-black text-indigo-400 uppercase tracking-widest">Protocol Active</div>
               </div>
             </div>
           </div>
@@ -350,12 +350,12 @@ export default function SocialPlatform() {
                   </div>
                 )}
                 <div className="flex items-start gap-6">
-                  <Avatar className="w-14 h-14 lg:w-20 lg:h-20 shrink-0">
+                  <Avatar className="w-12 h-12 lg:w-20 lg:h-20 shrink-0">
                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
                     <AvatarFallback className="bg-indigo-500 text-lg">{user.displayName?.[0] || 'U'}</AvatarFallback>
                   </Avatar>
                   <textarea 
-                    className="w-full bg-white/[0.04] border border-white/10 rounded-3xl p-6 lg:p-8 text-base lg:text-xl font-medium text-white outline-none focus:border-cyan-500/50 min-h-[140px] lg:min-h-[200px] backdrop-blur-xl transition-all placeholder:text-white/10 resize-none"
+                    className="w-full bg-white/[0.04] border border-white/10 rounded-3xl p-6 lg:p-8 text-base lg:text-xl font-medium text-white outline-none focus:border-cyan-500/50 min-h-[120px] lg:min-h-[200px] backdrop-blur-xl transition-all placeholder:text-white/10 resize-none"
                     placeholder="Share a diagnostic observation..."
                     value={postText}
                     onChange={(e) => setPostText(e.target.value)}
@@ -391,39 +391,39 @@ export default function SocialPlatform() {
                 insightsData?.map((post: any) => (
                   <div key={post.id} className="mx-auto w-full transition-transform hover:scale-[1.01]">
                     <NeonBoard>
-                      <div className="rounded-[40px] bg-[#070b16]/90 px-8 py-8 lg:px-12 lg:py-10 backdrop-blur-3xl">
-                        <div className="flex items-center gap-6 lg:gap-8">
+                      <div className="rounded-[40px] bg-[#070b16]/90 px-6 py-6 lg:px-12 lg:py-10 backdrop-blur-3xl">
+                        <div className="flex items-center gap-4 lg:gap-8">
                           <div className="relative">
-                            <Avatar className="w-14 h-14 lg:w-20 lg:h-20 ring-2 ring-indigo-500/20">
+                            <Avatar className="w-12 h-12 lg:w-20 lg:h-20 ring-2 ring-indigo-500/20">
                               <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
                               <AvatarFallback className="bg-indigo-500">{post.user ? post.user[0] : '?'}</AvatarFallback>
                             </Avatar>
                             {post.isLive && (
-                              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-rose-500 rounded-full border-2 border-black flex items-center justify-center">
-                                <div className="w-2 h-2 bg-white rounded-full animate-ping" />
+                              <div className="absolute -bottom-1 -right-1 w-4 h-4 lg:w-5 lg:h-5 bg-rose-500 rounded-full border-2 border-black flex items-center justify-center">
+                                <div className="w-1.5 h-1.5 lg:w-2 lg:h-2 bg-white rounded-full animate-ping" />
                               </div>
                             )}
                           </div>
                           <div>
                             <div className="flex items-center gap-3 lg:gap-4">
-                              <div className="text-xl lg:text-[26px] font-black text-white uppercase tracking-tight">{post.user || "Unknown Node"}</div>
+                              <div className="text-lg lg:text-[26px] font-black text-white uppercase tracking-tight">{post.user || "Unknown Node"}</div>
                               {post.isLive && <Badge className="bg-rose-500/80 text-[9px] lg:text-[11px] font-black px-3 py-1 rounded-full">LIVE</Badge>}
                             </div>
-                            <div className="text-[11px] lg:text-[13px] font-bold text-white/30 uppercase tracking-widest mt-1">
+                            <div className="text-[9px] lg:text-[13px] font-bold text-white/30 uppercase tracking-widest mt-1">
                               {post.createdAt ? new Date(post.createdAt.seconds * 1000).toLocaleString() : "Syncing..."}
                             </div>
                           </div>
                         </div>
-                        <div className="my-8 lg:my-10 h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent" />
-                        <p className="text-lg lg:text-[24px] leading-relaxed text-white/90 mb-8 lg:mb-10 font-medium tracking-tight">{post.text}</p>
-                        <div className="flex items-center gap-10 lg:gap-16 text-white/40 border-t border-white/5 pt-8 lg:pt-10">
-                          <button className="flex items-center gap-3 lg:gap-4 hover:text-red-500 transition-all group">
-                            <Heart className="w-6 h-6 group-hover:scale-110" />
-                            <span className="font-black text-[11px] lg:text-sm uppercase tracking-widest">Support</span>
+                        <div className="my-6 lg:my-10 h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent" />
+                        <p className="text-base lg:text-[24px] leading-relaxed text-white/90 mb-6 lg:mb-10 font-medium tracking-tight">{post.text}</p>
+                        <div className="flex items-center gap-8 lg:gap-16 text-white/40 border-t border-white/5 pt-6 lg:pt-10">
+                          <button className="flex items-center gap-2 lg:gap-4 hover:text-red-500 transition-all group">
+                            <Heart className="w-5 h-5 lg:w-6 lg:h-6 group-hover:scale-110" />
+                            <span className="font-black text-[9px] lg:text-sm uppercase tracking-widest">Support</span>
                           </button>
-                          <button className="flex items-center gap-3 lg:gap-4 hover:text-indigo-400 transition-all group">
-                            <MessageCircle className="w-6 h-6 group-hover:scale-110" />
-                            <span className="font-black text-[11px] lg:text-sm uppercase tracking-widest">Inquire</span>
+                          <button className="flex items-center gap-2 lg:gap-4 hover:text-indigo-400 transition-all group">
+                            <MessageCircle className="w-5 h-5 lg:w-6 lg:h-6 group-hover:scale-110" />
+                            <span className="font-black text-[9px] lg:text-sm uppercase tracking-widest">Inquire</span>
                           </button>
                           <div className="ml-auto hidden sm:flex items-center gap-2">
                             <Zap className="w-4 h-4 text-amber-400 opacity-50" />
@@ -441,16 +441,16 @@ export default function SocialPlatform() {
       </section>
 
       {/* RIGHT SIDEBAR - High Density Diagnostic */}
-      <aside className="hidden xl:flex w-[320px] 2xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
-        <div className="p-8 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
+      <aside className="hidden lg:flex w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
+        <div className="p-6 lg:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
             <TrendingUp className="w-6 h-6 text-indigo-500" />
-            <div className="text-[14px] font-black tracking-[0.3em] uppercase text-white/80">Diagnostic</div>
+            <div className="text-[12px] lg:text-[14px] font-black tracking-[0.3em] uppercase text-white/80">Diagnostic</div>
           </div>
           <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest opacity-50">Local</Badge>
         </div>
         <ScrollArea className="flex-1 min-h-0">
-          <div className="px-8 xl:px-10 py-10 space-y-12">
+          <div className="px-6 lg:px-10 py-10 space-y-12">
             <BorderWallCard title="Node Environment" maxHeight="none" useScrollArea={false}>
               <WeatherWidget />
             </BorderWallCard>
@@ -462,15 +462,15 @@ export default function SocialPlatform() {
                   { name: "Market Watch", status: "Real-time Feed", img: getImg("hub-market-watch"), color: "from-orange-500 to-rose-500" },
                   { name: "Global Intel", status: "Synchronized", img: getImg("hub-research-desk"), color: "from-emerald-500 to-teal-500" },
                 ].map((hub, i) => (
-                  <div key={i} className="flex items-center gap-6 p-4 rounded-[24px] hover:bg-white/5 cursor-pointer group transition-all">
+                  <div key={i} className="flex items-center gap-4 lg:gap-6 p-3 lg:p-4 rounded-[24px] hover:bg-white/5 cursor-pointer group transition-all">
                     <div className={cn("relative h-12 w-12 xl:h-16 xl:w-16 shrink-0 rounded-full bg-gradient-to-br p-[2px]", hub.color)}>
                       <div className="h-full w-full rounded-full overflow-hidden border border-black/40">
                         <img src={hub.img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="" />
                       </div>
                     </div>
                     <div className="text-left">
-                      <div className="text-base font-black text-white group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{hub.name}</div>
-                      <div className="text-[10px] font-black text-white/30 uppercase tracking-widest mt-1">{hub.status}</div>
+                      <div className="text-sm lg:text-base font-black text-white group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{hub.name}</div>
+                      <div className="text-[9px] lg:text-[10px] font-black text-white/30 uppercase tracking-widest mt-1">{hub.status}</div>
                     </div>
                   </div>
                 ))}

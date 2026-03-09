@@ -33,9 +33,9 @@ const ScrollBar = React.forwardRef<
     className={cn(
       "flex touch-none select-none transition-all duration-300 z-50",
       orientation === "vertical" &&
-        "h-full w-[14px] border-l border-white/5 p-[2px] bg-black/20",
+        "h-full w-[18px] border-l border-white/5 p-[2px] bg-black/20",
       orientation === "horizontal" &&
-        "h-[14px] flex-col border-t border-white/5 p-[2px] bg-black/20",
+        "h-[18px] flex-col border-t border-white/5 p-[2px] bg-black/20",
       "opacity-100", 
       className
     )}
@@ -45,7 +45,7 @@ const ScrollBar = React.forwardRef<
       className="relative flex-1 rounded-full transition-all duration-300"
       style={{
         background: "linear-gradient(180deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%)",
-        boxShadow: "0 0 15px rgba(106, 92, 255, 0.8), inset 0 0 5px rgba(255, 255, 255, 0.4)"
+        boxShadow: "0 0 25px rgba(106, 92, 255, 1), inset 0 0 8px rgba(255, 255, 255, 0.5)"
       }}
     />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>

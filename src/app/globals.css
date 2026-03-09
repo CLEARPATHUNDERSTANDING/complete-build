@@ -43,10 +43,10 @@ html, body {
   touch-action: manipulation;
 }
 
-/* 16px Wide Reachability Scrollbars - FULL SPECTRUM FLUID NEON */
+/* 20px WIDE INDEPENDENT FLUORESCENT SCROLLBARS - FULL SPECTRUM */
 ::-webkit-scrollbar {
-  width: 16px;
-  height: 16px;
+  width: 20px;
+  height: 20px;
 }
 
 ::-webkit-scrollbar-track {
@@ -56,14 +56,14 @@ html, body {
 
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%);
-  border-radius: 8px;
-  border: 3px solid #000000;
-  box-shadow: 0 0 20px rgba(106, 92, 255, 0.6);
+  border-radius: 10px;
+  border: 4px solid #000000;
+  box-shadow: 0 0 25px rgba(106, 92, 255, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%);
-  box-shadow: 0 0 30px rgba(0, 245, 255, 0.8);
+  box-shadow: 0 0 40px rgba(0, 245, 255, 1);
 }
 
 ::selection {
