@@ -34,6 +34,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
@@ -121,6 +122,7 @@ function DashboardContent() {
                    <DiagnosticLogo size="xs" />
                    <SheetTitle className="text-lg lg:text-xl font-black tracking-widest uppercase text-white">Hub Menu</SheetTitle>
                  </div>
+                 <SheetDescription className="text-xs text-white/30 uppercase tracking-widest">Diagnostic terminals and network nodes.</SheetDescription>
                </SheetHeader>
                <div className="p-6 space-y-8">
                  <div className="space-y-2">
@@ -264,7 +266,7 @@ function DashboardContent() {
                   </div>
                 ) : (
                   <div className="h-full flex flex-col gap-8">
-                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={mounted && window.innerWidth < 1024 ? 400 : 600} />
+                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={mounted && typeof window !== 'undefined' && window.innerWidth < 1024 ? 400 : 600} />
                   </div>
                 )}
               </div>

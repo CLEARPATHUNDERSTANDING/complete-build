@@ -35,6 +35,7 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
+  SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
@@ -48,7 +49,6 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * IDENTITY GUARD: Safe username extraction for anonymous or guest profiles.
- * Prevents the 'split of undefined' crash.
  */
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
@@ -221,7 +221,7 @@ export default function SocialPlatform() {
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
       {/* LEFT SIDEBAR (Desktop) */}
-      <aside className="w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex transition-all">
+      <aside className="w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden md:flex transition-all">
         <div className="p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
             <DiagnosticLogo size="md" className="w-full h-full" />
@@ -268,13 +268,17 @@ export default function SocialPlatform() {
           <div className="flex items-center gap-4 lg:gap-8">
             <Sheet>
               <SheetTrigger asChild>
-                <button className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/10">
+                <button className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10">
                   <Menu className="w-6 h-6 text-white" />
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px]">
+                <SheetHeader className="p-6 border-b border-white/5">
+                  <SheetTitle className="text-xl font-black uppercase tracking-widest text-white">Menu Hub</SheetTitle>
+                  <SheetDescription className="text-xs text-white/40 uppercase tracking-widest">Platform navigation and sectors.</SheetDescription>
+                </SheetHeader>
                 <ScrollArea className="h-full">
-                  <div className="p-8 space-y-10 pt-12">
+                  <div className="p-8 space-y-10 pt-6">
                     <DiagnosticLogo size="sm" className="mx-auto" />
                     <div className="space-y-8">
                       <div className="space-y-2">
