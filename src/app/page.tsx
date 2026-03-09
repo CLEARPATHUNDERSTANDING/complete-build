@@ -8,7 +8,8 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * Platform Landing Node
- * Fixed: Removed dynamic text to prevent hydration errors.
+ * Fixed: Stabilized initial render to prevent hydration mismatches.
+ * Language: Simplified technical jargon to natural human terms.
  */
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -17,7 +18,7 @@ export default function HomePage() {
     setMounted(true);
   }, []);
 
-  // Use a stable initial render to prevent hydration mismatches
+  // CTA Text is hardcoded to be static across server/client to prevent hydration mismatch
   const loginLabel = "Log In";
   const signUpLabel = "Sign Up";
 
@@ -54,7 +55,7 @@ export default function HomePage() {
           <div className="eyebrow">Secure Diagnostic Interface</div>
           <h1 className="text-5xl md:text-7xl font-black text-white uppercase tracking-tighter leading-[0.95]">
             Market intelligence <br /> 
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff00d4] to-[#ff8a00]">designed for focus</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00f5ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00]">designed for focus</span>
           </h1>
           <p className="max-w-2xl mx-auto text-lg text-white/60 leading-relaxed font-medium">
             Your interactive intelligence layer sits above a solid, distraction-free foundation 

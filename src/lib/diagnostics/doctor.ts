@@ -1,7 +1,7 @@
 /**
  * @fileOverview System Diagnostic "Doctor" - Core Logic
  * Monitors application "Vital Signs" to prevent IP deletion or branding corruption.
- * Optimized for browser compatibility: Zero Node.js dependencies.
+ * Optimized for 100% browser compatibility: Zero Node.js dependencies.
  */
 
 import { NEURO_PROFILES } from "@/lib/neuro/profiles";
@@ -25,18 +25,21 @@ export const MANDATORY_LOGO_URL = "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-
 
 /**
  * Diagnostic logic - 100% Browser safe.
- * Overwritten to ensure NO RangeErrors or filesystem crashes.
+ * Hard-capped count logic to prevent RangeErrors (negative repeat values).
  */
 export function diagnoseSystem(): SystemHealth {
   const errors: string[] = [];
   const warnings: string[] = [];
   const bannedTermsFound: string[] = [];
 
-  // NEURO PROFILE INTEGRITY - Hard capped at 0 to prevent negative repeat errors
+  // NEURO PROFILE INTEGRITY
   const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
-  if (profileCount < 16) {
-    const diff = Math.max(0, 16 - profileCount);
-    errors.push(`Neural Failure: Missing ${diff} profiles.`);
+  
+  // Hard-capped difference calculation to prevent RangeError: Invalid count value
+  const missingCount = Math.max(0, 16 - profileCount);
+  
+  if (missingCount > 0) {
+    errors.push(`Neural Failure: Missing ${missingCount} profiles.`);
   }
 
   // PHYSICS ENGINE INTEGRITY

@@ -25,7 +25,7 @@ export function readRuntimeDoctorEntries(): RuntimeDoctorEntry[] {
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
   } catch (e) {
-    console.error("Store read failed", e);
+    // Return empty array on failure instead of crashing
     return [];
   }
 }
@@ -39,7 +39,7 @@ export function writeRuntimeDoctorEntry(entry: RuntimeDoctorEntry) {
     const trimmed = current.slice(0, MAX_ENTRIES);
     window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
   } catch (e) {
-    // Silent catch to prevent recursion during crashes
+    // Silent catch to prevent recursion or crashes in restricted environments
   }
 }
 
