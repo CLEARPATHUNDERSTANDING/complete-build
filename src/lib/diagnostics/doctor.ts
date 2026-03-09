@@ -33,9 +33,10 @@ export function diagnoseSystem(): SystemHealth {
   const bannedTermsFound: string[] = [];
 
   // NEURO PROFILE INTEGRITY
-  const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
+  const profiles = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES : [];
+  const profileCount = profiles.length;
   
-  // Hard-capped difference calculation to prevent RangeError: Invalid count value
+  // Use Math.max(0) to prevent negative counts that trigger RangeErrors in repeat() or other string methods
   const missingCount = Math.max(0, 16 - profileCount);
   
   if (missingCount > 0) {
@@ -45,7 +46,7 @@ export function diagnoseSystem(): SystemHealth {
   // PHYSICS ENGINE INTEGRITY
   let physicsActive = false;
   try {
-    const sample = NEURO_PROFILES[0];
+    const sample = profiles[0];
     if (sample?.personality) {
       const testPhysics = chartPhysics(sample.personality);
       physicsActive = !!testPhysics && typeof testPhysics.candleWidth !== "undefined";

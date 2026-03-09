@@ -142,9 +142,11 @@ function CommunitiesDiscoveryContent() {
     e.preventDefault();
     if (!messageInput.trim() || !user || !messagesRef) return;
 
+    const safeAuthor = user.displayName || user.email?.split("@")?.[0] || "User";
+
     addDocumentNonBlocking(messagesRef, {
       userId: user.uid,
-      author: user.displayName || user.email?.split("@")[0] || "User",
+      author: safeAuthor,
       text: messageInput.trim(),
       createdAt: serverTimestamp(),
       hubId: selectedHubId
@@ -176,7 +178,7 @@ function CommunitiesDiscoveryContent() {
         <div className="flex items-center gap-6">
           <Link href="/community" className="flex items-center gap-4 bg-indigo-500/10 border border-indigo-500/30 px-6 py-3 rounded-2xl text-[12px] font-black tracking-[0.2em] text-indigo-400 uppercase hover:bg-indigo-500/20 transition-all shadow-[0_0_20px_rgba(99,102,241,0.2)] group">
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            BACK TO HUB
+            BACK TO FEED
           </Link>
           <div className="h-8 w-px bg-white/10" />
           <div className="flex items-center gap-4">

@@ -66,7 +66,7 @@ function BorderWallCard({
             )}
           </div>
         </div>
-      </病院Card>
+      </NeonBoard>
     </div>
   );
 }
@@ -172,9 +172,13 @@ export default function SocialPlatform() {
 
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
+    
+    // Safely generate user name from display name or email prefix
+    const safeUser = user.displayName || user.email?.split("@")?.[0] || "User";
+
     addDocumentNonBlocking(insightsRef, {
       userId: user.uid,
-      user: user.displayName || user.email?.split("@")[0] || "User",
+      user: safeUser,
       avatar: user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`,
       createdAt: serverTimestamp(),
       text: postText,
@@ -320,11 +324,11 @@ export default function SocialPlatform() {
                           <div className="flex items-center gap-6">
                             <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20 shadow-2xl">
                               <AvatarImage src={post.avatar || `https://i.pravatar.cc/150?u=${post.userId}`} />
-                              <AvatarFallback className="bg-indigo-500">{post.user[0]}</AvatarFallback>
+                              <AvatarFallback className="bg-indigo-500">{post.user ? post.user[0] : '?'}</AvatarFallback>
                             </Avatar>
                             <div>
                               <div className="flex items-center gap-3">
-                                <div className="text-[22px] font-black text-white">{post.user}</div>
+                                <div className="text-[22px] font-black text-white">{post.user || "Unknown User"}</div>
                                 {post.isLive && <Badge className="bg-rose-500 text-[10px] font-black px-3 py-1 shadow-[0_0_15px_#f43f5e]">LIVE</Badge>}
                               </div>
                               <div className="text-[12px] font-bold text-white/40 uppercase tracking-widest">
