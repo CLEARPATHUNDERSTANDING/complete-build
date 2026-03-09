@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -32,18 +31,22 @@ const ScrollBar = React.forwardRef<
     ref={ref}
     orientation={orientation}
     className={cn(
-      "flex touch-none select-none transition-colors duration-200 z-50",
+      "flex touch-none select-none transition-all duration-300 z-50",
       orientation === "vertical" &&
-        "h-full w-[14px] border-l border-r border-[#6366f1] p-[1px] bg-gradient-to-b from-[#ff003c] to-[#ff8a00]",
+        "h-full w-[14px] border-l border-white/5 p-[2px] bg-black/20",
       orientation === "horizontal" &&
-        "h-[14px] flex-col border-t border-b border-[#6366f1] p-[1px] bg-gradient-to-r from-[#ff003c] to-[#ff8a00]",
+        "h-[14px] flex-col border-t border-white/5 p-[2px] bg-black/20",
       "opacity-100", 
       className
     )}
     {...props}
   >
     <ScrollAreaPrimitive.ScrollAreaThumb 
-      className="relative flex-1 rounded-full bg-[#6366f1] shadow-[0_0_15px_rgba(99,102,241,1),0_0_8px_rgba(99,102,241,0.8)]" 
+      className="relative flex-1 rounded-full transition-all duration-300"
+      style={{
+        background: "linear-gradient(180deg, #00f5ff 0%, #6a5cff 33%, #ff00d4 66%, #ff8a00 100%)",
+        boxShadow: "0 0 15px rgba(106, 92, 255, 0.8), inset 0 0 5px rgba(255, 255, 255, 0.4)"
+      }}
     />
   </ScrollAreaPrimitive.ScrollAreaScrollbar>
 ))
