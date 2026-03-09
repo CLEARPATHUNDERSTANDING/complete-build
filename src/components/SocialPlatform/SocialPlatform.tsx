@@ -49,6 +49,7 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * IDENTITY GUARD: Safe username extraction for anonymous or guest profiles.
+ * Prevents .split() crashes identifying in the runtime doctor.
  */
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
@@ -220,7 +221,7 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR (Desktop - Visible from md up) */}
+      {/* LEFT SIDEBAR (Visible on md+) */}
       <aside className="w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden md:flex transition-all">
         <div className="p-6 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
@@ -273,13 +274,15 @@ export default function SocialPlatform() {
                 </button>
               </SheetTrigger>
               <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px]">
-                <SheetHeader className="p-6 border-b border-white/5">
-                  <SheetTitle className="text-xl font-black uppercase tracking-widest text-white">Menu Hub</SheetTitle>
-                  <SheetDescription className="text-xs text-white/40 uppercase tracking-widest">Platform navigation and sectors.</SheetDescription>
+                <SheetHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
+                  <div className="flex items-center gap-4">
+                    <DiagnosticLogo size="xs" />
+                    <SheetTitle className="text-lg font-black tracking-widest uppercase text-white">Menu Hub</SheetTitle>
+                  </div>
+                  <SheetDescription className="text-[10px] text-white/30 uppercase tracking-widest">Platform navigation and network nodes.</SheetDescription>
                 </SheetHeader>
                 <ScrollArea className="h-full">
                   <div className="p-8 space-y-10 pt-6">
-                    <DiagnosticLogo size="sm" className="mx-auto" />
                     <div className="space-y-8">
                       <div className="space-y-2">
                         <div className="text-[10px] font-black uppercase tracking-widest text-white/30 px-3 mb-2">Diagnostic Hub</div>
@@ -438,7 +441,7 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR (Desktop - Visible from lg up) */}
+      {/* RIGHT SIDEBAR (Visible on lg+) */}
       <aside className="w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
         <div className="p-6 xl:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
