@@ -36,8 +36,8 @@ export function diagnoseSystem(): SystemHealth {
   const profiles = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES : [];
   const profileCount = profiles.length;
   
-  // Use Math.max(0) to prevent negative counts that trigger RangeErrors
-  const missingCount = Math.max(0, 16 - profileCount);
+  // Hard-guarded missing profile calculation
+  const missingCount = profileCount < 16 ? 16 - profileCount : 0;
   
   if (missingCount > 0) {
     errors.push(`Neural Failure: Missing ${missingCount} profiles.`);

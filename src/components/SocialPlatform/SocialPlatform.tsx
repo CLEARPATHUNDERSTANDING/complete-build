@@ -13,7 +13,8 @@ import {
   TrendingUp,
   Heart,
   MessageCircle,
-  Search
+  Search,
+  Menu
 } from "lucide-react";
 import Icon from "@/components/icons/Icon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,6 +22,13 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
@@ -173,8 +181,9 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    // SAFE SPLIT: Ensure user email exists before splitting
-    const safeUser = user.displayName || user.email?.split("@")?.[0] || "User";
+    // SAFE PROFILE ACCESS
+    const emailParts = user.email ? user.email.split("@") : [];
+    const safeUser = user.displayName || emailParts[0] || "User";
 
     addDocumentNonBlocking(insightsRef, {
       userId: user.uid,
@@ -192,7 +201,7 @@ export default function SocialPlatform() {
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
       {/* LEFT SIDEBAR */}
-      <aside className="w-[350px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col">
+      <aside className="w-[350px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden lg:flex">
         <div className="p-8 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-32 h-32 hover:scale-105 transition-transform duration-500">
             <DiagnosticLogo size="md" className="w-full h-full" />
@@ -226,17 +235,33 @@ export default function SocialPlatform() {
       {/* CENTER SECTION */}
       <section className="flex-1 min-w-0 flex flex-col h-full overflow-hidden bg-transparent">
         <header className="h-56 border-b border-white/10 bg-black/60 backdrop-blur-2xl px-10 flex items-center justify-between shrink-0 sticky top-0 z-50">
-          <div className="flex items-center gap-10">
-            <NeonBoard className="w-32 h-32">
-              <DiagnosticLogo size="md" className="w-full h-full" />
-            </NeonBoard>
+          <div className="flex items-center gap-6">
+            <Sheet>
+              <SheetTrigger asChild>
+                <button className="lg:hidden p-3 rounded-2xl bg-white/5 border border-white/10">
+                  <Menu className="w-6 h-6 text-white" />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[320px]">
+                <ScrollArea className="h-full">
+                  <div className="p-8 space-y-8">
+                    <DiagnosticLogo size="md" className="mx-auto" />
+                    <div className="space-y-1">
+                      <NavItem label="Markets" iconName="Globe" href="/markets" color="emerald" />
+                      <NavItem label="Terminal" iconName="LayoutDashboard" href="/dashboard?mode=minimal" color="amber" />
+                      <NavItem label="Feed" iconName="MessageCircle" href="/community" active color="pink" />
+                    </div>
+                  </div>
+                </ScrollArea>
+              </SheetContent>
+            </Sheet>
             <div className="flex flex-col text-left">
               <span className={`text-[32px] font-black tracking-[0.3em] uppercase leading-none ${spectralTitleClass}`}>Intelligence</span>
               <span className="text-[24px] font-bold tracking-[0.1em] text-white/40 uppercase">Global Stream</span>
             </div>
           </div>
           
-          <div className="flex-1 max-w-xl mx-12">
+          <div className="flex-1 max-w-xl mx-12 hidden md:block">
             <div className="relative group">
               <div className="absolute -inset-1 bg-indigo-500/20 rounded-2xl blur-lg opacity-0 group-focus-within:opacity-100 transition-opacity" />
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-white/30 z-10" />
@@ -257,7 +282,7 @@ export default function SocialPlatform() {
             <div className="flex items-center gap-4 bg-white/10 border border-white/15 rounded-3xl px-6 py-3 backdrop-blur-xl shadow-2xl">
               <Avatar className="w-14 h-14 ring-2 ring-indigo-500/40">
                 <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
+                <AvatarFallback className="bg-indigo-500">{user.displayName?.[0] || 'U'}</AvatarFallback>
               </Avatar>
               <div className="text-left leading-tight hidden lg:block">
                 <div className="text-lg font-black text-white">{user.displayName || "User"}</div>
@@ -283,7 +308,7 @@ export default function SocialPlatform() {
                 <div className="flex items-start gap-6">
                   <Avatar className="w-16 h-16 ring-2 ring-indigo-500/20 shadow-2xl">
                     <AvatarImage src={user.photoURL || `https://i.pravatar.cc/150?u=${user.uid}`} />
-                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0]}</AvatarFallback>
+                    <AvatarFallback className="bg-indigo-500">{user.displayName?.[0] || 'U'}</AvatarFallback>
                   </Avatar>
                   <textarea 
                     className="w-full bg-white/[0.04] border border-white/10 rounded-2xl p-6 text-lg font-medium text-white outline-none focus:border-cyan-500/50 min-h-[160px] backdrop-blur-xl transition-all"
@@ -360,7 +385,7 @@ export default function SocialPlatform() {
       </section>
 
       {/* RIGHT SIDEBAR */}
-      <aside className="w-[380px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col">
+      <aside className="w-[380px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden xl:flex">
         <div className="p-8 flex items-center gap-4 border-b border-white/10 shrink-0 bg-white/[0.02]">
           <TrendingUp className="w-6 h-6 text-indigo-500" />
           <div className={`text-[14px] font-black tracking-[0.3em] uppercase ${spectralTitleClass}`}>Environment</div>

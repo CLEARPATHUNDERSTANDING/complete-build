@@ -44,7 +44,8 @@ function extractAlpha(rgba: string | undefined, fallback = 0.06) {
 
 function sampleData(symbol: string): OHLCPoint[] {
   const now = Math.floor(Date.now() / 1000);
-  const seed = symbol.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  const symbolSafe = symbol || "DEF";
+  const seed = symbolSafe.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
   let price = 100 + (seed % 50);
   const out: OHLCPoint[] = [];
   for (let i = 120; i >= 0; i--) {
@@ -126,7 +127,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
   const series = useMemo(
     () => [
       {
-        name: localSymbol,
+        name: localSymbol || "Asset Feed",
         data: bars.map((d) => ({
           x: new Date(d.time * 1000),
           y: [d.open, d.high, d.low, d.close],

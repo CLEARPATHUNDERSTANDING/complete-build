@@ -43,7 +43,7 @@ export function CandlestickChart({
   const physics = chartPhysics(p);
 
   useEffect(() => {
-    setLocalSymbol(title);
+    setLocalSymbol(title || "TwelveData Feed");
   }, [title]);
 
   useEffect(() => {
@@ -64,7 +64,6 @@ export function CandlestickChart({
 
     const preventTouchMove = (e: TouchEvent) => {
       if (e.touches.length >= 1) {
-        // Only prevent if we aren't allowing native scrolling in this zone
         e.preventDefault();
       }
     };
@@ -87,7 +86,8 @@ export function CandlestickChart({
     if (!mounted) return [];
     
     // Stable seed for consistent mock data across renders
-    const seed = localSymbol.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const symbolSafe = localSymbol || "DEFAULT";
+    const seed = symbolSafe.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     const mock: ApexCandlePoint[] = [];
     let currentPrice = seed % 500 + 1000;
     
@@ -106,7 +106,7 @@ export function CandlestickChart({
   }, [localSymbol, externalData, mounted]);
 
   const series = useMemo(() => [{ 
-    name: localSymbol, 
+    name: localSymbol || "Terminal Feed", 
     data: chartData 
   }], [localSymbol, chartData]);
 

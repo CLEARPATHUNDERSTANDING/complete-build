@@ -11,7 +11,14 @@ import {
   LayoutGrid,
   Square,
   Activity,
-  ShieldCheck
+  ShieldCheck,
+  Globe,
+  LayoutDashboard,
+  Users,
+  Compass,
+  MessageCircle,
+  TrendingUp,
+  Brain
 } from "lucide-react"
 import { NEURO_PROFILES, getProfile, type NeuroProfileId } from "@/lib/neuro/profiles"
 import { NON_ND_MODES } from "@/modes/nonNdModes"
@@ -22,11 +29,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 import { NeuroGlowCard } from "@/components/ui/NeuroGlowCard"
 import { useToast } from "@/hooks/use-toast"
 import { useMounted } from "@/hooks/use-mounted"
 import DiagnosticLogo from "@/components/DiagnosticLogo"
 import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
+import Link from "next/link"
 
 const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
 
@@ -92,10 +107,59 @@ function DashboardContent() {
               </button>
            </div>
 
-           <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
-              <Menu className="w-5 h-5" />
-              Navigation
-           </button>
+           <Sheet>
+             <SheetTrigger asChild>
+               <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+                  <Menu className="w-5 h-5" />
+                  Navigation
+               </button>
+             </SheetTrigger>
+             <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[350px]">
+               <SheetHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+                 <div className="flex items-center gap-4">
+                   <DiagnosticLogo size="sm" />
+                   <SheetTitle className="text-xl font-black tracking-widest uppercase text-white">Hub Menu</SheetTitle>
+                 </div>
+               </SheetHeader>
+               <div className="p-6 space-y-8">
+                 <div className="space-y-2">
+                   <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Diagnostic Terminals</div>
+                   <Link href="/dashboard" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
+                     <LayoutDashboard className="w-5 h-5 text-amber-400" />
+                     <span className="text-sm font-black uppercase tracking-widest">Trading Desk</span>
+                   </Link>
+                   <Link href="/markets" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
+                     <Globe className="w-5 h-5 text-emerald-400" />
+                     <span className="text-sm font-black uppercase tracking-widest">Market Intel</span>
+                   </Link>
+                   <Link href="/personalities" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
+                     <Compass className="w-5 h-5 text-orange-400" />
+                     <span className="text-sm font-black uppercase tracking-widest">Sector Nodes</span>
+                   </Link>
+                 </div>
+
+                 <div className="space-y-2">
+                   <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Social Network</div>
+                   <Link href="/community" className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 transition-all group">
+                     <MessageCircle className="w-5 h-5 text-indigo-400" />
+                     <span className="text-sm font-black uppercase tracking-widest">Global Feed</span>
+                   </Link>
+                   <Link href="/communities" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
+                     <Users className="w-5 h-5 text-pink-400" />
+                     <span className="text-sm font-black uppercase tracking-widest">Community Hubs</span>
+                   </Link>
+                 </div>
+
+                 <div className="pt-12 border-t border-white/5">
+                   <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 border border-white/10 text-center">
+                     <Brain className="w-8 h-8 text-indigo-400 mx-auto mb-4" />
+                     <div className="text-[9px] font-black uppercase tracking-widest text-indigo-400 mb-1">Status: Operational</div>
+                     <div className="text-[11px] font-bold text-white/60">Neural Engine v2.5.0</div>
+                   </div>
+                 </div>
+               </div>
+             </SheetContent>
+           </Sheet>
         </div>
 
         <div className="flex items-center gap-8">
