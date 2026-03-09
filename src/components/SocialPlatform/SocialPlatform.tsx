@@ -173,7 +173,7 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    // Safely generate user name from display name or email prefix
+    // SAFE SPLIT: Ensure user email exists before splitting
     const safeUser = user.displayName || user.email?.split("@")?.[0] || "User";
 
     addDocumentNonBlocking(insightsRef, {

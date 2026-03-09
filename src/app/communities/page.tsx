@@ -142,6 +142,7 @@ function CommunitiesDiscoveryContent() {
     e.preventDefault();
     if (!messageInput.trim() || !user || !messagesRef) return;
 
+    // SAFE SPLIT: Ensure user email exists before splitting
     const safeAuthor = user.displayName || user.email?.split("@")?.[0] || "User";
 
     addDocumentNonBlocking(messagesRef, {

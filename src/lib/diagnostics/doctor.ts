@@ -36,7 +36,7 @@ export function diagnoseSystem(): SystemHealth {
   const profiles = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES : [];
   const profileCount = profiles.length;
   
-  // Use Math.max(0) to prevent negative counts that trigger RangeErrors in repeat() or other string methods
+  // Use Math.max(0) to prevent negative counts that trigger RangeErrors
   const missingCount = Math.max(0, 16 - profileCount);
   
   if (missingCount > 0) {
