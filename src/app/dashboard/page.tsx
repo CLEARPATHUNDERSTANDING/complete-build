@@ -72,89 +72,90 @@ function DashboardContent() {
 
   const handleBluetooth = async () => {
     if (!navigator.bluetooth) {
-      toast({ variant: "destructive", title: "Protocol Unsupported", description: "Sync disabled." });
+      toast({ variant: "destructive", title: "Unsupported", description: "This browser doesn't support connections." });
       return;
     }
-    toast({ title: "Bluetooth Sync", description: "Establishing link..." });
+    toast({ title: "Connecting", description: "Searching for device..." });
   };
 
   if (!mounted) return null;
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
-      <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-10 sticky top-0 z-50">
-        <div className="flex items-center gap-16">
-           <div className="flex items-center gap-8">
-             <DiagnosticLogo size="md" />
+      <header className="h-20 lg:h-56 border-b border-white/10 bg-black flex items-center justify-between px-6 lg:px-10 sticky top-0 z-50">
+        <div className="flex items-center gap-4 lg:gap-16">
+           <div className="flex items-center gap-4 lg:gap-8">
+             <DiagnosticLogo size="xs" className="lg:hidden" />
+             <DiagnosticLogo size="md" className="hidden lg:block" />
              <div className="flex flex-col text-left">
-                <span className="text-[28px] font-black tracking-[0.3em] text-white uppercase leading-none">INTELLIGENCE TRADER</span>
-                <span className="text-[24px] font-bold tracking-[0.1em] text-white uppercase [-webkit-text-stroke:1.5px_#ff0000]">Diagnostic Board</span>
+                <span className="text-sm lg:text-[28px] font-black tracking-[0.2em] lg:tracking-[0.3em] text-white uppercase leading-none">TRADER</span>
+                <span className="text-xs lg:text-[24px] font-bold tracking-[0.1em] text-white uppercase hidden lg:inline-block">Diagnostic Board</span>
              </div>
            </div>
 
-           <div className="flex bg-white/5 rounded-full p-1.5 border border-white/10">
+           <div className="hidden lg:flex bg-white/5 rounded-full p-1.5 border border-white/10">
               <button 
                 onClick={() => setIsNeuroEnabled(false)}
                 className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${!isNeuroEnabled ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/40 hover:text-white'}`}
               >
-                Standard Terminal
+                Standard
               </button>
               <button 
                 onClick={() => setIsNeuroEnabled(true)}
                 className={`px-8 py-3 rounded-full text-[11px] font-black tracking-widest uppercase transition-all ${isNeuroEnabled ? 'bg-cyan-500 text-white shadow-[0_0_20px_rgba(6,182,212,0.5)]' : 'text-white/40 hover:text-white'}`}
               >
-                Neuro Terminal
+                Neuro
               </button>
            </div>
 
            <Sheet>
              <SheetTrigger asChild>
-               <button className="flex items-center gap-2 text-[11px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
-                  <Menu className="w-5 h-5" />
+               <button className="flex items-center gap-2 text-[10px] lg:text-[11px] font-black tracking-[0.2em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
+                  <Menu className="w-4 h-4 lg:w-5 h-5" />
                   Navigation
                </button>
              </SheetTrigger>
-             <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[350px]">
-               <SheetHeader className="p-8 border-b border-white/5 bg-white/[0.02]">
+             <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px] lg:w-[350px]">
+               <SheetHeader className="p-6 lg:p-8 border-b border-white/5 bg-white/[0.02]">
                  <div className="flex items-center gap-4">
-                   <DiagnosticLogo size="sm" />
-                   <SheetTitle className="text-xl font-black tracking-widest uppercase text-white">Hub Menu</SheetTitle>
+                   <DiagnosticLogo size="xs" />
+                   <SheetTitle className="text-lg lg:text-xl font-black tracking-widest uppercase text-white">Hub Menu</SheetTitle>
                  </div>
                </SheetHeader>
                <div className="p-6 space-y-8">
                  <div className="space-y-2">
-                   <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Diagnostic Terminals</div>
+                   <div className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Diagnostic Terminals</div>
                    <Link href="/dashboard" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
                      <LayoutDashboard className="w-5 h-5 text-amber-400" />
-                     <span className="text-sm font-black uppercase tracking-widest">Trading Desk</span>
+                     <span className="text-xs font-black uppercase tracking-widest">Trading Desk</span>
                    </Link>
                    <Link href="/markets" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
                      <Globe className="w-5 h-5 text-emerald-400" />
-                     <span className="text-sm font-black uppercase tracking-widest">Market Intel</span>
+                     <span className="text-xs font-black uppercase tracking-widest">Market Intel</span>
                    </Link>
                    <Link href="/personalities" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
                      <Compass className="w-5 h-5 text-orange-400" />
-                     <span className="text-sm font-black uppercase tracking-widest">Sector Nodes</span>
+                     <span className="text-xs font-black uppercase tracking-widest">Sector Nodes</span>
                    </Link>
                  </div>
 
                  <div className="space-y-2">
-                   <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Social Network</div>
+                   <div className="text-[9px] font-black uppercase tracking-[0.3em] text-white/30 mb-4 px-2">Social Network</div>
                    <Link href="/community" className="flex items-center gap-4 p-4 rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 transition-all group">
                      <MessageCircle className="w-5 h-5 text-indigo-400" />
-                     <span className="text-sm font-black uppercase tracking-widest">Global Feed</span>
+                     <span className="text-xs font-black uppercase tracking-widest">Global Feed</span>
                    </Link>
                    <Link href="/communities" className="flex items-center gap-4 p-4 rounded-2xl bg-white/5 hover:bg-white/10 transition-all group">
                      <Users className="w-5 h-5 text-pink-400" />
-                     <span className="text-sm font-black uppercase tracking-widest">Community Hubs</span>
+                     <span className="text-xs font-black uppercase tracking-widest">Community Hubs</span>
                    </Link>
                  </div>
 
-                 <div className="pt-12 border-t border-white/5">
+                 <div className="pt-8 border-t border-white/5">
                    <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 border border-white/10 text-center">
-                     <Brain className="w-8 h-8 text-indigo-400 mx-auto mb-4" />
-                     <div className="text-[9px] font-black uppercase tracking-widest text-indigo-400 mb-1">Status: Operational</div>
-                     <div className="text-[11px] font-bold text-white/60">Neural Engine v2.5.0</div>
+                     <Brain className="w-6 h-6 text-indigo-400 mx-auto mb-4" />
+                     <div className="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-1">Status: Operational</div>
+                     <div className="text-[10px] font-bold text-white/60">Neural Engine v2.5.0</div>
                    </div>
                  </div>
                </div>
@@ -162,20 +163,16 @@ function DashboardContent() {
            </Sheet>
         </div>
 
-        <div className="flex items-center gap-8">
-           <div className="flex items-center gap-6 text-white/30 border-r border-white/10 pr-8">
+        <div className="flex items-center gap-4 lg:gap-8">
+           <div className="hidden lg:flex items-center gap-6 text-white/30 border-r border-white/10 pr-8">
               <Volume2 className="w-5 h-5 hover:text-white cursor-pointer transition-colors" />
               <Bluetooth onClick={handleBluetooth} className="w-5 h-5 hover:text-indigo-400 cursor-pointer transition-colors" />
            </div>
 
-           <div className="flex items-center gap-6">
-              <div className="flex flex-col items-end">
-                <span className="text-[9px] font-black tracking-widest text-white/40 uppercase">
-                  Current Profile
-                </span>
-                <span className="text-[11px] font-black text-indigo-400 uppercase tracking-widest">
-                  {isNeuroEnabled ? activeProfile.label : standardMode.label}
-                </span>
+           <div className="flex items-center gap-4">
+              <div className="hidden lg:flex flex-col items-end">
+                <span className="text-[9px] font-black tracking-widest text-white/40 uppercase">Profile</span>
+                <span className="text-[11px] font-black text-indigo-400 uppercase tracking-widest">{isNeuroEnabled ? activeProfile.label : standardMode.label}</span>
               </div>
               
               <Select 
@@ -190,19 +187,19 @@ function DashboardContent() {
                   }
                 }}
               >
-                <SelectTrigger className="w-[240px] bg-white/5 border-white/10 rounded-xl h-12 uppercase text-[11px] font-black tracking-widest">
-                  <SelectValue placeholder="Select Profile" />
+                <SelectTrigger className="w-[140px] lg:w-[240px] bg-white/5 border-white/10 rounded-xl h-10 lg:h-12 uppercase text-[9px] lg:text-[11px] font-black tracking-widest">
+                  <SelectValue placeholder="Profile" />
                 </SelectTrigger>
                 <SelectContent className="bg-[#0a0f18] border-white/10">
                   {isNeuroEnabled ? (
                     NEURO_PROFILES.map((p) => (
-                      <SelectItem key={p.id} value={p.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-cyan-500 focus:text-white">
+                      <SelectItem key={p.id} value={p.id} className="text-[10px] lg:text-[11px] font-black uppercase tracking-widest focus:bg-cyan-500 focus:text-white">
                         {p.label}
                       </SelectItem>
                     ))
                   ) : (
                     NON_ND_MODES.map((m) => (
-                      <SelectItem key={m.id} value={m.id} className="text-[11px] font-black uppercase tracking-widest focus:bg-indigo-500 focus:text-white">
+                      <SelectItem key={m.id} value={m.id} className="text-[10px] lg:text-[11px] font-black uppercase tracking-widest focus:bg-indigo-500 focus:text-white">
                         {m.label}
                       </SelectItem>
                     ))
@@ -213,64 +210,61 @@ function DashboardContent() {
         </div>
       </header>
 
-      <main className="flex-1 p-10 overflow-hidden">
-        <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-10">
+      <main className="flex-1 p-4 lg:p-10 overflow-hidden">
+        <div className="max-w-[1800px] mx-auto h-full flex flex-col gap-4 lg:gap-10">
           <NeuroGlowCard neuroModeId={neuroId} className="flex-1">
             <div className="flex flex-col h-full bg-[#070b16]/40 backdrop-blur-3xl">
-              <div className="px-8 py-5 flex items-center justify-between border-b border-white/5 bg-black/20">
-                <div className="flex items-center gap-4">
-                  <div className="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
-                    <Activity className="w-5 h-5 text-indigo-400" />
+              <div className="px-4 lg:px-8 py-3 lg:py-5 flex items-center justify-between border-b border-white/5 bg-black/20">
+                <div className="flex items-center gap-3">
+                  <div className="p-1.5 rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+                    <Activity className="w-4 h-4 text-indigo-400" />
                   </div>
                   <div>
-                    <span className="text-[14px] font-black tracking-[0.3em] text-white uppercase">{standardMode.defaultSymbol} VIEW</span>
-                    <div className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em]">{activeProfile.tagline}</div>
+                    <span className="text-[11px] lg:text-[14px] font-black tracking-[0.2em] lg:tracking-[0.3em] text-white uppercase">{standardMode.defaultSymbol} VIEW</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-8">
-                   <div className="flex gap-1 p-1 bg-black/40 rounded-xl border border-white/10">
-                      {TIMEFRAMES.map(tf => (
+                <div className="flex items-center gap-4 lg:gap-8">
+                   <div className="hidden sm:flex gap-1 p-1 bg-black/40 rounded-xl border border-white/10">
+                      {["15m", "1h", "1d", "1w"].map(tf => (
                         <button 
                           key={tf} 
                           onClick={() => setActiveTf(tf)}
-                          className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest transition-all rounded-lg ${activeTf === tf ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+                          className={`px-3 py-1.5 text-[9px] font-black uppercase tracking-widest transition-all rounded-lg ${activeTf === tf ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'text-white/30 hover:text-white'}`}
                         >
                           {tf}
                         </button>
                       ))}
                    </div>
 
-                   <div className="h-8 w-px bg-white/10" />
-
-                   <div className="flex items-center gap-3 bg-white/5 p-1 rounded-xl border border-white/10">
+                   <div className="flex items-center gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
                       <button 
                         onClick={() => setViewMode('minimal')}
-                        className={`p-2 rounded-lg transition-all ${viewMode === 'minimal' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
+                        className={`p-1.5 rounded-lg transition-all ${viewMode === 'minimal' ? 'bg-indigo-500 text-white' : 'text-white/20'}`}
                       >
-                        <Square className="w-4 h-4" />
+                        <Square className="w-3.5 h-3.5" />
                       </button>
                       <button 
                         onClick={() => setViewMode('quad')}
-                        className={`p-2 rounded-lg transition-all ${viewMode === 'quad' ? 'bg-indigo-500 text-white shadow-[0_0_20px_rgba(99,102,241,0.5)]' : 'text-white/20 hover:text-white'}`}
+                        className={`p-1.5 rounded-lg transition-all ${viewMode === 'quad' ? 'bg-indigo-500 text-white' : 'text-white/20'}`}
                       >
-                        <LayoutGrid className="w-4 h-4" />
+                        <LayoutGrid className="w-3.5 h-3.5" />
                       </button>
                    </div>
                 </div>
               </div>
 
-              <div className="flex-1 p-8 overflow-auto">
+              <div className="flex-1 p-4 lg:p-8 overflow-auto">
                 {viewMode === 'quad' ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
-                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={400} />
-                    <CandlestickChart neuroModeId={neuroId} title="EURUSD" height={400} />
-                    <CandlestickChart neuroModeId={neuroId} title="BTCUSD" height={400} />
-                    <CandlestickChart neuroModeId={neuroId} title="XAUUSD" height={400} />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 h-full">
+                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={300} />
+                    <CandlestickChart neuroModeId={neuroId} title="EURUSD" height={300} />
+                    <CandlestickChart neuroModeId={neuroId} title="BTCUSD" height={300} />
+                    <CandlestickChart neuroModeId={neuroId} title="XAUUSD" height={300} />
                   </div>
                 ) : (
                   <div className="h-full flex flex-col gap-8">
-                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={600} />
+                    <CandlestickChart neuroModeId={neuroId} title={standardMode.defaultSymbol} height={mounted && window.innerWidth < 1024 ? 400 : 600} />
                   </div>
                 )}
               </div>
@@ -279,18 +273,13 @@ function DashboardContent() {
         </div>
       </main>
 
-      <footer className="h-12 border-t border-white/10 bg-black flex items-center justify-between px-10 text-[10px] uppercase font-bold tracking-widest text-white/40">
-        <div className="flex items-center gap-8">
-          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]" /> Connected</span>
-          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full shadow-[0_0_10px_#6366f1]" /> Neural Engine Active</span>
-          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-cyan-500 rounded-full shadow-[0_0_10px_#06b6d4]" /> Protocol Synchronized</span>
+      <footer className="h-10 border-t border-white/10 bg-black flex items-center justify-between px-6 lg:px-10 text-[8px] lg:text-[10px] uppercase font-bold tracking-widest text-white/40">
+        <div className="flex items-center gap-4 lg:gap-8">
+          <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Live</span>
+          <span className="hidden sm:flex items-center gap-2"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full" /> Synchronized</span>
         </div>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10">
-            <ShieldCheck className="w-3 h-3 text-emerald-400" />
-            <span>Diagnostic Mode: Stable</span>
-          </div>
-          <span>IP-RESTORED v1.5.0</span>
+        <div className="flex items-center gap-4">
+          <span className="opacity-50">IP-RESTORED v1.5.0</span>
         </div>
       </footer>
     </div>
@@ -301,8 +290,8 @@ export default function DashboardPage() {
   return (
     <React.Suspense fallback={
       <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500 gap-4">
-        <Loader2 className="w-12 h-12 animate-spin" />
-        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Restoring Neural Architecture...</span>
+        <Loader2 className="w-10 h-10 animate-spin" />
+        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Loading Terminal...</span>
       </div>
     }>
       <DashboardContent />
