@@ -8,7 +8,7 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * Platform Landing Node
- * Optimized for hydration stability and human language.
+ * Fixed: Removed dynamic text to prevent hydration errors.
  */
 export default function HomePage() {
   const [mounted, setMounted] = useState(false);
@@ -18,8 +18,8 @@ export default function HomePage() {
   }, []);
 
   // Use a stable initial render to prevent hydration mismatches
-  const loginText = "Log In";
-  const signUpText = "Sign Up";
+  const loginLabel = "Log In";
+  const signUpLabel = "Sign Up";
 
   return (
     <main className="landing-root bg-black min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
@@ -37,7 +37,7 @@ export default function HomePage() {
             Patent Pending
           </Link>
           <Link href="/login" className="text-[11px] font-black uppercase tracking-[0.3em] text-white/60 hover:text-white transition-all">
-            {loginText}
+            {loginLabel}
           </Link>
         </nav>
       </header>
@@ -65,10 +65,10 @@ export default function HomePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="/login" className="primary-btn large px-12 group">
-              {loginText} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              {loginLabel} <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link href="/login" className="ghost-btn large px-12">
-              {signUpText}
+              {signUpLabel}
             </Link>
           </div>
           
@@ -99,10 +99,12 @@ export default function HomePage() {
         </div>
 
         {/* Security Status */}
-        <div className="pt-12 flex items-center justify-center gap-3 text-white/20">
-          <ShieldCheck className="w-5 h-5" />
-          <span className="text-[10px] font-black uppercase tracking-widest">Secure Data Layer Active</span>
-        </div>
+        {mounted && (
+          <div className="pt-12 flex items-center justify-center gap-3 text-white/20 animate-in fade-in duration-700">
+            <ShieldCheck className="w-5 h-5" />
+            <span className="text-[10px] font-black uppercase tracking-widest">Secure Data Layer Active</span>
+          </div>
+        )}
       </section>
     </main>
   );

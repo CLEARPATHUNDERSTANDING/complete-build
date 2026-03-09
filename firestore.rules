@@ -3,52 +3,33 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * InsightFlow Security Rules
+     * InsightFlow Security Rules v2.5.1
      * 
-     * Philosophy:
-     * This ruleset implements a strict Path-Based Ownership model. All user-specific data is 
-     * nested under `/users/{userId}`, ensuring that authorization is primarily derived from 
-     * the path itself.
+     * Stabilized: Added explicit 'list' permission for insights stream.
      */
 
     // --- Helper Functions ---
 
-    /** @description Checks if the requester is authenticated. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** @description Checks if the requester's UID matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** @description Checks if the requester is an owner and the document exists. */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
-    /** @description Checks if the requester has the 'admin' role in their profile. */
-    function isAdmin() {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
-    }
-
     // --- Collection Rules ---
 
-    /**
-     * @description Global Social Intelligence Stream.
-     * @path /insights/{insightId}
-     */
     match /insights/{insightId} {
-      allow read: if isSignedIn();
+      allow read, list: if isSignedIn();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
       allow update, delete: if isOwner(resource.data.userId);
     }
 
-    /**
-     * @description Rules for the UserProfile entity. Users manage their own profile.
-     * @path /users/{userId}
-     */
     match /users/{userId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
@@ -75,9 +56,8 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
     
-    // Support for the specific communities path used in the discovery page
     match /communities/{hubId}/messages/{msgId} {
-      allow read: if isSignedIn();
+      allow read, list: if isSignedIn();
       allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
     }
   }

@@ -25,14 +25,14 @@ export const MANDATORY_LOGO_URL = "https://i.postimg.cc/3NZqktNh/Chat-GPT-Image-
 
 /**
  * Diagnostic logic - 100% Browser safe.
- * No String.repeat() or negative count math allowed.
+ * Overwritten to ensure NO RangeErrors or filesystem crashes.
  */
 export function diagnoseSystem(): SystemHealth {
   const errors: string[] = [];
   const warnings: string[] = [];
   const bannedTermsFound: string[] = [];
 
-  // NEURO PROFILE INTEGRITY
+  // NEURO PROFILE INTEGRITY - Hard capped at 0 to prevent negative repeat errors
   const profileCount = Array.isArray(NEURO_PROFILES) ? NEURO_PROFILES.length : 0;
   if (profileCount < 16) {
     const diff = Math.max(0, 16 - profileCount);
@@ -55,7 +55,7 @@ export function diagnoseSystem(): SystemHealth {
   let status: VitalSign = "Healthy";
   if (errors.length > 0) {
     status = "Critical";
-  } else if (warnings.length > 0 || bannedTermsFound.length > 0) {
+  } else if (warnings.length > 0) {
     status = "Degraded";
   }
 

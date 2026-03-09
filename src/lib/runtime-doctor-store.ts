@@ -24,7 +24,8 @@ export function readRuntimeDoctorEntries(): RuntimeDoctorEntry[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : [];
-  } catch {
+  } catch (e) {
+    console.error("Store read failed", e);
     return [];
   }
 }
@@ -37,8 +38,8 @@ export function writeRuntimeDoctorEntry(entry: RuntimeDoctorEntry) {
     current.unshift(entry);
     const trimmed = current.slice(0, MAX_ENTRIES);
     window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(trimmed));
-  } catch {
-    // swallow
+  } catch (e) {
+    // Silent catch to prevent recursion during crashes
   }
 }
 
@@ -46,8 +47,8 @@ export function clearRuntimeDoctorEntries() {
   if (!isBrowser()) return;
   try {
     window.sessionStorage.removeItem(STORAGE_KEY);
-  } catch {
-    // swallow
+  } catch (e) {
+    // Silent catch
   }
 }
 

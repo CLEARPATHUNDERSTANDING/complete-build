@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   experimental: {
     allowedDevOrigins: [
       "*.cloudworkstations.dev",
+      "*.cluster-2ywkqesibzdhuvybgxpusl4nj2.cloudworkstations.dev",
       "*.hosted.app",
       "localhost:9002",
       "localhost:6000"
