@@ -144,7 +144,7 @@ export default function SocialPlatform() {
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    if (!isUserLoading && !user && mounted) router.push("/login");
+    if (mounted && !isUserLoading && !user) router.push("/login");
   }, [user, isUserLoading, mounted, router]);
 
   useEffect(() => {
@@ -188,8 +188,9 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    // SAFE SPLIT: Use optional chaining and default values
-    const safeUser = user.displayName || user.email?.split("@")?.[0] || "User";
+    // BULLETPROOF IDENTITY: Safe split and fallback
+    const emailPrefix = user.email ? user.email.split("@")[0] : null;
+    const safeUser = user.displayName || emailPrefix || "User";
 
     addDocumentNonBlocking(insightsRef, {
       userId: user.uid,
@@ -393,7 +394,7 @@ export default function SocialPlatform() {
             </div>
           </div>
         </ScrollArea>
-      </section>
+      </aside>
 
       {/* RIGHT SIDEBAR (Desktop) */}
       <aside className="w-[380px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex flex-col hidden xl:flex">
