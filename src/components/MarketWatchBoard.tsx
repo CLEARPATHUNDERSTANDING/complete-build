@@ -8,13 +8,14 @@ type Props = {
 };
 
 function fakePrice(symbol: string) {
-  const seed = symbol.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  // Defensive guard against undefined symbols
+  const seed = (symbol || "DEF").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
 
-  if (symbol.includes("USD") && symbol.length <= 7 && !symbol.startsWith("XAU") && !symbol.startsWith("BTC")) {
+  if (symbol?.includes("USD") && symbol.length <= 7 && !symbol.startsWith("XAU") && !symbol.startsWith("BTC")) {
     return (1 + (seed % 9000) / 10000).toFixed(4);
   }
 
-  if (symbol.startsWith("XAU") || symbol.startsWith("BTC")) {
+  if (symbol?.startsWith("XAU") || symbol?.startsWith("BTC")) {
     return (64000 + (seed % 4000)).toLocaleString();
   }
 

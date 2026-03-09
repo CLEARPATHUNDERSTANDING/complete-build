@@ -419,7 +419,7 @@ export default function SocialPlatform() {
                     </div>
                     <div className="text-left">
                       <div className="text-sm lg:text-[16px] font-black text-white group-hover:text-indigo-400 transition-colors uppercase tracking-tight">{hub.name}</div>
-                      <div className="text-[9px] lg:text-[11px] font-black text-white/30 uppercase tracking-widest">{hub.status}</div>
+                      <div className="text-[9px] font-black text-white/30 uppercase tracking-widest">{hub.status}</div>
                     </div>
                   </div>
                 ))}
