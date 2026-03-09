@@ -220,8 +220,8 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR */}
-      <aside className="hidden md:flex w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
+      {/* LEFT SIDEBAR - LOWER BREAKPOINT FOR PERSISTENCE */}
+      <aside className="hidden lg:flex w-[280px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
         <div className="p-6 lg:p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-28 h-28 lg:w-32 lg:h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
             <DiagnosticLogo size="md" className="w-full h-full" />
@@ -268,7 +268,7 @@ export default function SocialPlatform() {
           <div className="flex items-center gap-4 lg:gap-8">
             <Sheet>
               <SheetTrigger asChild>
-                <button className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10">
+                <button className="lg:hidden p-3 rounded-xl bg-white/5 border border-white/10">
                   <Menu className="w-6 h-6 text-white" />
                 </button>
               </SheetTrigger>
@@ -438,8 +438,8 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR */}
-      <aside className="hidden lg:flex w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
+      {/* RIGHT SIDEBAR - PERSISTENT AT LG BREAKPOINT */}
+      <aside className="hidden xl:flex w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
         <div className="p-6 lg:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">
             <TrendingUp className="w-6 h-6 text-indigo-500" />
