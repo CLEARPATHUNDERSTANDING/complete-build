@@ -45,7 +45,7 @@ import WeatherWidget from "@/components/WeatherWidget";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
-const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] via-[#ff4fd8] to-[#ff8a00] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
+const spectralTitleClass = "bg-clip-text text-transparent bg-gradient-to-r from-[#00d4ff] via-[#6a5cff] to-[#ff4fd8] drop-shadow-[0_0_25px_rgba(106,92,255,0.6)] brightness-125";
 
 function BorderWallCard({
   title,
@@ -188,8 +188,8 @@ export default function SocialPlatform() {
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
     
-    const emailParts = user.email ? user.email.split("@") : [];
-    const safeUser = user.displayName || emailParts[0] || "User";
+    // SAFE SPLIT: Use optional chaining and default values
+    const safeUser = user.displayName || user.email?.split("@")?.[0] || "User";
 
     addDocumentNonBlocking(insightsRef, {
       userId: user.uid,
