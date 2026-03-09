@@ -6,7 +6,9 @@ import { OhlcPoint } from "@/components/markets/apex/market-watch-types";
 export function generateMockOhlc(symbol: string, count: number = 60): OhlcPoint[] {
   const now = Date.now();
   const pts: OhlcPoint[] = [];
-  const seed = symbol.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  // SAFE SPLIT: Defensive guard against undefined symbols
+  const symbolSafe = symbol || "DEF";
+  const seed = symbolSafe.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
   let price = 100 + (seed % 500);
 
   for (let i = count; i >= 0; i--) {
