@@ -49,6 +49,7 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * IDENTITY GUARD: Safe username extraction for anonymous or guest profiles.
+ * Prevents .split() crash on undefined/null strings.
  */
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
@@ -220,7 +221,7 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR - Responsive Lockdown */}
+      {/* LEFT SIDEBAR */}
       <aside className="hidden md:flex w-[280px] lg:w-[320px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
         <div className="p-6 lg:p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-28 h-28 lg:w-32 lg:h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
@@ -271,13 +272,11 @@ export default function SocialPlatform() {
                 <button className="md:hidden p-3 rounded-xl bg-white/5 border border-white/10">
                   <Menu className="w-6 h-6 text-white" />
                 </button>
-              </Trigger>
+              </SheetTrigger>
               <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px]">
                 <SheetHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
-                  <div className="flex items-center gap-4">
-                    <DiagnosticLogo size="xs" />
-                    <SheetTitle className="text-lg font-black tracking-widest uppercase text-white">Menu Hub</SheetTitle>
-                  </div>
+                  <DiagnosticLogo size="xs" />
+                  <SheetTitle className="text-lg font-black tracking-widest uppercase text-white mt-4">Menu Hub</SheetTitle>
                   <SheetDescription className="text-[10px] text-white/30 uppercase tracking-widest">Platform navigation and network nodes.</SheetDescription>
                 </SheetHeader>
                 <ScrollArea className="h-full">
@@ -440,7 +439,7 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR - High Density Diagnostic */}
+      {/* RIGHT SIDEBAR */}
       <aside className="hidden lg:flex w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
         <div className="p-6 lg:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">

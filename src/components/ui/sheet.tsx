@@ -64,10 +64,13 @@ const SheetContent = React.forwardRef<
       className={cn(sheetVariants({ side }), className)}
       {...props}
     >
-      {/* Universal Accessibility Header */}
+      {/* 
+        ACCESSIBILITY LOCKDOWN:
+        Mandatory Title/Description for Radix UI.
+      */}
       <div className="sr-only">
-        <SheetPrimitive.Title>Navigation Panel</SheetPrimitive.Title>
-        <SheetPrimitive.Description>System navigation and options.</SheetPrimitive.Description>
+        <SheetPrimitive.Title>Navigation Menu</SheetPrimitive.Title>
+        <SheetPrimitive.Description>System navigation and access nodes.</SheetPrimitive.Description>
       </div>
 
       {children}

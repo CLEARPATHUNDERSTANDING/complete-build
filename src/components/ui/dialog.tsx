@@ -43,12 +43,16 @@ const DialogContent = React.forwardRef<
       )}
       {...props}
     >
-      {/* Universal Accessibility Header */}
+      {/* 
+        ACCESSIBILITY LOCKDOWN:
+        Universal Title and Description placeholders.
+        If the calling component doesn't provide them, these ensure the DOM remains valid for Radix UI.
+      */}
       <div className="sr-only">
-        <DialogPrimitive.Title>Dialog Panel</DialogPrimitive.Title>
-        <DialogPrimitive.Description>Interactive system action.</DialogPrimitive.Description>
+        <DialogPrimitive.Title>System Dialog</DialogPrimitive.Title>
+        <DialogPrimitive.Description>Interactive system panel for diagnostic tasks.</DialogPrimitive.Description>
       </div>
-      
+
       {children}
       <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
         <X className="h-4 w-4" />

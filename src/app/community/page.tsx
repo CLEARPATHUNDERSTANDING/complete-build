@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 
 /**
  * RESTORED: Full Spectrum Social Feed
- * Reinforced with high-fidelity sidebars and accessibility compliance.
+ * Reinforced with high-fidelity sidebars and 20px fluorescent scrollbars.
  */
 export default function CommunityPage() {
   return (

@@ -43,7 +43,7 @@ html, body {
   touch-action: manipulation;
 }
 
-/* 20px WIDE INDEPENDENT FLUORESCENT SCROLLBARS - FULL SPECTRUM */
+/* 20px WIDE INDEPENDENT FLUORESCENT SCROLLBARS - FULL SPECTRUM LOCKDOWN */
 ::-webkit-scrollbar {
   width: 20px;
   height: 20px;
@@ -71,7 +71,6 @@ html, body {
   color: white;
 }
 
-/* GESTURE LOCKDOWN CLASSES */
 .chart-page {
   width: 100vw;
   height: 100vh;
@@ -99,7 +98,6 @@ html, body {
   overscroll-behavior: none;
 }
 
-/* DOUBLE GLASS UTILITIES */
 .glass-card {
   position: relative;
   overflow: hidden;
@@ -113,15 +111,6 @@ html, body {
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-.glass-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 40%);
-  pointer-events: none;
-}
-
-/* LANDING NODE STYLES */
 .landing-root {
   position: relative;
   min-height: 100vh;
@@ -166,13 +155,6 @@ html, body {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.primary-btn:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow:
-    0 15px 45px rgba(0, 0, 0, 0.5),
-    0 0 30px rgba(0, 245, 255, 0.4);
-}
-
 .ghost-btn {
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -185,9 +167,4 @@ html, body {
   text-transform: uppercase;
   letter-spacing: 0.2em;
   transition: all 0.3s ease;
-}
-
-.ghost-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
 }
