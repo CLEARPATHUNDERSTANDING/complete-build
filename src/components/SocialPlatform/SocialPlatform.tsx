@@ -49,7 +49,6 @@ import NeonBoard from "@/components/NeonBoard";
 
 /**
  * IDENTITY GUARD: Safe username extraction for anonymous or guest profiles.
- * Prevents .split() crash on undefined/null strings.
  */
 function getSafeAuthor(user: any) {
   if (!user) return "Guest Node";
