@@ -103,7 +103,22 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
     const initial = Math.floor(el.getBoundingClientRect().width);
     if (initial > 0) setWidth(initial);
 
-    return () => ro.disconnect();
+    // GESTURE LOCKDOWN
+    const preventGesture = (e: Event) => e.preventDefault();
+    const preventTouchMove = (e: TouchEvent) => {
+      if (e.touches.length >= 1) e.preventDefault();
+    };
+
+    el.addEventListener("gesturestart", preventGesture as EventListener, { passive: false });
+    el.addEventListener("gesturechange", preventGesture as EventListener, { passive: false });
+    el.addEventListener("touchmove", preventTouchMove, { passive: false });
+
+    return () => {
+      ro.disconnect();
+      el.removeEventListener("gesturestart", preventGesture as EventListener);
+      el.removeEventListener("gesturechange", preventGesture as EventListener);
+      el.removeEventListener("touchmove", preventTouchMove);
+    };
   }, [mounted]);
 
   const bars = useMemo(() => sanitize(data?.length ? data : sampleData(localSymbol)), [data, localSymbol]);
@@ -213,7 +228,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
   };
 
   return (
-    <div className="w-full" ref={wrapRef}>
+    <div className="w-full chart-shell" ref={wrapRef} onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
       <div
         className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-3 relative transition-all duration-700"
         style={{ boxShadow: glowShadow }}
@@ -247,7 +262,7 @@ export default function ChartPanelApex({ mode, personality, data }: Props) {
         </div>
 
         {mounted && width > 50 ? (
-          <div className="relative">
+          <div className="relative chart-gesture-surface">
             <ReactApexChart key={chartKey} options={options} series={series} type="candlestick" height={520} width={width} />
             <div className="absolute bottom-12 left-6 z-20 pointer-events-none">
               <DiagnosticLogo size="xs" />

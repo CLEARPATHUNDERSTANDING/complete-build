@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { type ApexOptions } from "apexcharts";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { Loader2 } from "lucide-react";
 import { useMounted } from "@/hooks/use-mounted";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
@@ -19,6 +19,27 @@ type Props = {
 
 export default function MarketDetailChart({ title, data }: Props) {
   const mounted = useMounted();
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = surfaceRef.current;
+    if (!el) return;
+
+    const preventGesture = (e: Event) => e.preventDefault();
+    const preventTouchMove = (e: TouchEvent) => {
+      if (e.touches.length >= 1) e.preventDefault();
+    };
+
+    el.addEventListener("gesturestart", preventGesture as EventListener, { passive: false });
+    el.addEventListener("gesturechange", preventGesture as EventListener, { passive: false });
+    el.addEventListener("touchmove", preventTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("gesturestart", preventGesture as EventListener);
+      el.removeEventListener("gesturechange", preventGesture as EventListener);
+      el.removeEventListener("touchmove", preventTouchMove);
+    };
+  }, []);
 
   const seriesData = useMemo(() => {
     if (!mounted) return [];
@@ -64,7 +85,12 @@ export default function MarketDetailChart({ title, data }: Props) {
   };
 
   return (
-    <div className="rounded-[40px] border border-white/10 bg-white/5 p-10 shadow-[0_0_60px_rgba(34,211,238,0.15)] backdrop-blur-xl relative">
+    <div 
+      ref={surfaceRef}
+      className="rounded-[40px] border border-white/10 bg-white/5 p-10 shadow-[0_0_60px_rgba(34,211,238,0.15)] backdrop-blur-xl relative chart-shell"
+      onContextMenu={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+    >
       <div className="mb-8 flex items-center justify-between">
         <h3 className="text-2xl font-bold text-white uppercase tracking-tight">{title}</h3>
         <span className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-5 py-2 text-sm uppercase tracking-[0.24em] text-cyan-300 font-black">
@@ -72,7 +98,7 @@ export default function MarketDetailChart({ title, data }: Props) {
         </span>
       </div>
 
-      <div className="relative">
+      <div className="relative chart-gesture-surface">
         {mounted ? (
           <Chart
             options={options}

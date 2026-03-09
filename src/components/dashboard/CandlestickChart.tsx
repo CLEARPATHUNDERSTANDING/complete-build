@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { getProfile, type NeuroProfileId } from "@/lib/neuro/profiles";
 import { chartPhysics } from "@/lib/neuro/chartPhysics";
@@ -34,6 +34,7 @@ export function CandlestickChart({
   data: externalData,
 }: CandlestickChartProps) {
   const mounted = useMounted();
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [localSymbol, setLocalSymbol] = useState(title);
   
@@ -51,6 +52,35 @@ export function CandlestickChart({
     const timer = setTimeout(() => setAnalyzing(false), 800);
     return () => clearTimeout(timer);
   }, [localSymbol, mounted]);
+
+  // MOBILE GESTURE LOCKDOWN
+  useEffect(() => {
+    const el = surfaceRef.current;
+    if (!el) return;
+
+    const preventGesture = (e: Event) => {
+      e.preventDefault();
+    };
+
+    const preventTouchMove = (e: TouchEvent) => {
+      if (e.touches.length >= 1) {
+        // Only prevent if we aren't allowing native scrolling in this zone
+        e.preventDefault();
+      }
+    };
+
+    el.addEventListener("gesturestart", preventGesture as EventListener, { passive: false });
+    el.addEventListener("gesturechange", preventGesture as EventListener, { passive: false });
+    el.addEventListener("gestureend", preventGesture as EventListener, { passive: false });
+    el.addEventListener("touchmove", preventTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("gesturestart", preventGesture as EventListener);
+      el.removeEventListener("gesturechange", preventGesture as EventListener);
+      el.removeEventListener("gestureend", preventGesture as EventListener);
+      el.removeEventListener("touchmove", preventTouchMove);
+    };
+  }, []);
 
   const chartData: ApexCandlePoint[] = useMemo(() => {
     if (externalData) return externalData;
@@ -145,7 +175,13 @@ export function CandlestickChart({
   }
 
   return (
-    <div style={{ height, width: "100%", borderRadius: 18, background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`, filter: options._containerFilter }} className="transition-all duration-700 relative group overflow-hidden">
+    <div 
+      ref={surfaceRef}
+      style={{ height, width: "100%", borderRadius: 18, background: `linear-gradient(180deg, ${p.bgTop}, ${p.bgBottom})`, filter: options._containerFilter }} 
+      className="transition-all duration-700 relative group overflow-hidden chart-shell"
+      onContextMenu={(e) => e.preventDefault()}
+      onDragStart={(e) => e.preventDefault()}
+    >
       <div className="px-4 pt-3 flex items-center justify-between relative z-30">
          <div className="flex items-center gap-3 flex-1">
             <Link 
@@ -180,7 +216,7 @@ export function CandlestickChart({
         </div>
       )}
 
-      <div className="relative z-10">
+      <div className="relative z-10 chart-gesture-surface">
         <Chart options={options} series={series} type="candlestick" height={height - 40} />
         <div className="absolute bottom-10 left-6 z-20 pointer-events-none">
           <DiagnosticLogo size="xs" />

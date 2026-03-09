@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 import type { ApexOptions } from "apexcharts";
 import { type OhlcPoint, type ApexChartType, CHART_TYPES } from "./market-watch-types";
 import { normalizeForApex } from "./market-watch-normalize";
@@ -30,9 +30,30 @@ type Props = {
 
 export function MarketWatchChart({ symbol, points, height = 340, initialType = "candlestick" }: Props) {
   const mounted = useMounted();
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
   const [chartType, setChartType] = useState<ApexChartType>(initialType);
   
   const normalized = useMemo(() => normalizeForApex(chartType, points), [points, chartType]);
+
+  useEffect(() => {
+    const el = surfaceRef.current;
+    if (!el) return;
+
+    const preventGesture = (e: Event) => e.preventDefault();
+    const preventTouchMove = (e: TouchEvent) => {
+      if (e.touches.length >= 1) e.preventDefault();
+    };
+
+    el.addEventListener("gesturestart", preventGesture as EventListener, { passive: false });
+    el.addEventListener("gesturechange", preventGesture as EventListener, { passive: false });
+    el.addEventListener("touchmove", preventTouchMove, { passive: false });
+
+    return () => {
+      el.removeEventListener("gesturestart", preventGesture as EventListener);
+      el.removeEventListener("gesturechange", preventGesture as EventListener);
+      el.removeEventListener("touchmove", preventTouchMove);
+    };
+  }, []);
 
   const options: ApexOptions = useMemo(() => {
     const baseOptions: ApexOptions = {
@@ -94,7 +115,7 @@ export function MarketWatchChart({ symbol, points, height = 340, initialType = "
   }, [normalized]);
 
   return (
-    <div className="w-full h-full flex flex-col relative">
+    <div className="w-full h-full flex flex-col relative chart-shell" ref={surfaceRef} onContextMenu={(e) => e.preventDefault()} onDragStart={(e) => e.preventDefault()}>
       <div className="mb-4 px-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link 
@@ -129,7 +150,7 @@ export function MarketWatchChart({ symbol, points, height = 340, initialType = "
         </DropdownMenu>
       </div>
 
-      <div className="flex-1 min-h-[300px] relative">
+      <div className="flex-1 min-h-[300px] relative chart-gesture-surface">
         {mounted ? (
           <ApexChart 
             options={options} 

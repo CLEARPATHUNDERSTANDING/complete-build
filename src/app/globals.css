@@ -31,13 +31,16 @@
 }
 
 html, body {
-  background-color: #000000;
-  min-height: 100vh;
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
   color: white;
   font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 /* 16px Wide Reachability Scrollbars - FULL SPECTRUM */
@@ -62,6 +65,34 @@ html, body {
   color: white;
 }
 
+/* GESTURE LOCKDOWN CLASSES */
+.chart-page {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+.chart-shell {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  touch-action: none;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.chart-gesture-surface {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
 /* DOUBLE GLASS UTILITIES */
 .glass-card {
   position: relative;
@@ -82,14 +113,6 @@ html, body {
   inset: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 40%);
   pointer-events: none;
-}
-
-.mini-stat {
-  padding: 16px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-blur: 12px;
 }
 
 /* LANDING NODE STYLES */
