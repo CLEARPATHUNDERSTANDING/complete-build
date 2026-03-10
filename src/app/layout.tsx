@@ -7,15 +7,12 @@ import { PWARegistration } from "@/components/PWARegistration";
 import RuntimeDoctor from "@/components/RuntimeDoctor";
 
 export const metadata: Metadata = {
-  title: "Adaptive Market Intelligence",
+  title: "Clear Path | Market Intelligence",
   description: "High-clarity neuro-divergent intelligence platform for universal asset analysis.",
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'Intelligence Hub',
-  },
-  formatDetection: {
-    telephone: false,
   },
 };
 
@@ -30,14 +27,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
-        />
-      </head>
-      <body className="antialiased">
+    <html lang="en" className="dark">
+      <body className="bg-black text-white antialiased selection:bg-indigo-500 selection:text-white">
         <FirebaseClientProvider>
           <RuntimeDoctor />
           <PWARegistration />
