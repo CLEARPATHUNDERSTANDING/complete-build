@@ -1,12 +1,11 @@
 import { genkit } from 'genkit';
-import { openAI } from 'genkitx-openai';
+import { googleAI } from '@genkit-ai/googleai';
 
 /**
- * MASTER AI ENGINE - RESTORED & SECURED
- * Switched to OpenAI plugin to resolve build-destruction errors.
- * Logic is now server-side only via Genkit Flows.
+ * MASTER AI ENGINE - 2026 STANDARDS LOCKDOWN
+ * Switched to Gemini 3.1 Flash-Lite for high-fidelity diagnostic performance.
  */
 export const ai = genkit({
-  plugins: [openAI()],
-  model: 'openai/gpt-4o-mini',
+  plugins: [googleAI()],
+  model: 'googleai/gemini-3.1-flash-lite-preview',
 });
