@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -220,7 +221,7 @@ export default function SocialPlatform() {
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
-      {/* LEFT SIDEBAR - LOWER BREAKPOINT FOR PERSISTENCE */}
+      {/* LEFT SIDEBAR */}
       <aside className="hidden md:flex w-[280px] xl:w-[380px] border-r border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col transition-all">
         <div className="p-6 lg:p-8 xl:p-10 shrink-0 flex flex-col items-center gap-6">
           <NeonBoard className="w-28 h-28 lg:w-32 lg:h-32 xl:w-40 xl:h-40 transition-transform duration-500 hover:scale-105">
@@ -438,7 +439,7 @@ export default function SocialPlatform() {
         </ScrollArea>
       </section>
 
-      {/* RIGHT SIDEBAR - PERSISTENT AT LG BREAKPOINT */}
+      {/* RIGHT SIDEBAR */}
       <aside className="hidden lg:flex w-[300px] xl:w-[420px] border-l border-white/10 bg-black/40 backdrop-blur-3xl shrink-0 h-full flex-col">
         <div className="p-6 lg:p-10 flex items-center justify-between border-b border-white/10 shrink-0 bg-white/[0.02]">
           <div className="flex items-center gap-4">

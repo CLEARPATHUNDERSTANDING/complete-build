@@ -1,3 +1,4 @@
+
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
@@ -15,6 +16,10 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'i.postimg.cc' },
       { protocol: 'https', hostname: '*.cloudworkstations.dev' }
     ],
+  },
+  // MANDATORY ORIGIN FIX FOR STUDIO PROXY PUBLISHING
+  experimental: {
+    allowedDevOrigins: ["*.cloudworkstations.dev"],
   },
 };
 

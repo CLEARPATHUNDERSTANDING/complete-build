@@ -1,5 +1,6 @@
+
 import { genkit } from 'genkit';
-import { googleAI } from '@genkit-ai/googleai';
+import { googleAI } from '@genkit-ai/google-genai';
 
 /**
  * MASTER AI ENGINE - 2026 STANDARDS LOCKDOWN
