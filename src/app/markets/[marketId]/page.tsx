@@ -50,7 +50,7 @@ export default function MarketDetailPage({
   const isUp = data.stats.changePct >= 0;
 
   return (
-    <main className="min-h-screen bg-[#050816] text-white selection:bg-indigo-500">
+    <main className="min-h-screen bg-black text-white selection:bg-indigo-500">
       <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-16">
            <Link href="/markets" className="flex items-center gap-3 text-[16px] font-black tracking-[0.25em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">

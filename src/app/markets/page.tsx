@@ -30,7 +30,7 @@ export default function MarketsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#050816] text-white selection:bg-indigo-500">
+    <main className="min-h-screen bg-black text-white selection:bg-indigo-500">
       <header className="h-56 border-b border-white/10 bg-black flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center gap-16">
            <Link href="/" className="flex items-center gap-3 text-[16px] font-black tracking-[0.3em] text-indigo-400 uppercase hover:text-indigo-300 transition-colors">
@@ -59,7 +59,7 @@ export default function MarketsPage() {
         <MarketGrid cards={data.cards} />
       </div>
 
-      <div className="flex justify-center gap-24 py-24 border-t border-white/5 bg-black/40">
+      <div className="flex justify-center gap-24 py-24 border-t border-white/5 bg-black">
         <div className="flex flex-col items-center gap-6">
           <svg viewBox="0 0 24 24" className="w-16 h-16 text-[#00e5ff] fill-current drop-shadow-[0_0_20px_#00e5ff]" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.05,20.28c-.96,.95-2.26,1.53-3.71,1.53s-2.75-.58-3.71-1.53c-.96-.95-1.53-2.26-1.53-3.71s.58-2.75,1.53-3.71c.96-.95,2.26-1.53,3.71-1.53s2.75,.58,3.71,1.53c.96,.95,1.53,2.26,1.53,3.71s-.58,2.75-1.53,3.71M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10,10-4.48,10-10S17.52,2,12,2M15.67,1.02c.45-.1,.84,.3,.74,.75-.14,.61-.55,1.13-1.1,1.43-.55,.3-1.21,.38-1.82,.23-.61-.14-1.13-.55-1.43-1.1-.3-.55-.38-1.21-.23-1.82,.1-.45,.6-.65,1-.45,.55,.3,1,.85,1.25,1.5,.25,.65,.35,1.35,.3,2,.4,.4,1,.65,1.6,.65s1.2-.25,1.6-.65c-.05-.65,.05-1.35,.3-2,.25-.65,.7-1.2,1.25-1.5,.4-.2,.9,0,1,.45,.15,.61,.07,1.27-.23,1.82-.3,.55-.82,.96-1.43,1.1-.61,.15-1.27,.07-1.82-.23-.55-.3-.96-.82-1.1-1.43-.1-.45,.29-.85,.74-.75Z" />
