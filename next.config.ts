@@ -1,24 +1,22 @@
-import type {NextConfig} from 'next';
-
-const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-    remotePatterns: [
-      { protocol: 'https', hostname: 'placehold.co' },
-      { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'picsum.photos' },
-      { protocol: 'https', hostname: 'i.postimg.cc' },
-      { protocol: 'https', hostname: '*.cloudworkstations.dev' }
-    ],
-  },
-  experimental: {
-    allowedDevOrigins: ["*.cloudworkstations.dev"],
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'standalone', // MANDATORY for App Hosting stability
+  images: { unoptimized: true }, // Prevents image-processing timeouts
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" }, // Prevents clickjacking
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Content-Security-Policy",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.googleapis.com;"
+          }
+        ],
+      },
+    ];
   },
 };
-
-export default nextConfig;
+module.exports = nextConfig;

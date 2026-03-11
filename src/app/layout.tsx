@@ -27,13 +27,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" style={{ colorScheme: 'dark' }}>
       <body className="bg-black text-white antialiased selection:bg-indigo-500 selection:text-white">
         <FirebaseClientProvider>
           <RuntimeDoctor />
           <PWARegistration />
           {children}
           <Toaster />
+          <div className="w-full py-8 px-4 text-center text-sm font-medium tracking-wide"
+               style={{ background: 'linear-gradient(90deg, #FF1493 0%, #FF8C00 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            ⚖ Legal Positioning — Provides financial data visualization with optional user-controlled presentation adjustments for accessibility and cognitive comfort. The system does not evaluate, alter, or advise on financial decisions.
+          </div>
         </FirebaseClientProvider>
       </body>
     </html>

@@ -39,6 +39,7 @@ html, body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   overscroll-behavior: none;
+  color-scheme: dark;
 }
 
 /* 20px WIDE INDEPENDENT FLUORESCENT SCROLLBARS */

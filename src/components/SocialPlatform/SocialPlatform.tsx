@@ -3,33 +3,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { 
-  BarChart2,
-  Radio,
-  Activity,
-  Volume2,
-  Bluetooth,
-  Loader2,
-  ShieldCheck,
-  TrendingUp,
-  Heart,
-  MessageCircle,
-  Search,
   Menu,
   Globe,
   LayoutDashboard,
-  Compass,
-  Users,
-  Flag,
-  Scale,
-  HandMetal,
-  Zap,
-  Cpu
+  MessageCircle,
+  Loader2
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
 import {
   Sheet,
   SheetContent,
@@ -41,9 +24,7 @@ import {
 import { useFirebase, useUser, useMemoFirebase, useCollection } from "@/firebase";
 import { collection, serverTimestamp, query, orderBy, limit } from "firebase/firestore";
 import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
-import placeholderData from "@/app/lib/placeholder-images.json";
 import { cn } from "@/lib/utils";
-import WeatherWidget from "@/components/WeatherWidget";
 import DiagnosticLogo from "@/components/DiagnosticLogo";
 import NeonBoard from "@/components/NeonBoard";
 
@@ -137,23 +118,31 @@ export default function SocialPlatform() {
   const { user, isUserLoading } = useUser();
   
   const [mounted, setMounted] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
   const [postText, setPostText] = useState("");
   const [isLive, setIsLive] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   const insightsRef = useMemoFirebase(() => user ? collection(firestore, "insights") : null, [firestore, user]);
   const insightsQuery = useMemoFirebase(() => 
     insightsRef ? query(insightsRef, orderBy("createdAt", "desc"), limit(20)) : null,
   [insightsRef]);
   
-  const { data: insightsData, isLoading: isInsightsLoading } = useCollection(insightsQuery);
+  const { data: insightsData } = useCollection(insightsQuery);
 
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (mounted && !isUserLoading && !user) router.push("/login");
   }, [user, isUserLoading, mounted, router]);
+
+  // SMOKING GUN FIX: Full-screen black background for loading states to prevent white flash
+  if (!mounted || isUserLoading || !user) {
+    return (
+      <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-indigo-500 z-[9999]">
+        <Loader2 className="w-12 h-12 animate-spin mb-6" />
+        <span className="text-[12px] font-black uppercase tracking-[0.4em] animate-pulse">Initializing Neural Hub...</span>
+      </div>
+    );
+  }
 
   const handleDispatch = () => {
     if (!postText.trim() || !user || !insightsRef) return;
@@ -169,8 +158,6 @@ export default function SocialPlatform() {
     setIsLive(false);
     toast({ title: "Insight Posted", description: "Truth layer updated." });
   };
-
-  if (!mounted || isUserLoading || !user) return <Loader2 className="animate-spin" />;
 
   return (
     <div className="flex w-full h-screen overflow-hidden bg-black text-white selection:bg-indigo-500 font-body">
@@ -206,12 +193,14 @@ export default function SocialPlatform() {
               </SheetTrigger>
               <SheetContent side="left" className="bg-black/95 border-r border-white/10 p-0 w-[300px]">
                 <SheetHeader className="p-6 border-b border-white/5 bg-white/[0.02]">
-                  <SheetTitle className="text-lg font-black uppercase text-white">Menu Hub</SheetTitle>
-                  <SheetDescription className="text-xs text-white/40 uppercase">System navigation</SheetDescription>
+                  <DiagnosticLogo size="xs" />
+                  <SheetTitle className="text-lg font-black uppercase text-white mt-4">Menu Hub</SheetTitle>
+                  <SheetDescription className="text-xs text-white/40 uppercase">System navigation and access nodes.</SheetDescription>
                 </SheetHeader>
                 <div className="p-6">
                   <NavItem label="Markets" icon={Globe} href="/markets" color="emerald" />
                   <NavItem label="Terminal" icon={LayoutDashboard} href="/dashboard" color="amber" />
+                  <NavItem label="Feed" icon={MessageCircle} href="/community" active color="pink" />
                 </div>
               </SheetContent>
             </Sheet>

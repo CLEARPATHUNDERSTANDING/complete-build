@@ -11,13 +11,11 @@ import {
   LayoutGrid,
   Square,
   Activity,
-  ShieldCheck,
   Globe,
   LayoutDashboard,
   Users,
   Compass,
   MessageCircle,
-  TrendingUp,
   Brain
 } from "lucide-react"
 import { NEURO_PROFILES, getProfile, type NeuroProfileId } from "@/lib/neuro/profiles"
@@ -43,8 +41,6 @@ import { useMounted } from "@/hooks/use-mounted"
 import DiagnosticLogo from "@/components/DiagnosticLogo"
 import { CandlestickChart } from "@/components/dashboard/CandlestickChart"
 import Link from "next/link"
-
-const TIMEFRAMES = ["1m", "5m", "15m", "30m", "1h", "4h", "1d", "1w", "1M", "YTD"] as const;
 
 function DashboardContent() {
   const searchParams = useSearchParams();
@@ -79,7 +75,15 @@ function DashboardContent() {
     toast({ title: "Connecting", description: "Searching for device..." });
   };
 
-  if (!mounted) return null;
+  // SMOKING GUN FIX: Full-screen black background for loading states to prevent white flash
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-indigo-500 z-[9999]">
+        <Loader2 className="w-12 h-12 animate-spin mb-6" />
+        <span className="text-[12px] font-black uppercase tracking-[0.4em] animate-pulse">Calibrating Diagnostic Board...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col font-body selection:bg-indigo-500 selection:text-white">
@@ -291,9 +295,9 @@ function DashboardContent() {
 export default function DashboardPage() {
   return (
     <React.Suspense fallback={
-      <div className="min-h-screen bg-black flex flex-col items-center justify-center text-indigo-500 gap-4">
-        <Loader2 className="w-10 h-10 animate-spin" />
-        <span className="text-[10px] font-black uppercase tracking-[0.3em]">Loading Terminal...</span>
+      <div className="fixed inset-0 bg-black flex flex-col items-center justify-center text-indigo-500 z-[9999]">
+        <Loader2 className="w-12 h-12 animate-spin mb-6" />
+        <span className="text-[12px] font-black uppercase tracking-[0.4em] animate-pulse">Connecting Terminal Nodes...</span>
       </div>
     }>
       <DashboardContent />

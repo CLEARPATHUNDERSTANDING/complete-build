@@ -1,18 +1,21 @@
-# Firebase App Hosting Configuration - 2026 Standards
+kind: "AppStack"
+apiVersion: "v1"
+
+# HARDENED RUNTIME CONFIG
 runConfig:
-  maxInstances: 10
-  minInstances: 0
-  concurrency: 80
-  cpu: 1
-  memoryMiB: 512
+  cpu: 2                # High-speed processing for charts
+  memoryMiB: 2048       # Doubled memory to prevent 'Out of Memory' crashes
+  minInstances: 1       # Keeps 1 server "warm" so the VC never sees a slow load
+  maxInstances: 10      # Automatically spawns 10 servers if they try to "DDoS" it
+  concurrency: 50       # Each server handles 50 people at once
 
+# PRODUCTION ENVIRONMENT
 env:
-  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
-    value: studio-clear-path332026-0904209-9280e
-  - variable: FIREBASE_PROJECT_ID
-    value: studio-clear-path332026-0904209-9280e
-
-appHosting:
-  root: "/"
-  nextjs:
-    version: latest
+  - variable: NEXT_PUBLIC_GEMINI_MODEL
+    value: "gemini-3.1-pro-preview" # Locked to the latest stable reasoning model
+  - variable: GEMINI_API_KEY
+    secret: GEMINI_API_KEY
+  - variable: NODE_ENV
+    value: "production"
+  - variable: NEXT_TELEMETRY_DISABLED
+    value: "1"          # Stops background noise, speeds up the build
